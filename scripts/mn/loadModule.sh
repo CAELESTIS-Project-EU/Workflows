@@ -1,6 +1,6 @@
 DEST_PATH="$1"
-export ALYA_BIN=/gpfs/projects/bsce81/alya/builds/Alya_mn4.x
-export ALYA_PROCS=96
+export ALYA_BIN=/gpfs/projects/bsce81/alya/builds/Alya_mn4_sp.x
+export ALYA_PROCS=48
 export ALYA_PPN=48
 
 module purge
