@@ -1,0 +1,52 @@
+---
+workflow_type: MONTECARLO_SIM_sld
+phases:
+  sampler:
+    name: PYDOE
+  sim: 
+    type: alyaTest
+outputs:
+  alya-output: alya_output.txt
+input:
+  mesh: /gpfs/projects/bsce81/alya/tests/workflow_stable/meshs/FEM_OHT_nom
+  template_sld: /gpfs/projects/bsce81/alya/tests/workflow_stable/BACKEND/templates/FEM_OHT_nom-tem.sld.dat
+  template_dom: /gpfs/projects/bsce81/alya/tests/workflow_stable/BACKEND/templates/FEM_OHT_nom-tem.dom.dat
+problem:
+  num_var_sld: 37
+  variables_sld: [E11,    E11C,   E22,  v12,   G12,   v23,     XT,  fXT,     XC, fXC,    YT,    YC,  SL,  YBC,   YBT,  Sp, Kplas,   G1T, fGT,     G1C,     fGC,  GIc,         G2C, GIIc, thick,     a0,    dens, b11,   b22,      a11,     a22, mufXC, cohDens,    Ct1,     Ct2, etaBK,    G6s]
+  dist_sld: "uni-norm"
+  means_sld: [171420., 150000., 9080., 0.32, 5290., 0.487, 2323.5,  0.4, 1200.1, 0.2, 62.3, 253.7, 92.3, 600., 38.7, 66.9, 0.05, 133.3, 0.3, 100000., 0.00061, 0.28, 1.312653028, 0.79, 0.125, 0.9250, 1.58e-9, 0.0, 0.005, -5.50E-6, 2.58E-5,   0.1,  1.3e-9, 33.5137, 56.2932,  1.45, 0.802]
+  sigmas_sld: [  1.38,      2.,    2.,   2.,    2.,    2.,   5.49,   2.,     2.,   2.,   2.,    2.,   2.,   2.,   2.,   2.,   2.,    2.,  2.,      2.,      2.,   2.,          2.,   2.,    2.,     2.,      2.,  2.,    2.,       2.,      2.,    2.,      2.,      2.,      2.,    2.,    2.]
+  ratio_sld: 0.75
+  n_samples: 5
+  criterion: 'm'
+  variables-fixed:
+    - rho: 0.0
+    - dmini: 0.0
+    - dmax: 1.0
+    - G2T: 0.2800
+    - eta: 0.0
+    - dT:  0.0
+    - dM:  0.0
+    - d1Max: 1.0000
+    - d2Max: 1.0000
+    - d3Max: 1.0000
+    - d4Max: 1.0000
+    - d5Max: 1.0000
+    - d6Max: 1.0000
+    - Kp: 1.0000e+06
+    - muGSL: 0.0035
+    - Beta: 4.525e-8
+  variables-derivate:
+    in1: 
+      method: insitu_strengths.in_situ_CAELESTIS_project_IN
+      parameters: [thick,E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,G6s,Beta,a0,GIc,GIIc]
+      outputs: [YTIN1T,YCIN1T,SLIN1T]
+    in2:
+      method: insitu_strengths.in_situ_CAELESTIS_project_IN
+      parameters: [eval(2*thick),E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,G6s,Beta,a0,GIc,GIIc]
+      outputs: [YTIN2T,YCIN2T,SLIN2T]
+    out:
+      method: insitu_strengths.in_situ_CAELESTIS_project_OUT
+      parameters: [thick,E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,G6s,Beta,a0,GIc,GIIc]
+      outputs: [YTOUT1T,YCOUT1T,SLOUT1T]

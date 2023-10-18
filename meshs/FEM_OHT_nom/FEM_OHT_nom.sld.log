@@ -1,0 +1,90 @@
+
+
+
+        --------------------------
+     |- SOLIDZ OUTPUT FOR PROBLEM: FEM_OHT_nom
+        --------------------------
+
+
+
+        --------------------
+*    |- NODE CODES USED FOR DISPLACEMENT
+        --------------------
+
+
+        CODE=               1
+        CODE=               2
+ 
+
+     |- SOLIDZ IS STATIONARY AT TIME STEP *****
+
+
+        --------------------------
+*    |- SUMMARY OF COMPUTING TIMES
+        --------------------------
+
+
+        TOTAL CPU TIME:                    0.00
+          element assembly:                512.00 ( 44.44 % )
+          boundary assembly:               640.00 ( 55.56 % )
+          solver DISPLACEMENT:               0.00 (  0.00 % )
+          time step:                         0.00 (  0.00 % )
+          energy:                          256.00 ( 22.22 % )
+          gather:                            0.00 (  0.00 % )
+          computation:                       0.00 (  0.00 % )
+          electro-mechanical:                0.00 (  0.00 % )
+          scatter:                           0.00 (  0.00 % )
+          element matrix:                    0.00 (  0.00 % )
+
+
+        -----------------
+     |- SUMMARY OF SOLVER
+        -----------------
+
+
+        DISPLACEMENT:
+        -------------
+
+        SOLVER:               RICHARDSON
+        # SOLVES=               181496
+        PRECONDITIONER:       NONE
+        MIN. # ITERATIONS=           1
+        MAX. # ITERATIONS=           1
+        AVE. # ITERATIONS=           1
+        TOT. # ITERATIONS=      181496
+        TOT. CPU TIME=         2.823E+01
+
+
+        SUMMARY OF SOLVER TIMES:
+
+        TOTAL SOLVER CPU TIME (AVERAGE):  2.823E+01
+          Initial operations:             0.000E+00 (  0.00 % )
+          Preconditioning:                0.000E+00 (  0.00 % )
+          Coarse system solver (DCG):     0.000E+00 (  0.00 % )
+          Orthogonalization (GMRES):      0.000E+00 (  0.00 % )
+          Others:                         2.823E+01 (100.00 % )
+
+
+        |- Dot product:                181496
+
+           Computation:             
+              Average CPU time:      0.000E+00 
+              Maximum CPU time:      0.000E+00 
+              Load balance:               0.00
+           Point-to-point comm.:    
+              Average CPU time:      1.908E+01 
+              Maximum CPU time:      1.280E+02 
+              Load balance:               0.15
+           Overall:                 
+              Average CPU time:      1.908E+01 
+              Maximum CPU time:      1.280E+02 
+              Load balance:               0.15
+                                    
+           Flops:                   
+              Average:               5.857E+03 Pflop/s
+              Maximum:               8.148E+03 Pflop/s
+ 
+
+
+     |- END OF SOLIDZ RUN
+

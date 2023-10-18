@@ -1,0 +1,88 @@
+---
+workflow_type: TEST
+phases:
+  sampler:
+    name: PYDOE
+  sim: 
+    type: alyaTest
+outputs:
+  alya-output: alya_output.txt
+input:
+  mesh: /gpfs/projects/bsce81/alya/tests/workflow_stable/meshs/OHT_Validation_D2
+  template_fie: /gpfs/projects/bsce81/alya/tests/workflow_stable/BACKEND/templates/OHT_Validation_D2-tem.fie.dat
+  template_sld: /gpfs/projects/bsce81/alya/tests/workflow_stable/BACKEND/templates/OHT_Validation_D2-tem.sld.dat
+  template_dom: /gpfs/projects/bsce81/alya/tests/workflow_stable/BACKEND/templates/OHT_Validation_D2-tem.dom.dat
+problem:
+  num_var_fie: 24
+  variables_fie: [lay1,lay2,lay3,lay4,lay5,lay6,lay7,lay8,lay9,lay10,lay11,lay12,lay13,lay14,lay15,lay16,lay17,lay18,lay19,lay20,lay21,lay22,lay23,lay24]
+  dist_fie: "norm"
+  means_fie:  [45., 90., -45., 0., 45., 90., -45., 0., 45., 90., -45., 0., 0., -45., 90., 45., 0., -45., 90., 45., 0., -45., 90., 45.]
+  sigmas_fie: [7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.,7.]
+  n_samples: 4
+  criterion: 'm'
+  variables-fixed:
+    - GIIc: 0.79
+    - Ct1: 33.5137
+    - XT: 2323.5
+    - GIc: 0.28
+    - Ct2: 56.2932
+    - etaBK: 1.45
+    - Kp: 1.0e+06
+    - rho: 0.0
+    - dmini: 0.0
+    - dmax: 1.0
+    - E11: 1.7142e+05
+    - E22: 9.08e+03
+    - v12: 0.32
+    - v23: 0.487
+    - G12: 5.29e+03
+    - fXT: 0.4000
+    - XC: 1200.1
+    - fXC: 0.2
+    - a0: 0.925
+    - G1T: 133.3
+    - fGT: 0.3
+    - G1C: 100000.0
+    - fGC: 0.00061
+    - G2T: 0.28
+    - G2C: 1.31
+    - G6s: 0.79
+    - Sp: 66.9
+    - Kplas: 0.05
+    - eta: 0.0
+    - a11: -5.5e-06
+    - a22: 2.58e-05
+    - dT: 0.0
+    - b11: 0.0e+00
+    - b22: 5.0e-03
+    - dM: 0.0
+    - d1Max: 1.0
+    - d2Max: 1.0
+    - d3Max: 1.0
+    - d4Max: 1.0
+    - d5Max: 1.0
+    - d6Max: 1.0
+    - thick: 0.13
+    - muGSL: 0.0245
+    - YBT: 38.7
+    - YBC: 600.0
+    - mufXC: 0.1
+    - E11C: 150000.0
+    - Beta: 4.525e-8
+    - YT: 62.3 
+    - YC: 253.7
+    - SL: 92.3
+    - 2thick: 0.26
+  variables-derivate:
+    in1: 
+      method: insitu_strengths.in_situ_CAELESTIS_project_IN
+      parameters: [thick,E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,G6s,Beta,a0,GIc,GIIc]
+      outputs: [YTIN1T,YCIN1T,SLIN1T]
+    in2:
+      method: insitu_strengths.in_situ_CAELESTIS_project_IN
+      parameters: [eval(2*thick),E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,G6s,Beta,a0,GIc,GIIc]
+      outputs: [YTIN2T,YCIN2T,SLIN2T]
+    out:
+      method: insitu_strengths.in_situ_CAELESTIS_project_OUT
+      parameters: [thick,E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,G6s,Beta,a0,GIc,GIIc]
+      outputs: [YTOUT1T,YCOUT1T,SLOUT1T]

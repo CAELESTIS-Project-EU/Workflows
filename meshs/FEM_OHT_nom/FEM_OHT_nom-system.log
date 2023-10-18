@@ -1,0 +1,29 @@
+
+
+
+        --------
+     |- A L Y A: FEM_OHT_nom
+        --------
+
+
+
+        --------------------------
+     |- SUMMARY OF RUN ENVIRONMENT
+        --------------------------
+
+
+
+        |- USER AND SYSTEM:
+
+           HOST:             login3
+           USER:             bsc21946
+           BSC_MACHINE:      mn4
+           OSTYPE:           linux
+           MACHTYPE:         x86_64-suse-linux
+           HOSTTYPE:         x86_64
+           LOADMODULES:      gcc/7.2.0:curl/7.83.0:openssl/1.1.1o:git/2.36.1:bsc/1.0:cmake/3.18.3:intel/2018.4:
+
+        |- COMPILERS:
+
+           COMPILER VERSION: Intel(R
+           COMPILER OPTIONS: -I/home

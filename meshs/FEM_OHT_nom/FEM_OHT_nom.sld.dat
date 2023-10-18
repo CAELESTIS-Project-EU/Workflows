@@ -1,0 +1,170 @@
+$-------------------------------------------------------------------
+$
+$ FEM_OHT_nom
+$
+$ Details:
+$
+$    Dimensions (W x L x T x D): 36 mm x 72 mm x 3.23 mm
+$    Hole diameter: 6 mm
+$    Layup: [90/0/-45/45]_3S
+$    Ply thickness: 0.125 mm
+$    Cohesive thickness: 0.01 mm
+$
+$ Units:     SI (mm)
+$
+$ Reference: CAELESTIS project
+$
+$-------------------------------------------------------------------
+PHYSICAL_PROBLEM
+  PROBLEM_DEFINITION
+    TEMPORAL_DERIVATIVES: DYNAMIC
+    NLGEOM:               OFF
+    THERMAL_ANALYSIS:     OFF
+  END_PROBLEM_DEFINITION
+  PROPERTIES
+    $ ,,,,,, INN-1T ,,,,,,
+    MATERIAL          = 1
+    DENSITY           = 1.58e-09
+    $ E11 E22 v12 v23 G12
+    $  XT fXT  XC fXC  YT  YC  SL
+    $  a0
+    $ G1T fGT G1C fGC G2T G2C G6s
+    $  Sp  Kp
+    $ eta
+    $ a11 a22 dT b11 b22 dM
+    $ d1Max d2Max d3Max d4Max d5Max d6Max
+    $ thick  muGSL YBT YBC mufXC E11C
+    CONSTITUTIVE_MODEL: MAIMI \ 
+      1.7142e+05 9.0800e+03 0.3200 0.487 5.2900e+03               \ 
+      2323.5000 0.4000 1200.1000 0.2000 161.363 310.6830 113.0310 \ 
+      0.9250                                                      \ 
+      133.3000 0.3000 100000.0000 0.00061 0.2800 1.31 0.7900      \ 
+      66.9000 0.0500                                              \ 
+      0.0000                                                      \ 
+      -5.5000e-06 2.5800e-05 0.0000 0.0000e+00 5.0000e-03 0.0000  \ 
+      1.0000 1.0000 1.0000 1.0000 1.0000 1.0000,                  \ 
+      0.125   0.0245     38.7     600.      0.1  137136.
+    $ ,,,,,, OUT-1T ,,,,,,
+    MATERIAL          = 2
+    DENSITY           = 1.58e-09
+    $ E11 E22 v12 v23 G12
+    $  XT fXT  XC fXC  YT  YC  SL
+    $  a0
+    $ G1T fGT G1C fGC G2T G2C G6s
+    $  Sp  Kp
+    $ eta
+    $ a11 a22 dT b11 b22 dM
+    $ d1Max d2Max d3Max d4Max d5Max d6Max
+    $ thick  muGSL YBT YBC mufXC E11C
+    CONSTITUTIVE_MODEL: MAIMI \ 
+      1.7142e+05 9.0800e+03 0.3200 0.487 5.2900e+03              \
+      2323.5000 0.4000 1200.1000 0.2000 101.55 253.7 92.3        \
+      0.9250                                                     \
+      133.3000 0.3000 100000.0000 0.00061 0.2800 1.31 0.7900     \
+      66.9000 0.0500                                             \
+      0.0000                                                     \
+      -5.5000e-06 2.5800e-05 0.0000 0.0000e+00 5.0000e-03 0.0000 \
+      1.0000 1.0000 1.0000 1.0000 1.0000 1.0000,                 \
+      0.125   0.0245     38.7     600.      0.1  137136.
+    $ ,,,,,, INN-2T ,,,,,,
+    MATERIAL          = 3
+    DENSITY           = 1.58e-09
+    $ E11 E22 v12 v23 G12
+    $  XT fXT  XC fXC  YT  YC  SL
+    $  a0
+    $ G1T fGT G1C fGC G2T G2C G6s
+    $  Sp  Kp
+    $ eta
+    $ a11 a22 dT b11 b22 dM
+    $ d1Max d2Max d3Max d4Max d5Max d6Max
+    $ thick  muGSL YBT YBC mufXC E11C
+    CONSTITUTIVE_MODEL: MAIMI \ 
+      1.7142e+05 9.0800e+03 0.3200 0.487 5.2900e+03               \
+      2323.5000 0.4000 1200.1000 0.2000 114.101 310.6830 113.0310 \
+      0.9250                                                      \
+      133.3000 0.3000 100000.0000 0.00061 0.2800 1.31 0.7900      \
+      66.9000 0.0500                                              \
+      0.0000                                                      \
+      -5.5000e-06 2.5800e-05 0.0000 0.0000e+00 5.0000e-03 0.0000  \
+      1.0000 1.0000 1.0000 1.0000 1.0000 1.0000,                  \
+      0.125   0.0245     38.7     600.      0.1  137136.
+    $ ,,,,,, int ,,,,,,
+    MATERIAL          = 4
+    DENSITY           = 1.3e-9 1.0000e+05
+    $ GIc  GIIc  C1t  C2t  etaBK Kp rho dini dmax
+    COHESIVE_MODEL: TURON, CURRENT \ 
+      0.2800 0.7900 33.5137 56.2932 1.4500 1.0000e+06 0.0 0.0 1.0
+  END_PROPERTIES
+  PARAMETERS
+    CSYS_MATERIAL: FIELD= 1 ORIENTATION, TYPE= ELEMENT_NORMAL, ROTAXIS= 3, REFAXIS= 2
+  END_PARAMETERS
+END_PHYSICAL_PROBLEM
+$-------------------------------------------------------------------
+NUMERICAL_TREATMENT
+  TIME_TREATMENT        EXPLICIT
+  TIME_INTEGRATION:     TCHAMWA_WIELGOSZ, PHITW= 1.033
+  STEADY_STATE:         OFF
+  MASS_SCALING=         1.0
+  SAFETY_FACTOR=        0.85
+  TIME_STEP_STRATEGY:   MIN_LENGTH, UPDATED
+  DTCRI_MIN=            1.0E-8
+  ELEMENT_LENGTH:       VOLUME
+  VECTORIZED_ASSEMBLY:  ON
+END_NUMERICAL_TREATMENT
+$-------------------------------------------------------------------
+OUTPUT_&_POST_PROCESS
+  START_POSTPROCESS_AT: STEP= 0
+$  POSTPROCESS PMATE
+$  POSTPROCESS FIXNO
+$  POSTPROCESS FIXBO
+$  POSTPROCESS BOCOD
+$  POSTPROCESS NOCOD
+$  POSTPROCESS NPOIN
+$  POSTPROCESS NELEM
+$  POSTPROCESS NPOIN
+$  POSTPROCESS BOSET
+$  POSTPROCESS ELSET
+$  POSTPROCESS NOSET
+$  POSTPROCESS ORIEN
+$  POSTPROCESS AXIS1
+$  POSTPROCESS AXIS2
+$  POSTPROCESS AXIS3
+$  POSTPROCESS ELNOR
+$  POSTPROCESS STACK
+$  POSTPROCESS ELCHA
+$  POSTPROCESS PELTY
+$  POSTPROCESS SRPRO
+$  POSTPROCESS DISPL
+$  POSTPROCESS DAMAG
+$  POSTPROCESS DCOHE
+$  POSTPROCESS SDVAR
+$  NODE_SET
+$  END_NODE_SET
+$  ELEMENT_SET
+$  END_ELEMENT_SET
+$  BOUNDARY_SET
+$  END_BOUNDARY_SET
+  REACTION_SET, NUMBER= 1, FORCE_DROP_PERCENTAGE= 30.0, TOLERANCE=1E+3, ON_REACTION_SET= 1
+    REACTION_SET= 1, PLANE: AXIS= 2, GREATER_THAN= 35.9
+  END_REACTION_SET
+END_OUTPUT_&_POST_PROCESS
+$-------------------------------------------------------------------
+BOUNDARY_CONDITIONS, TRANSIENT
+  CODES, NODES
+    1 111 0.000 0.000 0.000, MODULE_FUNCTION= 1 $ "loaded end"
+    2 111 0.000 0.000 0.000                     $ "gripped end"
+  END_CODES
+  FUNCTIONS
+    TOTAL_NUMBER= 1
+    CONDITION
+      FUNCTION_NUMBER=  1
+      TIME_SHAPE:       DISCRETE, SMOOTH
+      SHAPE_DEFINITION: DISPLACEMENT
+        2
+        0.0          0.0  0.0      0.0
+        4.06633e-03  0.0  1.46388 0.0
+      END_SHAPE_DEFINITION
+    END_CONDITION
+  END_FUNCTIONS
+END_BOUNDARY_CONDITIONS
+$-------------------------------------------------------------------

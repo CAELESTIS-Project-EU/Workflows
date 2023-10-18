@@ -1,0 +1,83 @@
+---
+workflow_type: SENSITIVITY_ANALYSIS
+phases:
+  sampler:
+    name: morris
+    parameters: [r : 20, p : 16]
+  sim: 
+    type: alya
+  sens:
+    name: morris
+    outputs: [mu, mu_star, sigma, mu_star_conf]
+outputs:
+  alya_output: alya_out.txt 
+  sesitivity_report: results.txt
+input:
+  mesh: /gpfs/projects/bsce81/alya/tests/workflow_stable/meshs/OHT_Validation_D2
+  template_sld: /gpfs/projects/bsce81/alya/tests/workflow_stable/BACKEND/templates/OHT_Validation_D2-tem.sld.dat
+  template_dom: /gpfs/projects/bsce81/alya/tests/workflow_stable/BACKEND/templates/OHT_Validation_D2-tem.dom.dat
+problem:
+  num_vars: 21
+  variables-sampler:
+    - E11: {mean: 171420, cov: 1.39}
+    - E22: {mean: 9080, cov: 1.03}
+    - v12: {mean: 0.32, cov: 6.18}
+    - v23: {mean: 0.487, cov: 2.2}
+    - G12: {mean: 5290, cov: 2.53}
+    - XT: {mean: 2323.5, cov: 5.8}
+    - fXT: {mean: 0.4, cov: 8}
+    - XC: {mean: 1200.1, cov: 12.1}
+    - fXC: {mean: 0.2, cov: 8}
+    - YT: {mean: 62.3, cov: 8.5}
+    - YC: {mean: 253.7, cov: 10.2}
+    - SL: {mean: 92.3, cov: 3.1}
+    - G1T: {mean: 133.3, cov: 5}
+    - fGT: {mean: 0.3, cov: 8}
+    - G1C: {mean: 61, cov: 20}
+    - GIc: {mean: 0.28, cov: 5}
+    - G2C: {mean: 1.31, cov: 2}
+    - GIIc: {mean: 0.79, cov: 18}
+    - Ct1: {mean: 62.3, cov: 5}
+    - Ct2: {mean: 92.3, cov: 5}
+    - etaBK: {mean: 1.45, cov: 10}
+  variables-fixed:
+    - Kp: 1.0000e+06
+    - rho: 0.0
+    - dmini: 0.0
+    - dmax: 1.0
+    - a0: 0.9250
+    - fGC: 0.0006
+    - Sp: 66.9000
+    - Kplas: 0.0500
+    - eta: 0.0000
+    - a11: -5.5000e-06
+    - a22: 2.5800e-05
+    - dT: 0.0000
+    - b11: 0.0000e+00
+    - b22: 5.0000e-03
+    - dM: 0.0000
+    - d1Max: 1.0000
+    - d2Max: 1.0000
+    - d3Max: 1.0000
+    - d4Max: 1.0000
+    - d5Max: 1.0000
+    - d6Max: 1.0000
+    - thick: 0.13
+    - muGSL: 0.0035
+    - YBT: 38.7
+    - YBC: 600.0
+    - mufXC: 0.1
+    - E11C: 150000
+  variables-derivate:
+    in1: 
+      method: insitu_strengths.in_situ_CAELESTIS_project_IN
+      parameters: [thick,E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,GIIc,GIc]
+      outputs: [YTIN1T,YCIN1T,SLIN1T]
+    in2:
+      method: insitu_strengths.in_situ_CAELESTIS_project_IN
+      parameters: [eval(2*thick),E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,GIIc,GIc]
+      outputs: [YTIN2T,YCIN2T,SLIN2T]
+    out:
+      method: insitu_strengths.in_situ_CAELESTIS_project_OUT
+      parameters: [thick,E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,GIIc,GIc]
+      outputs: [YTOUT1T,YCOUT1T,SLOUT1T]

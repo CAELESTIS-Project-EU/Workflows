@@ -1,0 +1,17 @@
+$-------------------------------------------------------------------
+DATA
+  FORMAT:                   ENSIGHT
+  MARK_ELEMENTS:            TYPE
+  ELIMINATE_BOUNDARY_NODES: YES
+  MULTIPLE_FILE:            OFF
+  BOUNDARY:                 ON
+  SUBDOMAINS, ALL
+  END_SUBDOMAINS
+$  SUBDOMAINS
+$     1
+$  END_SUBDOMAINS
+$  ONLY_STEP
+$      1
+$  END_ONLY_STEP
+END_DATA
+$-------------------------------------------------------------------

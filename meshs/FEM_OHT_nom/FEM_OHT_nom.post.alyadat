@@ -1,0 +1,16 @@
+$-------------------------------------------------------------------
+$ FEM_OHT_nom
+$  |- Created using abaqus2alya
+$-------------------------------------------------------------------
+DATA
+    FORMAT:                   ENSIGHT
+    MARK_ELEMENTS:            TYPE
+    ELIMINATE_BOUNDARY_NODES: YES
+    MULTIPLE_FILE:            OFF
+    BOUNDARY:                 OFF
+    SUBDOMAINS, ALL
+    END_SUBDOMAINS
+    $ONLY_STEP
+    $END_ONLY_STEP
+END_DATA
+$-------------------------------------------------------------------

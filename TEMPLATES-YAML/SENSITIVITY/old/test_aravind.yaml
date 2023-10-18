@@ -1,0 +1,134 @@
+---
+workflow_type: SENSITIVITY_ANALYSIS
+phases:
+  sampler:
+    name: morris
+    parameters: [r : 20, p : 16]
+  sim: 
+    type: alyaTest
+  sens:
+    name: morris
+    outputs: [mu, mu_star, sigma, mu_star_conf]
+outputs:
+  alya_output: alya_out.txt 
+  sesitivity_report: results.txt
+input:
+  mesh: /gpfs/projects/bsce81/alya/tests/workflow_stable/meshs/OHT_Validation_D2
+  template_sld: /gpfs/projects/bsce81/alya/tests/workflow_stable/BACKEND/templates/OHT_Validation_D2-tem.sld.dat
+  template_dom: /gpfs/projects/bsce81/alya/tests/workflow_stable/BACKEND/templates/OHT_Validation_D2-tem.dom.dat
+problem:
+  num_var: 23
+  variables-sampler:
+    - E11: 
+      - 166749.8
+      - 176090.2
+    - E22: 
+      - 8896.7
+      - 9063.3
+    - v12: 
+      - 0.281
+      - 0.359
+    - v23: 
+      - 0.466
+      - 0.508
+    - G12: 
+      - 5027.7
+      - 5552.3
+    - XT:
+      - 2059.4
+      - 2587.6
+    - fXT:
+      - 0.337
+      - 0.463
+    - XC:
+      - 915.5
+      - 1484.7
+    - fXC:
+      - 0.169
+      - 0.231
+    - YT:
+      - 51.9
+      - 72.7
+    - YC:
+      - 203
+      - 304.4
+    - SL:
+      - 86.70
+      - 97.9
+    - G1T:
+      - 120.2
+      - 146.4
+    - fGT:
+      - 0.253
+      - 0.347
+    - G1C:
+      - 58.6
+      - 63.4
+    - GIc:
+      - 0.253
+      - 0.307
+    - G2T:
+      - 0.253
+      - 0.307
+    - G2C:
+      - 1.26
+      - 1.36
+    - GIIc:
+      - 0.511
+      - 1.069
+    - G6s:
+      - 0.511
+      - 1.069
+    - Ct1:
+      - 56.2
+      - 68.4
+    - Ct2:
+      - 83.3
+      - 101.3
+    - etaBK:
+      - 1.166
+      - 1.734
+  variables-fixed:
+    - Kp: 1.0000e+06
+    - rho: 0.0
+    - dmini: 0.0
+    - dmax: 1.0
+    - a0: 0.9250
+    - fGC: 0.0006
+    - fXC: 0.2
+    - fXT: 0.4
+    - Sp: 66.9000
+    - Kplas: 0.0500
+    - eta: 0.0000
+    - a11: -5.5000e-06
+    - a22: 2.5800e-05
+    - dT: 0.0000
+    - b11: 0.0000e+00
+    - b22: 5.0000e-03
+    - dM: 0.0000
+    - d1Max: 1.0000
+    - d2Max: 1.0000
+    - d3Max: 1.0000
+    - d4Max: 1.0000
+    - d5Max: 1.0000
+    - d6Max: 1.0000
+    - thick: 0.13
+    - muGSL: 0.0035
+    - YBT: 38.7
+    - YBC: 600
+    - mufXC: 0.1
+    - E11C: 150000
+    - Beta: 4.525e-8
+  variables-derivate:
+    in1: 
+      method: insitu_strengths.in_situ_CAELESTIS_project_IN
+      parameters: [thick,E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,G6s,Beta,a0,GIc,GIIc]
+      outputs: [YTIN1T,YCIN1T,SLIN1T]
+    in2:
+      method: insitu_strengths.in_situ_CAELESTIS_project_IN
+      parameters: [eval(2*thick),E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,G6s,Beta,a0,GIc,GIIc]
+      outputs: [YTIN2T,YCIN2T,SLIN2T]
+    out:
+      method: insitu_strengths.in_situ_CAELESTIS_project_OUT
+      parameters: [thick,E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,G6s,Beta,a0,GIc,GIIc]
+      outputs: [YTOUT1T,YCOUT1T,SLOUT1T]

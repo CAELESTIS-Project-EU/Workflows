@@ -1,0 +1,296 @@
+
+
+
+        --------
+     |- A L Y A: FEM_OHT_nom
+        --------
+
+
+
+        -----------------
+*    |- MESH PARTITIONING
+        -----------------
+
+        METHOD:                     METIS 5.1.0
+        GRAPH NEIGHBOR CRITERION:   FACES
+        EXECUTION MODE              SEQUENTIAL
+        WEIGHT CRITERION FOR LB:    GAUSS POINTS
+
+
+        ------------------------
+*    |- INTER COLOR COMMUNICATOR
+        ------------------------
+
+
+        TOTAL NUMBER OF CODES=         1
+        TOTAL NUMBER OF ZONES=         1
+        TOTAL NUMBER OF SUBDS=         1
+
+        NUMBER OF ZONES IN MY CODE=    1
+        NUMBER OF SUBDS IN MY CODE=    1
+                                    
+        LIST OF COMMUNICATORS:      
+
+        CODE=(  0,  0), ZONE=(  0,  0), SUBD=(  0,  0)
+        CODE=(  1,  1), ZONE=(  0,  0), SUBD=(  0,  0)
+        CODE=(  1,  1), ZONE=(  0,  0), SUBD=(  1,  1)
+        CODE=(  1,  1), ZONE=(  1,  1), SUBD=(  0,  0)
+
+
+        ------------------------
+*    |- PARTITIONS BIN STRUCTURE
+        ------------------------
+
+        BIN DIMENSIONS=                14   20    8
+
+
+        --------------------
+*    |- SUMMARY OF PARTITION
+        --------------------
+
+        # SUBDOMAINS=                 671
+        TOTAL # NODES=             698605 (INTERIOR+REPEATED BOUNDARY)
+
+        MIN. # NPOIN=                 979 (SUBDOMAIN   642)
+        MAX. # NPOIN=                1125 (SUBDOMAIN   568)
+        AVE. # NPOIN=                1041
+        MIN. # NELEM=                 703 (SUBDOMAIN    19)
+        MAX. # NELEM=                 745 (SUBDOMAIN     3)
+        AVE. # NELEM=                 723
+        LB     NELEM=               0.970
+        MIN. # NELEM(WEIGHT)=        5624 (SUBDOMAIN    19)
+        MAX. # NELEM(WEIGHT)=        5960 (SUBDOMAIN     3)
+        AVE. # NELEM(WEIGHT)=        5788
+        LB     NELEM(WEIGHT)=       0.971
+        MIN. # NBOUN=                   0 (SUBDOMAIN     1)
+        MAX. # NBOUN=                   0 (SUBDOMAIN     1)
+        AVE. # NBOUN=                   0
+        MIN. # NZDOM=               21289 (SUBDOMAIN   642)
+        MAX. # NZDOM=               23299 (SUBDOMAIN   568)
+        AVE. # NZDOM=               22189
+
+        MIN. # NNEIG=                   4 (SUBDOMAIN    59)
+        MAX. # NNEIG=                  22 (SUBDOMAIN    86)
+        AVE. # NNEIG=                  12
+        MIN. # NBBOU=                 279 (SUBDOMAIN   488)
+        MAX. # NBBOU=                 690 (SUBDOMAIN   585)
+        AVE. # NBBOU=                 519
+
+
+        -----
+*    |- HALOS
+        -----
+
+
+        |- COMPUTATIONAL HALOS (MAX VALUES):
+
+           Halo nodes/total nodes=        155.31609 %
+           |neigh send - neigh recv|=      13.33333 % 
+           |size  send - size  recv|=      11.03203 % 
+           Ratio 2nd neighbors/neighbors=  36.36364 % 
+
+        |- GEOMETRICAL HALOS (MAX VALUES): 
+
+           Halo elements/own elements=    125.94670 %
+           Halo nodes/own nodes=          102.07769 % 
+
+
+        ------------------------
+*    |- BOUNDARY CONDITION CODES
+        ------------------------
+
+
+        CODE=               1
+        CODE=               2
+
+
+        -----------------
+*    |- INTEGRATION RULES
+        -----------------
+
+
+        ELEMENT TYPE:                 QUA04
+           Rule:                       OPEN
+           Number Gauss points=           4
+           Max. polynomial order=         1
+        ELEMENT TYPE:                 HEX08
+           Rule:                       OPEN
+           Number Gauss points=           8
+           Max. polynomial order=         1
+     |- WARNINGS HAVE BEEN FOUND IN SOLIDZ DATA FILE
+ 
+
+
+        --------------------
+*    |- OPTIMIZATION OPTIONS
+        --------------------
+
+
+        MPI3:                       OFF
+        BLAS:                       OFF
+        VECTOR SIZE=                 16 (PARAMETER)
+        LOC. TO GLOB. COEF IN CSR:  OFF
+        ELEMENT DATA BASE:          ON, AVERAGE MEMORY=    1.65 Mbytes
+        NODE RENUMBERING:           METIS 5.1.0
+        ELEMENT RENUMBERING:        MESH GRAPH FIRST TOUCH
+
+
+        ----------------------
+*    |- HYBRID PARALLELIZATION
+        ----------------------
+
+        OFF
+
+
+        -----------------------
+*    |- SUMMARY OF PROBLEM DATA
+        -----------------------
+
+
+        |- GENERAL DATA:
+
+           Modules solved:       SOLIDZ,KERMOD
+           Blok definition:      1:SOLIDZ
+           Time step strategy:   MINIMUM OF CRITICAL TIME STEPS
+           Time step=             0.0000E+00
+           Time range=           [ 0.0000E+00, 4.0663E-03]
+
+        |- DOMAIN DATA:
+
+           Domain dimension=               3
+           --------------------- 
+           Bandwith (average)=         1003
+           Profile (average)=     3.6115E+05
+           --------------------- 
+           Total volume=          8.2812E+03
+           Ave. element volume=   1.7057E-02
+           Min. element volume=   1.0151E-03 (element 446412)
+           Max. element volume=   3.9753E-02 (element 413493)
+           --------------------- 
+           Total elements=            485510
+           Extension elements=             0
+           Hole elements=                  0
+           Elements used:        485510 HEX08
+           Gauss points (rule)=  8(open)
+           --------------------- 
+           Total boundaries=               0
+           Extension boundaries=           0
+           Hole boundaries=                0
+           Boundaries used:      0 QUA04
+           Gauss points (rule)=  4(open)
+           --------------------- 
+           Total nodes=               507120
+           Hole nodes=                     0
+ 
+        |- MATERIAL DATA:
+
+           Material=    1, volume=  6.4096E+03
+           Material=    2, volume=  6.4096E+02
+           Material=    3, volume=  6.4096E+02
+           Material=    4, volume=  5.8969E+02
+
+
+        ---------------------
+*    |- MATRICES (NEW SOLVER)
+        ---------------------
+
+
+
+        --------------------------
+*    |- SUMMARY OF REQUIRED MEMORY
+        --------------------------
+
+
+        |- MASTER COUNT:
+
+           Total memory:                 231.24 Mbytes
+           Construction of the domain:   231.22 Mbytes
+           Element search strategy:        0.00 Mbytes
+           Solvers:                        0.00 Mbytes
+           Master:                         0.00 Mbytes
+           SOLIDZ module:                  0.01 Mbytes
+           KERMOD module:                  0.01 Mbytes
+
+        |- SLAVE MAX COUNT:
+
+           Total memory:                   4.60 Mbytes
+           Construction of the domain:     2.19 Mbytes
+           Element search strategy:        0.00 Mbytes
+           Solvers:                        0.00 Mbytes
+           Master:                         0.03 Mbytes
+           SOLIDZ module:                  2.37 Mbytes
+           KERMOD module:                  0.01 Mbytes
+
+
+        --------------------------
+*    |- SUMMARY OF COMPUTING TIMES
+        --------------------------
+
+
+        TOTAL CPU TIME:                 1280.00
+        STARTING OPERATIONS:             512.00 ( 40.00 % )
+          Geometry reading:              128.00 ( 10.00 % )
+          Set Reading:                     0.00 (  0.00 % )
+          Boundary cond. reading:          0.00 (  0.00 % )
+          Fields reading:                  0.00 (  0.00 % )
+          Mesh partitioning:             128.00 ( 10.00 % )
+          Mesh multiplication:             0.00 (  0.00 % )
+          Domain construction:             0.00 (  0.00 % )
+            Groups:                        0.00 (  0.00 % )
+            Halos:                         0.00 (  0.00 % )
+            Element search:                0.00 (  0.00 % )
+            Coupling:                      0.00 (  0.00 % )
+            Output mesh:                   0.00 (  0.00 % )
+          Additional arrays:               0.00 (  0.00 % )
+        PROPERTIES UPDATE:                 0.00 (  0.00 % )
+
+        SOLIDZ MODULE:                  1152.00 ( 90.00 % )
+          Begin run:                         0.00 (  0.00 % )
+          Read restart:                      0.00 (  0.00 % )
+          Initial solution:                  0.00 (  0.00 % )
+          Begin time step:                   0.00 (  0.00 % )
+          Begin iteration:                   0.00 (  0.00 % )
+          Do iteration:                   1152.00 (100.00 % )
+          End iteration:                     0.00 (  0.00 % )
+          End time step:                   128.00 ( 11.11 % )
+          Output:                            0.00 (  0.00 % )
+          Write restart:                     0.00 (  0.00 % )
+
+          Details of Doiter:
+
+          Element assembly
+            Average:                     386.48 ( 33.55 % )
+            Maximum:                     512.00 ( 44.44 % )
+            Average load balance:          0.00
+            Average element cost:          2.95 us
+            ---                      
+            Theoretical average:           0.00
+            Theoretical maximum:     **********
+            Theoretical load bal:          0.00
+            Maximum variability:        9999.00 % 
+          Boundary assembly
+            Average:                      66.10 (  5.74 % )
+            Maximum:                     640.00 ( 55.56 % )
+            Load balance:                  0.00
+            Average entity cost:         359.46 us
+          Solver:                          384.00 ( 33.33 % )
+
+        KERMOD MODULE:                     0.00 (  0.00 % )
+          Begin run:                         0.00 (  0.00 % )
+          Read restart:                      0.00 (  0.00 % )
+          Initial solution:                  0.00 (  0.00 % )
+          Begin time step:                   0.00 (  0.00 % )
+          Begin iteration:                   0.00 (  0.00 % )
+          Do iteration:                      0.00 (  0.00 % )
+          End iteration:                     0.00 (  0.00 % )
+          End time step:                     0.00 (  0.00 % )
+          Output:                            0.00 (  0.00 % )
+          Write restart:                     0.00 (  0.00 % )
+
+          Details of Doiter:
+
+          Solver:                            0.00 (  0.00 % )
+
+
+     |- END OF ANALYSIS
+

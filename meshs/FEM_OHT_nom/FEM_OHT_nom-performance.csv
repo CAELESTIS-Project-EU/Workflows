@@ -1,0 +1,137 @@
+name, hostname, date, cores, module, function, type, parent_module, parent_function, parent_type, category, unit, value
+FEM_OHT_nom, login3, 20231011, 672, kernel, all, average time, , , , computation+communications+io, s, 0.12800000E+004
+FEM_OHT_nom, login3, 20231011, 672, kernel, all, maximum time, , , , computation+communications+io, s, 0.12800000E+004
+FEM_OHT_nom, login3, 20231011, 672, kernel, all, master memory, , , , memory, B, 0.48184880E+007
+FEM_OHT_nom, login3, 20231011, 672, kernel, all, maximum memory, , , , memory, B, 0.52835680E+007
+FEM_OHT_nom, login3, 20231011, 672, kernel, all, average memory, , , , memory, B, 0.50214830E+007
+FEM_OHT_nom, login3, 20231011, 672, solvers, all, maximum memory, kernel, all, maximum memory, memory, B, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solvers, all, average memory, kernel, all, average memory, memory, B, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, domain, all, maximum memory, kernel, all, maximum memory, memory, B, 0.22940080E+007
+FEM_OHT_nom, login3, 20231011, 672, domain, all, average memory, kernel, all, average memory, memory, B, 0.21971205E+007
+FEM_OHT_nom, login3, 20231011, 672, elsest, all, maximum memory, kernel, all, maximum memory, memory, B, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, elsest, all, average memory, kernel, all, average memory, memory, B, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, master, all, maximum memory, kernel, all, maximum memory, memory, B, 0.27056000E+005
+FEM_OHT_nom, login3, 20231011, 672, master, all, average memory, kernel, all, average memory, memory, B, 0.25043361E+005
+FEM_OHT_nom, login3, 20231011, 672, solidz, all, average time, kernel, all, average time, computation+communications+io, s, 0.11520000E+004
+FEM_OHT_nom, login3, 20231011, 672, solidz, all, maximum time, kernel, all, maximum time, computation+communications+io, s, 0.11520000E+004
+FEM_OHT_nom, login3, 20231011, 672, solidz, output, average time, solidz, all, average time, io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, output, maximum time, solidz, all, maximum time, io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, turn on, average time, solidz, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, turn on, maximum time, solidz, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, run beginning, average time, solidz, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, run beginning, maximum time, solidz, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, initial solution, average time, solidz, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, initial solution, maximum time, solidz, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, step beginning, average time, solidz, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, step beginning, maximum time, solidz, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, step ending, average time, solidz, all, average time, computation+communications, s, 0.27428572E+002
+FEM_OHT_nom, login3, 20231011, 672, solidz, step ending, maximum time, solidz, all, maximum time, computation+communications, s, 0.12800000E+003
+FEM_OHT_nom, login3, 20231011, 672, solidz, iteration beginning, average time, solidz, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, iteration beginning, maximum time, solidz, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, iteration ending, average time, solidz, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, iteration ending, maximum time, solidz, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, iteration other, average time, solidz, all, average time, computation+communications, s, 0.62569299E+003
+FEM_OHT_nom, login3, 20231011, 672, solidz, iteration other, maximum time, solidz, all, maximum time, computation+communications, s, 0.76800000E+003
+FEM_OHT_nom, login3, 20231011, 672, solidz, turn off, average time, solidz, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, turn off, maximum time, solidz, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, element assembly, average time, solidz, all, average time, computation, s, 0.38647620E+003
+FEM_OHT_nom, login3, 20231011, 672, solidz, element assembly, maximum time, solidz, all, maximum time, computation, s, 0.51200000E+003
+FEM_OHT_nom, login3, 20231011, 672, solidz, boundary assembly, average time, solidz, all, average time, computation, s, 0.66095238E+002
+FEM_OHT_nom, login3, 20231011, 672, solidz, boundary assembly, maximum time, solidz, all, maximum time, computation, s, 0.64000000E+003
+FEM_OHT_nom, login3, 20231011, 672, solidz, solvers, average time, solidz, all, average time, computation+communications, s, 0.28190475E+002
+FEM_OHT_nom, login3, 20231011, 672, solidz, solvers, maximum time, solidz, all, maximum time, computation+communications, s, 0.38400000E+003
+FEM_OHT_nom, login3, 20231011, 672, solidz, eigensolvers, average time, solidz, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, eigensolvers, maximum time, solidz, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, all, maximum memory, kernel, all, maximum memory, memory, B, 0.24870360E+007
+FEM_OHT_nom, login3, 20231011, 672, solidz, all, average memory, kernel, all, average memory, memory, B, 0.23834282E+007
+FEM_OHT_nom, login3, 20231011, 672, solidz, element assembly, load balance, , , , computation+communications, , 0.16660670E-004
+FEM_OHT_nom, login3, 20231011, 672, solidz, element assembly, variability, , , , computation+communications, , 0.90748000E+005
+FEM_OHT_nom, login3, 20231011, 672, solidz, element assembly, time per element, , , , computation+communications, s, 0.29481116E-005
+FEM_OHT_nom, login3, 20231011, 672, solidz, boundary assembly, load balance, , , , computation+communications, , 0.14041275E-005
+FEM_OHT_nom, login3, 20231011, 672, solidz, boundary assembly, time per boundary, , , , computation+communications, s, 0.35945664E-003
+FEM_OHT_nom, login3, 20231011, 672, solidz, spmv 1, average time, solidz, solver 1, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, spmv 1, maximum time, solidz, solver 1, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, dot 1, average time, solidz, solver 1, average time, computation+communications, s, 0.19076006E+002
+FEM_OHT_nom, login3, 20231011, 672, solidz, dot 1, maximum time, solidz, solver 1, maximum time, computation+communications, s, 0.12800000E+003
+FEM_OHT_nom, login3, 20231011, 672, solidz, deflation 1, average time, solidz, solver 1, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, deflation 1, maximum time, solidz, solver 1, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, precond 1, average time, solidz, solver 1, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, precond 1, maximum time, solidz, solver 1, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, update 1, average time, solidz, solver 1, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, update 1, maximum time, solidz, solver 1, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, solver 1, average time, solidz, solvers, average time, computation+communications, s, 0.28232489E+002
+FEM_OHT_nom, login3, 20231011, 672, solidz, solver 1, maximum time, solidz, solvers, maximum time, computation+communications, s, 0.28232489E+002
+FEM_OHT_nom, login3, 20231011, 672, solidz, time step, average time, solidz, step beginning, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, time step, maximum time, solidz, step beginning, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, energy, average time, solidz, step beginning, average time, computation+communications, s, 0.54095238E+002
+FEM_OHT_nom, login3, 20231011, 672, solidz, energy, maximum time, solidz, step beginning, maximum time, computation+communications, s, 0.25600000E+003
+FEM_OHT_nom, login3, 20231011, 672, solidz, gather, average time, solidz, element assembly, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, gather, maximum time, solidz, element assembly, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, computation, average time, solidz, element assembly, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, computation, maximum time, solidz, element assembly, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, electro-mechanical, average time, solidz, element assembly, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, electro-mechanical, maximum time, solidz, element assembly, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, scatter, average time, solidz, element assembly, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, scatter, maximum time, solidz, element assembly, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, element matrix, average time, solidz, element assembly, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, solidz, element matrix, maximum time, solidz, element assembly, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, all, average time, kernel, all, average time, computation+communications+io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, all, maximum time, kernel, all, maximum time, computation+communications+io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, output, average time, kermod, all, average time, io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, output, maximum time, kermod, all, maximum time, io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, turn on, average time, kermod, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, turn on, maximum time, kermod, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, step beginning, average time, kermod, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, step beginning, maximum time, kermod, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, step ending, average time, kermod, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, step ending, maximum time, kermod, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, iteration other, average time, kermod, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, iteration other, maximum time, kermod, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, solvers, average time, kermod, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, solvers, maximum time, kermod, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, eigensolvers, average time, kermod, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, eigensolvers, maximum time, kermod, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, kermod, all, maximum memory, kernel, all, maximum memory, memory, B, 0.10388000E+005
+FEM_OHT_nom, login3, 20231011, 672, kermod, all, average memory, kernel, all, average memory, memory, B, 0.10388000E+005
+FEM_OHT_nom, login3, 20231011, 672, amr, all, average time, kernel, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, amr, all, maximum time, kernel, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, coupling, all, average time, kernel, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, coupling, all, maximum time, kernel, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, coupling, driver, average time, coupling, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, coupling, driver, maximum time, coupling, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, read, all, average time, kernel, all, average time, io, s, 0.38095239E+000
+FEM_OHT_nom, login3, 20231011, 672, read, all, maximum time, kernel, all, maximum time, io, s, 0.25600000E+003
+FEM_OHT_nom, login3, 20231011, 672, read, geometry, average time, read, all, average time, io, s, 0.19047619E+000
+FEM_OHT_nom, login3, 20231011, 672, read, geometry, maximum time, read, all, maximum time, io, s, 0.12800000E+003
+FEM_OHT_nom, login3, 20231011, 672, read, sets, average time, read, all, average time, io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, read, sets, maximum time, read, all, maximum time, io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, read, boundary conditions, average time, read, all, average time, io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, read, boundary conditions, maximum time, read, all, maximum time, io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, read, fields, average time, read, all, average time, io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, read, fields, maximum time, read, all, maximum time, io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, turnon, all, average time, kernel, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, turnon, all, maximum time, kernel, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, all, average time, kernel, all, average time, computation+communications, s, 0.25561905E+003
+FEM_OHT_nom, login3, 20231011, 672, init, all, maximum time, kernel, all, maximum time, computation+communications, s, 0.25600000E+003
+FEM_OHT_nom, login3, 20231011, 672, init, mesh partition, average time, init, all, average time, computation+communications, s, 0.12780952E+003
+FEM_OHT_nom, login3, 20231011, 672, init, mesh partition, maximum time, init, all, maximum time, computation+communications, s, 0.12800000E+003
+FEM_OHT_nom, login3, 20231011, 672, init, mesh multiplication, average time, init, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, mesh multiplication, maximum time, init, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, domain, average time, init, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, domain, maximum time, init, all, maximum time, computation+communications, s, 0.11920929E-006
+FEM_OHT_nom, login3, 20231011, 672, init, groups, average time, init, domain, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, groups, maximum time, init, domain, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, halos, average time, init, domain, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, halos, maximum time, init, domain, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, elsest, average time, init, domain, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, elsest, maximum time, init, domain, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, coupling, average time, init, domain, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, coupling, maximum time, init, domain, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, driver, average time, init, coupling, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, driver, maximum time, init, coupling, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, output, average time, init, domain, average time, io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, output, maximum time, init, domain, maximum time, io, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, additional arrays, average time, init, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, init, additional arrays, maximum time, init, all, maximum time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, turnof, all, average time, kernel, all, average time, computation+communications, s, 0.00000000E+000
+FEM_OHT_nom, login3, 20231011, 672, turnof, all, maximum time, kernel, all, maximum time, computation+communications, s, 0.00000000E+000
