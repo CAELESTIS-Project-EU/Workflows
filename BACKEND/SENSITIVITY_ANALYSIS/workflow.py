@@ -50,5 +50,6 @@ def workflow_execution(samplerData, simType, sensType, problem, execution_folder
         new_y=postSimulation.collect(type_sim,simulation_wdir, nameSim)"""
         y.append(new_y)
     out5= sens.analysis(problemDef, y, results_folder, param_values,  parameters= sensType, paramSampling=samplerData, outputs=outputs)
+    # new code
     # res= sens.generate_path(samplerData.get("name"), results_folder, outputs, out5)
     return
