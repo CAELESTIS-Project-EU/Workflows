@@ -7,25 +7,29 @@ import os
 import yaml
 
 
-def workflow(path, execution_folder):
+def workflow(path, execution_folder, data_folder):
     with open(path) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
         phases = data.get("phases")
         workflow_execution(phases.get("sampler"), data.get("problem"), execution_folder, data.get("input"),
-                           phases.get("sim"), data.get("outputs"))
+                           phases.get("sim"), data.get("outputs"), data_folder)
     return
 
 
-def workflow_execution(samplerData, problem, execution_folder, input, simType, outputs):
+def workflow_execution(samplerData, problem, execution_folder, input, simType, outputs, data_folder):
     sample_set = sampler.sampler(samplerData.get("name"), problem)
     sample_set = compss_wait_on(sample_set)
     matrix_fie = sampler.sampler_fie(samplerData.get("name"), problem)
     matrix_fie = compss_wait_on(matrix_fie)
     mesh = input.get("mesh")
+    for item in mesh:
+        if 'folder' in item:
+            mesh_folder = item['folder']
+    input_source = os.path.join(data_folder, mesh_folder)
     templateSld = input.get("template_sld")
     templateFie = input.get("template_fie")
     type_sim = simType.get("type")
-    parent_directory, original_name = os.path.split(mesh)
+    parent_directory, original_name = os.path.split(input_source)
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
@@ -39,7 +43,7 @@ def workflow_execution(samplerData, problem, execution_folder, input, simType, o
         values = sample_set[i, :]
         variables_sld = sampler.vars_func_sld(samplerData.get("name"), problem, values, problem.get("variables-fixed"))
         variables_fie = sampler.vars_func_fie(samplerData.get("name"), problem, sample_fie)
-        parserSim.prepare_data(type_sim, mesh, templateSld, simulation_wdir, original_name, nameSim, variables_sld)
+        parserSim.prepare_data(type_sim, input_source, templateSld, simulation_wdir, original_name, nameSim, variables_sld)
         parserSim.prepare_fie_file(type_sim, templateFie, simulation_wdir, nameSim, variables_fie)
         sim.run_sim(type_sim, simulation_wdir, nameSim)
         new_y = postSimulation.collect(type_sim, simulation_wdir, nameSim)

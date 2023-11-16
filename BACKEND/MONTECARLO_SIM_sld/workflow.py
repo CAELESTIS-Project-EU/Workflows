@@ -1,31 +1,35 @@
-from PHASES.SAMPLERS import PYDOE,sampler
+from PHASES.SAMPLERS import PYDOE, sampler
 from PHASES.SIMULATIONS import simulation as sim
-#from PHASES.POSTSIMULATION import postSimulation
-#from PHASES.BEFORESIMULATION import parserSimulation as parserSim
+# from PHASES.POSTSIMULATION import postSimulation
+# from PHASES.BEFORESIMULATION import parserSimulation as parserSim
 from PHASES.POSTSIMULATION import postSimulationtest as postSimulation
 from PHASES.BEFORESIMULATION import parserSimulationTest as parserSim
 from pycompss.api.api import compss_wait_on
 import os
 import yaml
 
-def workflow(path, execution_folder):
+
+def workflow(path, execution_folder, data_folder):
     with open(path) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
-        phases=data.get("phases")
-        workflow_execution(phases.get("sampler"), data.get("problem"), execution_folder, data.get("input"),  phases.get("sim"), data.get("outputs"))
+        phases = data.get("phases")
+        workflow_execution(phases.get("sampler"), data.get("problem"), execution_folder, data.get("input"),
+                           phases.get("sim"), data.get("outputs"), data_folder, )
     return
 
-def workflow_execution(samplerData, problem,execution_folder,input, simType, outputs):
-    sample_set= sampler.sampler(samplerData.get("name"), problem)
+
+def workflow_execution(samplerData, problem, execution_folder, input, simType, outputs, data_folder):
+    sample_set = sampler.sampler(samplerData.get("name"), problem)
     sample_set = compss_wait_on(sample_set)
     names = sampler.get_names(samplerData.get("name"), problem)
-    print("NAMES")
-    print(names)
-    print(sample_set)
     mesh = input.get("mesh")
+    for item in mesh:
+        if 'folder' in item:
+            mesh_folder = item['folder']
+    input_source = os.path.join(data_folder, mesh_folder)
     templateSld = input.get("template_sld")
     templateDom = input.get("template_dom")
-    parent_directory, original_name = os.path.split(mesh)
+    parent_directory, original_name = os.path.split(input_source)
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
@@ -38,11 +42,12 @@ def workflow_execution(samplerData, problem,execution_folder,input, simType, out
         if not os.path.isdir(simulation_wdir):
             os.makedirs(simulation_wdir)
         nameSim = original_name + "-s" + str(i)
-        variables_sld=sampler.vars_func(samplerData.get("name"),problem,values,problem.get("variables-fixed"), names)
-        out1 = parserSim.prepare_data(type_sim, mesh, templateSld, simulation_wdir, original_name, nameSim,
+        variables_sld = sampler.vars_func(samplerData.get("name"), problem, values, problem.get("variables-fixed"),
+                                          names)
+        out1 = parserSim.prepare_data(type_sim, input_source, templateSld, simulation_wdir, original_name, nameSim,
                                       variables_sld)
         out3 = parserSim.prepare_dom_file(type_sim, templateDom, simulation_wdir, nameSim, out1)
-        out = sim.run_sim(type_sim, simulation_wdir, nameSim,  out3=out3)
+        out = sim.run_sim(type_sim, simulation_wdir, nameSim, out3=out3)
 
         new_y = postSimulation.collect(type_sim, simulation_wdir, nameSim, out)
         y.append(new_y)
