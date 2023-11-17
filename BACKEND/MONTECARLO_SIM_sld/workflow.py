@@ -25,21 +25,32 @@ def workflow_execution(samplerData, problem, execution_folder, input, simType, o
     mesh_folder=None
     templateDom_folder=None
     templateSld_folder=None
-    mesh = input.get("mesh")
-    if mesh and isinstance(mesh, list) and len(mesh) > 0:
-        mesh_folder = mesh[0].get('folder')  # Access the first dictionary and then get 'folder'
+    mesh = input.get("mesh", [])
+    mesh_folder = ""
+    for item in mesh:
+        if isinstance(item, dict) and 'folder' in item:
+            mesh_folder = item['folder']
+            break  # Exit the loop after finding the first 'folder'
 
-    template_sld = input.get("template_sld")
-    if template_sld and isinstance(template_sld, list) and len(template_sld) > 0:
-        templateSld_folder = template_sld[0].get('folder')  # Access the first dictionary and then get 'folder'
+    template_sld = input.get("template_sld", [])
+    templateSld_folder = ""
+    for item in template_sld:
+        if isinstance(item, dict) and 'folder' in item:
+            templateSld_folder = item['folder']
+            break  # Exit the loop after finding the first 'folder'
 
-    template_dom = input.get("template_dom")
-    if template_dom and isinstance(template_dom, list) and len(template_dom) > 0:
-        templateDom_folder = template_dom[0].get('folder')  # Access the first dictionary and then get 'folder'
+    template_dom = input.get("template_dom", [])
+    templateDom_folder = ""
+    for item in template_dom:
+        if isinstance(item, dict) and 'folder' in item:
+            templateDom_folder = item['folder']
+            break  # Exit the loop after finding the first 'folder'
 
-    input_source = os.path.join(data_folder, mesh_folder)
-    templateSld = os.path.join(data_folder, templateSld_folder)
-    templateDom = os.path.join(data_folder, templateDom_folder)
+    # Now use these folder paths as needed
+    input_source = os.path.join(data_folder, mesh_folder) if mesh_folder else None
+    templateSld = os.path.join(data_folder, templateSld_folder) if templateSld_folder else None
+    templateDom = os.path.join(data_folder, templateDom_folder) if templateDom_folder else None
+
 
     print("input_source: "+input_source)
     print("templateSld: " + templateSld)
