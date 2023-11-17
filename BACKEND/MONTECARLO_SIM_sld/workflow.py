@@ -37,12 +37,9 @@ def workflow_execution(samplerData, problem, execution_folder, input, simType, o
     if template_dom and isinstance(template_dom, list) and len(template_dom) > 0:
         templateDom_folder = template_dom[0].get('folder')  # Access the first dictionary and then get 'folder'
 
-    if mesh_folder and templateDom_folder and templateSld_folder:
-        input_source = os.path.join(data_folder, mesh_folder)
-        templateSld = os.path.join(data_folder, templateSld_folder)
-        templateDom = os.path.join(data_folder, templateDom_folder)
-    else:
-        return Exception
+    input_source = os.path.join(data_folder, mesh_folder)
+    templateSld = os.path.join(data_folder, templateSld_folder)
+    templateDom = os.path.join(data_folder, templateDom_folder)
 
     print("input_source: "+input_source)
     print("templateSld: " + templateSld)
