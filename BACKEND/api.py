@@ -3,7 +3,7 @@ import sys
 import importlib
 
 
-def workflow(path, execution_folder):
+def workflow(path, execution_folder, data_folder):
     with open(path) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
         workflow_type=data.get("workflow_type")
