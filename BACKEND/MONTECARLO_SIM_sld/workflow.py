@@ -22,16 +22,31 @@ def workflow_execution(samplerData, problem, execution_folder, input, simType, o
     sample_set = sampler.sampler(samplerData.get("name"), problem)
     sample_set = compss_wait_on(sample_set)
     names = sampler.get_names(samplerData.get("name"), problem)
+    mesh_folder=None
+    templateDom_folder=None
+    templateSld_folder=None
     mesh = input.get("mesh")
-    for item in mesh:
-        if 'folder' in item:
-            mesh_folder = item['folder']
-    input_source = os.path.join(data_folder, mesh_folder)
-    templateSld = os.path.join(data_folder, input.get("template_sld")['folder'])
-    templateDom = os.path.join(data_folder, input.get("template_dom")['folder'])
-    print("input_source: " +input_source)
-    print("templateSld: "+ templateSld)
-    print("templateDom: "+templateDom)
+    if mesh and isinstance(mesh, list) and len(mesh) > 0:
+        mesh_folder = mesh[0].get('folder')  # Access the first dictionary and then get 'folder'
+
+    template_sld = input.get("template_sld")
+    if template_sld and isinstance(template_sld, list) and len(template_sld) > 0:
+        templateSld_folder = template_sld[0].get('folder')  # Access the first dictionary and then get 'folder'
+
+    template_dom = input.get("template_dom")
+    if template_dom and isinstance(template_dom, list) and len(template_dom) > 0:
+        templateDom_folder = template_dom[0].get('folder')  # Access the first dictionary and then get 'folder'
+
+    if mesh_folder and templateDom_folder and templateSld_folder:
+        input_source = os.path.join(data_folder, mesh_folder)
+        templateSld = os.path.join(data_folder, templateSld_folder)
+        templateDom = os.path.join(data_folder, templateDom_folder)
+    else:
+        return Exception
+
+    print("input_source: "+input_source)
+    print("templateSld: " + templateSld)
+    print("templateDom: " + templateDom)
     parent_directory, original_name = os.path.split(input_source)
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
