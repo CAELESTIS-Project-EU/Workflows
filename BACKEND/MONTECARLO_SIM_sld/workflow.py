@@ -29,22 +29,27 @@ def workflow_execution(samplerData, problem, execution_folder, input_yaml, simTy
         os.makedirs(results_folder)
     y = []
     type_sim = simType.get("type")
-
+    print("TASK 1")
     for i in range(problem.get("n_samples")):
         values = sample_set[i, :]
         simulation_wdir = execution_folder + "/SIMULATIONS/" + original_name + "-s" + str(i) + "/"
         if not os.path.isdir(simulation_wdir):
             os.makedirs(simulation_wdir)
         nameSim = original_name + "-s" + str(i)
+        print("TASK 2")
         variables_sld = sampler.vars_func(samplerData.get("name"), problem, values, problem.get("variables-fixed"),
                                           names)
+        print("TASK 3")
         out1 = parserSim.prepare_data(type_sim, mesh_source, templateSld, simulation_wdir, original_name, nameSim,
                                       variables_sld)
+        print("TASK 4")
         out3 = parserSim.prepare_dom_file(type_sim, templateDom, simulation_wdir, nameSim, out1)
+        print("TASK 5")
         out = sim.run_sim(type_sim, simulation_wdir, nameSim, out3=out3)
-
+        print("TASK 6")
         new_y = postSimulation.collect(type_sim, simulation_wdir, nameSim, out)
         y.append(new_y)
+    print("TASK 7")
     postSimulation.write_file(type_sim, results_folder, y, outputs=outputs)
     return
 
