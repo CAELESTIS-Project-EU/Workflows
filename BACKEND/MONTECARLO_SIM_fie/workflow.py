@@ -39,7 +39,7 @@ def workflow_execution(samplerData, problem, execution_folder, input, simType, o
                                       variables_fie)
         out2 = parserSim.prepare_fie_file(type_sim, templateFie, simulation_wdir, nameSim, variables_fie, mesh_source,
                                           original_name, out1)
-        out3 = parserSim.prepare_dom_file(type_sim, templateDom, simulation_wdir, nameSim, out1)
+        out3 = parserSim.prepare_dom_file(type_sim, templateDom, simulation_wdir, nameSim, mesh_source, out1)
         out = sim.run_sim(type_sim, simulation_wdir, nameSim, out2=out2, out3=out3)
         new_y = postSimulation.collect(type_sim, simulation_wdir, nameSim, out)
         y.append(new_y)

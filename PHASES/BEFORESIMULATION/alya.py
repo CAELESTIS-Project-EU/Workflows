@@ -29,12 +29,13 @@ def parser_fie(variables, template, simulation_wdir, nameSim, wdir, original_nam
         f2.close()
     return
 
-def parser_dom(simulation_wdir, nameSim, template):
+def parser_dom(simulation_wdir, nameSim, template, mesh_source):
     simulation = simulation_wdir+"/"+nameSim + ".dom.dat"
     with open(simulation, 'w') as f2:
         with open(template, 'r') as f:
             filedata = f.read()
             filedata = filedata.replace("%sim_num%", str(nameSim))
+            filedata = filedata.replace("%data_folder%", str(mesh_source))
             f2.write(filedata)
             f.close()
         f2.close()

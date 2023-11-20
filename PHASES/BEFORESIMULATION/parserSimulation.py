@@ -15,7 +15,7 @@ def prepare_fie_file(type_sim, template, sim_dir, nameSim, variables, wdir, orig
     return getattr(module, 'parser_fie')(variables, template, sim_dir, nameSim, wdir, original_name)
 
 @task(returns=1)
-def prepare_dom_file(type_sim, template, sim_dir, nameSim, out):
+def prepare_dom_file(type_sim, template, data_folder, nameSim, mesh_source, out):
     print("TYPE: ", type_sim)
     module = importlib.import_module('PHASES.BEFORESIMULATION.' + type_sim)
-    return getattr(module, 'parser_dom')(sim_dir, nameSim, template)
+    return getattr(module, 'parser_dom')(data_folder, nameSim, template, mesh_source)
