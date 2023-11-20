@@ -50,38 +50,29 @@ def workflow_execution(samplerData, problem, execution_folder, input_yaml, simTy
 
 
 def get_input(input_yaml, data_folder):
-    print("INPUT")
-    print(str(input_yaml))
     mesh = input_yaml.get("mesh", [])
-    print(str(mesh))
     mesh_folder = ""
     for item in mesh:
-        if isinstance(item, dict) and 'folder' in item:
-            mesh_folder = item['folder']
+        if isinstance(item, dict) and 'path' in item:
+            mesh_folder = item['path']
             break  # Exit the loop after finding the first 'folder'
 
     template_sld = input_yaml.get("template_sld", [])
-    print(str(template_sld))
     templateSld_folder = ""
     for item in template_sld:
-        if isinstance(item, dict) and 'folder' in item:
-            templateSld_folder = item['folder']
+        if isinstance(item, dict) and 'path' in item:
+            templateSld_folder = item['path']
             break  # Exit the loop after finding the first 'folder'
 
     template_dom = input_yaml.get("template_dom", [])
-    print(str(template_dom))
     templateDom_folder = ""
     for item in template_dom:
-        if isinstance(item, dict) and 'folder' in item:
-            templateDom_folder = item['folder']
+        if isinstance(item, dict) and 'path' in item:
+            templateDom_folder = item['path']
             break  # Exit the loop after finding the first 'folder'
 
     # Now use these folder paths as needed
     mesh_source = os.path.join(data_folder, mesh_folder) if mesh_folder else None
     templateSld = os.path.join(data_folder, templateSld_folder) if templateSld_folder else None
     templateDom = os.path.join(data_folder, templateDom_folder) if templateDom_folder else None
-    print("DATA")
-    print("mesh_source:"+str(mesh_source))
-    print("templateSld:"+str(templateSld))
-    print("templateDom:"+str(templateDom))
     return mesh_source, templateSld, templateDom

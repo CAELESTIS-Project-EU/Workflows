@@ -51,29 +51,29 @@ def get_input(input, data_folder):
     mesh = input.get("mesh", [])
     mesh_folder = ""
     for item in mesh:
-        if isinstance(item, dict) and 'folder' in item:
-            mesh_folder = item['folder']
+        if isinstance(item, dict) and 'path' in item:
+            mesh_folder = item['path']
             break  # Exit the loop after finding the first 'folder'
 
     template_sld = input.get("template_sld", [])
     templateSld_folder = ""
     for item in template_sld:
-        if isinstance(item, dict) and 'folder' in item:
-            templateSld_folder = item['folder']
+        if isinstance(item, dict) and 'path' in item:
+            templateSld_folder = item['path']
             break  # Exit the loop after finding the first 'folder'
 
     template_dom = input.get("template_dom", [])
     templateDom_folder = ""
     for item in template_dom:
-        if isinstance(item, dict) and 'folder' in item:
-            templateDom_folder = item['folder']
+        if isinstance(item, dict) and 'path' in item:
+            templateDom_folder = item['path']
             break  # Exit the loop after finding the first 'folder'
 
     template_fie = input.get("template_fie", [])
     templateFie_folder = ""
     for item in template_fie:
-        if isinstance(item, dict) and 'folder' in item:
-            templateFie_folder = item['folder']
+        if isinstance(item, dict) and 'path' in item:
+            templateFie_folder = item['path']
             break  # Exit the loop after finding the first 'folder'
 
     # Now use these folder paths as needed
