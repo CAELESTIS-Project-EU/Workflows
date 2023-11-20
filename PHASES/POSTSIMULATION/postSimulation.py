@@ -2,8 +2,8 @@ import importlib
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 
-@task(wdir=DIRECTORY_INOUT, returns=1)
-def collect(type, wdir, nameSim):
+@task(returns=1)
+def collect(type, wdir, nameSim, out):
     module = importlib.import_module('PHASES.POSTSIMULATION.' + type)
     y=getattr(module, 'collect_results')(wdir, nameSim)
     return y

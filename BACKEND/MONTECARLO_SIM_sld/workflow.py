@@ -2,8 +2,8 @@ from PHASES.SAMPLERS import PYDOE, sampler
 from PHASES.SIMULATIONS import simulation as sim
 # from PHASES.POSTSIMULATION import postSimulation
 # from PHASES.BEFORESIMULATION import parserSimulation as parserSim
-from PHASES.POSTSIMULATION import postSimulationtest as postSimulation
-from PHASES.BEFORESIMULATION import parserSimulationTest as parserSim
+from PHASES.POSTSIMULATION import postSimulation as postSimulation
+from PHASES.BEFORESIMULATION import parserSimulation as parserSim
 from pycompss.api.api import compss_wait_on
 import os
 import yaml
