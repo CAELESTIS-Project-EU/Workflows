@@ -22,8 +22,6 @@ def workflow_execution(samplerData, problem, execution_folder, input_yaml, simTy
     sample_set = sampler.sampler(samplerData.get("name"), problem)
     sample_set = compss_wait_on(sample_set)
     names = sampler.get_names(samplerData.get("name"), problem)
-    print("INPUT")
-    print(str(input_yaml))
     mesh_source, templateSld, templateDom = get_input(input_yaml, data_folder)
     parent_directory, original_name = os.path.split(mesh_source)
     results_folder = execution_folder + "/results/"
@@ -52,7 +50,10 @@ def workflow_execution(samplerData, problem, execution_folder, input_yaml, simTy
 
 
 def get_input(input_yaml, data_folder):
+    print("INPUT")
+    print(str(input_yaml))
     mesh = input_yaml.get("mesh", [])
+    print(str(mesh))
     mesh_folder = ""
     for item in mesh:
         if isinstance(item, dict) and 'folder' in item:
@@ -60,6 +61,7 @@ def get_input(input_yaml, data_folder):
             break  # Exit the loop after finding the first 'folder'
 
     template_sld = input_yaml.get("template_sld", [])
+    print(str(template_sld))
     templateSld_folder = ""
     for item in template_sld:
         if isinstance(item, dict) and 'folder' in item:
@@ -67,6 +69,7 @@ def get_input(input_yaml, data_folder):
             break  # Exit the loop after finding the first 'folder'
 
     template_dom = input_yaml.get("template_dom", [])
+    print(str(template_dom))
     templateDom_folder = ""
     for item in template_dom:
         if isinstance(item, dict) and 'folder' in item:
