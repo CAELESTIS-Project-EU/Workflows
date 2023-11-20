@@ -43,7 +43,7 @@ def workflow_execution(samplerData, problem, execution_folder, input_yaml, simTy
         out = sim.run_sim(type_sim, simulation_wdir, nameSim, out3=out3)
         new_y = postSimulation.collect(type_sim, simulation_wdir, nameSim, out)
         y.append(new_y)
-    postSimulation.write_file(type_sim, results_folder, y, outputs=outputs)
+    postSimulation.write_file(type_sim, results_folder, y, out, outputs=outputs)
     return
 
 

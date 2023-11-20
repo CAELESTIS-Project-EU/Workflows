@@ -9,7 +9,7 @@ def collect(type, wdir, nameSim, out):
     return y
 
 @task(y_param=COLLECTION_IN)
-def write_file(type, output_folder, y_param, **kwargs):
+def write_file(type, output_folder, y_param, out, **kwargs):
     file=str(kwargs.get("outputs").get("alya-output"))
     y_file=output_folder+"/"+file
     module = importlib.import_module('PHASES.POSTSIMULATION.' + type)
