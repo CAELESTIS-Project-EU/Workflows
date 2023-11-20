@@ -21,15 +21,11 @@ def workflow_execution(samplerData, problem, execution_folder, input, simType, o
     sample_set = compss_wait_on(sample_set)
     matrix_fie = sampler.sampler_fie(samplerData.get("name"), problem)
     matrix_fie = compss_wait_on(matrix_fie)
-    mesh = input.get("mesh")
-    for item in mesh:
-        if 'folder' in item:
-            mesh_folder = item['folder']
-    input_source = os.path.join(data_folder, mesh_folder)
-    templateSld = input.get("template_sld")
-    templateFie = input.get("template_fie")
+
+    mesh_source, templateSld, templateDom, templateFie = get_input(input, data_folder)
+
     type_sim = simType.get("type")
-    parent_directory, original_name = os.path.split(input_source)
+    parent_directory, original_name = os.path.split(mesh_source)
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
@@ -41,12 +37,48 @@ def workflow_execution(samplerData, problem, execution_folder, input, simType, o
         nameSim = original_name + "-s" + str(i)
         sample_fie = matrix_fie[i, :]
         values = sample_set[i, :]
-        variables_sld = sampler.vars_func_sld(samplerData.get("name"), problem, values, problem.get("variables-fixed"))
+        variables_sld = sampler.vars_func(samplerData.get("name"), problem, values, problem.get("variables-fixed"))
         variables_fie = sampler.vars_func_fie(samplerData.get("name"), problem, sample_fie)
-        parserSim.prepare_data(type_sim, input_source, templateSld, simulation_wdir, original_name, nameSim, variables_sld)
+        parserSim.prepare_data(type_sim, mesh_source, templateSld, simulation_wdir, original_name, nameSim, variables_sld)
         parserSim.prepare_fie_file(type_sim, templateFie, simulation_wdir, nameSim, variables_fie)
         sim.run_sim(type_sim, simulation_wdir, nameSim)
         new_y = postSimulation.collect(type_sim, simulation_wdir, nameSim)
         y.append(new_y)
     postSimulation.write_file(type_sim, results_folder, y, outputs=outputs)
     return
+
+def get_input(input, data_folder):
+    mesh = input.get("mesh", [])
+    mesh_folder = ""
+    for item in mesh:
+        if isinstance(item, dict) and 'folder' in item:
+            mesh_folder = item['folder']
+            break  # Exit the loop after finding the first 'folder'
+
+    template_sld = input.get("template_sld", [])
+    templateSld_folder = ""
+    for item in template_sld:
+        if isinstance(item, dict) and 'folder' in item:
+            templateSld_folder = item['folder']
+            break  # Exit the loop after finding the first 'folder'
+
+    template_dom = input.get("template_dom", [])
+    templateDom_folder = ""
+    for item in template_dom:
+        if isinstance(item, dict) and 'folder' in item:
+            templateDom_folder = item['folder']
+            break  # Exit the loop after finding the first 'folder'
+
+    template_fie = input.get("template_fie", [])
+    templateFie_folder = ""
+    for item in template_fie:
+        if isinstance(item, dict) and 'folder' in item:
+            templateFie_folder = item['folder']
+            break  # Exit the loop after finding the first 'folder'
+
+    # Now use these folder paths as needed
+    mesh_source = os.path.join(data_folder, mesh_folder) if mesh_folder else None
+    templateSld = os.path.join(data_folder, templateSld_folder) if templateSld_folder else None
+    templateDom = os.path.join(data_folder, templateDom_folder) if templateDom_folder else None
+    templateFie = os.path.join(data_folder, templateFie_folder) if templateFie_folder else None
+    return mesh_source, templateSld, templateDom, templateFie

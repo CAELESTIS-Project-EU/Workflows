@@ -12,23 +12,16 @@ def workflow(path, execution_folder, data_folder):
         data = yaml.load(f, Loader=yaml.FullLoader)
         phases = data.get("phases")
         workflow_execution(phases.get("sampler"), data.get("problem"), execution_folder, data.get("input"),
-                           phases.get("sim"), data.get("outputs"),data_folder)
+                           phases.get("sim"), data.get("outputs"), data_folder)
     return
 
 
-def workflow_execution(samplerData, problem, execution_folder, input, simType, outputs,data_folder):
+def workflow_execution(samplerData, problem, execution_folder, input, simType, outputs, data_folder):
     matrix_fie = sampler.sampler(samplerData.get("name"), problem)
     matrix_fie = compss_wait_on(matrix_fie)
     names = sampler.get_names(samplerData.get("name"), problem)
-    mesh = input.get("mesh")
-    for item in mesh:
-        if 'folder' in item:
-            mesh_folder = item['folder']
-    input_source = os.path.join(data_folder, mesh_folder)
-    templateSld = input.get("template_sld")
-    templateFie = input.get("template_fie")
-    templateDom = input.get("template_dom")
-    parent_directory, original_name = os.path.split(input_source)
+    mesh_source, templateSld, templateDom, templateFie = get_input(input, data_folder)
+    parent_directory, original_name = os.path.split(mesh_source)
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
@@ -42,9 +35,9 @@ def workflow_execution(samplerData, problem, execution_folder, input, simType, o
         nameSim = original_name + "-s" + str(i)
         variables_fie = sampler.vars_func(samplerData.get("name"), problem, sample_fie, problem.get("variables-fixed"),
                                           names)
-        out1 = parserSim.prepare_data(type_sim, input_source, templateSld, simulation_wdir, original_name, nameSim,
+        out1 = parserSim.prepare_data(type_sim, mesh_source, templateSld, simulation_wdir, original_name, nameSim,
                                       variables_fie)
-        out2 = parserSim.prepare_fie_file(type_sim, templateFie, simulation_wdir, nameSim, variables_fie, mesh,
+        out2 = parserSim.prepare_fie_file(type_sim, templateFie, simulation_wdir, nameSim, variables_fie, mesh_source,
                                           original_name, out1)
         out3 = parserSim.prepare_dom_file(type_sim, templateDom, simulation_wdir, nameSim, out1)
         out = sim.run_sim(type_sim, simulation_wdir, nameSim, out2=out2, out3=out3)
@@ -52,3 +45,40 @@ def workflow_execution(samplerData, problem, execution_folder, input, simType, o
         y.append(new_y)
     postSimulation.write_file(type_sim, results_folder, y, outputs=outputs)
     return
+
+
+def get_input(input, data_folder):
+    mesh = input.get("mesh", [])
+    mesh_folder = ""
+    for item in mesh:
+        if isinstance(item, dict) and 'folder' in item:
+            mesh_folder = item['folder']
+            break  # Exit the loop after finding the first 'folder'
+
+    template_sld = input.get("template_sld", [])
+    templateSld_folder = ""
+    for item in template_sld:
+        if isinstance(item, dict) and 'folder' in item:
+            templateSld_folder = item['folder']
+            break  # Exit the loop after finding the first 'folder'
+
+    template_dom = input.get("template_dom", [])
+    templateDom_folder = ""
+    for item in template_dom:
+        if isinstance(item, dict) and 'folder' in item:
+            templateDom_folder = item['folder']
+            break  # Exit the loop after finding the first 'folder'
+
+    template_fie = input.get("template_fie", [])
+    templateFie_folder = ""
+    for item in template_fie:
+        if isinstance(item, dict) and 'folder' in item:
+            templateFie_folder = item['folder']
+            break  # Exit the loop after finding the first 'folder'
+
+    # Now use these folder paths as needed
+    mesh_source = os.path.join(data_folder, mesh_folder) if mesh_folder else None
+    templateSld = os.path.join(data_folder, templateSld_folder) if templateSld_folder else None
+    templateDom = os.path.join(data_folder, templateDom_folder) if templateDom_folder else None
+    templateFie = os.path.join(data_folder, templateFie_folder) if templateFie_folder else None
+    return mesh_source, templateSld, templateDom, templateFie
