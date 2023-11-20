@@ -14,5 +14,4 @@ def write_file(type, output_folder, y_param, out, **kwargs):
     y_file=output_folder+"/"+file
     module = importlib.import_module('PHASES.POSTSIMULATION.' + type)
     getattr(module, 'write_yFile')(y_file, y_param)
-    return
 
