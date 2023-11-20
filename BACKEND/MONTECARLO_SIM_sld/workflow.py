@@ -24,7 +24,6 @@ def workflow_execution(samplerData, problem, execution_folder, input, simType, o
     names = sampler.get_names(samplerData.get("name"), problem)
 
     mesh_source, templateSld, templateDom = get_input(input, data_folder)
-
     parent_directory, original_name = os.path.split(mesh_source)
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
@@ -77,4 +76,8 @@ def get_input(input, data_folder):
     mesh_source = os.path.join(data_folder, mesh_folder) if mesh_folder else None
     templateSld = os.path.join(data_folder, templateSld_folder) if templateSld_folder else None
     templateDom = os.path.join(data_folder, templateDom_folder) if templateDom_folder else None
+    print("DATA")
+    print("mesh_source:"+str(mesh_source))
+    print("templateSld:"+str(templateSld))
+    print("templateDom:"+str(templateDom))
     return mesh_source, templateSld, templateDom
