@@ -1,4 +1,3 @@
-from PHASES import configuration as cfg
 from pycompss.api.mpi import mpi
 from pycompss.api.task import task
 from pycompss.api.parameter import *
