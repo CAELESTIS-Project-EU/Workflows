@@ -1,5 +1,5 @@
 DEST_PATH="$1"
-export ALYA_BIN=/gpfs/projects/bsce81/alya/builds/Alya_no3_sp.x
+export ALYA_BIN=/gpfs/projects/bsce81/alya/builds/Alya_no3.x
 export ALYA_PROCS=128
 export ALYA_PPN=16
 
