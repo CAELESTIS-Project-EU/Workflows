@@ -9,7 +9,7 @@ def collect(type, wdir, nameSim, out):
     return y
 
 @task(y_param=COLLECTION_IN)
-def write_file(type, output_folder, y_param, out, **kwargs):
+def write_file(type, output_folder, y_param, **kwargs):
     outputs = kwargs.get("outputs")
     alya_output_list = outputs.get("alya-output")
     # Initialize file_path to None
