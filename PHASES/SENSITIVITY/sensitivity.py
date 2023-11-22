@@ -5,7 +5,7 @@ import importlib
 @task(y=COLLECTION_IN, param_values=COLLECTION_IN)
 def analysis(problem, y, output_folder, param_values, **kwargs):
     outputs = kwargs.get("outputs")
-    sesitivity_report = outputs.get("sesitivity_report")
+    sesitivity_report = outputs.get("sensitivity_report")
     # Initialize file_path to None
     file_path = None
     # Iterate over each dictionary in the list
@@ -23,7 +23,7 @@ def analysis(problem, y, output_folder, param_values, **kwargs):
         module = importlib.import_module('PHASES.SENSITIVITY.' + type)
         res= getattr(module, type)(problem, y, param_values, output_file, outputs=(kwargs.get("parameters").get("outputs")), paramSampling=paramSampling)
         write_outputFile(output_file, res, kwargs.get("parameters").get("outputs"))
-    
+
 def write_outputFile(file, Si, outputs):
     with open(file, 'w') as f2:
         f2.write("OUTPUTS \n")
