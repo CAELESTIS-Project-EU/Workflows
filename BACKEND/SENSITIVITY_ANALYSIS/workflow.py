@@ -43,6 +43,7 @@ def workflow_execution(samplerData, simType, sensType, problem, execution_folder
         out = sim.run_sim(type_sim, simulation_wdir, nameSim, out3=out3)
         new_y = postSimulation.collect(type_sim, simulation_wdir, nameSim, out)
         y.append(new_y)
+    postSimulation.write_file(type_sim, results_folder, y, outputs=outputs)
     out5 = sens.analysis(problemDef, y, results_folder, param_values, parameters=sensType, paramSampling=samplerData,
                          outputs=outputs)
     # new code

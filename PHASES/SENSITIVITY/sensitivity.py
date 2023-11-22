@@ -4,16 +4,26 @@ import importlib
 
 @task(y=COLLECTION_IN, param_values=COLLECTION_IN)
 def analysis(problem, y, output_folder, param_values, **kwargs):
-    output_file= output_folder+"/"+kwargs.get("outputs").get("sesitivity_report")
-    y_file=output_folder+"/"+kwargs.get("outputs").get("alya_output")
-    write_yFile(y_file,y,param_values,problem)
-    type= kwargs.get("parameters").get("name")
-    paramSampling= kwargs.get("paramSampling")
-    args=[problem, y, param_values, output_file]
-    module = importlib.import_module('PHASES.SENSITIVITY.' + type)
-    res= getattr(module, type)(problem, y, param_values, output_file, outputs=(kwargs.get("parameters").get("outputs")), paramSampling=paramSampling)
-    write_outputFile(output_file, res, kwargs.get("parameters").get("outputs"))
-
+    outputs = kwargs.get("outputs")
+    sesitivity_report = outputs.get("sesitivity_report")
+    # Initialize file_path to None
+    file_path = None
+    # Iterate over each dictionary in the list
+    for item in sesitivity_report:
+        if "path" in item:
+            file_path = item["path"]
+            break  # Stop the loop once the path is found
+    # Check if file_path was found
+    if file_path is not None:
+        file = str(file_path)
+        output_file= output_folder+"/"+file
+        type= kwargs.get("parameters").get("name")
+        paramSampling= kwargs.get("paramSampling")
+        args=[problem, y, param_values, output_file]
+        module = importlib.import_module('PHASES.SENSITIVITY.' + type)
+        res= getattr(module, type)(problem, y, param_values, output_file, outputs=(kwargs.get("parameters").get("outputs")), paramSampling=paramSampling)
+        write_outputFile(output_file, res, kwargs.get("parameters").get("outputs"))
+    
 def write_outputFile(file, Si, outputs):
     with open(file, 'w') as f2:
         f2.write("OUTPUTS \n")
