@@ -8,6 +8,7 @@ module load intel/2018.4
 module load impi/2018.4
 module load ALYA/mpio
 module load mkl/2018.4
+module load dislib/0.7.0
 module load boost/1.80.0
 module load python/3.9.10
 

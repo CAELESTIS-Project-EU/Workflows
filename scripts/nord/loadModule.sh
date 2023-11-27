@@ -8,6 +8,7 @@ module load oneapi/2021.4.0
 module load intel/2021.4.0
 module load impi/2021.4.0
 module load ALYA/mpio
+module load dislib/0.7.0
 module load mkl/2021.4
 module load boost/1.78.0
 module load python/3.9.10
