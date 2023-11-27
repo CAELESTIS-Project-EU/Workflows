@@ -11,18 +11,18 @@ DEST_PATH="$1"
 WORKFLOW="$2"
 MACHINE="$3"
 
-# Create the BACKEND directory in the destination path
-mkdir -p "$DEST_PATH/BACKEND"
+# Create the WORKFLOWS directory in the destination path
+mkdir -p "$DEST_PATH/WORKFLOWS"
 
 # Copy the PHASES folder to the destination path
 cp -r /gpfs/projects/bsce81/alya/tests/workflow_stable/PHASES "$DEST_PATH"
 
-# Copy the api.py  and init files to the BACKEND directory in the destination path
-cp /gpfs/projects/bsce81/alya/tests/workflow_stable/BACKEND/api.py "$DEST_PATH/BACKEND/"
-cp /gpfs/projects/bsce81/alya/tests/workflow_stable/BACKEND/__init__.py "$DEST_PATH/BACKEND/"
+# Copy the api.py  and init files to the WORKFLOWS directory in the destination path
+cp /gpfs/projects/bsce81/alya/tests/workflow_stable/WORKFLOWS/api.py "$DEST_PATH/BACKEND/"
+cp /gpfs/projects/bsce81/alya/tests/workflow_stable/WORKFLOWS/__init__.py "$DEST_PATH/BACKEND/"
 
-# Copy the specified workflow to the BACKEND directory in the destination path
-cp -r "/gpfs/projects/bsce81/alya/tests/workflow_stable/BACKEND/$WORKFLOW" "$DEST_PATH/BACKEND/"
+# Copy the specified workflow to the WORKFLOWS directory in the destination path
+cp -r "/gpfs/projects/bsce81/alya/tests/workflow_stable/WORKFLOWS/$WORKFLOW" "$DEST_PATH/BACKEND/"
 
 # Copy the specified workflow to the SCRIPTS directory in the destination path
 cp -r "/gpfs/projects/bsce81/alya/tests/workflow_stable/scripts/" "$DEST_PATH"
@@ -34,9 +34,9 @@ else
     echo "Error occurred while copying."
 fi
 
-#chmod +x "$DEST_PATH/BACKEND/$WORKFLOW/load-workflow.sh"
+#chmod +x "$DEST_PATH/WORKFLOWS/$WORKFLOW/load-workflow.sh"
 # shellcheck disable=SC1090
-# source $DEST_PATH/BACKEND/$WORKFLOW/load-workflow.sh $DEST_PATH
+# source $DEST_PATH/WORKFLOWS/$WORKFLOW/load-workflow.sh $DEST_PATH
 
 # Assuming DEST_PATH contains the path with or without a trailing slash
 if [[ $DEST_PATH == */ ]]; then

@@ -7,7 +7,7 @@ def workflow(path, execution_folder, data_folder):
     with open(path) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
         workflow_type=data.get("workflow_type")
-        module = importlib.import_module('BACKEND.'+workflow_type+'.workflow')
+        module = importlib.import_module('WORKFLOWS.'+workflow_type+'.workflow')
         getattr(module, 'workflow')(path, execution_folder, data_folder)
     return
 
