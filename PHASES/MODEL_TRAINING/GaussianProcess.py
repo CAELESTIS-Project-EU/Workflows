@@ -31,4 +31,5 @@ def gen_model(x, y, training):
     x = ds.array(x, block_size=x.shape)
     y = ds.array(y, block_size=y.shape)
     searcher.fit(x, y)
+    print("RESULT")
     print(pd.DataFrame(searcher.cv_results_)[["params", "mean_test_score"]])
