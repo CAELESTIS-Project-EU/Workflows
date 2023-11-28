@@ -7,4 +7,4 @@ from pycompss.api.parameter import *
 def training(training, **kwargs):
     training_type=training.get("type")
     module = importlib.import_module('PHASES.MODEL_TRAINING.' + training_type)
-    return getattr(module, 'training')(**kwargs)
+    return getattr(module, 'training')(training, **kwargs)
