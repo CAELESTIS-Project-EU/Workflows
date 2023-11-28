@@ -28,8 +28,8 @@ def gen_model(x, y, training):
     params= { "kernel" : [gen_parameters(kernel_type, parameters=parameters)], "random_state": [0]}
     # use grid search with your training data (it might take a while, be patient)
     searcher = GridSearchCV(gpr, params)
-    x = ds.array(x, block_size=x.shape)
-    y = ds.array(y, block_size=y.shape)
+    x = ds.array(x)
+    y = ds.array(y)
     searcher.fit(x, y)
     print("RESULT")
     print(pd.DataFrame(searcher.cv_results_)[["params", "mean_test_score"]])
