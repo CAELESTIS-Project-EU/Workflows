@@ -16,7 +16,7 @@ def training(training, **kwargs):
     return
 
 def gen_parameters(kernel_type, **kwargs):
-    module = importlib.import_module('PHASES.MODEL_TRAINING.PARAMETERS' + kernel_type)
+    module = importlib.import_module('PHASES.MODEL_TRAINING.PARAMETERS.' + kernel_type)
     return getattr(module, 'gen_param')(**kwargs)
 
 def gen_model(x, y, training):
