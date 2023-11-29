@@ -31,6 +31,7 @@ def gen_model(x, y, training):
     # use grid search with your training data (it might take a while, be patient)
     searcher = GridSearchCV(gpr, params)
     x = ds.array(x, block_size=x.shape)
+    y = np.array(y)
     y = y[:, np.newaxis]
     y = ds.array(y, block_size=y.shape)
     searcher.fit(x, y)
