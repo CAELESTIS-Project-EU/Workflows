@@ -1,5 +1,6 @@
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.datasets import make_regression
+from pycompss.api.api import compss_wait_on
 from dislib.model_selection import GridSearchCV
 import dislib as ds
 import importlib
@@ -39,6 +40,10 @@ def gen_model(x, y, training):
     print("SHAPES after")
     print(x.shape, flush=True)
     print(y.shape, flush=True)
+    print(compss_wait_on(x._blocks), flush=True)
+    print(x.collect(), flush=True)
+    print(compss_wait_on(y._blocks), flush=True)
+    print(y.collect(), flush=True)
     searcher.fit(x, y)
     return pd.DataFrame(searcher.cv_results_)[["params", "mean_test_score"]]
 
