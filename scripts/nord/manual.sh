@@ -10,7 +10,7 @@ BRANCH=main
 DATA_DIR=/home/bsc19/bsc19518/data_dir/
 
 export ALYA_BIN=/gpfs/projects/bsce81/alya/builds/Alya_no3.x
-export ALYA_PROCS=192
+export ALYA_PROCS=32
 export ALYA_PPN=16
 
 module purge
