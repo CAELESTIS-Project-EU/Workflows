@@ -31,15 +31,14 @@ def gen_model(x, y, training):
     # use grid search with your training data (it might take a while, be patient)
     searcher = GridSearchCV(gpr, params)
     print("SHAPES")
-    print(x.shape)
-    print(y.shape)
+    print(x.shape, flush=True)
     x = ds.array(x, block_size=x.shape)
     y = np.array(y)
     y = y[:, np.newaxis]
     y = ds.array(y, block_size=y.shape)
     print("SHAPES after")
-    print(x.shape)
-    print(y.shape)
+    print(x.shape, flush=True)
+    print(y.shape, flush=True)
     searcher.fit(x, y)
     return pd.DataFrame(searcher.cv_results_)[["params", "mean_test_score"]]
 
