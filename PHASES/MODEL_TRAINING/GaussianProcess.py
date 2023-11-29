@@ -30,7 +30,7 @@ def gen_model(x, y, training):
     # gpr.random_state = 0
     params = {"kernel": [gen_parameters(kernel_type, parameters=parameters)], "random_state": [0]}
     # use grid search with your training data (it might take a while, be patient)
-    searcher = GridSearchCV(gpr, params, cv=2, scoring=mean_squared_error)
+    searcher = GridSearchCV(gpr, params, cv=2)
     print("SHAPES")
     print(x.shape, flush=True)
     x = ds.array(x, block_size=x.shape)
