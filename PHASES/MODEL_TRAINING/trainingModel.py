@@ -3,14 +3,14 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 
 
-@task(y_param=COLLECTION_IN, returns=1)
+@task(y=COLLECTION_IN, returns=1)
 def training(x, y, training, **kwargs):
     training_type=training.get("type")
     module = importlib.import_module('PHASES.MODEL_TRAINING.' + training_type)
     return getattr(module, 'training')(x, y, training, **kwargs)
 
-@task(y_param=COLLECTION_IN)
-def write_file(output_folder, y_param, sample_set, res, **kwargs):
+@task(y=COLLECTION_IN)
+def write_file(output_folder, y, x, res, **kwargs):
     outputs = kwargs.get("outputs")
     model_output = outputs.get("model-output")
     # Initialize file_path to None
@@ -25,7 +25,7 @@ def write_file(output_folder, y_param, sample_set, res, **kwargs):
         # You can now use file_path for further processing
         file = str(file_path)
         model_file = output_folder + "/" + file
-        write_File(model_file, y_param, sample_set, res)
+        write_File(model_file, y, x, res)
 
 def write_File(file, y, sample_set, res):
     with open(file, 'w') as f3:
