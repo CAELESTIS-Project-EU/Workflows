@@ -34,8 +34,8 @@ def gen_model(x, y, training):
     print("SHAPES")
     print(x.shape, flush=True)
     x = ds.array(x, block_size=x.shape)
-    """ y = np.array(y)
-    y = y[:, np.newaxis]"""
+    y = np.array(y)
+    y = y[:, np.newaxis]
     y = ds.array(y, block_size=y.shape)
     print("SHAPES after")
     print(x.shape, flush=True)
