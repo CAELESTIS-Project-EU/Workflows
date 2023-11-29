@@ -6,6 +6,8 @@ NUM_NODES=12
 EXEC_TIME=1440
 QOS=bsc_cs
 INSTALL_DIR=/home/bsc19/bsc19518/installWorkflow/
+BRANCH=main
+DATA_DIR=/home/bsc19/bsc19518/data_dir/
 
 export ALYA_BIN=/gpfs/projects/bsce81/alya/builds/Alya_no3.x
 export ALYA_PROCS=192
