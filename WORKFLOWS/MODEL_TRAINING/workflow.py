@@ -46,8 +46,7 @@ def workflow_execution(samplerData, problem, execution_folder, input_yaml, simTy
         y.append(new_y)
     postSimulation.write_file(type_sim, results_folder, y, outputs=outputs)
     y = compss_wait_on(y)
-    y_np = np.array(y)
-    write_file_y(results_folder, y_np)
+    write_file_y(results_folder, y)
     write_file_x(results_folder, sample_set)
     res = train.training(sample_set, y, training)
     train.write_file(results_folder, res)
@@ -85,13 +84,13 @@ def get_input(input_yaml, data_folder):
 
 def write_file_x(output_folder, x, **kwargs):
     # You can now use file_path for further processing
-    model_file = output_folder + "/xfile.npy"
+    model_file = output_folder + "/xFile.npy"
     write(model_file, x)
 
 
 def write_file_y(output_folder, y, **kwargs):
     # You can now use file_path for further processing
-    model_file = output_folder + "/y.npy"
+    model_file = output_folder + "/yFile.npy"
     write(model_file, y)
 
 
