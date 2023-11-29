@@ -9,8 +9,8 @@ def training(x, y, training, **kwargs):
     module = importlib.import_module('PHASES.MODEL_TRAINING.' + training_type)
     return getattr(module, 'training')(x, y, training, **kwargs)
 
-@task(y=COLLECTION_IN)
-def write_file(output_folder, y, x, res, **kwargs):
+@task(returns=1)
+def write_file(output_folder, res, **kwargs):
     outputs = kwargs.get("outputs")
     model_output = outputs.get("model-output")
     # Initialize file_path to None
@@ -25,9 +25,9 @@ def write_file(output_folder, y, x, res, **kwargs):
         # You can now use file_path for further processing
         file = str(file_path)
         model_file = output_folder + "/" + file
-        write_File(model_file, y, x, res)
+        write_File(model_file, res)
 
-def write_File(file, y, sample_set, res):
+def write_File(file, res):
     with open(file, 'w') as f3:
         f3.write("Y MODEL RES: \n")
         f3.write(str(res))
