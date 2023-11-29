@@ -45,6 +45,7 @@ def gen_model(x, y, training):
     print(compss_wait_on(y._blocks), flush=True)
     print(y.collect(), flush=True)
     searcher.fit(x, y)
+    print(pd.DataFrame(searcher.cv_results_)[["params", "mean_test_score"]], flush=True)
     return pd.DataFrame(searcher.cv_results_)[["params", "mean_test_score"]]
 
 
