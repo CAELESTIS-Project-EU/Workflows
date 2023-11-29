@@ -1,3 +1,5 @@
+import numpy as np
+
 from PHASES.SAMPLERS import PYDOE, sampler
 from PHASES.SIMULATIONS import simulation as sim
 from PHASES.POSTSIMULATION import postSimulation as postSimulation
@@ -43,6 +45,10 @@ def workflow_execution(samplerData, problem, execution_folder, input_yaml, simTy
         new_y = postSimulation.collect(type_sim, simulation_wdir, nameSim, out)
         y.append(new_y)
     postSimulation.write_file(type_sim, results_folder, y, outputs=outputs)
+    y = compss_wait_on(y)
+    y_np= np.array(y)
+    write_file_y(results_folder, y_np)
+    write_file_x(results_folder, sample_set)
     res= train.training(sample_set, y, training)
     train.write_file(results_folder, y, sample_set, res)
     return
@@ -75,3 +81,20 @@ def get_input(input_yaml, data_folder):
     templateSld = os.path.join(data_folder, templateSld_folder) if templateSld_folder else None
     templateDom = os.path.join(data_folder, templateDom_folder) if templateDom_folder else None
     return mesh_source, templateSld, templateDom
+
+
+def write_file_x(output_folder, x, **kwargs):
+    # You can now use file_path for further processing
+    model_file = output_folder + "/xfile.npy"
+    write(model_file, x)
+
+def write_file_y(output_folder, y, **kwargs):
+    # You can now use file_path for further processing
+    model_file = output_folder + "/y.npy"
+    write(model_file, y)
+
+def write(file, element):
+    with open(file, 'wb') as f3:
+        np.save(f3, element)
+        f3.close()
+    return
