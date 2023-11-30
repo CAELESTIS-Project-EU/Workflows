@@ -9,7 +9,7 @@ def training(x, y, training, **kwargs):
     module = importlib.import_module('PHASES.MODEL_TRAINING.' + training_type)
     return getattr(module, 'training')(x, y, training, **kwargs)
 
-@task(res=STRING_IN)
+@task()
 def write_file(output_folder, res, **kwargs):
     outputs = kwargs.get("outputs")
     model_output = outputs.get("model-output")
