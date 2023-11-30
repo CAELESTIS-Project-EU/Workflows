@@ -7,7 +7,7 @@ module purge
 module load intel/2020.1
 module load impi/2018.4
 module load mkl/2018.4
-module load dislib/0.7.0
+module load dislib/0.9.0
 module load ALYA/mpio
 module load python/3.9.10
 
