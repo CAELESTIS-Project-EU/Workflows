@@ -18,8 +18,9 @@ def workflow_execution(execution_folder, training, outputs, inputs):
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
-    res = train.training(x, y, training)
+    model, res = train.training(x, y, training)
     train.write_file(results_folder, res, outputs=outputs)
+    train.save_model(results_folder, model, outputs=outputs)
     return
 
 

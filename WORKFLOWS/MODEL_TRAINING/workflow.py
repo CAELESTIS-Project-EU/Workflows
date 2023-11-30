@@ -48,8 +48,9 @@ def workflow_execution(samplerData, problem, execution_folder, input_yaml, simTy
     y = compss_wait_on(y)
     write_file_y(results_folder, y)
     write_file_x(results_folder, sample_set)
-    res = train.training(sample_set, y, training)
-    train.write_file(results_folder, res)
+    model, res = train.training(sample_set, y, training)
+    train.write_file(results_folder, res, outputs=outputs)
+    train.save_model(results_folder, model, outputs=outputs)
     return
 
 

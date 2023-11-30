@@ -1,3 +1,5 @@
+import pickle
+
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.datasets import make_regression
 from pycompss.api.api import compss_wait_on
@@ -10,8 +12,7 @@ from sklearn.metrics import mean_squared_error
 
 
 def training(x, y, training, **kwargs):
-    res = gen_model(x, y, training)
-    return res
+    return gen_model(x, y, training)
 
 
 def gen_parameters(kernel_type, **kwargs):
@@ -32,19 +33,10 @@ def gen_model(x, y, training):
     params = {"kernel": [gen_parameters(kernel_type, parameters=parameters)], "random_state": [0], "alpha": [alpha]}
     # use grid search with your training data (it might take a while, be patient)
     searcher = GridSearchCV(gpr, params, cv=5)
-    print("SHAPES")
-    print(x.shape, flush=True)
     x = ds.array(x, block_size=x.shape)
     y = np.array(y)
     y = y[:, np.newaxis]
     y = ds.array(y, block_size=y.shape)
-    print("SHAPES after")
-    print(x.shape, flush=True)
-    print(y.shape, flush=True)
-    print(compss_wait_on(x._blocks), flush=True)
-    print(x.collect(), flush=True)
-    print(compss_wait_on(y._blocks), flush=True)
-    print(y.collect(), flush=True)
     searcher.fit(x, y)
-    print(pd.DataFrame(searcher.cv_results_)[["params", "mean_test_score"]], flush=True)
-    return pd.DataFrame(searcher.cv_results_)[["params", "mean_test_score"]]
+    return searcher, pd.DataFrame(searcher.cv_results_)[["params", "mean_test_score"]]
+
