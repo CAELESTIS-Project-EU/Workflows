@@ -8,12 +8,9 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_squared_error
 
-def training(x,y, training, **kwargs):
-    # outputs = kwargs.get("outputs")
-    # input = kwargs.get("input")
-    # x = float(input.get("x"))
-    # y = float(input.get("y"))
-    res= gen_model(x, y, training)
+
+def training(x, y, training, **kwargs):
+    res = gen_model(x, y, training)
     return res
 
 
@@ -28,7 +25,11 @@ def gen_model(x, y, training):
     gpr = GaussianProcessRegressor()
     # gpr.kernel = gen_parameters(kernel_type, parameters=parameters)
     # gpr.random_state = 0
-    params = {"kernel": [gen_parameters(kernel_type, parameters=parameters)], "random_state": [0]}
+    try:
+        alpha = float(parameters['alpha'])
+    except:
+        alpha = float("1e-10")
+    params = {"kernel": [gen_parameters(kernel_type, parameters=parameters)], "random_state": [0], "alpha": [alpha]}
     # use grid search with your training data (it might take a while, be patient)
     searcher = GridSearchCV(gpr, params, cv=5)
     print("SHAPES")
@@ -47,5 +48,3 @@ def gen_model(x, y, training):
     searcher.fit(x, y)
     print(pd.DataFrame(searcher.cv_results_)[["params", "mean_test_score"]], flush=True)
     return pd.DataFrame(searcher.cv_results_)[["params", "mean_test_score"]]
-
-
