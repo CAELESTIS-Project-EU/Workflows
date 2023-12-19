@@ -52,7 +52,6 @@ def workflow_execution(phases, parameters_yaml, inputs_yaml, outputs_yaml, execu
 
 def get_values(phase, inputs_yaml, outputs_yaml, parameters_yaml, data_folder):
     phase_type= phase.get("type")
-    print("PHASE:", str(phase_type))
     outputs_dict=None
     inputs_dict=None
     parameters_dict=None
@@ -82,7 +81,6 @@ def get_param(phase_parameters, parameters_yaml):
                 parameters[key]=param
             else:
                 parameters[key]=value
-    print("parameters: ", str(parameters))
     return parameters
 
 def get_inputs(phase_input, input_yaml, data_folder):
@@ -94,7 +92,6 @@ def get_inputs(phase_input, input_yaml, data_folder):
             input_folder= extract_value_files(input_yaml, search_input)
             input_folder = os.path.join(data_folder, input_folder) if input_folder else None
             inputs[key]=input_folder
-    print("inputs: ", str(inputs))
     return inputs
 
 def get_outputs(phase_outputs, outputs_yaml, data_folder):
@@ -105,7 +102,6 @@ def get_outputs(phase_outputs, outputs_yaml, data_folder):
             outputs_folder= extract_value_files(outputs_yaml, search_outputs)
             outputs_folder = os.path.join(data_folder, outputs_folder) if outputs_folder else None
             outputs[key]=outputs_folder
-    print("outputs: ", str(outputs))
     return outputs
 
 def extract_value(yaml, name):
