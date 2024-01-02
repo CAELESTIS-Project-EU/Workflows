@@ -11,7 +11,7 @@ def collect(type, wdir, nameSim, out):
 @task(y_param=COLLECTION_IN)
 def write_file(type, output_folder, y_param, **kwargs):
     outputs = kwargs.get("outputs")
-    alya_output_list = outputs.get("alya-output")
+    alya_output_list = outputs.get("alya_output")
     # Initialize file_path to None
     file_path = None
     # Iterate over each dictionary in the list

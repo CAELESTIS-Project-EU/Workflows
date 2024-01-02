@@ -21,6 +21,10 @@ def workflow_execution(phases, parameters_yaml, inputs_yaml, outputs_yaml, execu
     sampler_type, sampler_input, sampler_param=get_values(phases.get("sampler"), inputs_yaml, outputs_yaml, parameters_yaml, data_folder)
     input_file = sampler_input.get("sampler_input_file")
     sample_set = sampler.sampler(sampler_type, input_file)
+    RVEgen2Alya(path, num_caso, density, viscosity, volume_fraction, tipo_fallo, w_tow, h_tow, L_pro, n_elementos_gap,
+                n_elementos_towsingap,
+                n_elementos_capa, n_capas, angulos_tows, n_tows, Lset, distancia_fallo, ajus_ol, ol_izd, ol_drch,
+                AlyaSet, debug, queue, numCPUs)
     return
 
 
