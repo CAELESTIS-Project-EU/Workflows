@@ -24,8 +24,6 @@ def workflow_execution(phases, parameters_yaml, inputs_yaml, outputs_yaml, execu
     mesh = sim_input.get("mesh")
     templateSld = sim_input.get("template_sld")
     templateDom = sim_input.get("template_dom")
-    if sim_params:
-        cpus= sim_params.get("cpus")
     sample_set = sampler.sampler(sampler_type, problem)
     sample_set = compss_wait_on(sample_set)
     names = sampler.get_names(sampler_type, problem)
@@ -45,7 +43,7 @@ def workflow_execution(phases, parameters_yaml, inputs_yaml, outputs_yaml, execu
         out1 = parserSim.prepare_data(sim_type, mesh, templateSld, simulation_wdir, original_name, nameSim,
                                       variables_sld)
         out3 = parserSim.prepare_dom_file(sim_type, templateDom, simulation_wdir, nameSim, mesh, out1)
-        out = sim.run_sim(sim_type, simulation_wdir, nameSim, out3=out3, cpus=cpus)
+        out = sim.run_sim(sim_type, simulation_wdir, nameSim, out3=out3, sim_params=sim_params)
         new_y = postSimulation.collect(sim_type, simulation_wdir, nameSim, out)
         y.append(new_y)
     postSimulation.write_file(sim_type, results_folder, y, outputs=sim_outputs)
