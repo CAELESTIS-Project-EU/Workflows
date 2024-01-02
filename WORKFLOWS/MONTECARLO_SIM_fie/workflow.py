@@ -103,7 +103,6 @@ def get_outputs(phase_outputs, outputs_yaml, data_folder):
         for key, value in outputs_item.items():
             search_outputs= remove_dollar_prefix(value)
             outputs_folder= extract_value_files(outputs_yaml, search_outputs)
-            outputs_folder = os.path.join(data_folder, outputs_folder) if outputs_folder else None
             outputs[key]=outputs_folder
     return outputs
 
