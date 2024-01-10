@@ -17,6 +17,8 @@ def get_arguments(phase_args, yaml_file, data_folder, symbol_table):
             if starts_with_dollar(str(value)):
                 search_params = remove_dollar_prefix(value)
                 first_part, second_part = extract_parts(search_params)
+                print("FIRST PART: ", first_part)
+                print("SECOND PART: ", second_part)
                 args.append(switch_values(first_part, second_part, yaml_file, data_folder, symbol_table))
             else:
                 args[key] = value
