@@ -15,7 +15,9 @@ def get_arguments(phase_args, yaml_file, data_folder, symbol_table):
     for phase_arg in phase_args:
         for key, value in phase_arg.items():
             if starts_with_dollar(str(value)):
+                print("VALUE: ", value )
                 search_params = remove_dollar_prefix(value)
+                print("search_params: ", search_params)
                 first_part, second_part = extract_parts(search_params)
                 print("FIRST PART: ", first_part)
                 print("SECOND PART: ", second_part)
