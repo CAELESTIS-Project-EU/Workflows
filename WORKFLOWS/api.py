@@ -9,7 +9,7 @@ def workflow(path, execution_folder, data_folder):
         workflow_type=data.get("workflow_type")
         parameters=data.get("parameters")
         module_call, function_call = split_string_at_last_dot(workflow_type)
-        module = importlib.import_module(workflow_type)
+        module = importlib.import_module(module_call)
         getattr(module, function_call)(data, execution_folder, data_folder, parameters)
     return
 
