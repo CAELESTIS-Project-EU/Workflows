@@ -44,14 +44,21 @@ def get_variable_value(variable_name, symbol_table):
         return symbol_table[variable_name]
     else:
         return f"Variable '{variable_name}' not found."
-
+    
 def extract_parts(input_string):
-    parts = input_string[1:].split('.')
+    # Splitting the string by periods
+    parts = input_string.split('.')
+
+    # Checking if there are at least two parts
     if len(parts) >= 2:
+        # Extracting the first part
         first_part = parts[0]
+        # Joining the remaining parts to form the second part
         second_part = ".".join(parts[1:])
+        # Returning the two parts
         return first_part, second_part
     else:
+        # If there are not enough parts, return None for both parts
         return None, None
 
 
