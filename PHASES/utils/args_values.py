@@ -15,12 +15,8 @@ def get_arguments(phase_args, yaml_file, data_folder, symbol_table):
     for phase_arg in phase_args:
         for key, value in phase_arg.items():
             if starts_with_dollar(str(value)):
-                print("VALUE: ", value )
                 search_params = remove_dollar_prefix(value)
-                print("search_params: ", search_params)
                 first_part, second_part = extract_parts(search_params)
-                print("FIRST PART: ", first_part)
-                print("SECOND PART: ", second_part)
                 args.append(switch_values(first_part, second_part, yaml_file, data_folder, symbol_table))
             else:
                 args[key] = value
@@ -44,11 +40,10 @@ def get_variable_value(variable_name, symbol_table):
         return symbol_table[variable_name]
     else:
         return f"Variable '{variable_name}' not found."
-    
+
 def extract_parts(input_string):
     # Splitting the string by periods
     parts = input_string.split('.')
-
     # Checking if there are at least two parts
     if len(parts) >= 2:
         # Extracting the first part
