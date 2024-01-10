@@ -7,6 +7,8 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 @task(returns=1)
 def sampling(sampler_args, **kwargs):
+    print("HEREE")
+    print("prepare_args", sampler_args)
     problem = sampler_args.get("problem")
     variables = problem.get("variables-sampler")
     ratio = problem.get("ratio_norm")
