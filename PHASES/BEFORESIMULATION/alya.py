@@ -7,6 +7,7 @@ from pycompss.api.parameter import *
 
 
 def prepare_data(prepare_args):
+    print("HEREE")
     print("prepare_args", prepare_args)
     variables = vars_func(prepare_args)
     print("variables", variables)
