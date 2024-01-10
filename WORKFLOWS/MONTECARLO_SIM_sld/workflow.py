@@ -15,7 +15,7 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
     sample_set = phase.run(args_values.get_values(phases.get("sampler"), yaml_file, data_folder, locals()))
     #sample_set = sampler.sampler(sampler_type, sampler_args)
     sample_set = compss_wait_on(sample_set)
-    original_name=parameters.get("name_sim")
+    original_name=parameters.get("name_simulation")
     y = []
     for i in range(sample_set.shape[0]):
         values = sample_set[i, :]
