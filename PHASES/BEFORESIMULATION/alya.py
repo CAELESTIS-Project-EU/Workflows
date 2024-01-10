@@ -7,7 +7,9 @@ from pycompss.api.parameter import *
 
 
 def prepare_data(prepare_args):
+    print("prepare_args", prepare_args)
     variables = vars_func(prepare_args)
+    print("variables", variables)
     out1 = prepare_sld(prepare_args, variables)
     if prepare_args.get("template_fie"):
         out2 = prepare_fie(prepare_args, variables, out=out1)
