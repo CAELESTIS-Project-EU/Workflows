@@ -1,6 +1,4 @@
 from PHASES.SAMPLERS import sampler
-# from PHASES.POSTSIMULATION import postSimulation
-# from PHASES.BEFORESIMULATION import parserSimulation as parserSim
 from PHASES.utils import args_values, phase
 from pycompss.api.api import compss_wait_on
 import os
@@ -28,17 +26,17 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
 
         #prepare_type, prepare_args = get_values(phases.get("prepare_data"), yaml_file, data_folder, locals())
         #out1 = parserSim.prepare_data(prepare_type, prepare_args)
-        prepare_out = phases.run(get_values(phases.get("prepare_data"), yaml_file, data_folder, locals()))
+        prepare_out = phase.run(get_values(phases.get("prepare_data"), yaml_file, data_folder, locals()))
 
         #sim_type, sim_args = get_values(phases.get("sim"), yaml_file, data_folder, locals())
         #out = sim.run_sim(sim_type, sim_args, out=out1)
-        sim_out = phases.run(get_values(phases.get("sim"), yaml_file, data_folder, locals()),out=prepare_out)
+        sim_out = phase.run(get_values(phases.get("sim"), yaml_file, data_folder, locals()),out=prepare_out)
         #post_process_type, post_process_args = get_values(phases.get("post_process"), yaml_file, data_folder, locals())
-        new_y = phases.run(get_values(phases.get("post_process"), yaml_file, data_folder, locals()), out=sim_out)
+        new_y = phase.run(get_values(phases.get("post_process"), yaml_file, data_folder, locals()), out=sim_out)
         #new_y = postSimulation.collect(post_process_type, post_process_args, out=out)
         y.append(new_y)
     #write_file_type, write_file_args = get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals())
-    phases.run(get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()))
+    phase.run(get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()))
     #postSimulation.write_file(write_file_type, write_file_args)
     return
 def get_values(phase, yaml_file, data_folder, symbol_table):
