@@ -19,7 +19,7 @@ def get_arguments(phase_args, yaml_file, data_folder, symbol_table):
                 first_part, second_part = extract_parts(search_params)
                 args.append(switch_values(first_part, second_part, yaml_file, data_folder, symbol_table))
             else:
-                args[key] = value
+                args.append({key: value})
     return args
 
 
