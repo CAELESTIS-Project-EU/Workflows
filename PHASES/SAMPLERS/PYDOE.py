@@ -3,7 +3,8 @@ from scipy.stats.distributions import norm
 import numpy as np
 import importlib
 import re
-
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 @task(returns=1)
 def sampling(sampler_args, **kwargs):
     problem = sampler_args.get("problem")

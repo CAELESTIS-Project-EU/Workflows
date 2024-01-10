@@ -1,5 +1,4 @@
 import os
-
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 import yaml

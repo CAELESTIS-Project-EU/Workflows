@@ -3,7 +3,8 @@ import numpy as np
 import sys
 import importlib
 import re
-
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 @task(returns=1)
 def problem_def(data):
     number = int(data.get("num_vars"))

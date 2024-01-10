@@ -6,7 +6,6 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 
 @task(returns=1)
-
 def sampling( sampler_args, **kwargs):
     problem = sampler_args.get("problem")
     parameters = kwargs.get("parameters")
