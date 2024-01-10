@@ -44,7 +44,7 @@ def workflow_execution(phases, parameters_yaml, inputs_yaml, outputs_yaml, execu
             os.makedirs(simulation_wdir)
         nameSim = original_name + "-s" + str(i)
         values = param_values[i, :]
-        variables = sampler.vars_func(sampler_type, problem, values, problem.get("variables-fixed"), names)
+        variables_sld = sampler.vars_func(sampler_type, sampler_args, values, names)
         out1 = parserSim.prepare_data(sim_type, mesh, templateSld, simulation_wdir, original_name, nameSim,
                                       variables)
         out3 = parserSim.prepare_dom_file(sim_type, templateDom, simulation_wdir, nameSim, mesh, out1)

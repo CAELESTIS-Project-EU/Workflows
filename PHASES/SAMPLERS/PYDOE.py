@@ -4,7 +4,9 @@ import numpy as np
 import importlib
 import re
 
-def sampling(problem, **kwargs):
+@task(returns=1)
+def sampling(sampler_args, **kwargs):
+    problem = sampler_args.get("problem")
     variables = problem.get("variables-sampler")
     ratio = problem.get("ratio_norm")
     n_samples = int(problem.get("n_samples"))
@@ -43,7 +45,8 @@ def sampling(problem, **kwargs):
     samples_final = np.concatenate((sample_uni_extract, sample_norm_extract))
     return samples_final
 
-def get_names(problem):
+def get_names(sampler_args):
+    problem = sampler_args.get("problem")
     variables = problem.get("variables-sampler")
     names = []
     for item in variables:
@@ -51,8 +54,12 @@ def get_names(problem):
             names.append(key)
     return names
 
-def vars_func(data, variables_sampled, variables_fixed, names):
-    calls = data.get("variables-derivate")
+@task(returns=1)
+def vars_func(sampler_args, variables_sampled):
+    names=get_names(sampler_args)
+    problem = sampler_args.get("problem")
+    variables_fixed= problem.get("variables-fixed")
+    calls = problem.get("variables-derivate")
     variables = []
     for i in range(len(variables_sampled)):
         value = {names[i]: variables_sampled[i]}
@@ -99,74 +106,3 @@ def loop(parameter, variables):
         if parameter in variable:
             var = variable.get(parameter)
             return var
-
-
-"""def fie_sampling(problem):
-    n_samples = int(problem.get("n_samples"))
-    prop = problem.get("variables_fie")
-    means = problem.get("means_fie")
-    sigmas = problem.get("sigmas_fie")
-    num_var = problem.get("num_var")
-    design_norm = np.zeros((n_samples, num_var))
-    lhs_sample = lhs(num_var, n_samples)
-    for i in range(num_var):
-        design_norm[:, i] = norm(loc=means[i], scale=sigmas[i]).ppf(lhs_sample[:, i])
-
-    return design_norm"""
-
-"""def vars_func_fie(data, variables_sampled, variables_fixed, names):
-    calls = data.get("variables-derivate")
-    variables = []
-    for i in range(len(variables_sampled)):
-        value = {names[i]: variables_sampled[i]}
-        variables.append(value)
-    for variable_fixed in variables_fixed:
-        variables.append(variable_fixed)
-    for name, value in calls.items():
-        call = value
-        head, tail = call.get("method").split(".")
-        parameters = call.get("parameters")
-        args = []
-        for parameter in parameters:
-            if re.search("eval\(", parameter):
-                s = parameter.replace('eval(', '')
-                s = s.replace(')', '')
-                res = callEval(s, variables)
-                args.append(res)
-            else:
-                args.append(loop(parameter, variables))
-        module = importlib.import_module('PHASES.TRANSFORMATIONS.' + head)
-        c = getattr(module, tail)(*args)
-        outputs = call.get("outputs")
-        for i in range(len(outputs)):def vars_func_fie(data, variables_sampled, variables_fixed, names):
-    calls = data.get("variables-derivate")
-    variables = []
-    for i in range(len(variables_sampled)):
-        value = {names[i]: variables_sampled[i]}
-        variables.append(value)
-    for variable_fixed in variables_fixed:
-        variables.append(variable_fixed)
-    for name, value in calls.items():
-        call = value
-        head, tail = call.get("method").split(".")
-        parameters = call.get("parameters")
-        args = []
-        for parameter in parameters:
-            if re.search("eval\(", parameter):
-                s = parameter.replace('eval(', '')
-                s = s.replace(')', '')
-                res = callEval(s, variables)
-                args.append(res)
-            else:
-                args.append(loop(parameter, variables))
-        module = importlib.import_module('PHASES.TRANSFORMATIONS.' + head)
-        c = getattr(module, tail)(*args)
-        outputs = call.get("outputs")
-        for i in range(len(outputs)):
-            var = {outputs[i]: c[i]}
-            variables.append(var)
-    return variables
-
-            var = {outputs[i]: c[i]}
-            variables.append(var)
-    return variables"""

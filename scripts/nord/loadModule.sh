@@ -15,4 +15,4 @@ module load python/3.9.10
 
 export PYTHONPATH=$DEST_PATH:$PYTHONPATH
 
-export ALYA_PROCS=32
+

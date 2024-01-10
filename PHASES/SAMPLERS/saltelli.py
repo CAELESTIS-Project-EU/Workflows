@@ -2,8 +2,13 @@ from  SALib.sample import saltelli as saltelliSampler
 import sys
 import importlib
 import re
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 
-def sampling(self, problem, **kwargs):
+@task(returns=1)
+
+def sampling( sampler_args, **kwargs):
+    problem = sampler_args.get("problem")
     parameters = kwargs.get("parameters")
     for parameter in parameters:
         if (parameter.get("N") != None):
@@ -14,12 +19,14 @@ def sampling(self, problem, **kwargs):
         param_values = saltelliSampler.sample(problem, N)
         return param_values
 
-def vars_func(data, param_values, variables_fixed):
-    calls = data.get("variables-derivate")
+@task(returns=1)
+def vars_func(sampler_args, param_values, names):
+    problem = sampler_args.get("problem")
+    variables_fixed = problem.get("variables-fixed")
+    calls = problem.get("variables-derivate")
     variables = []
-    names = data.get("variables-sampler")
     for i in range(len(param_values)):
-        value = {(list(names[i])[0]): param_values[i]}
+        value = {names[i]: param_values[i]}
         variables.append(value)
     for variable_fixed in variables_fixed:
         variables.append(variable_fixed)

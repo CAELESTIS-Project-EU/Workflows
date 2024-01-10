@@ -4,6 +4,7 @@ import sys
 import importlib
 import re
 
+@task(returns=1)
 def problem_def(data):
     number = int(data.get("num_vars"))
     names = []
@@ -29,8 +30,9 @@ def problem_def(data):
     }
     return problem
 
-
-def get_names(problem):
+@task(returns=1)
+def get_names(sampler_args):
+    problem = sampler_args.get("problem")
     variables = problem.get("variables-sampler")
     names = []
     for item in variables:
@@ -38,8 +40,9 @@ def get_names(problem):
             names.append(key)
     return names
 
-
-def sampling(problem, **kwargs):
+@task(returns=1)
+def sampling(sampler_args, **kwargs):
+    problem = sampler_args.get("problem")
     parameters= kwargs.get("parameters")
     for parameter in parameters:
         if(parameter.get("r")!=None):
@@ -53,8 +56,12 @@ def sampling(problem, **kwargs):
         param_values = morrisSampler.sample(problem, N=N, optimal_trajectories=r, num_levels=p)
         return param_values
 
-def vars_func(data, param_values, variables_fixed, names):
-    calls = data.get("variables-derivate")
+@task(returns=1)
+def vars_func(sampler_args, param_values):
+    names = get_names(sampler_args)
+    problem = sampler_args.get("problem")
+    variables_fixed = problem.get("variables-fixed")
+    calls = problem.get("variables-derivate")
     variables = []
     for i in range(len(param_values)):
         value = {names[i]: param_values[i]}
