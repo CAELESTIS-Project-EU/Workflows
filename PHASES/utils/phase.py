@@ -9,7 +9,7 @@ def run(phase_info, **kwargs):
     phase_function, phase_args = phase_info
     module_call, function_call = split_string_at_last_dot(phase_function)
     module = importlib.import_module(module_call)
-    return getattr(module, function_call)(*phase_args, **kwargs)
+    return getattr(module, function_call)(phase_args, **kwargs)
 
 
 def split_string_at_last_dot(input_string):
