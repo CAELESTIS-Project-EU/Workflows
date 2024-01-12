@@ -5,8 +5,8 @@ import yaml
 
 @task(returns=1)
 def collect_results(post_process_args):
-    wdir=post_process_args.get2("simulation_wdir")
-    nameSim = post_process_args.get2("nameSim")
+    wdir=get_value(post_process_args, "simulation_wdir")
+    nameSim = get_value(post_process_args, "nameSim")
     y = 0
     path = wdir + "/" + nameSim + "-output.sld.yaml"
     try:
@@ -21,7 +21,7 @@ def collect_results(post_process_args):
 
 @task(y_param=COLLECTION_IN)
 def write_yFile(write_file_args):
-    alya_output = write_file_args.get("output")
+    alya_output = get_value(write_file_args, "alya_output")
     if alya_output is not None:
         result_folder = write_file_args.get("result_folder")
         y_elements = write_file_args.get("y")
@@ -41,3 +41,12 @@ def write_yFile(write_file_args):
             f3.write("Y size: " + str(i))
             f3.close()
     return
+
+
+def get_value(element, param):
+    for item in element:
+        if param in item:
+            problem_dict = item['problem']
+            return problem_dict
+    else:
+        raise ValueError

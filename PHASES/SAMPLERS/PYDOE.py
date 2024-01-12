@@ -7,7 +7,7 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 @task(returns=1)
 def sampling(sampler_args, **kwargs):
-    problem = sampler_args.get("problem")
+    problem= get_value(sampler_args, "problem")
     variables = problem.get("variables-sampler")
     ratio = problem.get("ratio_norm")
     n_samples = int(problem.get("n_samples"))
@@ -45,6 +45,14 @@ def sampling(sampler_args, **kwargs):
     sample_norm_extract = design_norm[0:samples_norm, :]
     samples_final = np.concatenate((sample_uni_extract, sample_norm_extract))
     return samples_final
+
+def get_value(element, param):
+    for item in element:
+        if param in item:
+            problem_dict = item['problem']
+            return problem_dict
+    else:
+        raise ValueError
 
 def get_names(sampler_args):
     problem = sampler_args.get("problem")
