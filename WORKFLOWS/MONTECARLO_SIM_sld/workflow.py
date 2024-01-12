@@ -15,11 +15,11 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
     sample_set = phase.run(args_values.get_values(phases.get("sampler"), yaml_file, data_folder, locals()))
     #sample_set = sampler.sampler(sampler_type, sampler_args)
     sample_set = compss_wait_on(sample_set)
-    original_name=parameters.get("name_simulation")
+    original_name_sim=parameters.get("original_name_sim")
     y = []
     for i in range(sample_set.shape[0]):
         values = sample_set[i, :]
-        name_sim= original_name + "-s" + str(i)
+        name_sim= original_name_sim + "-s" + str(i)
         simulation_wdir = execution_folder + "/SIMULATIONS/" + name_sim + "/"
         results_folder = execution_folder + "/results/"
         if not os.path.isdir(results_folder):
