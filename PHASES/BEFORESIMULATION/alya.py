@@ -25,7 +25,7 @@ def check_template_exist(element, template):
             problem_dict = item['problem']
             return True
     else:
-        raise False
+        return False
 
 @task(returns=1)
 def vars_func(prepare_args, **kwargs):
