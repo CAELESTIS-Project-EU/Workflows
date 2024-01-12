@@ -8,7 +8,7 @@ fi
 
 # Loop through provided key-value pairs and export them
 for var in "$@"; do
-    export "$var"
+    export var:$var
     echo "Exported: $var"
 done
 
