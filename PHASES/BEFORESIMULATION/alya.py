@@ -12,12 +12,20 @@ def prepare_data(prepare_args):
     variables = vars_func(prepare_args)
     print("variables", variables)
     out1 = prepare_sld(prepare_args, variables)
-    if get_value(prepare_args,"template_fie"):
+    if check_template_exist(prepare_args,"template_fie"):
         out2 = prepare_fie(prepare_args, variables, out=out1)
-    if get_value(prepare_args,"template_dom"):
+    if check_template_exist(prepare_args,"template_dom"):
         out3 = prepare_dom(prepare_args, variables, out=out1)
     return
 
+
+def check_template_exist(element, template):
+    for item in element:
+        if template in item:
+            problem_dict = item['problem']
+            return True
+    else:
+        raise False
 
 @task(returns=1)
 def vars_func(prepare_args, **kwargs):
