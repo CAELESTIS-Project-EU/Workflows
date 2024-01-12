@@ -7,7 +7,7 @@ from pycompss.api.parameter import *
 
 
 def prepare_data(prepare_args):
-    print("HEREE")
+    print("HEREE 2")
     print("prepare_args", prepare_args)
     variables = vars_func(prepare_args)
     print("variables", variables)
@@ -65,6 +65,7 @@ def vars_func(prepare_args, **kwargs):
 
 @task(returns=1)
 def prepare_sld(prepare_args, variables, **kwargs):
+    print("prepare_sld 3")
     original_name = get_value(prepare_args, "name_sim")
     template = get_value(prepare_args, "template_sld")
     mesh = get_value(prepare_args, "mesh")
@@ -118,6 +119,7 @@ def prepare_fie(prepare_args, variables, **kwargs):
 
 @task(returns=1)
 def prepare_dom(prepare_args, **kwargs):
+    print("prepare_sld 4")
     template = get_value(prepare_args, "template_dom")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     nameSim = get_value(prepare_args, "nameSim")
@@ -159,6 +161,7 @@ def get_names(prepare_args):
 def copy(src_dir, src_name, tgt_dir, tgt_name):
     src_file = os.path.join(src_dir, src_name)
     tgt_file = os.path.join(tgt_dir, tgt_name)
+    print("COPY "+str(src_file)+" to "+str(tgt_file))
     shutil.copyfile(src_file, tgt_file)
     return
 

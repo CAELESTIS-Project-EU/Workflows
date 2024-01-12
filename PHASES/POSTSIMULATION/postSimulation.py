@@ -14,7 +14,7 @@ def collect(post_process_type, post_process_args, out):
 
 
 @task(y_param=COLLECTION_IN)
-def write_file(write_file_type, write_file_args, **kwargs):
+def write_results(write_file_type, write_file_args, **kwargs):
     module_call, function_call = split_string_at_last_dot(write_file_type)
     module = importlib.import_module(module_call)
     getattr(module, function_call)(write_file_args)

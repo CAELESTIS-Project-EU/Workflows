@@ -10,7 +10,7 @@ def run(phase_info, **kwargs):
     module_call, function_call = split_string_at_last_dot(phase_function)
     module = importlib.import_module(module_call)
     print("HEREE")
-    print("prepare_args", phase_args)
+    print("phase_info", phase_args)
     return getattr(module, function_call)(phase_args, **kwargs)
 
 
