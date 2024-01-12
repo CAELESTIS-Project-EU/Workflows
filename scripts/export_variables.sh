@@ -6,10 +6,11 @@ if [ "$#" -lt 2 ]; then
     exit 1
 fi
 
-# Loop through provided key-value pairs and export them
-for var in "$@"; do
-    export var:$var
-    echo "Exported: $var"
+for arg in "$@"; do
+    IFS='=' read -r key value <<< "$arg"
+    export "$key"="$value"
+    echo "Exported: $key=$value"
 done
+
 
 echo "Export completed."
