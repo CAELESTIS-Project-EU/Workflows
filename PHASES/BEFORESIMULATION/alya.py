@@ -12,9 +12,9 @@ def prepare_data(prepare_args):
     variables = vars_func(prepare_args)
     print("variables", variables)
     out1 = prepare_sld(prepare_args, variables)
-    if prepare_args.get("template_fie"):
+    if get_value(prepare_args,"template_fie"):
         out2 = prepare_fie(prepare_args, variables, out=out1)
-    if prepare_args.get("template_dom"):
+    if get_value(prepare_args,"template_dom"):
         out3 = prepare_dom(prepare_args, variables, out=out1)
     return
 
