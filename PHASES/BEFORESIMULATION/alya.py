@@ -66,7 +66,7 @@ def vars_func(prepare_args, **kwargs):
 #@task(returns=1)
 def prepare_sld(prepare_args, variables, **kwargs):
     print("prepare_sld 3")
-    original_name = get_value(prepare_args, "name_sim")
+    original_name_sim = get_value(prepare_args, "original_name_sim")
     template = get_value(prepare_args, "template_sld")
     mesh = get_value(prepare_args, "mesh")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
@@ -80,7 +80,7 @@ def prepare_sld(prepare_args, variables, **kwargs):
     if not os.path.isdir(simulation_wdir):
         os.makedirs(simulation_wdir)
 
-    create_env_simulations(mesh, simulation_wdir, original_name, name_sim)
+    create_env_simulations(mesh, simulation_wdir, original_name_sim, name_sim)
     simulation = simulation_wdir + "/" + name_sim + ".sld.dat"
     print("simulation ", simulation)
     with open(simulation, 'w') as f2:
