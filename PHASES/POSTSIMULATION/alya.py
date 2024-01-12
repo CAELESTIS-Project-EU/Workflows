@@ -20,7 +20,7 @@ def collect_results(post_process_args):
     return y
 
 @task(y_param=COLLECTION_IN)
-def write_yFile(write_file_args):
+def write_results(write_file_args):
     alya_output = get_value(write_file_args, "alya_output")
     if alya_output is not None:
         result_folder = write_file_args.get("result_folder")
