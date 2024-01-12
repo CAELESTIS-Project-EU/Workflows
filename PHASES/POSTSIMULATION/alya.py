@@ -4,7 +4,7 @@ from pycompss.api.parameter import *
 import yaml
 
 @task(returns=1)
-def collect_results(post_process_args):
+def collect_results(post_process_args, **kwargs):
     wdir=get_value(post_process_args, "simulation_wdir")
     name_sim = get_value(post_process_args, "name_sim")
     y = 0
@@ -20,7 +20,7 @@ def collect_results(post_process_args):
     return y
 
 @task(y_param=COLLECTION_IN)
-def write_results(write_file_args):
+def write_results(write_file_args, **kwargs):
     alya_output = get_value(write_file_args, "alya_output")
     if alya_output is not None:
         result_folder = write_file_args.get("result_folder")
