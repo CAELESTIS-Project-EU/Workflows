@@ -40,6 +40,6 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
         # new_y = postSimulation.collect(post_process_type, post_process_args, out=out)
         y.append(new_y)
     # write_file_type, write_file_args = get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals())
-    phase.run(args_values.get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()))
+    phase.run(args_values.get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()), out=y)
     # postSimulation.write_file(write_file_type, write_file_args)
     return
