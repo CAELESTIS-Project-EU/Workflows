@@ -63,7 +63,7 @@ def vars_func(prepare_args, **kwargs):
     return variables
 
 
-#@task(returns=1)
+@task(returns=1)
 def prepare_sld(prepare_args, variables, **kwargs):
     print("prepare_sld 3")
     original_name_sim = get_value(prepare_args, "original_name_sim")
@@ -96,7 +96,7 @@ def prepare_sld(prepare_args, variables, **kwargs):
     return
 
 
-#@task(returns=1)
+@task(returns=1)
 def prepare_fie(prepare_args, variables, **kwargs):
     template = get_value(prepare_args, "template_fie")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
@@ -118,7 +118,7 @@ def prepare_fie(prepare_args, variables, **kwargs):
     return
 
 
-#@task(returns=1)
+@task(returns=1)
 def prepare_dom(prepare_args, **kwargs):
     print("prepare_sld 4")
     template = get_value(prepare_args, "template_dom")
