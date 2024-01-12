@@ -29,10 +29,8 @@ def check_template_exist(element, template):
 @task(returns=1)
 def vars_func(prepare_args, **kwargs):
     variables_sampled=get_value(prepare_args, "values")
-    #variables_sampled = prepare_args.get("values")
     names = get_names(prepare_args)
     problem = get_value(prepare_args,"problem")
-    #problem = prepare_args.get("problem")
     variables_fixed = problem.get("variables-fixed")
     calls = problem.get("variables-derivate")
     variables = []
@@ -71,11 +69,6 @@ def prepare_sld(prepare_args, variables, **kwargs):
     mesh = get_value(prepare_args, "mesh")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     name_sim = get_value(prepare_args,"name_sim")
-    """original_name = prepare_args.get("name_sim")
-    template = prepare_args.get("template_sld")
-    mesh = prepare_args.get("mesh")
-    simulation_wdir = prepare_args.get("simulation_wdir")
-    name_sim = prepare_args.get("name_sim")"""
     # simulation_wdir = execution_folder + "/SIMULATIONS/" + original_name + "-s" + str(i) + "/"
     if not os.path.isdir(simulation_wdir):
         os.makedirs(simulation_wdir)
@@ -101,9 +94,6 @@ def prepare_fie(prepare_args, variables, **kwargs):
     template = get_value(prepare_args, "template_fie")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     name_sim = get_value(prepare_args, "name_sim")
-    """template = prepare_args.get("template_dom")
-    simulation_wdir = prepare_args.get("simulation_wdir")
-    name_sim = prepare_args.get("name_sim")"""
     simulation = simulation_wdir + "/" + name_sim + ".fie.dat"
     with open(simulation, 'w') as f2:
         with open(template, 'r') as f:
@@ -125,10 +115,6 @@ def prepare_dom(prepare_args, **kwargs):
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     name_sim = get_value(prepare_args, "name_sim")
     mesh = get_value(prepare_args, "mesh")
-    """template = prepare_args.get("template_dom")
-    mesh = prepare_args.get("mesh")
-    simulation_wdir = prepare_args.get("simulation_wdir")
-    name_sim = prepare_args.get("name_sim")"""
     simulation = simulation_wdir + "/" + name_sim + ".dom.dat"
     with open(simulation, 'w') as f2:
         with open(template, 'r') as f:
@@ -150,7 +136,7 @@ def get_value(element, param):
 
 
 def get_names(prepare_args):
-    problem = prepare_args.get("problem")
+    problem = get_value(prepare_args, "problem")
     variables = problem.get("variables-sampler")
     names = []
     for item in variables:
