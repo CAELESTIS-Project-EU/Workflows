@@ -31,7 +31,7 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
 
         # sim_type, sim_args = get_values(phases.get("sim"), yaml_file, data_folder, locals())
         # out = sim.run_sim(sim_type, sim_args, out=out1)
-        #sim_out = phase.run(args_values.get_values(phases.get("sim"), yaml_file, data_folder, locals()),out=prepare_out)
+        sim_out = phase.run(args_values.get_values(phases.get("sim"), yaml_file, data_folder, locals()),out=prepare_out)
         # post_process_type, post_process_args = get_values(phases.get("post_process"), yaml_file, data_folder,
         # locals())
         #new_y = phase.run(args_values.get_values(phases.get("post_process"), yaml_file, data_folder, locals()),out=sim_out)
