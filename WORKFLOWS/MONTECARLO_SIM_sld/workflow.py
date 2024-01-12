@@ -31,11 +31,9 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
 
         # sim_type, sim_args = get_values(phases.get("sim"), yaml_file, data_folder, locals())
         # out = sim.run_sim(sim_type, sim_args, out=out1)
-        sim_out = phase.run(args_values.get_values(phases.get("sim"), yaml_file, data_folder, locals()),
-                            out=prepare_out)
+        sim_out = phase.run(args_values.get_values(phases.get("sim"), yaml_file, data_folder, locals()),out=prepare_out)
         # post_process_type, post_process_args = get_values(phases.get("post_process"), yaml_file, data_folder, locals())
-        new_y = phase.run(args_values.get_values(phases.get("post_process"), yaml_file, data_folder, locals()),
-                          out=sim_out)
+        new_y = phase.run(args_values.get_values(phases.get("post_process"), yaml_file, data_folder, locals()),out=sim_out)
         # new_y = postSimulation.collect(post_process_type, post_process_args, out=out)
         y.append(new_y)
     # write_file_type, write_file_args = get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals())
