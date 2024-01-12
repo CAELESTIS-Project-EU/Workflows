@@ -12,11 +12,13 @@ def prepare_data(prepare_args):
     variables = vars_func(prepare_args)
     print("variables", variables)
     out1 = prepare_sld(prepare_args, variables)
-    if check_template_exist(prepare_args,"template_fie"):
+    bool_temlate_fie=check_template_exist(prepare_args,"template_fie")
+    bool_temlate_dom=check_template_exist(prepare_args,"template_dom")
+    if bool_temlate_fie:
         out2 = prepare_fie(prepare_args, variables, out=out1)
-    if check_template_exist(prepare_args,"template_dom"):
+    if bool_temlate_dom:
         out3 = prepare_dom(prepare_args, out=out1)
-    return True
+    return out3
 
 
 def check_template_exist(element, template):
