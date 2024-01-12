@@ -6,9 +6,9 @@ import yaml
 @task(returns=1)
 def collect_results(post_process_args):
     wdir=get_value(post_process_args, "simulation_wdir")
-    nameSim = get_value(post_process_args, "nameSim")
+    name_sim = get_value(post_process_args, "name_sim")
     y = 0
-    path = wdir + "/" + nameSim + "-output.sld.yaml"
+    path = wdir + "/" + name_sim + "-output.sld.yaml"
     try:
         f = open(path)
         data = yaml.load(f, Loader=yaml.FullLoader)

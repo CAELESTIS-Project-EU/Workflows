@@ -70,18 +70,18 @@ def prepare_sld(prepare_args, variables, **kwargs):
     template = get_value(prepare_args, "template_sld")
     mesh = get_value(prepare_args, "mesh")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
-    nameSim = get_value(prepare_args,"nameSim")
+    name_sim = get_value(prepare_args,"name_sim")
     """original_name = prepare_args.get("name_sim")
     template = prepare_args.get("template_sld")
     mesh = prepare_args.get("mesh")
     simulation_wdir = prepare_args.get("simulation_wdir")
-    nameSim = prepare_args.get("nameSim")"""
+    name_sim = prepare_args.get("name_sim")"""
     # simulation_wdir = execution_folder + "/SIMULATIONS/" + original_name + "-s" + str(i) + "/"
     if not os.path.isdir(simulation_wdir):
         os.makedirs(simulation_wdir)
 
-    create_env_simulations(mesh, simulation_wdir, original_name, nameSim)
-    simulation = simulation_wdir + "/" + nameSim + ".sld.dat"
+    create_env_simulations(mesh, simulation_wdir, original_name, name_sim)
+    simulation = simulation_wdir + "/" + name_sim + ".sld.dat"
     print("simulation ", simulation)
     with open(simulation, 'w') as f2:
         with open(template, 'r') as f:
@@ -100,11 +100,11 @@ def prepare_sld(prepare_args, variables, **kwargs):
 def prepare_fie(prepare_args, variables, **kwargs):
     template = get_value(prepare_args, "template_fie")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
-    nameSim = get_value(prepare_args, "nameSim")
+    name_sim = get_value(prepare_args, "name_sim")
     """template = prepare_args.get("template_dom")
     simulation_wdir = prepare_args.get("simulation_wdir")
-    nameSim = prepare_args.get("nameSim")"""
-    simulation = simulation_wdir + "/" + nameSim + ".fie.dat"
+    name_sim = prepare_args.get("name_sim")"""
+    simulation = simulation_wdir + "/" + name_sim + ".fie.dat"
     with open(simulation, 'w') as f2:
         with open(template, 'r') as f:
             filedata = f.read()
@@ -123,17 +123,17 @@ def prepare_dom(prepare_args, **kwargs):
     print("prepare_sld 4")
     template = get_value(prepare_args, "template_dom")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
-    nameSim = get_value(prepare_args, "nameSim")
+    name_sim = get_value(prepare_args, "name_sim")
     mesh = get_value(prepare_args, "mesh")
     """template = prepare_args.get("template_dom")
     mesh = prepare_args.get("mesh")
     simulation_wdir = prepare_args.get("simulation_wdir")
-    nameSim = prepare_args.get("nameSim")"""
-    simulation = simulation_wdir + "/" + nameSim + ".dom.dat"
+    name_sim = prepare_args.get("name_sim")"""
+    simulation = simulation_wdir + "/" + name_sim + ".dom.dat"
     with open(simulation, 'w') as f2:
         with open(template, 'r') as f:
             filedata = f.read()
-            filedata = filedata.replace("%sim_num%", str(nameSim))
+            filedata = filedata.replace("%sim_num%", str(name_sim))
             filedata = filedata.replace("%data_folder%", str(mesh))
             f2.write(filedata)
             f.close()
@@ -167,12 +167,12 @@ def copy(src_dir, src_name, tgt_dir, tgt_name):
     return
 
 
-def create_env_simulations(mesh, sim_dir, original_name, nameSim):
-    copy(mesh, original_name + ".ker.dat", sim_dir, nameSim + ".ker.dat")
-    copy(mesh, original_name + ".dat", sim_dir, nameSim + ".dat")
-    copy(mesh, original_name + ".dom.dat", sim_dir, nameSim + ".dom.dat")
-    copy(mesh, original_name + ".fie.dat", sim_dir, nameSim + ".fie.dat")
-    copy(mesh, original_name + ".post.alyadat", sim_dir, nameSim + ".post.alyadat")
+def create_env_simulations(mesh, sim_dir, original_name, name_sim):
+    copy(mesh, original_name + ".ker.dat", sim_dir, name_sim + ".ker.dat")
+    copy(mesh, original_name + ".dat", sim_dir, name_sim + ".dat")
+    copy(mesh, original_name + ".dom.dat", sim_dir, name_sim + ".dom.dat")
+    copy(mesh, original_name + ".fie.dat", sim_dir, name_sim + ".fie.dat")
+    copy(mesh, original_name + ".post.alyadat", sim_dir, name_sim + ".post.alyadat")
     return
 
 
