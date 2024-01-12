@@ -22,7 +22,6 @@ def prepare_data(prepare_args):
 def check_template_exist(element, template):
     for item in element:
         if template in item:
-            problem_dict = item['problem']
             return True
     else:
         return False
@@ -141,7 +140,7 @@ def prepare_dom(prepare_args, **kwargs):
 def get_value(element, param):
     for item in element:
         if param in item:
-            problem_dict = item['problem']
+            problem_dict = item[param]
             return problem_dict
     else:
         raise ValueError

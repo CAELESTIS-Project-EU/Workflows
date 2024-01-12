@@ -53,7 +53,7 @@ def sampling(sampler_args, **kwargs):
 def get_value(element, param):
     for item in element:
         if param in item:
-            problem_dict = item['problem']
+            problem_dict = item[param]
             return problem_dict
     else:
         raise ValueError
