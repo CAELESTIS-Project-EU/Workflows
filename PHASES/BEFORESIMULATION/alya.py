@@ -15,7 +15,7 @@ def prepare_data(prepare_args):
     if check_template_exist(prepare_args,"template_fie"):
         out2 = prepare_fie(prepare_args, variables, out=out1)
     if check_template_exist(prepare_args,"template_dom"):
-        out3 = prepare_dom(prepare_args, variables, out=out1)
+        out3 = prepare_dom(prepare_args, out=out1)
     return
 
 
