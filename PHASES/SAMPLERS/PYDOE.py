@@ -51,10 +51,9 @@ def sampling(sampler_args, **kwargs):
 def get_value(element, param):
     for item in element:
         if param in item:
-            problem_dict = item[param]
-            return problem_dict
+            return item[param]
     else:
-        raise ValueError
+        raise ValueError(f"The key '{param}' was not found in the dictionary.")
 
 def get_names(sampler_args):
     problem = sampler_args.get("problem")

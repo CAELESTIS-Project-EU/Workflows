@@ -19,8 +19,8 @@ def collect_results(post_process_args, **kwargs):
         return 0
     return y
 
-@task(y_param=COLLECTION_IN, returns=1)
-def write_results(write_file_args, **kwargs):
+@task(y=COLLECTION_IN, returns=1)
+def write_results(write_file_args,  **kwargs):
     alya_output = get_value(write_file_args, "alya_output")
     if alya_output is not None:
         results_folder =get_value(write_file_args, "results_folder")
@@ -46,7 +46,6 @@ def write_results(write_file_args, **kwargs):
 def get_value(element, param):
     for item in element:
         if param in item:
-            problem_dict = item[param]
-            return problem_dict
+            return item[param]
     else:
-        raise ValueError
+        raise ValueError(f"The key '{param}' was not found in the dictionary.")

@@ -109,7 +109,6 @@ def loop(parameter, variables):
 def get_value(element, param):
     for item in element:
         if param in item:
-            problem_dict = item[param]
-            return problem_dict
+            return item[param]
     else:
-        raise ValueError
+        raise ValueError(f"The key '{param}' was not found in the dictionary.")
