@@ -27,7 +27,7 @@ def check_template_exist(element, template):
 
 
 @task(returns=1)
-def vars_func(prepare_args, **kwargs):
+def vars_func(prepare_args):
     variables_sampled=get_value(prepare_args, "values")
     names = get_names(prepare_args)
     problem = get_value(prepare_args,"problem")
