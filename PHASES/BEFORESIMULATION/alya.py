@@ -20,12 +20,11 @@ def prepare_data(**kwargs):
 
 
 def check_template_exist(element, template):
-    for item in element:
-        if template in item:
-            return True
+    if template in element:
+        return True
     else:
         return False
-
+    
 @task(returns=1)
 def vars_func(prepare_args, **kwargs):
     variables_sampled=get_value(prepare_args, "values")
