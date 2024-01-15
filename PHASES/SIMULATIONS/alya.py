@@ -9,10 +9,7 @@ def run_simulation(name_sim, simulation_wdir, **kwargs):
     return
 
 
-def simulation(**kwargs):
-    sim_args = kwargs.get("args")
-    name_sim = get_value(sim_args, "name_sim")
-    simulation_wdir = get_value(sim_args, "simulation_wdir")
+def simulation(name_sim, simulation_wdir, **kwargs):
     run_simulation(name_sim, simulation_wdir, **kwargs)
     return
 
