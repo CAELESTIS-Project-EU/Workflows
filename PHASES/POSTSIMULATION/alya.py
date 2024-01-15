@@ -5,12 +5,9 @@ import yaml
 
 
 @task(returns=1)
-def collect_results(**kwargs):
-    post_process_args = kwargs.get("args")
-    wdir = get_value(post_process_args, "simulation_wdir")
-    name_sim = get_value(post_process_args, "name_sim")
+def collect_results(simulation_wdir, name_sim, **kwargs):
     y = 0
-    path = wdir + "/" + name_sim + "-output.sld.yaml"
+    path = simulation_wdir + "/" + name_sim + "-output.sld.yaml"
     try:
         f = open(path)
         data = yaml.load(f, Loader=yaml.FullLoader)
