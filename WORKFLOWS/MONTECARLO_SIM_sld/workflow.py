@@ -23,13 +23,16 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
         results_folder = execution_folder + "/results/"
         if not os.path.isdir(results_folder):
             os.makedirs(results_folder)
-        print("PREPARE ARGS")
-        print(args_values.get_values(phases.get("prepare_data"), yaml_file, data_folder, locals()))
+
         prepare_out = phase.run(args_values.get_values(phases.get("prepare_data"), yaml_file, data_folder, locals()))
         sim_out = phase.run(args_values.get_values(phases.get("sim"), yaml_file, data_folder, locals()),
                             out=prepare_out)
+        print("post_process collect ARGS")
+        print(args_values.get_values(phases.get("post_process"), yaml_file, data_folder, locals()))
         new_y = phase.run(args_values.get_values(phases.get("post_process"), yaml_file, data_folder, locals()),
                           out=sim_out)
         y.append(new_y)
+    print("post_process  write ARGS")
+    print(args_values.get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()))
     phase.run(args_values.get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()), y_param=y)
     return

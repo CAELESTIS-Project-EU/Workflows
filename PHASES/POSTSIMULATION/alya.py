@@ -1,13 +1,17 @@
 import os
+
+import osname_sim
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 import yaml
 
+"""@task(returns=1)"""
 
-@task(returns=1)
+
 def collect_results(simulation_wdir, name_sim, **kwargs):
     y = 0
-    path = simulation_wdir + "/" + name_sim + "-output.sld.yaml"
+    path = os.path.join(simulation_wdir, name_sim + "-output.sld.yaml")
+    # path = simulation_wdir + "/" + name_sim + "-output.sld.yaml"
     try:
         f = open(path)
         data = yaml.load(f, Loader=yaml.FullLoader)
@@ -19,7 +23,9 @@ def collect_results(simulation_wdir, name_sim, **kwargs):
     return y
 
 
-@task(y=COLLECTION_IN, returns=1)
+"""@task(y=COLLECTION_IN, returns=1)"""
+
+
 def write_results(y, alya_output, results_folder, **kwargs):
     """write_file_args = kwargs.get("args")
     alya_output = get_value(write_file_args, "alya_output")"""
