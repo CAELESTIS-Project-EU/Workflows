@@ -23,7 +23,7 @@ def collect_results(post_process_args, **kwargs):
 def write_results(write_file_args, **kwargs):
     alya_output = get_value(write_file_args, "alya_output")
     if alya_output is not None:
-        result_folder =get_value(write_file_args, "result_folder")
+        result_folder =get_value(write_file_args, "results_folder")
         y_elements = get_value(write_file_args, "y")
         y_file = os.path.join(result_folder, alya_output)
         with open(y_file, 'w') as f3:
