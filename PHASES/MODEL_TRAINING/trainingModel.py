@@ -12,7 +12,7 @@ def training(x, y, training, **kwargs):
     return getattr(module, 'training')(x, y, training, **kwargs)
 
 
-@task()
+@task(returns=1)
 def write_file(output_folder, res, **kwargs):
     outputs = kwargs.get("outputs")
     model_output = outputs.get("model-output")

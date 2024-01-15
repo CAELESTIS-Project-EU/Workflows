@@ -1,4 +1,3 @@
-from PHASES.SAMPLERS import sampler
 from PHASES.utils import args_values, phase
 from pycompss.api.api import compss_wait_on
 import os
