@@ -7,8 +7,6 @@ def execution(yaml_file, execution_folder, data_folder, parameters):
     return
 
 def workflow_execution(phases, yaml_file, execution_folder, data_folder, parameters):
-    #x = np.load(training_inputs.get("x"))
-    #y = np.load(training_inputs.get("y"))
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)

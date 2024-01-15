@@ -15,8 +15,6 @@ def gen_model(train_args, **kwargs):
     kernel = get_value(train_args, "kernel")
     results_folder = get_value(train_args, "results_folder")
     gpr = GaussianProcessRegressor()
-    # gpr.kernel = gen_parameters(kernel_type, parameters=parameters)
-    # gpr.random_state = 0
     try:
         alpha = float(get_value(train_args, "alpha"))
     except:
