@@ -23,6 +23,8 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
         results_folder = execution_folder + "/results/"
         if not os.path.isdir(results_folder):
             os.makedirs(results_folder)
+        print("PREPARE ARGS")
+        print(args_values.get_values(phases.get("prepare_data"), yaml_file, data_folder, locals()))
         prepare_out = phase.run(args_values.get_values(phases.get("prepare_data"), yaml_file, data_folder, locals()))
         sim_out = phase.run(args_values.get_values(phases.get("sim"), yaml_file, data_folder, locals()),
                             out=prepare_out)
