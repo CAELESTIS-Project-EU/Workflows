@@ -8,11 +8,11 @@ import numpy as np
 
 @task(returns=1)
 def training(**kwargs):
-    train_args = kwargs.get("args")
-    return gen_model(train_args, **kwargs)
+    train_args = kwargs
+    return gen_model(train_args)
 
 
-def gen_model(train_args, **kwargs):
+def gen_model(train_args):
     kernel = get_value(train_args, "kernel")
     results_folder = get_value(train_args, "results_folder")
     gpr = GaussianProcessRegressor()

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 @task(returns=1)
 def sensitivity(**kwargs):
-    sens_args = kwargs.get("args")
+    sens_args = kwargs
     y = get_value(sens_args, "y")
     y = np.array(y, dtype=np.float64)
     sample_set = get_value(sens_args, "sample_set")

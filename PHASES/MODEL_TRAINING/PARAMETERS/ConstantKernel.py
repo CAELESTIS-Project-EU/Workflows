@@ -1,7 +1,8 @@
 from sklearn.gaussian_process.kernels import ConstantKernel, DotProduct
 
 @task(returns=1)
-def gen_param(kernel_args, **kwargs):
+def gen_param(**kwargs):
+    kernel_args= kwargs
     constant_value = float(get_value(kernel_args, "constant_value"))
     sigma0 = float(get_value(kernel_args, "sigma0"))
     # Extracting constant_bounds

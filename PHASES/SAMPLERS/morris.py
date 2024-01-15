@@ -6,9 +6,7 @@ import re
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 @task(returns=1)
-def problem_def(**kwargs):
-    sampler_args = kwargs.get("args")
-    problem= get_value(sampler_args, "problem")
+def problem_def(problem,**kwargs):
     number = int(problem.get("num_vars"))
     names = []
     covs = []
@@ -43,10 +41,8 @@ def get_names(sampler_args):
     return names
 
 @task(returns=1)
-def sampling(sampler_args, **kwargs):
-    probDef= problem_def(sampler_args, **kwargs)
-    r= get_value(sampler_args, "r")
-    p= get_value(sampler_args, "p")
+def sampling(problem, **kwargs):
+    probDef= problem_def(problem, p, r, **kwargs)
     if (r == None or p==None):
         sys.exit("r or p parameters for Morris's sempler is missing")
     else:
