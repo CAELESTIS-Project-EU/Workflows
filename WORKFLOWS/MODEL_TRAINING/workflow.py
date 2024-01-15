@@ -11,12 +11,12 @@ def execution(yaml_file, execution_folder, data_folder, parameters):
     return
 
 def workflow_execution(phases, yaml_file, execution_folder, data_folder, parameters):
-    sample_set = phase.run(args_values.get_values(phases.get("sampler"), yaml_file, data_folder, locals()))
-    sample_set = compss_wait_on(sample_set)
+    x = phase.run(args_values.get_values(phases.get("sampler"), yaml_file, data_folder, locals()))
+    x = compss_wait_on(x)
     original_name_sim = parameters.get("original_name_sim")
     y = []
-    for i in range(sample_set.shape[0]):
-        values = sample_set[i, :]
+    for i in range(x.shape[0]):
+        values = x[i, :]
         name_sim = original_name_sim + "-s" + str(i)
         simulation_wdir = execution_folder + "/SIMULATIONS/" + name_sim + "/"
         results_folder = execution_folder + "/results/"

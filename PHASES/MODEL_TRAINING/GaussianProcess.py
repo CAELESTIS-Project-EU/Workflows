@@ -1,22 +1,19 @@
 import pickle
-
 from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.datasets import make_regression
-from pycompss.api.api import compss_wait_on
 from dislib.model_selection import GridSearchCV
 import dislib as ds
-import importlib
 import pandas as pd
 import numpy as np
-from sklearn.metrics import mean_squared_error
+
 
 @task(returns=1)
 def training(train_args, **kwargs):
     return gen_model(train_args, **kwargs)
 
+
 def gen_model(train_args, **kwargs):
     kernel = get_value(train_args, "kernel")
-    results_folder=get_value(train_args, "results_folder")
+    results_folder = get_value(train_args, "results_folder")
     gpr = GaussianProcessRegressor()
     # gpr.kernel = gen_parameters(kernel_type, parameters=parameters)
     # gpr.random_state = 0
@@ -24,8 +21,12 @@ def gen_model(train_args, **kwargs):
         alpha = float(get_value(train_args, "alpha"))
     except:
         alpha = float("1e-10")
-    x= np.load(get_value(train_args, "x"))
-    y = np.load(get_value(train_args, "y"))
+    x = get_value(train_args, "x")
+    if isinstance(x, str):
+        x = np.load(x)
+    y = get_value(train_args, "y")
+    if isinstance(x, str):
+        y = np.load(y)
     params = {"kernel": kernel, "random_state": [0], "alpha": [alpha]}
     # use grid search with your training data (it might take a while, be patient)
     searcher = GridSearchCV(gpr, params, cv=5)
@@ -64,8 +65,9 @@ def write(file, res):
         f3.close()
     return
 
-def save_model(output_folder, model,train_args, **kwargs):
-    model_dump= get_value(train_args, "model_dump")
+
+def save_model(output_folder, model, train_args, **kwargs):
+    model_dump = get_value(train_args, "model_dump")
     # Initialize file_path to None
     file_path = None
     # Iterate over each dictionary in the list
@@ -84,6 +86,7 @@ def save_model(output_folder, model,train_args, **kwargs):
 def save(model, file):
     pickle.dump(model, open(file, 'wb'))
     return
+
 
 def get_value(element, param):
     for item in element:
