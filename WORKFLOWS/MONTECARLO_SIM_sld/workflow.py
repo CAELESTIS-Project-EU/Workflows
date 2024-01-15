@@ -28,5 +28,7 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
         new_y = phase.run(args_values.get_values(phases.get("post_process"), yaml_file, data_folder, locals()),
                           out=sim_out)
         y.append(new_y)
+    print("PARAMS POST")
+    print(args_values.get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()))
     phase.run(args_values.get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()), out=y)
     return
