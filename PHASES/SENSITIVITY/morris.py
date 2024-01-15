@@ -1,23 +1,13 @@
+import os
+
 import numpy as np
 from SALib.analyze import morris as morrisAnalyze
 import re
 import matplotlib.pyplot as plt
 
-def sensitivity(problem, y, param_values, output_file, **kwargs):
-    y = np.array(y, dtype=np.float64)
-    param_values = np.array(param_values, dtype=np.float64)
-    paramSampling = kwargs.get("paramSampling")
-    parameters = paramSampling.get("parameters")
-    p=None
-    for parameter in parameters:
-        if(parameter.get("p")!=None):
-            p= parameter.get("p")
-            print("P value=", p)
-    Si = morrisAnalyze.analyze(problem, X=param_values, Y=y, num_levels=p, print_to_console=True)
-    return Si
-    #write_outputFile(output_file, Si, kwargs.get("outputs"))
 
 
+@task(returns=1)
 def sensitivity(sens_args, **kwargs):
     y = get_value(sens_args, "y")
     y = np.array(y, dtype=np.float64)
@@ -26,6 +16,7 @@ def sensitivity(sens_args, **kwargs):
     problemDef = get_value(sens_args, "problemDef")
     p = get_value(sens_args, "p")
     Si = morrisAnalyze.analyze(problemDef, X=param_values, Y=y, num_levels=p, print_to_console=True)
+    write_output(sens_args,Si)
     return Si
 
 def get_value(element, param):
@@ -36,7 +27,18 @@ def get_value(element, param):
     else:
         raise ValueError
 
-
+def write_output(sens_args, Si):
+    filter_outputs = get_value(sens_args, "filter-outputs")
+    result_folder = get_value(sens_args, "results_folder")
+    sesitivity_report = get_value(sens_args, "sesitivity_report")
+    output_file = os.path.join(result_folder, sesitivity_report)
+    with open(output_file, 'w') as f2:
+        f2.write("OUTPUTS \n")
+        for output in filter_outputs:
+            result = str(output) + ": " + str(Si.get(output)) + "\n"
+            f2.write(result)
+        f2.close()
+    return
 """
 def generate_plot(result_path, output_name):
     # Path to the results.txt file

@@ -19,7 +19,7 @@ def collect_results(post_process_args, **kwargs):
         return 0
     return y
 
-@task(y_param=COLLECTION_IN)
+@task(y_param=COLLECTION_IN, returns=1)
 def write_results(write_file_args, **kwargs):
     alya_output = get_value(write_file_args, "alya_output")
     if alya_output is not None:
