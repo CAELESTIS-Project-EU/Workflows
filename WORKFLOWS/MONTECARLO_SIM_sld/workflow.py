@@ -10,6 +10,8 @@ def execution(yaml_file, execution_folder, data_folder, parameters):
 
 
 def workflow_execution(phases, yaml_file, execution_folder, data_folder, parameters):
+    print("SAMPLER ARGS")
+    print(args_values.get_values(phases.get("sampler"), yaml_file, data_folder, locals()))
     sample_set = phase.run(args_values.get_values(phases.get("sampler"), yaml_file, data_folder, locals()))
     sample_set = compss_wait_on(sample_set)
     original_name_sim = parameters.get("original_name_sim")
