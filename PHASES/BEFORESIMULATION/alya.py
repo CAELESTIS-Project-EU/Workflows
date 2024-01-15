@@ -6,7 +6,8 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 
 
-def prepare_data(prepare_args):
+def prepare_data(**kwargs):
+    prepare_args = kwargs.get("args")
     variables = vars_func(prepare_args)
     out1 = prepare_sld(prepare_args, variables)
     bool_temlate_fie=check_template_exist(prepare_args,"template_fie")

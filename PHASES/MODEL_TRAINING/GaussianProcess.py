@@ -7,7 +7,8 @@ import numpy as np
 
 
 @task(returns=1)
-def training(train_args, **kwargs):
+def training(**kwargs):
+    train_args = kwargs.get("args")
     return gen_model(train_args, **kwargs)
 
 

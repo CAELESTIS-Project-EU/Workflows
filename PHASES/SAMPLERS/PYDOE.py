@@ -6,7 +6,8 @@ import re
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 @task(returns=1)
-def sampling(sampler_args, **kwargs):
+def sampling(**kwargs):
+    sampler_args=kwargs.get("args")
     problem= get_value(sampler_args, "problem")
     variables = problem.get("variables-sampler")
     ratio = problem.get("ratio_norm")
@@ -65,7 +66,7 @@ def get_names(sampler_args):
     return names
 
 @task(returns=1)
-def vars_func(sampler_args, variables_sampled):
+def vars_func(sampler_args, variables_sampled, **kwargs):
     names=get_names(sampler_args)
     problem = sampler_args.get("problem")
     variables_fixed= problem.get("variables-fixed")
