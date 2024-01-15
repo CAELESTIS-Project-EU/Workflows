@@ -3,10 +3,11 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 import yaml
 
+
 @task(returns=1)
 def collect_results(**kwargs):
     post_process_args = kwargs.get("args")
-    wdir=get_value(post_process_args, "simulation_wdir")
+    wdir = get_value(post_process_args, "simulation_wdir")
     name_sim = get_value(post_process_args, "name_sim")
     y = 0
     path = wdir + "/" + name_sim + "-output.sld.yaml"
@@ -20,12 +21,13 @@ def collect_results(**kwargs):
         return 0
     return y
 
+
 @task(y=COLLECTION_IN, returns=1)
 def write_results(**kwargs):
     write_file_args = kwargs.get("args")
     alya_output = get_value(write_file_args, "alya_output")
     if alya_output is not None:
-        results_folder =get_value(write_file_args, "results_folder")
+        results_folder = get_value(write_file_args, "results_folder")
         y_elements = get_value(write_file_args, "y")
         y_file = os.path.join(results_folder, alya_output)
         with open(y_file, 'w') as f3:
@@ -46,8 +48,7 @@ def write_results(**kwargs):
 
 
 def get_value(element, param):
-    for item in element:
-        if param in item:
-            return item[param]
+    if element.get(param, {}):
+        return element[param]
     else:
         raise ValueError(f"The key '{param}' was not found in the dictionary.")

@@ -19,9 +19,7 @@ def gen_param(kernel_args, **kwargs):
 
 
 def get_value(element, param):
-    for item in element:
-        if param in item:
-            problem_dict = item[param]
-            return problem_dict
+    if element.get(param, {}):
+        return element[param]
     else:
-        raise ValueError
+        raise ValueError(f"The key '{param}' was not found in the dictionary.")

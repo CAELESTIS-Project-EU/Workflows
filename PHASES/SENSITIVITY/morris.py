@@ -21,9 +21,8 @@ def sensitivity(**kwargs):
     return Si
 
 def get_value(element, param):
-    for item in element:
-        if param in item:
-            return item[param]
+    if element.get(param, {}):
+        return element[param]
     else:
         raise ValueError(f"The key '{param}' was not found in the dictionary.")
 def write_output(sens_args, Si):
