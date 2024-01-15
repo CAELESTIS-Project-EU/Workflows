@@ -7,14 +7,14 @@ from pycompss.api.parameter import *
 
 
 def prepare_data(**kwargs):
-    prepare_args = kwargs.get("args")
+    prepare_args = kwargs
     variables = vars_func(prepare_args)
     out1 = prepare_sld(prepare_args, variables)
-    bool_temlate_fie=check_template_exist(prepare_args,"template_fie")
-    bool_temlate_dom=check_template_exist(prepare_args,"template_dom")
-    if bool_temlate_fie:
+    bool_template_fie=check_template_exist(prepare_args,"template_fie")
+    bool_template_dom=check_template_exist(prepare_args,"template_dom")
+    if bool_template_fie:
         out2 = prepare_fie(prepare_args, variables, out=out1)
-    if bool_temlate_dom:
+    if bool_template_dom:
         out3 = prepare_dom(prepare_args, out=out1)
     return out3
 
@@ -24,7 +24,8 @@ def check_template_exist(element, template):
         return True
     else:
         return False
-    
+
+
 @task(returns=1)
 def vars_func(prepare_args, **kwargs):
     variables_sampled=get_value(prepare_args, "values")
