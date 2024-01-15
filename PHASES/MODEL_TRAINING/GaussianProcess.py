@@ -88,7 +88,7 @@ def save(model, file):
 
 
 def get_value(element, param):
-    if element[param]:
+    if param in element:
         return element[param]
     else:
         raise ValueError(f"The key '{param}' was not found in the dictionary.")

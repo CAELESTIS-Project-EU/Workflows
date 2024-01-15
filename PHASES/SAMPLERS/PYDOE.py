@@ -7,7 +7,7 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 
 
-task(returns=1)
+@task(returns=1)
 def sampling(**kwargs):
     sampler_args=kwargs.get("args")
     problem= get_value(sampler_args, "problem")
@@ -52,7 +52,7 @@ def sampling(**kwargs):
 
 
 def get_value(element, param):
-    if element[param]:
+    if param in element:
         return element[param]
     else:
         raise ValueError(f"The key '{param}' was not found in the dictionary.")

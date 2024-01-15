@@ -20,11 +20,14 @@ def sensitivity(**kwargs):
     write_output(sens_args,Si)
     return Si
 
+
 def get_value(element, param):
-    if element[param]:
+    if param in element:
         return element[param]
     else:
         raise ValueError(f"The key '{param}' was not found in the dictionary.")
+
+
 def write_output(sens_args, Si):
     filter_outputs = get_value(sens_args, "filter-outputs")
     result_folder = get_value(sens_args, "results_folder")
