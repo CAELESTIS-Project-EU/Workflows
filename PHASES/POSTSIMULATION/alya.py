@@ -48,7 +48,7 @@ def write_results(**kwargs):
 
 
 def get_value(element, param):
-    if element.get(param, {}):
+    if element[param]:
         return element[param]
     else:
         raise ValueError(f"The key '{param}' was not found in the dictionary.")

@@ -8,8 +8,6 @@ from pycompss.api.parameter import *
 
 def prepare_data(**kwargs):
     prepare_args = kwargs.get("args")
-    print("prepare_args")
-    print(prepare_args)
     variables = vars_func(prepare_args)
     out1 = prepare_sld(prepare_args, variables)
     bool_temlate_fie=check_template_exist(prepare_args,"template_fie")
@@ -128,7 +126,7 @@ def prepare_dom(prepare_args, **kwargs):
     return
 
 def get_value(element, param):
-    if element.get(param, {}):
+    if element[param]:
         return element[param]
     else:
         raise ValueError(f"The key '{param}' was not found in the dictionary.")
