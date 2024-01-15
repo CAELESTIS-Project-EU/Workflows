@@ -3,7 +3,7 @@ from SALib.analyze import morris as morrisAnalyze
 import re
 import matplotlib.pyplot as plt
 
-def morris(problem, y, param_values, output_file, **kwargs):
+def sensitivity(problem, y, param_values, output_file, **kwargs):
     y = np.array(y, dtype=np.float64)
     param_values = np.array(param_values, dtype=np.float64)
     paramSampling = kwargs.get("paramSampling")
@@ -18,8 +18,26 @@ def morris(problem, y, param_values, output_file, **kwargs):
     #write_outputFile(output_file, Si, kwargs.get("outputs"))
 
 
+def sensitivity(sens_args, **kwargs):
+    y = get_value(sens_args, "y")
+    y = np.array(y, dtype=np.float64)
+    sample_set = get_value(sens_args, "sample_set")
+    param_values = np.array(sample_set, dtype=np.float64)
+    problemDef = get_value(sens_args, "problemDef")
+    p = get_value(sens_args, "p")
+    Si = morrisAnalyze.analyze(problemDef, X=param_values, Y=y, num_levels=p, print_to_console=True)
+    return Si
+
+def get_value(element, param):
+    for item in element:
+        if param in item:
+            problem_dict = item[param]
+            return problem_dict
+    else:
+        raise ValueError
 
 
+"""
 def generate_plot(result_path, output_name):
     # Path to the results.txt file
     file_path = result_path+"/"+output_name.get("sesitivity_report")
@@ -95,3 +113,4 @@ def extract_variables_and_values(file_path):
                 sigma_values.extend(float_values)
 
     return mu_star_values, sigma_values
+    """

@@ -6,13 +6,14 @@ import re
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 @task(returns=1)
-def problem_def(data):
-    number = int(data.get("num_vars"))
+def problem_def(sampler_args, **kwargs):
+    problem= get_value(sampler_args, "problem")
+    number = int(problem.get("num_vars"))
     names = []
     covs = []
     means = []
     sigmas = []
-    for item in data.get('variables-sampler'):
+    for item in problem.get('variables-sampler'):
         for key, value in item.items():
             names.append(key)
             means.append(value['mean'])
@@ -31,7 +32,6 @@ def problem_def(data):
     }
     return problem
 
-@task(returns=1)
 def get_names(sampler_args):
     problem = sampler_args.get("problem")
     variables = problem.get("variables-sampler")
@@ -43,29 +43,25 @@ def get_names(sampler_args):
 
 @task(returns=1)
 def sampling(sampler_args, **kwargs):
-    problem = sampler_args.get("problem")
-    parameters= kwargs.get("parameters")
-    for parameter in parameters:
-        if(parameter.get("r")!=None):
-            r= parameter.get("r")
-        elif(parameter.get("p")!=None):
-            p= parameter.get("p")
+    probDef= problem_def(sampler_args, **kwargs)
+    r= get_value(sampler_args, "r")
+    p= get_value(sampler_args, "p")
     if (r == None or p==None):
         sys.exit("r or p parameters for Morris's sempler is missing")
     else:
-        N = r * (int(problem["num_vars"]) + 1)
-        param_values = morrisSampler.sample(problem, N=N, optimal_trajectories=r, num_levels=p)
+        N = r * (int(probDef["num_vars"]) + 1)
+        param_values = morrisSampler.sample(probDef, N=N, optimal_trajectories=r, num_levels=p)
         return param_values
 
 @task(returns=1)
-def vars_func(sampler_args, param_values):
-    names = get_names(sampler_args)
+def vars_func(sampler_args, variables_sampled):
+    names=get_names(sampler_args)
     problem = sampler_args.get("problem")
-    variables_fixed = problem.get("variables-fixed")
+    variables_fixed= problem.get("variables-fixed")
     calls = problem.get("variables-derivate")
     variables = []
-    for i in range(len(param_values)):
-        value = {names[i]: param_values[i]}
+    for i in range(len(variables_sampled)):
+        value = {names[i]: variables_sampled[i]}
         variables.append(value)
     for variable_fixed in variables_fixed:
         variables.append(variable_fixed)
@@ -109,3 +105,11 @@ def loop(parameter, variables):
         if parameter in variable:
             var = variable.get(parameter)
             return var
+
+def get_value(element, param):
+    for item in element:
+        if param in item:
+            problem_dict = item[param]
+            return problem_dict
+    else:
+        raise ValueError

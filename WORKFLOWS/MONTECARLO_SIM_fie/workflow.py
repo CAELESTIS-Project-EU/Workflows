@@ -1,55 +1,35 @@
-from PHASES.SAMPLERS import PYDOE, sampler
-from PHASES.SIMULATIONS import simulation as sim
-from PHASES.POSTSIMULATION import postSimulation as postSimulation
-from PHASES.BEFORESIMULATION import parserSimulation as parserSim
+from PHASES.utils import args_values, phase
 from pycompss.api.api import compss_wait_on
 import os
-import yaml
 
 
-def workflow(path, execution_folder, data_folder):
-    with open(path) as f:
-        data = yaml.load(f, Loader=yaml.FullLoader)
-        phases = data.get("phases")
-        workflow_execution(phases, data.get("parameters"), data.get("inputs"), data.get("outputs"), execution_folder,data_folder)
-
+def execution(yaml_file, execution_folder, data_folder, parameters):
+    phases = yaml_file.get("phases")
+    workflow_execution(phases, yaml_file, execution_folder, data_folder, parameters)
     return
 
 
-def workflow_execution(phases, parameters_yaml, inputs_yaml, outputs_yaml, execution_folder, data_folder):
-    sampler_type, sampler_param=get_values(phases.get("sampler"), inputs_yaml, outputs_yaml, parameters_yaml, data_folder)
-    sim_type, sim_input, sim_outputs, sim_params= get_values(phases.get("sim"), inputs_yaml, outputs_yaml, parameters_yaml, data_folder)
-    problem = sampler_param.get("problem")
-    mesh = sim_input.get("mesh")
-    templateSld = sim_input.get("template_sld")
-    templateDom = sim_input.get("template_dom")
-    templateFie = sim_input.get("template_fie")
-    matrix_fie = sampler.sampler(sampler_type, problem)
-    matrix_fie = compss_wait_on(matrix_fie)
-    names = sampler.get_names(sampler_type, problem)
-    parent_directory, original_name = os.path.split(mesh)
-    results_folder = execution_folder + "/results/"
-    if not os.path.isdir(results_folder):
-        os.makedirs(results_folder)
+def workflow_execution(phases, yaml_file, execution_folder, data_folder, parameters):
+    sample_set = phase.run(args_values.get_values(phases.get("sampler"), yaml_file, data_folder, locals()))
+    sample_set = compss_wait_on(sample_set)
+    original_name_sim = parameters.get("original_name_sim")
     y = []
-    for i in range(problem.get("n_samples")):
-        sample_fie = matrix_fie[i, :]
-        simulation_wdir = execution_folder + "/SIMULATIONS/" + original_name + "-s" + str(i) + "/"
-        if not os.path.isdir(simulation_wdir):
-            os.makedirs(simulation_wdir)
-        nameSim = original_name + "-s" + str(i)
-        variables_fie = sampler.vars_func(sampler_type, problem, sample_fie, problem.get("variables-fixed"),
-                                          names)
-        out1 = parserSim.prepare_data(sim_type, mesh, templateSld, simulation_wdir, original_name, nameSim,
-                                      variables_fie)
-        out2 = parserSim.prepare_fie_file(sim_type, templateFie, simulation_wdir, nameSim, variables_fie, mesh,
-                                          original_name, out1)
-        out3 = parserSim.prepare_dom_file(sim_type, templateDom, simulation_wdir, nameSim, mesh, out1)
-        out = sim.run_sim(sim_type, simulation_wdir, nameSim, out2=out2, out3=out3)
-        new_y = postSimulation.collect(sim_type, simulation_wdir, nameSim, out)
+    for i in range(sample_set.shape[0]):
+        values = sample_set[i, :]
+        name_sim = original_name_sim + "-s" + str(i)
+        simulation_wdir = execution_folder + "/SIMULATIONS/" + name_sim + "/"
+        results_folder = execution_folder + "/results/"
+        if not os.path.isdir(results_folder):
+            os.makedirs(results_folder)
+        prepare_out = phase.run(args_values.get_values(phases.get("prepare_data"), yaml_file, data_folder, locals()))
+        sim_out = phase.run(args_values.get_values(phases.get("sim"), yaml_file, data_folder, locals()),
+                            out=prepare_out)
+        new_y = phase.run(args_values.get_values(phases.get("post_process"), yaml_file, data_folder, locals()),
+                          out=sim_out)
         y.append(new_y)
-    postSimulation.write_file(sim_type, results_folder, y, outputs=sim_outputs)
+    phase.run(args_values.get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()), out=y)
     return
+
 
 
 

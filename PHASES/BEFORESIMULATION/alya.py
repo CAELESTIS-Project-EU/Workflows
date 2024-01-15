@@ -109,7 +109,6 @@ def prepare_fie(prepare_args, variables, **kwargs):
 
 @task(returns=1)
 def prepare_dom(prepare_args, **kwargs):
-    print("prepare_sld 4")
     template = get_value(prepare_args, "template_dom")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     name_sim = get_value(prepare_args, "name_sim")
