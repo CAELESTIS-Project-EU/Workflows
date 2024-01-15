@@ -8,9 +8,9 @@ from pycompss.api.parameter import *
 
 
 @task(returns=1)
-def sampling(**kwargs):
-    sampler_args=kwargs.get("args")
-    problem= get_value(sampler_args, "problem")
+def sampling(problem, **kwargs):
+    """sampler_args=kwargs.get("args")
+    problem= get_value(sampler_args, "problem")"""
     variables = problem.get("variables-sampler")
     ratio = problem.get("ratio_norm")
     n_samples = int(problem.get("n_samples"))

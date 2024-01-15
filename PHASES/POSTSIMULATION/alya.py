@@ -23,18 +23,18 @@ def collect_results(**kwargs):
 
 
 @task(y=COLLECTION_IN, returns=1)
-def write_results(**kwargs):
-    write_file_args = kwargs.get("args")
-    alya_output = get_value(write_file_args, "alya_output")
+def write_results(y, alya_output, results_folder, **kwargs):
+    """write_file_args = kwargs.get("args")
+    alya_output = get_value(write_file_args, "alya_output")"""
     if alya_output is not None:
-        results_folder = get_value(write_file_args, "results_folder")
-        y_elements = get_value(write_file_args, "y")
+        """results_folder = get_value(write_file_args, "results_folder")
+        y_elements = get_value(write_file_args, "y")"""
         y_file = os.path.join(results_folder, alya_output)
         with open(y_file, 'w') as f3:
             f3.write("Y COLLECT: \n")
             i = 0
-            for y in y_elements:
-                s = str(y)
+            for y_element in y:
+                s = str(y_element)
                 """s=str(x)+"["
                 for j in range(probDef.get("num_vars")):
                     s=s+(probDef.get("names")[j]+"="+str(param_values[i][j])+"; ")
