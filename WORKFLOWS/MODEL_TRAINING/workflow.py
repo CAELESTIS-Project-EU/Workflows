@@ -31,25 +31,14 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
     phase.run(args_values.get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()), out=y)
     kernel= phase.run(args_values.get_values(phases.get("kernel_generation"), yaml_file, data_folder, locals()), out=y)
     phase.run(args_values.get_values(phases.get("training"), yaml_file, data_folder, locals()), out=y)
-
+    write_file(results_folder, x, "xFile.npy")
+    write_file(results_folder, y, "yFile.npy")
     return
 
+def write_file(output_folder, elements, nameFile, **kwargs):
+    model_file= os.path.join(output_folder, nameFile)
+    write(model_file, elements)
 
-
-
-
-
-
-def write_file_x(output_folder, x, **kwargs):
-    # You can now use file_path for further processing
-    model_file = output_folder + "/xFile.npy"
-    write(model_file, x)
-
-
-def write_file_y(output_folder, y, **kwargs):
-    # You can now use file_path for further processing
-    model_file = output_folder + "/yFile.npy"
-    write(model_file, y)
 
 
 def write(file, element):
