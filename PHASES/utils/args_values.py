@@ -11,10 +11,8 @@ def get_values(phase, yaml_file, data_folder, symbol_table):
 
 
 def get_arguments(phase_args, yaml_file, data_folder, symbol_table):
-    print("phase_args: ", phase_args)
     args = {}
     for phase_arg in phase_args:
-        print("phase_arg: ", phase_arg)
         for key, value in phase_arg.items():
             if starts_with_dollar(str(value)):
                 search_params = remove_dollar_prefix(value)
