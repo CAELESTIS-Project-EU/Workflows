@@ -4,14 +4,10 @@ from pycompss.api.parameter import *
 import yaml
 
 
-"""@task(returns=1)"""
+@task(returns=1)
 def collect_results(simulation_wdir, name_sim, **kwargs):
     y = 0
     path=os.path.join(simulation_wdir, name_sim + "-output.sld.yaml")
-    print("COLLECT_RESULTS")
-    print(path)
-    print(simulation_wdir)
-    print(name_sim)
     #path = simulation_wdir + "/" + name_sim + "-output.sld.yaml"
     try:
         f = open(path)
@@ -24,7 +20,7 @@ def collect_results(simulation_wdir, name_sim, **kwargs):
     return y
 
 
-"""@task(y=COLLECTION_IN, returns=1)"""
+@task(y=COLLECTION_IN, returns=1)
 def write_results(y, alya_output, results_folder, **kwargs):
     """write_file_args = kwargs.get("args")
     alya_output = get_value(write_file_args, "alya_output")"""
