@@ -54,7 +54,7 @@ def write_results(y, alya_output, results_folder, sample_set, **kwargs):
 def write_file(output_folder, elements, nameFile, **kwargs):
     model_file= os.path.join(output_folder, nameFile)
     write(model_file, elements)
-
+    return 
 
 
 def write(file, element):
