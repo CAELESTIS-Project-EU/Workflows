@@ -8,6 +8,10 @@ import yaml
 def collect_results(simulation_wdir, name_sim, **kwargs):
     y = 0
     path=os.path.join(simulation_wdir, name_sim + "-output.sld.yaml")
+    print("COLLECT_RESULTS")
+    print(path)
+    print(simulation_wdir)
+    print(name_sim)
     #path = simulation_wdir + "/" + name_sim + "-output.sld.yaml"
     try:
         f = open(path)
