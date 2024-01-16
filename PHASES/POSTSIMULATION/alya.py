@@ -1,4 +1,6 @@
 import os
+
+import numpy as np
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 import yaml
@@ -21,7 +23,7 @@ def collect_results(simulation_wdir, name_sim, out, **kwargs):
 
 
 @task(y=COLLECTION_IN, returns=1)
-def write_results(y, alya_output, results_folder, **kwargs):
+def write_results(y, alya_output, results_folder, sample_set, **kwargs):
     """write_file_args = kwargs.get("args")
     alya_output = get_value(write_file_args, "alya_output")"""
     if alya_output is not None:
@@ -42,8 +44,24 @@ def write_results(y, alya_output, results_folder, **kwargs):
                 f3.write(s)
             f3.write("Y size: " + str(i))
             f3.close()
+        write_file(results_folder, sample_set, "dataSet_matrix.npy")
+        write_file(results_folder, y, "result_array.npy")
     return
 
+
+
+
+def write_file(output_folder, elements, nameFile, **kwargs):
+    model_file= os.path.join(output_folder, nameFile)
+    write(model_file, elements)
+
+
+
+def write(file, element):
+    with open(file, 'wb') as f3:
+        np.save(f3, element)
+        f3.close()
+    return
 
 def get_value(element, param):
     if param in element:
