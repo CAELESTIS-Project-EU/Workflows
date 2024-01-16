@@ -24,11 +24,7 @@ def collect_results(simulation_wdir, name_sim, out, **kwargs):
 
 @task(y=COLLECTION_IN, returns=1)
 def write_results(y, alya_output, results_folder, sample_set, **kwargs):
-    """write_file_args = kwargs.get("args")
-    alya_output = get_value(write_file_args, "alya_output")"""
     if alya_output is not None:
-        """results_folder = get_value(write_file_args, "results_folder")
-        y_elements = get_value(write_file_args, "y")"""
         y_file = os.path.join(results_folder, alya_output)
         with open(y_file, 'w') as f3:
             f3.write("Y COLLECT: \n")
@@ -54,7 +50,7 @@ def write_results(y, alya_output, results_folder, sample_set, **kwargs):
 def write_file(output_folder, elements, nameFile, **kwargs):
     model_file= os.path.join(output_folder, nameFile)
     write(model_file, elements)
-    return 
+    return
 
 
 def write(file, element):
