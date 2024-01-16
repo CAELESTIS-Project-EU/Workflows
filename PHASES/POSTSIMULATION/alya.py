@@ -5,7 +5,7 @@ import yaml
 
 
 @task(returns=1)
-def collect_results(simulation_wdir, name_sim, **kwargs):
+def collect_results(simulation_wdir, name_sim, out, **kwargs):
     y = 0
     path=os.path.join(simulation_wdir, name_sim + "-output.sld.yaml")
     #path = simulation_wdir + "/" + name_sim + "-output.sld.yaml"

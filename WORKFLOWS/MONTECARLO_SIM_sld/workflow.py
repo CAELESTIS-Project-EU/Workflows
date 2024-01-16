@@ -34,5 +34,5 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
         y.append(new_y)
     print("post_process  write ARGS")
     print(args_values.get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()))
-    phase.run(args_values.get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()), y_param=y)
+    phase.run(args_values.get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()))
     return
