@@ -1,12 +1,14 @@
-from  SALib.sample import morris as morrisSampler
+from SALib.sample import morris as morrisSampler
 import numpy as np
 import sys
 import importlib
 import re
 from pycompss.api.task import task
 from pycompss.api.parameter import *
+
+
 @task(returns=1)
-def problem_def(problem,**kwargs):
+def problem_def(problem, **kwargs):
     number = int(problem.get("num_vars"))
     names = []
     covs = []
@@ -31,6 +33,7 @@ def problem_def(problem,**kwargs):
     }
     return problem
 
+
 def get_names(sampler_args):
     problem = sampler_args.get("problem")
     variables = problem.get("variables-sampler")
@@ -40,21 +43,23 @@ def get_names(sampler_args):
             names.append(key)
     return names
 
+
 @task(returns=1)
-def sampling(problem, **kwargs):
-    probDef= problem_def(problem, p, r, **kwargs)
-    if (r == None or p==None):
+def sampling(problem, r, p, **kwargs):
+    probDef = problem_def(problem, p, r, **kwargs)
+    if (r == None or p == None):
         sys.exit("r or p parameters for Morris's sempler is missing")
     else:
         N = r * (int(probDef["num_vars"]) + 1)
         param_values = morrisSampler.sample(probDef, N=N, optimal_trajectories=r, num_levels=p)
         return param_values
 
+
 @task(returns=1)
 def vars_func(sampler_args, variables_sampled):
-    names=get_names(sampler_args)
+    names = get_names(sampler_args)
     problem = sampler_args.get("problem")
-    variables_fixed= problem.get("variables-fixed")
+    variables_fixed = problem.get("variables-fixed")
     calls = problem.get("variables-derivate")
     variables = []
     for i in range(len(variables_sampled)):
@@ -83,6 +88,7 @@ def vars_func(sampler_args, variables_sampled):
             variables.append(var)
     return variables
 
+
 def callEval(parameter, variables):
     groups = re.split(r'\b', parameter)
     for group in groups:
@@ -91,7 +97,7 @@ def callEval(parameter, variables):
                 for variable in variables:
                     if group in variable:
                         var = variable.get(group)
-                        parameter= parameter.replace(group, str(var))
+                        parameter = parameter.replace(group, str(var))
                         break
     res = eval(parameter)
     return res
