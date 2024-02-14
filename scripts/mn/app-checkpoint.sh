@@ -11,7 +11,7 @@ DATA_DIR=${10}
 module load compss/3.3
 # shellcheck disable=SC2164
 cd $EXECUTION_FOLDER
-enqueue_compss -d -g -t --worker_working_dir=$PWD --scheduler=es.bsc.compss.scheduler.orderstrict.fifo.FifoTS --job_execution_dir=$EXECUTION_FOLDER --qos=$QOS --exec_time=$EXEC_TIME --pythonpath=$PYTHONPATH --num_nodes=$NUM_NODES --worker_in_master_cpus=16 --checkpoint_params=instantiated.group:1 --checkpoint=es.bsc.compss.checkpoint.policies.CheckpointPolicyInstantiatedGroup --checkpoint_folder=$EXECUTION_FOLDER/tmp/checkpointing/ $INSTALL_DIR/$BRANCH/WORKFLOWS/api.py $WORKFLOW_FOLDER/$NAMEFILE $EXECUTION_FOLDER $DATA_DIR
+enqueue_compss -d -g -t --worker_working_dir=$PWD --scheduler=es.bsc.compss.scheduler.orderstrict.fifo.FifoTS --job_execution_dir=$EXECUTION_FOLDER --log_dir=$EXECUTION_FOLDER --qos=$QOS --exec_time=$EXEC_TIME --pythonpath=$PYTHONPATH --num_nodes=$NUM_NODES --worker_in_master_cpus=16 --checkpoint_params=instantiated.group:1 --checkpoint=es.bsc.compss.checkpoint.policies.CheckpointPolicyInstantiatedGroup --checkpoint_folder=$EXECUTION_FOLDER/tmp/checkpointing/ $INSTALL_DIR/$BRANCH/WORKFLOWS/api.py $WORKFLOW_FOLDER/$NAMEFILE $EXECUTION_FOLDER $DATA_DIR
 
 echo DONEEE
 
