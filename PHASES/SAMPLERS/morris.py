@@ -6,8 +6,28 @@ import re
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 
+def get_names(sampler_args):
+    problem = sampler_args.get("problem")
+    variables = problem.get("variables-sampler")
+    names = []
+    for item in variables:
+        for key, value in item.items():
+            names.append(key)
+    return names
+
 
 @task(returns=1)
+def sampling(problem, r, p, **kwargs):
+    probDef = problem_def(problem, **kwargs)
+    if (r == None or p == None):
+        sys.exit("r or p parameters for Morris's sempler is missing")
+    else:
+        N = r * (int(probDef["num_vars"]) + 1)
+        param_values = morrisSampler.sample(probDef, N=N, optimal_trajectories=r, num_levels=p)
+        return param_values
+
+
+
 def problem_def(problem, **kwargs):
     number = int(problem.get("num_vars"))
     names = []
@@ -32,28 +52,6 @@ def problem_def(problem, **kwargs):
         'bounds': bounds
     }
     return problem
-
-
-def get_names(sampler_args):
-    problem = sampler_args.get("problem")
-    variables = problem.get("variables-sampler")
-    names = []
-    for item in variables:
-        for key, value in item.items():
-            names.append(key)
-    return names
-
-
-@task(returns=1)
-def sampling(problem, r, p, **kwargs):
-    probDef = problem_def(problem, **kwargs)
-    if (r == None or p == None):
-        sys.exit("r or p parameters for Morris's sempler is missing")
-    else:
-        N = r * (int(probDef["num_vars"]) + 1)
-        param_values = morrisSampler.sample(probDef, N=N, optimal_trajectories=r, num_levels=p)
-        return param_values
-
 
 @task(returns=1)
 def vars_func(sampler_args, variables_sampled):
