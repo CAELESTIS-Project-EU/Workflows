@@ -1,7 +1,6 @@
 from PHASES.utils import args_values, phase
 from pycompss.api.api import compss_wait_on
 import os
-import yaml
 
 
 def execution(yaml_file, execution_folder, data_folder, parameters):

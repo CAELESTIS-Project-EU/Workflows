@@ -2,8 +2,7 @@ import os
 from pycompss.api.task import task
 import numpy as np
 from SALib.analyze import morris as morrisAnalyze
-import re
-import matplotlib.pyplot as plt
+from pycompss.api.parameter import *
 
 
 @task(y=COLLECTION_IN, returns=1)
