@@ -1,10 +1,9 @@
 import os
-
+from pycompss.api.task import task
 import numpy as np
 from SALib.analyze import morris as morrisAnalyze
 import re
 import matplotlib.pyplot as plt
-
 
 
 @task(returns=1)
@@ -17,7 +16,7 @@ def sensitivity(**kwargs):
     problemDef = get_value(sens_args, "problemDef")
     p = get_value(sens_args, "p")
     Si = morrisAnalyze.analyze(problemDef, X=param_values, Y=y, num_levels=p, print_to_console=True)
-    write_output(sens_args,Si)
+    write_output(sens_args, Si)
     return Si
 
 
@@ -40,6 +39,8 @@ def write_output(sens_args, Si):
             f2.write(result)
         f2.close()
     return
+
+
 """
 def generate_plot(result_path, output_name):
     # Path to the results.txt file
