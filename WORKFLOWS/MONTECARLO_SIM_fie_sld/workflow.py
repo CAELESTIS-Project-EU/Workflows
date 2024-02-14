@@ -1,7 +1,7 @@
-from PHASES.SAMPLERS import sampler
+"""from PHASES.SAMPLERS import sampler
 from PHASES.SIMULATIONS import simulation as sim
 from PHASES.POSTSIMULATION import postSimulation
-from PHASES.BEFORESIMULATION import parserSimulation as parserSim
+from PHASES.BEFORESIMULATION import parserSimulation as parserSim"""
 from pycompss.api.api import compss_wait_on
 import os
 import yaml
@@ -17,7 +17,7 @@ def workflow(path, execution_folder, data_folder):
 
 
 def workflow_execution(samplerData, problem, execution_folder, input, simType, outputs, data_folder):
-    sample_set = sampler.sampler(samplerData.get("name"), problem)
+    """sample_set = sampler.sampler(samplerData.get("name"), problem)
     sample_set = compss_wait_on(sample_set)
     matrix_fie = sampler.sampler_fie(samplerData.get("name"), problem)
     matrix_fie = compss_wait_on(matrix_fie)
@@ -44,7 +44,7 @@ def workflow_execution(samplerData, problem, execution_folder, input, simType, o
         sim.run_sim(type_sim, simulation_wdir, nameSim)
         new_y = postSimulation.collect(type_sim, simulation_wdir, nameSim)
         y.append(new_y)
-    postSimulation.write_file(type_sim, results_folder, y, outputs=outputs)
+    postSimulation.write_file(type_sim, results_folder, y, outputs=outputs)"""
     return
 
 def get_input(input, data_folder):
