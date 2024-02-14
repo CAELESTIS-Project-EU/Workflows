@@ -14,32 +14,32 @@ import time
 import math
 import trimesh
 
-from WriteAlyaBou import writeAlyaBou
-from WriteAlyaFix import writeAlyaFix
-from WriteAlyaFie import writeAlyaFie
-from WriteAlyaSet import writeAlyaSet
-from WriteAlyaSet2 import writeAlyaSet2
-from WriteAlyaPer import writeAlyaPer
-from WriteAlyaMat import writeAlyaMat
+from PHASES.MESHER.permeability_mesher.WriteAlyaBou import writeAlyaBou
+from PHASES.MESHER.permeability_mesher.WriteAlyaFix import writeAlyaFix
+from PHASES.MESHER.permeability_mesher.WriteAlyaFie import writeAlyaFie
+from PHASES.MESHER.permeability_mesher.WriteAlyaSet import writeAlyaSet
+from PHASES.MESHER.permeability_mesher.WriteAlyaSet2 import writeAlyaSet2
+from PHASES.MESHER.permeability_mesher.WriteAlyaPer import writeAlyaPer
+from PHASES.MESHER.permeability_mesher.WriteAlyaMat import writeAlyaMat
 
-from WriteAlyaNsi import writeAlyaNsi
-from WriteAlyaDom import writeAlyaDom
-from WriteAlyaDat import writeAlyaDat
-from WriteAlyaKer import writeAlyaKer
-from WriteAlyaPos import writeAlyaPos
-from WriteJobLauncher import writeJobLauncher
+from PHASES.MESHER.permeability_mesher.WriteAlyaNsi import writeAlyaNsi
+from PHASES.MESHER.permeability_mesher.WriteAlyaDom import writeAlyaDom
+from PHASES.MESHER.permeability_mesher.WriteAlyaDat import writeAlyaDat
+from PHASES.MESHER.permeability_mesher.WriteAlyaKer import writeAlyaKer
+from PHASES.MESHER.permeability_mesher.WriteAlyaPos import writeAlyaPos
+from PHASES.MESHER.permeability_mesher.WriteJobLauncher import writeJobLauncher
 
-from opeAlyaRVE import getRVEnodesFromVertices
-from opeAlyaRVE import getRVEnodesFromEdges
-from opeAlyaRVE import addNodesFromVertices
-from opeAlyaRVE import addNodesFromEdges
-from opeAlyaRVE import addNodesFromFacesMeso
+from PHASES.MESHER.permeability_mesher.opeAlyaRVE import getRVEnodesFromVertices
+from PHASES.MESHER.permeability_mesher.opeAlyaRVE import getRVEnodesFromEdges
+from PHASES.MESHER.permeability_mesher.opeAlyaRVE import addNodesFromVertices
+from PHASES.MESHER.permeability_mesher.opeAlyaRVE import addNodesFromEdges
+from PHASES.MESHER.permeability_mesher.opeAlyaRVE import addNodesFromFacesMeso
 
-from GenGeometry import generar_superficies_rectangulares
-from GenGeometry import generar_superficies_puntos
-from GenCases import NoFallos
-from GenCases import Overlap
-from GenCases import Gap
+from PHASES.MESHER.permeability_mesher.GenGeometry import generar_superficies_rectangulares
+from PHASES.MESHER.permeability_mesher.GenGeometry import generar_superficies_puntos
+from PHASES.MESHER.permeability_mesher.GenCases import NoFallos
+from PHASES.MESHER.permeability_mesher.GenCases import Overlap
+from PHASES.MESHER.permeability_mesher.GenCases import Gap
 
 def RVEgen2Alya(path, num_cases, density, viscosity, volume_fraction, tipo_fallo, w_tow, h_tow, L_pro, n_elements_gap, n_elements_towsingap,
                     n_elements_layer, n_layers, angles_tows, n_tows, Lset, ol, ajus_ol, ol_left, ol_right, AlyaSet):
