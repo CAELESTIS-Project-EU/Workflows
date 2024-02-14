@@ -19,7 +19,8 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
     original_name_sim = parameters.get("original_name_sim")
     y = []
     for i in range(sample_set.shape[0]):
-        values = sample_set[i, :]
+        angles_tows = [sample_set[i, 0], sample_set[i, 1], sample_set[i, 2], sample_set[i, 3]]
+        L_pro = sample_set[i, 4]
         name_sim = original_name_sim + "-s" + str(i)
         simulation_wdir = execution_folder + "/SIMULATIONS/" + name_sim + "/"
         results_folder = execution_folder + "/results/"
