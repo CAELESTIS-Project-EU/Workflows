@@ -6,7 +6,7 @@ import itertools
 #variable, en cada linea aparecen el minimo y maximo valor
 #y un 0 para variables lineales, 1 para logaritmicas
 
-def sampler(input_file):
+def sampling(input_file):
     casos =[]
     with open(input_file, 'r') as f:
         fflvl = int(f.readline())
