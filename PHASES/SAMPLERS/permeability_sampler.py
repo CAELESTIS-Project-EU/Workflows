@@ -6,9 +6,9 @@ import itertools
 #variable, en cada linea aparecen el minimo y maximo valor
 #y un 0 para variables lineales, 1 para logaritmicas
 
-def sampling(input_file):
+def sampling(sampler_input_file):
     casos =[]
-    with open(input_file, 'r') as f:
+    with open(sampler_input_file, 'r') as f:
         fflvl = int(f.readline())
         for row in f:
             casos.append(row.split())
