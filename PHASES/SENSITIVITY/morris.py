@@ -6,12 +6,12 @@ import re
 import matplotlib.pyplot as plt
 
 
-@task(returns=1)
-def sensitivity(y,problemDef, sample_set, p, sensitivity_report,filter_outputs,results_folder, **kwargs):
+@task(y=COLLECTION_IN, returns=1)
+def sensitivity(y, problemDef, sample_set, p, sensitivity_report, filter_outputs, results_folder, **kwargs):
     y = np.array(y, dtype=np.float64)
     param_values = np.array(sample_set, dtype=np.float64)
     Si = morrisAnalyze.analyze(problemDef, X=param_values, Y=y, num_levels=p, print_to_console=True)
-    write_output(sensitivity_report,filter_outputs,results_folder, Si)
+    write_output(sensitivity_report, filter_outputs, results_folder, Si)
     return Si
 
 
@@ -22,7 +22,7 @@ def get_value(element, param):
         raise ValueError(f"The key '{param}' was not found in the dictionary.")
 
 
-def write_output(sensitivity_report,filter_outputs,results_folder,Si):
+def write_output(sensitivity_report, filter_outputs, results_folder, Si):
     output_file = os.path.join(results_folder, sensitivity_report)
     with open(output_file, 'w') as f2:
         f2.write("OUTPUTS \n")
