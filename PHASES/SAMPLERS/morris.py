@@ -46,7 +46,7 @@ def get_names(sampler_args):
 
 @task(returns=1)
 def sampling(problem, r, p, **kwargs):
-    probDef = problem_def(problem, p, r, **kwargs)
+    probDef = problem_def(problem, **kwargs)
     if (r == None or p == None):
         sys.exit("r or p parameters for Morris's sempler is missing")
     else:
