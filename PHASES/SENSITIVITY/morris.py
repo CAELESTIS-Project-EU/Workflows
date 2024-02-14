@@ -7,16 +7,11 @@ import matplotlib.pyplot as plt
 
 
 @task(returns=1)
-def sensitivity(**kwargs):
-    sens_args = kwargs
-    y = get_value(sens_args, "y")
+def sensitivity(y,problemDef, sample_set, p, sensitivity_report,filter_outputs,results_folder, **kwargs):
     y = np.array(y, dtype=np.float64)
-    sample_set = get_value(sens_args, "sample_set")
     param_values = np.array(sample_set, dtype=np.float64)
-    problemDef = get_value(sens_args, "problemDef")
-    p = get_value(sens_args, "p")
     Si = morrisAnalyze.analyze(problemDef, X=param_values, Y=y, num_levels=p, print_to_console=True)
-    write_output(sens_args, Si)
+    write_output(sensitivity_report,filter_outputs,results_folder, Si)
     return Si
 
 
@@ -27,11 +22,8 @@ def get_value(element, param):
         raise ValueError(f"The key '{param}' was not found in the dictionary.")
 
 
-def write_output(sens_args, Si):
-    filter_outputs = get_value(sens_args, "filter-outputs")
-    result_folder = get_value(sens_args, "results_folder")
-    sesitivity_report = get_value(sens_args, "sesitivity_report")
-    output_file = os.path.join(result_folder, sesitivity_report)
+def write_output(sensitivity_report,filter_outputs,results_folder,Si):
+    output_file = os.path.join(results_folder, sensitivity_report)
     with open(output_file, 'w') as f2:
         f2.write("OUTPUTS \n")
         for output in filter_outputs:
