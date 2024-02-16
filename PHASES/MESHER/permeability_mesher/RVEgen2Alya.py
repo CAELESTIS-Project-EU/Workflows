@@ -60,7 +60,7 @@ def permeability_mesher(**kwargs):
     print(kwargs)
     print("ARGS")
     print(args)
-    RVEgen2Alya(**args, **kwargs)
+    RVEgen2Alya(args, **kwargs)
     return
 
 
