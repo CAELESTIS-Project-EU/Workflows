@@ -47,9 +47,11 @@ from PHASES.MESHER.permeability_mesher.GenCases import Gap
 
 
 def RVEgen2Alya(**kwargs):
-	print("KWARGS")
-	print(kwargs)
-	print("    Generating geometry ...")
+	for item in kwargs['problem_mesher']:
+		kwargs.update(item)
+
+	# Delete 'problem_mesher' from kwargs
+	del kwargs['problem_mesher']
 
     # Get the start time
 	st = time.time()
