@@ -52,7 +52,8 @@ def RVEgen2Alya(**kwargs):
 
 	# Delete 'problem_mesher' from kwargs
 	del kwargs['problem_mesher']
-
+	print("KWARGS")
+	print(kwargs)
     # Get the start time
 	st = time.time()
 
