@@ -61,10 +61,13 @@ def permeability_mesher(**kwargs):
 	print(kwargs)
 	print("ARGS")
 	print(args)
-	RVEgen2Alya(**args)
+	RVEgen2Alya(**args, **kwargs)
 	return
 
 def RVEgen2Alya(*args, **kwargs):
+	print("ENTERED HERE")
+	print("ARGS")
+	print(args)
     # Get the start time
     st = time.time()
 
