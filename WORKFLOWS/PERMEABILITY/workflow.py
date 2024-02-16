@@ -29,5 +29,4 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
         if not os.path.isdir(results_folder):
             os.makedirs(results_folder)
         mesh = phase.run(args_values.get_values(phases.get("mesher"), yaml_file, data_folder, locals()))
-
     return
