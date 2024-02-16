@@ -47,30 +47,29 @@ from PHASES.MESHER.permeability_mesher.GenCases import Gap
                     n_elements_layer, n_layers, angles_tows, n_tows, Lset, ol, ajus_ol, ol_left, ol_right, AlyaSet):"""
 
 
-
 def permeability_mesher(**kwargs):
-	for item in kwargs['problem_mesher']:
-		kwargs.update(item)
-	del kwargs['problem_mesher']
-	# Copy updated kwargs to args
-	args = kwargs.copy()
+    for item in kwargs['problem_mesher']:
+        kwargs.update(item)
+    del kwargs['problem_mesher']
+    # Copy updated kwargs to args
+    args = kwargs.copy()
 
-	# Remove 'problem_mesher' key from kwargs
+    # Remove 'problem_mesher' key from kwargs
 
-	print("KWARGS")
-	print(kwargs)
-	print("ARGS")
-	print(args)
-	RVEgen2Alya(**args, **kwargs)
-	return
+    print("KWARGS")
+    print(kwargs)
+    print("ARGS")
+    print(args)
+    RVEgen2Alya(**args, **kwargs)
+    return
+
 
 def RVEgen2Alya(*args, **kwargs):
-	print("ENTERED HERE")
-	print("ARGS")
-	print(args)
+    print("ENTERED HERE")
+    print("ARGS")
+    print(args)
     # Get the start time
-    st = time.time()
-
+    # st = time.time()
     # --------------------------------------------
     #
     # Units
@@ -92,6 +91,8 @@ def RVEgen2Alya(*args, **kwargs):
     # --------------------------------------------
 
     # Material properties
+
+
     packing = 'quad'  # 'quad' or 'hexa' packing
     if packing == 'quad':
         c = 57.0
@@ -174,7 +175,7 @@ def RVEgen2Alya(*args, **kwargs):
                                                     n_elements_layer)
 
     # Job case
-	# caseName = 'Caso_0_0_0_w2mm_lpro0p2mm_fine'
+    # caseName = 'Caso_0_0_0_w2mm_lpro0p2mm_fine'
 
     # Set paths for directories
     basePath = f'{path}'
@@ -852,3 +853,4 @@ def RVEgen2Alya(*args, **kwargs):
     tiempo_ej = fin - inicio
     print(f"        Geo file generation time: {round(elapsed_time / 60, 2)} min")
     print('  Total execution time:', round(elapsed_time / 60, 2), 'min')
+    return
