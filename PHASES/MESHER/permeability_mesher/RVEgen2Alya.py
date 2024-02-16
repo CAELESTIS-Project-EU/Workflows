@@ -41,9 +41,14 @@ from PHASES.MESHER.permeability_mesher.GenCases import NoFallos
 from PHASES.MESHER.permeability_mesher.GenCases import Overlap
 from PHASES.MESHER.permeability_mesher.GenCases import Gap
 
-def RVEgen2Alya(path, num_cases, density, viscosity, volume_fraction, tipo_fallo, w_tow, h_tow, L_pro, n_elements_gap, n_elements_towsingap,
-                    n_elements_layer, n_layers, angles_tows, n_tows, Lset, ol, ajus_ol, ol_left, ol_right, AlyaSet):
+"""def RVEgen2Alya(path, num_cases, density, viscosity, volume_fraction, tipo_fallo, w_tow, h_tow, L_pro, n_elements_gap, n_elements_towsingap,
+                    n_elements_layer, n_layers, angles_tows, n_tows, Lset, ol, ajus_ol, ol_left, ol_right, AlyaSet):"""
 
+
+
+def RVEgen2Alya(**kwargs):
+	print("KWARGS")
+	print(kwargs)
 	print("    Generating geometry ...")
 
     # Get the start time
