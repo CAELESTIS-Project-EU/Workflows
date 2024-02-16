@@ -50,10 +50,15 @@ def RVEgen2Alya(**kwargs):
 	for item in kwargs['problem_mesher']:
 		kwargs.update(item)
 
-	# Delete 'problem_mesher' from kwargs
+	# Copy updated kwargs to args
+	args = kwargs.copy()
+
+	# Remove 'problem_mesher' key from kwargs
 	del kwargs['problem_mesher']
 	print("KWARGS")
 	print(kwargs)
+	print("ARGS")
+	print(args)
     # Get the start time
 	st = time.time()
 
