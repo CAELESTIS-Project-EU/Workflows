@@ -47,19 +47,24 @@ from PHASES.MESHER.permeability_mesher.GenCases import Gap
                     n_elements_layer, n_layers, angles_tows, n_tows, Lset, ol, ajus_ol, ol_left, ol_right, AlyaSet):"""
 
 
+
+def permeability_mesher(**kwargs):
+	for item in kwargs['problem_mesher']:
+		kwargs.update(item)
+	del kwargs['problem_mesher']
+	# Copy updated kwargs to args
+	args = kwargs.copy()
+
+	# Remove 'problem_mesher' key from kwargs
+
+	print("KWARGS")
+	print(kwargs)
+	print("ARGS")
+	print(args)
+	RVEgen2Alya(**args)
+	return
+
 def RVEgen2Alya(*args, **kwargs):
-    for item in kwargs['problem_mesher']:
-        kwargs.update(item)
-    del kwargs['problem_mesher']
-    # Copy updated kwargs to args
-    args = kwargs.copy()
-
-    # Remove 'problem_mesher' key from kwargs
-
-    print("KWARGS")
-    print(kwargs)
-    print("ARGS")
-    print(args)
     # Get the start time
     st = time.time()
 
