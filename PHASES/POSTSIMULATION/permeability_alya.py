@@ -13,11 +13,9 @@ import math
 #nos quedamos la ultima iteracion
 
 def postProcessPermeability(**kwargs):
-    for item in kwargs['problem_mesher']:
+    for item in kwargs['postProcessParam']:
         kwargs.update(item)
-    del kwargs['problem_mesher']
-    print("KWARGS")
-    print(kwargs)
+    del kwargs['postProcessParam']
     return postproCaso(**kwargs)
 def postproCaso(simulation_wdir, name_sim, w_tow, Lpro, angles_tows, n_tows, n_layers, Lset):
     archivo_x = 'x-flow/'+name_sim+'-element.nsi.set'
