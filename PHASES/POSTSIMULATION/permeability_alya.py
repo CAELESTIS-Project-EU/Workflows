@@ -20,7 +20,7 @@ def postProcessPermeability(**kwargs):
         kwargs.update(item)
     if 'simulation_wdir' in kwargs:
         # Update the value of the variable
-        kwargs['simulation_wdir'] =  kwargs['simulation_wdir']+kwargs['name_sim']
+        kwargs['simulation_wdir'] =kwargs['simulation_wdir']+kwargs['name_sim']
     del kwargs['postProcessParam']
     return postproCaso(**kwargs)
 
