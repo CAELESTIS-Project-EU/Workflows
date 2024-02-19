@@ -15,8 +15,5 @@ def simulation(case_name, simulation_wdir, **kwargs):
 def alya_simulation(case_name, simulation_wdir, cases_permeability, **kwargs):
     for case in cases_permeability:
         simulation_wdir_case = os.path.join(simulation_wdir, case)
-        print("SIMULATION")
-        print(simulation_wdir_case)
-        print(case_name)
         simulation(case_name, simulation_wdir_case)
     return True
