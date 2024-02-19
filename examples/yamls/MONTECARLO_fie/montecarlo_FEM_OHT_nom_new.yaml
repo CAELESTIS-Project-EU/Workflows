@@ -1,0 +1,154 @@
+---
+workflow_type: WORKFLOWS.MONTECARLO.workflow.execution
+phases:
+  sampler:
+    type: PHASES.SAMPLERS.PYDOE.sampling
+    arguments: 
+      - problem: $parameters.problem
+  prepare_data:
+    type: PHASES.BEFORESIMULATION.alya.prepare_data
+    arguments: 
+      - mesh: $inputs.mesh
+      - template_sld: $inputs.template_sld
+      - template_dom: $inputs.template_dom
+      - template_fie: $inputs.template_fie
+      - problem: $parameters.problem
+      - simulation_wdir: $variables.simulation_wdir
+      - values: $variables.values
+      - name_sim: $variables.name_sim
+      - original_name_sim: $variables.original_name_sim
+  sim:
+    type: PHASES.SIMULATIONS.alya.simulation
+    arguments:
+      - simulation_wdir: $variables.simulation_wdir
+      - name_sim: $variables.name_sim
+  post_process:
+    type: PHASES.POSTSIMULATION.alya.collect_results
+    arguments: 
+      - name_sim: $variables.name_sim
+      - simulation_wdir: $variables.simulation_wdir
+  post_process_merge:
+    type: PHASES.POSTSIMULATION.alya.write_results
+    arguments: 
+      - y: $variables.y
+      - alya_output: $outputs.alya_output
+      - results_folder: $variables.results_folder
+      - sample_set: $variables.sample_set
+outputs:
+  alya_output: 
+    - path: alya_output.txt
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/test2J"
+inputs:
+  mesh: 
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/meshes/FEM_OHT_nom"
+    - path: "meshes/FEM_OHT_nom"
+  template_sld: 
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/templates/FEM_OHT_nom-tem.sld.dat"
+    - path: "templates/FEM_OHT_nom-tem.sld.dat"
+  template_dom: 
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/templates/FEM_OHT_nom-tem.dom.dat"
+    - path: "templates/FEM_OHT_nom-tem.dom.dat"
+  template_fie: 
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/templates/FEM_OHT_nom-tem.fie.dat"
+    - path: "templates/FEM_OHT_nom-tem.fie.dat"
+parameters:
+  problem:
+    num_var: 24
+    ratio_norm: 1
+    n_samples: 2
+    criterion: 'm'
+    variables-sampler:
+      - lay1: {mean: 45.,sigma: 7.}
+      - lay2: {mean: 90., sigma: 7.}
+      - lay3: {mean: -45., sigma: 7.}
+      - lay4: {mean: 0., sigma: 7.}
+      - lay5: {mean: 45., sigma: 7.}
+      - lay6: {mean: 90., sigma: 7.}
+      - lay7: {mean: -45., sigma: 7.}
+      - lay8: {mean: 0., sigma: 7.}
+      - lay9: {mean: 45., sigma: 7.}
+      - lay10: {mean: 90., sigma: 7.}
+      - lay11: {mean: -45., sigma: 7.}
+      - lay12: {mean: 0., sigma: 7.}
+      - lay13: {mean: 0., sigma: 7.}
+      - lay14: {mean: -45., sigma: 7.}
+      - lay15: {mean: 90., sigma: 7.}
+      - lay16: {mean: 45., sigma: 7.}
+      - lay17: {mean: 0., sigma: 7.}
+      - lay18: {mean: -45., sigma: 7.}
+      - lay19: {mean: 90., sigma: 7.}                
+      - lay20: {mean: 45., sigma: 7.}
+      - lay21: {mean: 0., sigma: 7.}
+      - lay22: {mean: -45., sigma: 7.}
+      - lay23: {mean: 90., sigma: 7.}
+      - lay24: {mean: 45., sigma: 7.}    
+    variables-fixed:
+      - dens: 1.58e-9
+      - CohDens: 1.3e-9
+      - GIIc: 0.79
+      - Ct1: 33.5137
+      - XT: 2323.5
+      - GIc: 0.28
+      - Ct2: 56.2932
+      - etaBK: 1.45
+      - Kp: 1.0e+06
+      - rho: 0.0
+      - dmini: 0.0
+      - dmax: 1.0
+      - E11: 1.7142e+05
+      - E22: 9.08e+03
+      - v12: 0.32
+      - v23: 0.487
+      - G12: 5.29e+03
+      - fXT: 0.4
+      - XC: 1200.1
+      - fXC: 0.2
+      - a0: 0.925
+      - G1T: 133.3
+      - fGT: 0.3
+      - G1C: 100000.0
+      - fGC: 0.00061
+      - G2T: 0.28
+      - G2C: 1.31
+      - G6s: 0.79
+      - Sp: 66.9
+      - Kplas: 0.05
+      - eta: 0.0
+      - a11: -5.5e-06
+      - a22: 2.58e-05
+      - dT: 0.0
+      - b11: 0.0e+00
+      - b22: 5.0e-03
+      - dM: 0.0
+      - d1Max: 1.0
+      - d2Max: 1.0
+      - d3Max: 1.0
+      - d4Max: 1.0
+      - d5Max: 1.0
+      - d6Max: 1.0
+      - thick: 0.125
+      - muGSL: 0.0245
+      - YBT: 38.7
+      - YBC: 600.0
+      - mufXC: 0.1
+      - E11C: 137136.0
+      - Beta: 4.525e-8
+      - YT: 62.3 
+      - YC: 253.7
+      - SL: 92.3
+  variables-derivate:
+      in1: 
+        method: insitu_strengths.in_situ_CAELESTIS_project_IN
+        parameters: [thick,E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,GIIc,GIc]
+        outputs: [YTIN1T,YCIN1T,SLIN1T]
+      in2:
+        method: insitu_strengths.in_situ_CAELESTIS_project_IN
+        parameters: [eval(2*thick),E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,GIIc,GIc]
+        outputs: [YTIN2T,YCIN2T,SLIN2T]
+      out:
+        method: insitu_strengths.in_situ_CAELESTIS_project_OUT
+        parameters: [thick,E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,GIIc,GIc]
+        outputs: [YTOUT1T,YCOUT1T,SLOUT1T]
+  original_name_sim: FEM_OHT_nom
+environment:
+  ALYA_PROCS: 64

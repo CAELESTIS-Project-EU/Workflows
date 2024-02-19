@@ -1,0 +1,80 @@
+---
+sampler:
+  name: morris
+  parameters: [r : 2, p : 2]
+sim: 
+  type: alya
+  mesh: /gpfs/projects/bsce81/alya/tests/workflow_stable/meshs/OHT_Validation_D2
+  template: /gpfs/projects/bsce81/alya/tests/workflow_stable/BACKEND/OHT_Validation_D2-tem.sld.dat
+sens:
+  name: morris
+  outputs: [mu, mu_star, sigma, mu_star_conf]
+outputs:
+  alya_output: alya_out.txt 
+  sesitivity_report: results.txt
+problem:
+  num_var: 3
+  variables-sampler:
+    - GIIc:
+      - 0.56
+      - 0.8
+    - Ct1:
+      - 20     
+      - 34
+    - XT:
+      - 1500
+      - 2800
+  variables-fixed:
+    - GIc: 0.2800
+    - Ct2: 56.2932
+    - etaBK: 1.4500
+    - Kp: 1.0000e+06
+    - rho: 0.0
+    - dmini: 0.0
+    - dmax: 1.0
+    - E11: 1.7142e+05
+    - E22: 9.0800e+03
+    - v12: 0.3200
+    - v23: 0.0
+    - G12: 5.2900e+03
+    - fXT: 0.4000
+    - XC: 1200.1000
+    - fXC: 0.2000
+    - YTIN1T: 158.2290
+    - YTIN2T: 111.8850
+    - YTOUT1T: 99.5775
+    - YCIN1T: 310.6830
+    - YCIN2T: 310.6830
+    - YCOUT1T: 253.700
+    - SLIN1T: 113.0310
+    - SLIN2T: 113.0310
+    - SLOUT1T: 92.3000
+    - a0: 0.9250
+    - G1T: 133.3000
+    - fGT: 0.3000
+    - G1C: 100000.0000
+    - fGC: 0.0006
+    - G2T: 0.2800
+    - G2C: 1.3127
+    - G6s: 0.7900
+    - Sp: 66.9000
+    - Kplas: 0.0500
+    - eta: 0.0000
+    - a11: -5.5000e-06
+    - a22: 2.5800e-05
+    - dT: 0.0000
+    - b11: 0.0000e+00
+    - b22: 5.0000e-03
+    - dM: 0.0000
+    - d1Max: 1.0000
+    - d2Max: 1.0000
+    - d3Max: 1.0000
+    - d4Max: 1.0000
+    - d5Max: 1.0000
+    - d6Max: 1.0000
+    - thick: 0.13
+    - muGSL: 0.0035
+    - YBT: 38.7
+    - YBC: 600
+    - mufXC: 0.1
+    - E11C: 150000

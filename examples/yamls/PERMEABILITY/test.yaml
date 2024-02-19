@@ -1,0 +1,72 @@
+---
+workflow_type:  WORKFLOWS.PERMEABILITY.workflow.execution
+phases:
+  sampler:
+    type: PHASES.SAMPLERS.permeability_sampler.sampling
+    arguments: 
+      - sampler_input_file: $parameters.sampler_input_file
+  mesher:
+    type: PHASES.MESHER.permeability_mesher.RVEgen2Alya.permeability_mesher
+    arguments: 
+      - problem_mesher: $parameters.problem_mesher
+      - angles_tows: $variables.angles_tows
+      - L_pro: $variables.L_pro
+      - simulation_wdir: $variables.simulation_wdir
+  sim:
+    type: PHASES.SIMULATIONS.permeability_alya.alya_simulation
+    arguments:
+      - simulation_wdir: $variables.simulation_wdir
+      - name_sim: $variables.name_sim
+      - cases_permeability: $parameters.cases_permeability
+  post_process:
+    type: PHASES.POSTSIMULATION.permeability_alya.postProcessPermeability
+    arguments: 
+      - name_sim: $variables.name_sim
+      - simulation_wdir: $variables.simulation_wdir
+      - angles_tows: $variables.angles_tows
+      - L_pro: $variables.L_pro
+      - postProcessParam: $parameters.postProcessParam
+outputs:
+  alya_output: 
+    - path: alya_output.txt
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/test2J"
+    - overwrite : true
+inputs:
+  mesh: 
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/meshes/OHT_Validation_D2"
+    - path: "meshes/OHT_Validation_D2"
+  template_sld: 
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/templates/OHT_Validation_D2-tem.sld.dat"
+    - path: "templates/OHT_Validation_D2-tem.sld.dat"
+  template_dom: 
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/templates/OHT_Validation_D2-tem.dom.dat"
+    - path: "templates/OHT_Validation_D2-tem.dom.dat"
+parameters:
+  sampler_input_file: "/gpfs/projects/bsce81/alya/tests/meshs/doe_seed.txt"
+  problem_mesher:
+    - num_cases: 1
+    - density: 1.1e+3      # density of the fluid (kg/m3)
+    - viscosity: 3.5e-2      # viscosity of the fluid(kg/(m·s))
+    - volume_fraction: 0.6   # fiber volume fraction
+    - w_tow: 2.0             # tow width (mm)
+    - h_tow: 0.182           # tow thicknest (mm)
+    - n_tows: 1.0            # number of tows
+    - tipo_fallo: 'N'        # type of failure ('N' --> no failure ; 'O' --> overlap ; 'G' --> gap)
+    - n_elements_gap: 3     # XY number of elements in the gaps
+    - n_elements_layer: 3    # Z number of elements for each layer
+    - n_elements_towsingap: 100
+    - n_layers: 4
+    - Lset: 1                # longitud del set (mm)
+    - ol: 0     # failure (gap/overlap) lenght (mm)
+    - ajus_ol: 0.833           # failure propagation through thickness (expected numer of layers/real number of layers)
+    - ol_left: 0.6            # failure transition (X negative)
+    - ol_right: 0.6           # failure transition (X positive)
+    - AlyaSet: None          # If AlyaSet = 'All' --> only one set of the total RVE. Else, smaller sets.
+    - debug: None
+  postProcessParam:
+    - w_tow: 2.0             # tow width (mm)
+    - n_tows: 1.0            # number of tows
+    - n_layers: 4
+    - Lset: 1                # longitud del set (mm)
+  cases_permeability: ["x-flow", "y-flow", "z-flow"]
+  original_name_sim: PERM_SIM

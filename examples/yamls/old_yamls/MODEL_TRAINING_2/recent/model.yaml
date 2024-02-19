@@ -1,0 +1,25 @@
+---
+workflow_type: MODEL_TRAINING_2
+phases:
+  training:
+    type: GaussianProcess
+    kernel: 
+      name: "ConstantKernel"
+      parameters: 
+        constant_value: 0.1
+        constant_bounds: [min : 1e-5, max : 10000]
+        sigma0: 0.1
+        sigma_0_bounds:  [min : 1, max : 10]
+        alpha: 1e-8
+outputs:
+  model-output: 
+    - path: model.txt
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/ModelTraining"
+    - overwrite : true
+  model-dump:
+    - path: model
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/ModelTraining"
+    - overwrite : true
+inputs:
+  x: "/home/bsc19/bsc19518/modelInput/xFile.npy"
+  y: "/home/bsc19/bsc19518/modelInput/yFile.npy"

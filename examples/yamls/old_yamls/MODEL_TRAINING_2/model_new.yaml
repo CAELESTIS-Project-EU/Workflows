@@ -1,0 +1,37 @@
+---
+workflow_type: WORKFLOWS.MODEL_TRAINING_2.workflow.execution
+phases:
+  kernel_generation:
+    type: PHASES.MODEL_TRAINING.PARAMETERS.ConstantKernel.gen_param
+    arguments:
+      - constant_value: $parameters.constant_value
+      - constant_bounds: $parameters.constant_bounds
+      - sigma0: $parameters.sigma0
+      - sigma_0_bounds:  $parameters.sigma_0_bounds
+  training:
+    type: PHASES.MODEL_TRAINING.GaussianProcess.training
+    arguments:
+      - kernel: $variables.kernel 
+      - model_output: $outputs.model_output 
+      - model_dump: $outputs.model_dump
+      - alpha: $parameters.alpha
+      - x: $inputs.x
+      - y: $inputs.y
+      - results_folder: $variables.results_folder
+outputs:
+  model_output: 
+    - path: model.txt
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/ModelTraining"
+    - overwrite : true
+  model_dump:
+    - path: model
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/ModelTraining"
+    - overwrite : true
+parameters:
+  x: "/home/bsc19/bsc19518/modelInput/xFile.npy"
+  y: "/home/bsc19/bsc19518/modelInput/yFile.npy"
+  alpha: 1e-8
+  sigma_0_bounds:  [min : 1, max : 10]
+  constant_value: 0.1
+  constant_bounds: [min : 1e-5, max : 10000]
+  sigma0: 0.1
