@@ -51,10 +51,7 @@ def permeability_mesher(**kwargs):
     for item in kwargs['problem_mesher']:
         kwargs.update(item)
     del kwargs['problem_mesher']
-    # Copy updated kwargs to args
-    args = kwargs.copy()
-
-    # Remove 'problem_mesher' key from kwargs
+    
     RVEgen2Alya(**kwargs)
     return
 
