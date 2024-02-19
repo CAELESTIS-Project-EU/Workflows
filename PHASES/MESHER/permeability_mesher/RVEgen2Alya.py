@@ -55,12 +55,7 @@ def permeability_mesher(**kwargs):
     args = kwargs.copy()
 
     # Remove 'problem_mesher' key from kwargs
-
-    print("KWARGS")
-    print(kwargs)
-    print("ARGS")
-    print(args)
-    RVEgen2Alya(**args)
+    RVEgen2Alya(**kwargs)
     return
 
 
