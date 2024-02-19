@@ -18,9 +18,11 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
         angles_tows = [sample_set[i, 0], sample_set[i, 1], sample_set[i, 2], sample_set[i, 3]]
         L_pro = sample_set[i, 4]
         name_sim = original_name_sim + "-s" + str(i)
-        path = execution_folder + "/SIMULATIONS/"
+        simulation_wdir = execution_folder + "/SIMULATIONS/"
         results_folder = execution_folder + "/results/"
         if not os.path.isdir(results_folder):
             os.makedirs(results_folder)
-        mesh = phase.run(args_values.get_values(phases.get("mesher"), yaml_file, data_folder, locals()))
+        name_sim = phase.run(args_values.get_values(phases.get("mesher"), yaml_file, data_folder, locals()))
+        path=execution_folder + "/SIMULATIONS/"+ name_sim
+        sim_out = phase.run(args_values.get_values(phases.get("sim"), yaml_file, data_folder, locals()))
     return

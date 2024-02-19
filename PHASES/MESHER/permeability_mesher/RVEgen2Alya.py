@@ -56,7 +56,7 @@ def permeability_mesher(**kwargs):
     return
 
 
-def RVEgen2Alya(path, num_cases, density, viscosity, volume_fraction, tipo_fallo, w_tow, h_tow, L_pro, n_elements_gap, n_elements_towsingap,
+def RVEgen2Alya(simulation_wdir, num_cases, density, viscosity, volume_fraction, tipo_fallo, w_tow, h_tow, L_pro, n_elements_gap, n_elements_towsingap,
                     n_elements_layer, n_layers, angles_tows, n_tows, Lset, ol, ajus_ol, ol_left, ol_right, AlyaSet, debug):
     # Get the start time
     st = time.time()
@@ -168,7 +168,7 @@ def RVEgen2Alya(path, num_cases, density, viscosity, volume_fraction, tipo_fallo
     # caseName = 'Caso_0_0_0_w2mm_lpro0p2mm_fine'
 
     # Set paths for directories
-    basePath = f'{path}'
+    basePath = f'{simulation_wdir}'
     outputPath = f'{basePath}/' + caseName
     if os.path.exists(outputPath):
         shutil.rmtree(f'{basePath}/' + caseName)
@@ -775,7 +775,7 @@ def RVEgen2Alya(path, num_cases, density, viscosity, volume_fraction, tipo_fallo
         lmast = addNodesFromFacesMeso('x', x, y, z, x0, y0, z0, xl, yl, zl, bound_xl, bound_yl, bound_zl, tol, lmast)
         lmast.sort(key=lambda k: k[0])
         print('Writting Alya jobName.per.dat ...')
-        writeAlyaPer(path, fileName, lmast)
+        writeAlyaPer(simulation_wdir, fileName, lmast)
         if 'y' in simulaciones:
             shutil.copy("x.per.dat", "y.per.dat")
         if 'z' in simulaciones:
@@ -784,7 +784,7 @@ def RVEgen2Alya(path, num_cases, density, viscosity, volume_fraction, tipo_fallo
                                           lmast)
             lmast.sort(key=lambda k: k[0])
             print('Writting Alya jobName.per.dat ...')
-            writeAlyaPer(path, fileName, lmast)
+            writeAlyaPer(simulation_wdir, fileName, lmast)
     else:
         print('    NOTE: Periodicity is imposed automatically by Alya ...')
 
@@ -843,4 +843,4 @@ def RVEgen2Alya(path, num_cases, density, viscosity, volume_fraction, tipo_fallo
     tiempo_ej = fin - inicio
     print(f"        Geo file generation time: {round(elapsed_time / 60, 2)} min")
     print('  Total execution time:', round(elapsed_time / 60, 2), 'min')
-    return
+    return caseName
