@@ -20,7 +20,7 @@ def postProcessPermeability(**kwargs):
     return postproCaso(**kwargs)
 
 @task(returns=1)
-def postproCaso(simulation_wdir, name_sim, w_tow, L_pro, angles_tows, n_tows, n_layers, Lset):
+def postproCaso(simulation_wdir, name_sim, w_tow, L_pro, angles_tows, n_tows, n_layers, Lset, **kwargs):
     archivo_x = 'x-flow/'+name_sim+'-element.nsi.set'
     archivo_y = 'y-flow/'+name_sim+'-element.nsi.set'
     archivo_z = 'z-flow/'+name_sim+'-element.nsi.set'
