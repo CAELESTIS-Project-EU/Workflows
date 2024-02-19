@@ -18,11 +18,14 @@ import math
 def postProcessPermeability(**kwargs):
     for item in kwargs['postProcessParam']:
         kwargs.update(item)
+    if 'simulation_wdir' in kwargs:
+        # Update the value of the variable
+        kwargs['simulation_wdir'] =  kwargs['simulation_wdir']+kwargs['name_sim']
     del kwargs['postProcessParam']
     return postproCaso(**kwargs)
 
 
-@task(returns=1)
+@task(name_sim=IN, simulation_wdir=IN, returns=1)
 def postproCaso(simulation_wdir, name_sim, w_tow, L_pro, angles_tows, n_tows, n_layers, Lset, **kwargs):
     archivo_x = 'x-flow/' + name_sim + '-element.nsi.set'
     archivo_y = 'y-flow/' + name_sim + '-element.nsi.set'

@@ -23,7 +23,7 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
         if not os.path.isdir(results_folder):
             os.makedirs(results_folder)
         name_sim = phase.run(args_values.get_values(phases.get("mesher"), yaml_file, data_folder, locals()))
-        simulation_wdir=execution_folder + "/SIMULATIONS/"+ name_sim
+        simulation_wdir=execution_folder + "/SIMULATIONS/"
         sim_out = phase.run(args_values.get_values(phases.get("sim"), yaml_file, data_folder, locals()))
         phase.run(args_values.get_values(phases.get("post_process"), yaml_file, data_folder, locals()), out=sim_out)
     return
