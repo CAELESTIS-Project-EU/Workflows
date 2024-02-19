@@ -65,7 +65,7 @@ def permeability_mesher(**kwargs):
 
 
 def RVEgen2Alya(path, num_cases, density, viscosity, volume_fraction, tipo_fallo, w_tow, h_tow, L_pro, n_elements_gap, n_elements_towsingap,
-                    n_elements_layer, n_layers, angles_tows, n_tows, Lset, ol, ajus_ol, ol_left, ol_right, AlyaSet):
+                    n_elements_layer, n_layers, angles_tows, n_tows, Lset, ol, ajus_ol, ol_left, ol_right, AlyaSet, debug):
     # Get the start time
     st = time.time()
     # --------------------------------------------
@@ -839,7 +839,7 @@ def RVEgen2Alya(path, num_cases, density, viscosity, volume_fraction, tipo_fallo
         writeAlyaPos(path, fileName)
 
         # Job Launcher
-        writeJobLauncher(path, fileName, queue, numCPUs)
+        #writeJobLauncher(path, fileName, queue, numCPUs)
 
     # Get the end time
     et = time.time()
