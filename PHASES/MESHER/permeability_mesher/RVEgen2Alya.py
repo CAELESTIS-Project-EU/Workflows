@@ -53,8 +53,8 @@ def permeability_mesher(**kwargs):
     del kwargs['problem_mesher']
     print("KWARGS")
     print(kwargs)
-    RVEgen2Alya(**kwargs)
-    return
+    return RVEgen2Alya(**kwargs)
+
 
 
 def RVEgen2Alya(simulation_wdir, num_cases, density, viscosity, volume_fraction, tipo_fallo, w_tow, h_tow, L_pro, n_elements_gap, n_elements_towsingap,
