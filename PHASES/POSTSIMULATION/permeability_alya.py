@@ -21,6 +21,7 @@ def postProcessPermeability(**kwargs):
         kwargs.update(item)
 
     del kwargs['postProcessParam']
+    print("THIRD STAGE")
     return postproCaso(**kwargs)
 
 
