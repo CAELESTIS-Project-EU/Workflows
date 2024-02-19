@@ -17,7 +17,7 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
     for i in range(sample_set.shape[0]):
         angles_tows = [sample_set[i, 0], sample_set[i, 1], sample_set[i, 2], sample_set[i, 3]]
         L_pro = sample_set[i, 4]
-        case_name="case_"+str(i)
+        case_name="case_"+str(i+1)
         simulation_wdir = execution_folder + "/SIMULATIONS/"+ case_name
         results_folder = execution_folder + "/results/"
         if not os.path.isdir(results_folder):

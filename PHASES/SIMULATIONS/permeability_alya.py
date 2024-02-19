@@ -10,11 +10,11 @@ from pycompss.api.parameter import *
 def simulation(case_name, simulation_wdir, **kwargs):
     return
 
-
+@task(returns=1)
 def alya_simulation(case_name, simulation_wdir, cases_permeability, **kwargs):
     print("SECOND STAGE")
     for case in cases_permeability:
         simulation_wdir_case=os.path.join(simulation_wdir, case)
         simulation(case_name,simulation_wdir_case)
     print("END SECOND STAGE")
-    return
+    return True
