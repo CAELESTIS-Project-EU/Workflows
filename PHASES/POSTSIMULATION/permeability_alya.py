@@ -15,19 +15,18 @@ import math
 # leemos que es cada columna al principio
 # nos quedamos la ultima iteracion
 
-@task(name_sim=IN, simulation_wdir=IN, returns=1)
+
 def postProcessPermeability(**kwargs):
     for item in kwargs['postProcessParam']:
         kwargs.update(item)
-    if 'simulation_wdir' in kwargs:
-        # Update the value of the variable
-        kwargs['simulation_wdir'] =kwargs['simulation_wdir']+kwargs['name_sim']
+
     del kwargs['postProcessParam']
     return postproCaso(**kwargs)
 
 
-
+@task(name_sim=IN, returns=1)
 def postproCaso(simulation_wdir, name_sim, w_tow, L_pro, angles_tows, n_tows, n_layers, Lset, **kwargs):
+    simulation_wdir=simulation_wdir+"name_sim"
     archivo_x = 'x-flow/' + name_sim + '-element.nsi.set'
     archivo_y = 'y-flow/' + name_sim + '-element.nsi.set'
     archivo_z = 'z-flow/' + name_sim + '-element.nsi.set'
