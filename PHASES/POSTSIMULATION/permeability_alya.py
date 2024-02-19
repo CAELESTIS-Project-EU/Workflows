@@ -74,7 +74,7 @@ def postproCaso(simulation_wdir, name_sim, w_tow, L_pro, angles_tows, n_tows, n_
     nsets2 = (dimXc - 2) * (dimYc - 2) * dimZc
     ujsets = np.c_[num_case * np.ones(nsets2), np.reshape(joint_sets[0], [nsets2, 6]),
     np.reshape(joint_sets[0], [nsets2, 6])[:, 1:], np.reshape(joint_sets[0], [nsets2, 6])[:, 1:]]
-    np.savetxt(simulation_wdir + 'set_results.csv', ujsets, delimiter=',')
+    np.savetxt(simulation_wdir + '/set_results.csv', ujsets, delimiter=',')
     return
 
 
