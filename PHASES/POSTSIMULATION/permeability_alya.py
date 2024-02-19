@@ -24,12 +24,11 @@ def postProcessPermeability(**kwargs):
     return postproCaso(**kwargs)
 
 
-def postproCaso(simulation_wdir, name_sim, w_tow, L_pro, angles_tows, n_tows, n_layers, Lset, **kwargs):
-    simulation_wdir=simulation_wdir+"name_sim"
-    archivo_x = 'x-flow/' + name_sim + '-element.nsi.set'
-    archivo_y = 'y-flow/' + name_sim + '-element.nsi.set'
-    archivo_z = 'z-flow/' + name_sim + '-element.nsi.set'
-    num_case = int(extract_number(name_sim))
+def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angles_tows, n_tows, n_layers, Lset, **kwargs):
+    archivo_x = 'x-flow/' + case_name + '-element.nsi.set'
+    archivo_y = 'y-flow/' + case_name + '-element.nsi.set'
+    archivo_z = 'z-flow/' + case_name + '-element.nsi.set'
+    num_case = int(extract_number(case_name))
     archivos = [archivo_x, archivo_y, archivo_z]
     for angulo in angles_tows:
         if angulo == 0 or angulo == 90:
@@ -80,9 +79,9 @@ def postproCaso(simulation_wdir, name_sim, w_tow, L_pro, angles_tows, n_tows, n_
     return
 
 
-def extract_number(name_sim):
+def extract_number(case_name):
     # Using regular expression to find the number in the string
-    match = re.search(r'\d+', name_sim)
+    match = re.search(r'\d+', case_name)
 
     # Check if a match is found
     if match:
