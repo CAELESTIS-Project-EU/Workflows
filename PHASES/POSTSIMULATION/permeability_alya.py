@@ -6,7 +6,8 @@ Created on Thu Nov 16 12:58:51 2023
 """
 import os
 import re
-
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 import numpy as np
 import math
 #leemos que es cada columna al principio
@@ -17,6 +18,8 @@ def postProcessPermeability(**kwargs):
         kwargs.update(item)
     del kwargs['postProcessParam']
     return postproCaso(**kwargs)
+
+@task(returns=1)
 def postproCaso(simulation_wdir, name_sim, w_tow, Lpro, angles_tows, n_tows, n_layers, Lset):
     archivo_x = 'x-flow/'+name_sim+'-element.nsi.set'
     archivo_y = 'y-flow/'+name_sim+'-element.nsi.set'
@@ -68,6 +71,7 @@ def postproCaso(simulation_wdir, name_sim, w_tow, Lpro, angles_tows, n_tows, n_l
     ujsets = np.c_[num_case*np.ones(nsets2), np.reshape(joint_sets[0], [nsets2,6]),
                    np.reshape(joint_sets[0], [nsets2,6])[:,1:],np.reshape(joint_sets[0], [nsets2,6])[:,1:]]
     np.savetxt(simulation_wdir+'set_results.csv', ujsets, delimiter = ',')
+    return
 
 
 def extract_number(name_sim):
