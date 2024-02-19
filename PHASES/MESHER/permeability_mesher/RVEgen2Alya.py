@@ -51,7 +51,7 @@ def permeability_mesher(**kwargs):
     for item in kwargs['problem_mesher']:
         kwargs.update(item)
     del kwargs['problem_mesher']
-    
+
     RVEgen2Alya(**kwargs)
     return
 
@@ -169,11 +169,11 @@ def RVEgen2Alya(path, num_cases, density, viscosity, volume_fraction, tipo_fallo
 
     # Set paths for directories
     basePath = f'{path}'
-    outputPath = f'{basePath}/output/' + caseName
+    outputPath = f'{basePath}/' + caseName
     if os.path.exists(outputPath):
-        shutil.rmtree(f'{basePath}/output/' + caseName)
+        shutil.rmtree(f'{basePath}/' + caseName)
     os.makedirs(outputPath)
-    outputMeshPath = f'{basePath}/output/' + caseName + '/msh/'
+    outputMeshPath = f'{basePath}/' + caseName + '/msh/'
     os.makedirs(outputMeshPath)
     ##########################################
     ##########################################
