@@ -10,7 +10,7 @@ from pycompss.api.parameter import *
 def simulation(case_name, simulation_wdir, **kwargs):
     return
 
-@task(returns=1)
+
 def alya_simulation(case_name, simulation_wdir, cases_permeability, **kwargs):
     for case in cases_permeability:
         simulation_wdir_case=os.path.join(simulation_wdir, case)
