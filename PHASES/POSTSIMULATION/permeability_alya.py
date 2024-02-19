@@ -25,6 +25,7 @@ def postProcessPermeability(**kwargs):
     del kwargs['postProcessParam']
     return postproCaso(**kwargs)
 
+<<<<<<< HEAD
 
 @task(out=COLLECTION_IN, returns=1)
 def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angles_tows, n_tows, n_layers, Lset, **kwargs):
@@ -33,6 +34,15 @@ def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angles_tows, n_tows, n
     archivo_z = 'z-flow/' + case_name + '-element.nsi.set'
     num_case = int(extract_number(case_name))
     archivos = [archivo_x, archivo_y, archivo_z]
+=======
+@task(returns=1)
+def postproCaso(simulation_wdir, name_sim, w_tow, L_pro, angles_tows, n_tows, n_layers, Lset, **kwargs):
+    archivo_x = 'x-flow/'+name_sim+'-element.nsi.set'
+    archivo_y = 'y-flow/'+name_sim+'-element.nsi.set'
+    archivo_z = 'z-flow/'+name_sim+'-element.nsi.set'
+    num_case= int(extract_number(name_sim))
+    archivos = [archivo_x,archivo_y,archivo_z]
+>>>>>>> a127c16 (update)
     for angulo in angles_tows:
         if angulo == 0 or angulo == 90:
             angulo_dist_0_90 = 90.0
