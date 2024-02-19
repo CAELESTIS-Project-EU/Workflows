@@ -1,3 +1,5 @@
+import os.path
+
 from pycompss.api.mpi import mpi
 from pycompss.api.task import task
 from pycompss.api.parameter import *
@@ -9,4 +11,8 @@ def simulation(name_sim, simulation_wdir, **kwargs):
     return
 
 
-def permeability_simulation(name_sim, simulation_wdir, **kwargs):
+def permeability_simulation(name_sim, simulation_wdir, cases_permeability, **kwargs):
+    for case in cases_permeability:
+        simulation_wdir=os.path.join(simulation_wdir, case)
+        simulation(name_sim,simulation_wdir)
+    return
