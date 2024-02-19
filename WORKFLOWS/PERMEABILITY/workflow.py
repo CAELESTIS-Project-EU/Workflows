@@ -8,7 +8,6 @@ def execution(yaml_file, execution_folder, data_folder, parameters):
     workflow_execution(phases, yaml_file, execution_folder, data_folder, parameters)
     return
 
-
 def workflow_execution(phases, yaml_file, execution_folder, data_folder, parameters):
     sample_set = phase.run(args_values.get_values(phases.get("sampler"), yaml_file, data_folder, locals()))
     sample_set = compss_wait_on(sample_set)
@@ -26,7 +25,7 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
         name_sim = phase.run(args_values.get_values(phases.get("mesher"), yaml_file, data_folder, locals()))
         print("END FIRST STAGE")
         print("SECOND STAGE")
-        #sim_out = phase.run(args_values.get_values(phases.get("sim"), yaml_file, data_folder, locals()), out=name_sim)
+        sim_out = phase.run(args_values.get_values(phases.get("sim"), yaml_file, data_folder, locals()), out=name_sim)
         print("END SECOND STAGE")
 
         #phase.run(args_values.get_values(phases.get("post_process"), yaml_file, data_folder, locals()), out=sim_out)
