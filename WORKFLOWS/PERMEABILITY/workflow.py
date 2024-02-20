@@ -16,7 +16,6 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
     for i in range(sample_set.shape[0]):
         values = sample_set[i, :]
         case_name="case_"+str(i+1)
-        num_case= i+1
         simulation_wdir = execution_folder + "/SIMULATIONS/"+ case_name
         results_folder = execution_folder + "/results/"
         if not os.path.isdir(results_folder):
