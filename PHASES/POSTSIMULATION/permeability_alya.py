@@ -20,10 +20,8 @@ def postProcessPermeability(**kwargs):
     for item in kwargs['postProcessParam']:
         kwargs.update(item)
     values = kwargs.get("values")
-    angles_tows = [values[0], values[1], values[2], values[3]]
-    L_pro = values[4]
-    kwargs.update(angles_tows)
-    kwargs.update(L_pro)
+    kwargs['angles_tows'] = [values[0], values[1], values[2], values[3]]
+    kwargs['L_pro'] = values[4]
     del kwargs['postProcessParam']
     return postproCaso(**kwargs)
 
