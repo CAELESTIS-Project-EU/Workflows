@@ -59,7 +59,7 @@ def permeability_mesher(**kwargs):
 
 
 @task(returns=1)
-def RVEgen2Alya(simulation_wdir, num_cases, density, viscosity, volume_fraction, tipo_fallo, w_tow, h_tow, L_pro, n_elements_gap, n_elements_towsingap,
+def RVEgen2Alya(simulation_wdir, num_case, density, viscosity, volume_fraction, tipo_fallo, w_tow, h_tow, L_pro, n_elements_gap, n_elements_towsingap,
                     n_elements_layer, n_layers, angles_tows, n_tows, Lset, ol, ajus_ol, ol_left, ol_right, AlyaSet, debug, **kwargs):
     # Get the start time
     st = time.time()
@@ -153,16 +153,16 @@ def RVEgen2Alya(simulation_wdir, num_cases, density, viscosity, volume_fraction,
     ###################################################################
 
     if tipo_fallo == "N":
-        caseName = "case_" + str(num_cases)
+        caseName = "case_" + str(num_case)
         datos_input, n_nodos, n_espesor, Ldom = NoFallos(w_tow, h_tow, L_pro, angles_tows, n_layers, n_tows,
                                                          n_elements_gap, n_elements_towsingap, n_elements_layer)
     elif tipo_fallo == "O":
-        caseName = "case_" + str(num_cases)
+        caseName = "case_" + str(num_case)
         datos_input, n_nodos, n_espesor, Ldom = Overlap(w_tow, h_tow, L_pro, ol, ajus_ol, ol_left, ol_right,
                                                         angles_tows, n_layers, n_tows, n_elements_gap,
                                                         n_elements_towsingap, n_elements_layer)
     elif tipo_fallo == "G":
-        caseName = "Caso_" + str(num_cases)
+        caseName = "Caso_" + str(num_case)
         datos_input, n_nodos, n_espesor, Ldom = Gap(w_tow, h_tow, L_pro, ol, ajus_ol, ol_left, ol_right, angles_tows,
                                                     n_layers, n_tows, n_elements_gap, n_elements_towsingap,
                                                     n_elements_layer)
