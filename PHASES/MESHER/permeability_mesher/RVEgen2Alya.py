@@ -51,6 +51,11 @@ from PHASES.MESHER.permeability_mesher.GenCases import Gap
 def permeability_mesher(**kwargs):
     for item in kwargs['problem_mesher']:
         kwargs.update(item)
+    values=kwargs.get("values")
+    angles_tows = [values[0], values[1], values[2], values[3]]
+    L_pro = values[4]
+    kwargs.update(angles_tows)
+    kwargs.update(L_pro)
     del kwargs['problem_mesher']
     return RVEgen2Alya(**kwargs)
 

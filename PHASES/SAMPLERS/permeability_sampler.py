@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
-
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 import numpy as np
 import itertools
 #lee un txt llamado doe_seed.txt que contiene una linea por cada
 #variable, en cada linea aparecen el minimo y maximo valor
 #y un 0 para variables lineales, 1 para logaritmicas
 
+
+@task(returns=1)
 def sampling(sampler_input_file):
     casos =[]
     with open(sampler_input_file, 'r') as f:
