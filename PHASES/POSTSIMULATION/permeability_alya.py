@@ -94,3 +94,31 @@ def extract_number(case_name):
     else:
         # Return None if no match is found
         return None
+
+
+
+# import numpy as np
+import os
+# import pandas as pd
+
+@task(returns=1)
+def JoinCases(simulation_wdir, outputName, results_folder, erase_previous = True, **kwargs):
+    outputFile= os.path.join(results_folder, outputName)
+    if erase_previous:
+        open(outputFile, 'w').close()
+    # simulation_wdir = 'output/'
+    lista_casos = os.listdir(simulation_wdir)
+    s1 = 'variable1s1;variable2s1;variable3s1;variable4s1;variable5s1;'
+    s2 = 'variable1s2;variable2s2;variable3s2;variable4s2;variable5s2;'
+    s3 = 'variable1s3;variable2s3;variable3s3;variable4s3;variable5s3'
+    with open(outputFile, 'a') as f:
+        f.write('simulacion;set;' + s1 + s2 + s3 + '\n')
+    for caso in lista_casos:
+        with open(simulation_wdir + caso + '/set_results.csv', 'r') as f:
+            new_case = f.readlines()
+            # Reemplazar comas por punto y coma (;) en cada línea
+            modified_lines = [line.replace(',', ';') for line in new_case]
+
+        with open(outputFile, 'a') as f:
+            f.writelines(modified_lines)
+    return
