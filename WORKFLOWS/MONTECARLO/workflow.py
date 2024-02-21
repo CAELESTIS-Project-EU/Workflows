@@ -4,7 +4,7 @@ import os
 
 
 def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
-    sample_set = phase.run(args_values.get_values(phases.get("sampler"), yaml_file, data_folder, locals()))
+    sample_set = phase.run(args_values.get_values(phases.get("sampler"), inputs, outputs, parameters,  data_folder, locals()))
     sample_set = compss_wait_on(sample_set)
     original_name_sim = parameters.get("original_name_sim")
     y = []
