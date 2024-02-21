@@ -16,18 +16,11 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         if not os.path.isdir(results_folder):
             os.makedirs(results_folder)
         prepare_out = phase.run(args_values.get_values(phases.get("prepare_data"), inputs, outputs, parameters, data_folder, locals()))
-        print("RUN SIM")
-        print(phases.get("sim"))
         sim_out = phase.run(args_values.get_values(phases.get("sim"), inputs, outputs, parameters, data_folder, locals()),
                             out=prepare_out)
-        print("POST_PROCESS COLLECT")
-        print(phases.get("post_process"))
         new_y = phase.run(args_values.get_values(phases.get("post_process"), inputs, outputs, parameters, data_folder, locals()),
                           out=sim_out)
-        print("NEW Y")
-        print(new_y)
         y.append(new_y)
-        print(y)
     out_post=phase.run(args_values.get_values(phases.get("post_process_merge"), inputs, outputs, parameters, data_folder, locals()))
     phase.run(args_values.get_values(phases.get("sensitivity"), inputs, outputs, parameters, data_folder, locals()), out=out_post)
     return
