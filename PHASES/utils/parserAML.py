@@ -7,8 +7,8 @@ Created on Sept 15 2023
 
 import importlib
 import xml.etree.ElementTree as ET
-from utils.data import generate_data
-from utils.software import Software
+from PHASES.utils.utilsAML.data import generate_data
+from PHASES.utils.utilsAML.software import Software
 
 NAMESPACE = {'aml': 'http://www.dke.de/CAEX',
              'xsi': 'http://www.w3.org/2001/XMLSchema-instance'}

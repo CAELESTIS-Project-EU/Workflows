@@ -1,35 +1,35 @@
 import os
 
-def get_values(phase, yaml_file, data_folder, symbol_table):
+def get_values(phase, inputs, outputs, parameters, data_folder, symbol_table):
     phase_type = phase.get("type")
     args_dict = None
     if phase.get("arguments"):
         args = phase.get("arguments")
         if args:
-            args_dict = get_arguments(args, yaml_file, data_folder, symbol_table)
+            args_dict = get_arguments(args, inputs, outputs, parameters, data_folder, symbol_table)
             return phase_type, args_dict
 
 
-def get_arguments(phase_args, yaml_file, data_folder, symbol_table):
+def get_arguments(phase_args, inputs, outputs, parameters, data_folder, symbol_table):
     args = {}
     for phase_arg in phase_args:
         for key, value in phase_arg.items():
             if starts_with_dollar(str(value)):
                 search_params = remove_dollar_prefix(value)
                 first_part, second_part = extract_parts(search_params)
-                args.update(switch_values(first_part, second_part, yaml_file, data_folder, symbol_table))
+                args.update(switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table))
             else:
                 args.update({key: value})
     return args
 
 
-def switch_values(first_part, second_part, yaml_file, data_folder, symbol_table):
+def switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table):
     if first_part == "outputs":
-        return get_outputs(second_part, yaml_file.get("outputs"))
+        return get_outputs(second_part, outputs)
     elif first_part == "inputs":
-        return get_inputs(second_part, yaml_file.get("inputs"), data_folder)
+        return get_inputs(second_part, inputs, data_folder)
     elif first_part == "parameters":
-        return get_param(second_part, yaml_file.get("parameters"))
+        return get_param(second_part, parameters)
     elif first_part == "variables":
         return add_entry(second_part, get_variable_value(second_part, symbol_table))
     else:

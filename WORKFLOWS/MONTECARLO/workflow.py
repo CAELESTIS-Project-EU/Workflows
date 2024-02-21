@@ -3,13 +3,7 @@ from pycompss.api.api import compss_wait_on
 import os
 
 
-def execution(yaml_file, execution_folder, data_folder, parameters):
-    phases = yaml_file.get("phases")
-    workflow_execution(phases, yaml_file, execution_folder, data_folder, parameters)
-    return
-
-
-def workflow_execution(phases, yaml_file, execution_folder, data_folder, parameters):
+def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
     sample_set = phase.run(args_values.get_values(phases.get("sampler"), yaml_file, data_folder, locals()))
     sample_set = compss_wait_on(sample_set)
     original_name_sim = parameters.get("original_name_sim")
@@ -21,11 +15,11 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
         results_folder = execution_folder + "/results/"
         if not os.path.isdir(results_folder):
             os.makedirs(results_folder)
-        prepare_out = phase.run(args_values.get_values(phases.get("prepare_data"), yaml_file, data_folder, locals()))
-        sim_out = phase.run(args_values.get_values(phases.get("sim"), yaml_file, data_folder, locals()),
+        prepare_out = phase.run(args_values.get_values(phases.get("prepare_data"), inputs, outputs, parameters, data_folder, locals()))
+        sim_out = phase.run(args_values.get_values(phases.get("sim"), inputs, outputs, parameters, data_folder, locals()),
                             out=prepare_out)
-        new_y = phase.run(args_values.get_values(phases.get("post_process"), yaml_file, data_folder, locals()),
+        new_y = phase.run(args_values.get_values(phases.get("post_process"), inputs, outputs, parameters, data_folder, locals()),
                           out=sim_out)
         y.append(new_y)
-    phase.run(args_values.get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()))
+    phase.run(args_values.get_values(phases.get("post_process_merge"), inputs, outputs, parameters, data_folder, locals()))
     return

@@ -5,13 +5,8 @@ import os
 import yaml
 
 
-def execution(yaml_file, execution_folder, data_folder, parameters):
-    phases = yaml_file.get("phases")
-    workflow_execution(phases, yaml_file, execution_folder, data_folder, parameters)
-    return
-
-def workflow_execution(phases, yaml_file, execution_folder, data_folder, parameters):
-    x = phase.run(args_values.get_values(phases.get("sampler"), yaml_file, data_folder, locals()))
+def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
+    x = phase.run(args_values.get_values(phases.get("sampler"), inputs, outputs, parameters, data_folder, locals()))
     x = compss_wait_on(x)
     original_name_sim = parameters.get("original_name_sim")
     y = []
@@ -22,15 +17,15 @@ def workflow_execution(phases, yaml_file, execution_folder, data_folder, paramet
         results_folder = execution_folder + "/results/"
         if not os.path.isdir(results_folder):
             os.makedirs(results_folder)
-        prepare_out = phase.run(args_values.get_values(phases.get("prepare_data"), yaml_file, data_folder, locals()))
-        sim_out = phase.run(args_values.get_values(phases.get("sim"), yaml_file, data_folder, locals()),
+        prepare_out = phase.run(args_values.get_values(phases.get("prepare_data"), inputs, outputs, parameters, data_folder, locals()))
+        sim_out = phase.run(args_values.get_values(phases.get("sim"), inputs, outputs, parameters, data_folder, locals()),
                             out=prepare_out)
-        new_y = phase.run(args_values.get_values(phases.get("post_process"), yaml_file, data_folder, locals()),
+        new_y = phase.run(args_values.get_values(phases.get("post_process"), inputs, outputs, parameters, data_folder, locals()),
                           out=sim_out)
         y.append(new_y)
-    phase.run(args_values.get_values(phases.get("post_process_merge"), yaml_file, data_folder, locals()), out=y)
-    kernel= phase.run(args_values.get_values(phases.get("kernel_generation"), yaml_file, data_folder, locals()), out=y)
-    phase.run(args_values.get_values(phases.get("training"), yaml_file, data_folder, locals()), out=y)
+    phase.run(args_values.get_values(phases.get("post_process_merge"), inputs, outputs, parameters, data_folder, locals()), out=y)
+    kernel= phase.run(args_values.get_values(phases.get("kernel_generation"), inputs, outputs, parameters, data_folder, locals()), out=y)
+    phase.run(args_values.get_values(phases.get("training"), inputs, outputs, parameters, data_folder, locals()), out=y)
     write_file(results_folder, x, "xFile.npy")
     write_file(results_folder, y, "yFile.npy")
     return
