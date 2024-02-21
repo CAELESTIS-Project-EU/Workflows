@@ -22,5 +22,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
                           out=sim_out)
         y.append(new_y)
     out_post=phase.run(args_values.get_values(phases.get("post_process_merge"), inputs, outputs, parameters, data_folder, locals()))
+    print("PARAMETRO")
+    print(args_values.get_values(phases.get("sensitivity"), inputs, outputs, parameters, data_folder, locals()))
     phase.run(args_values.get_values(phases.get("sensitivity"), inputs, outputs, parameters, data_folder, locals()), out=out_post)
     return

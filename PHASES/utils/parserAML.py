@@ -34,6 +34,9 @@ class Workflow:
         self.outputs = outputs
         self.phases = phases
 
+    def get_type(self):
+        return self.type
+
     def get_object(self):
         module = importlib.import_module(self.module)
         func = getattr(module, self.function)

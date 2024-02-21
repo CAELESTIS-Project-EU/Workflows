@@ -9,7 +9,7 @@ from pycompss.api.parameter import *
 def sensitivity(y, problemDef, sample_set, p, sensitivity_report, filter_outputs, results_folder, **kwargs):
     y = np.array(y, dtype=np.float64)
     param_values = np.array(sample_set, dtype=np.float64)
-    Si = morrisAnalyze.analyze(problemDef, X=param_values, Y=y, num_levels=int(p), print_to_console=True)
+    Si = morrisAnalyze.analyze(problem=problemDef, X=param_values, Y=y, num_levels=int(p), print_to_console=True)
     write_output(sensitivity_report, filter_outputs, results_folder, Si)
     return Si
 

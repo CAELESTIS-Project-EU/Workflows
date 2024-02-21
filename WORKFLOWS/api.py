@@ -22,8 +22,10 @@ def workflow(path, execution_folder, data_folder):
     elif extension==".aml" or extension==".xml":
             AMLdoc= parserAML.AutomationMLDocument(path)
             AMLdoc.parse()
-            print("DOCUMENT")
-            print(AMLdoc)
+            first_workflow_name = list(AMLdoc.get_workflows().keys())[0]
+
+            print(first_workflow_name)
+            module = importlib.import_module(AMLdoc.get_workflows().get("name"))
     return
 
 
