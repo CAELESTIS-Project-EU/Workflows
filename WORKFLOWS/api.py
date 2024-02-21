@@ -32,12 +32,12 @@ def get_file_extension(file_path):
     return extension
 
 if __name__ == '__main__':
-    path = "/home/rcecco/BSCprojects/templates_yaml/AML/multiple_chain.xml"
-    execution_folder = "/home/rcecco/BSCprojects/testCODE/"
-    data_folder = "/home/rcecco/BSCprojects/testCODE/"
-    """path = str(sys.argv[1])
+    #path = "/home/rcecco/BSCprojects/templates_yaml/AML/multiple_chain.xml"
+    #execution_folder = "/home/rcecco/BSCprojects/testCODE/"
+    #data_folder = "/home/rcecco/BSCprojects/testCODE/"
+    path = str(sys.argv[1])
     execution_folder = str(sys.argv[2])
-    data_folder = str(sys.argv[3])"""
+    data_folder = str(sys.argv[3])
     workflow(path, execution_folder, data_folder)
 
 
