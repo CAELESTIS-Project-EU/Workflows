@@ -39,6 +39,6 @@ enqueue_compss_cmd="$enqueue_compss_cmd $INSTALL_DIR/$BRANCH/WORKFLOWS/api.py $W
 
 # Execute the command
 $enqueue_compss_cmd
-
+echo $enqueue_compss_cmd
 echo DONEEE
 
