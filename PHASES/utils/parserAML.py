@@ -16,10 +16,12 @@ WORKFLOW_DEFINITION_TAG = "Workflow_definition"
 WORKFLOW_TYPE_TAG = "Type"
 WORKFLOW_INPUTS_TAG = "Inputs"
 WORKFLOW_OUTPUTS_TAG = "Outputs"
+WORKFLOW_PARAMETERS_TAG = "Parameters"
 WORKFLOW_PHASES_TAG = "Phases"
 WORKFLOW_PHASE_TAG = "Phase"
 WORKFLOW_SOFTWARE_TAG = "Software"
 PARAMETER_SOURCE_TAG = "source"
+PARAMETER_PARAM_TAG = "param"
 PARAMETER_DESTINATION_TAG = "destination"
 SOFTWARE_PARAMETERS_TAG = "Parameters"
 SOFTWARE_ID_TAG = "id"
@@ -28,19 +30,40 @@ PHASE_NAME_TAG = "name"
 
 
 class Workflow:
-    def __init__(self, wf_type, inputs, outputs, phases):
+    def __init__(self, wf_type, inputs, outputs, phases, parameters):
         self.type = wf_type
         self.inputs = inputs
         self.outputs = outputs
         self.phases = phases
+        self.parameters=parameters
 
     def get_type(self):
         return self.type
 
-    def get_object(self):
+    """def get_object(self):
         module = importlib.import_module(self.module)
         func = getattr(module, self.function)
-        return func(self.inputs, self.outputs, self.phases)
+        return func(self.inputs, self.outputs, self.phases)"""
+
+    def get_inputs(self):
+        inputs={}
+        for key,data in self.inputs.items():
+            inputs[key]= data.value
+        return inputs
+
+    def get_parameters(self):
+        parameters={}
+        for key,data in self.parameters.items():
+            parameters[key]= data.value
+        return parameters
+    def get_outputs(self):
+        outputs = {}
+        for key, data in self.outputs.items():
+            outputs[key] = data.value
+        return outputs
+
+    def get_phases(self):
+        return self.phases
 
 
 class AutomationMLDocument:
@@ -68,8 +91,9 @@ def parse_workflow(workflow_element):
         raise Exception("No Type found in workflow")
     inputs = parse_workflow_parameters(workflow_element, WORKFLOW_INPUTS_TAG, PARAMETER_DESTINATION_TAG)
     outputs = parse_workflow_parameters(workflow_element, WORKFLOW_OUTPUTS_TAG, PARAMETER_SOURCE_TAG)
+    parameters=parse_workflow_parameters(workflow_element, WORKFLOW_PARAMETERS_TAG, PARAMETER_PARAM_TAG)
     phases = parse_phases(workflow_element)
-    return type, Workflow(type, inputs, outputs, phases)
+    return type, Workflow(type, inputs, outputs, phases, parameters)
 
 
 def get_internal_elements(wf_element, tag, internal_tag):
@@ -134,7 +158,7 @@ def parse_parameters(element, tag):
 
 def parse_phases(wf_element):
     phases = dict()
-    phases_elements = get_internal_elements(wf_element, WORKFLOW_PHASES_TAG, WORKFLOW_PHASE_TAG);
+    phases_elements = get_internal_elements(wf_element, WORKFLOW_PHASES_TAG, WORKFLOW_PHASE_TAG)
     for phase_element in phases_elements:
         phase_name = get_attribute_value(phase_element, PHASE_NAME_TAG)
         print("Getting Phase: " + phase_name)

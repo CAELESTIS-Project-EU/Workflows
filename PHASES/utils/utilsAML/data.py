@@ -32,6 +32,8 @@ class Data:
         self.type = type
         self.value = value
 
+    def get_value(self):
+        return self.value
 
 def resolve_data(data_dict, variables):
     resolved_data = dict()
