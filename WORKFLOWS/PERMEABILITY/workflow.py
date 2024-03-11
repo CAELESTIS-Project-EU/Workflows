@@ -1,4 +1,4 @@
-#from pycompss.api.api import compss_wait_on
+from pycompss.api.api import compss_wait_on
 from PHASES.utils import args_values, phase
 import os
 
