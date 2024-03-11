@@ -1,13 +1,20 @@
 import os
 
 def get_values(phase, inputs, outputs, parameters, data_folder, symbol_table):
-    phase_type = phase.get("type")
-    args_dict = None
-    if phase.get("arguments"):
-        args = phase.get("arguments")
-        if args:
-            args_dict = get_arguments(args, inputs, outputs, parameters, data_folder, symbol_table)
-            return phase_type, args_dict
+    if isinstance(phase, dict):
+        phase_type = phase.get("type")
+        args_dict = None
+        if phase.get("arguments"):
+            args = phase.get("arguments")
+            if args:
+                args_dict = get_arguments(args, inputs, outputs, parameters, data_folder, symbol_table)
+                return phase_type, args_dict
+    else:
+        args_dict = None
+        if phase:
+            args_dict = get_arguments_XML(phase, inputs, outputs, parameters, data_folder, symbol_table)
+            return args_dict
+
 
 
 def get_arguments(phase_args, inputs, outputs, parameters, data_folder, symbol_table):
@@ -22,6 +29,36 @@ def get_arguments(phase_args, inputs, outputs, parameters, data_folder, symbol_t
                 args.update({key: value})
     return args
 
+
+def get_arguments_XML(phase_list, inputs, outputs, parameters, data_folder, symbol_table):
+    if len(phase_list)==1:
+        for phase_args in phase_list:
+            args = {}
+            typePhase=phase_args.get("type")
+            arguments=phase_args.get("arguments")
+            for key, value in arguments.items():
+                if starts_with_dollar(str(value)):
+                    search_params = remove_dollar_prefix(value)
+                    first_part, second_part = extract_parts(search_params)
+                    args.update(switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table))
+                else:
+                    args.update({key: value})
+        return {"type":typePhase, "arguments":args}
+    else:
+        phases=[]
+        for phase_args in phase_list:
+            args = {}
+            typePhase=phase_args.get("type")
+            arguments=phase_args.get("arguments")
+            for key, value in arguments.items():
+                if starts_with_dollar(str(value)):
+                    search_params = remove_dollar_prefix(value)
+                    first_part, second_part = extract_parts(search_params)
+                    args.update(switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table))
+                else:
+                    args.update({key: value})
+            phases.append({"type":typePhase, "arguments":args})
+        return phases
 
 def switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table):
     if first_part == "outputs":
