@@ -19,7 +19,8 @@ def run(phase_info, **kwargs):
             module_call, function_call = split_string_at_last_dot(phase_function)
             module = importlib.import_module(module_call)
             values.append(getattr(module, function_call)(**phase_args, **kwargs))
-        return
+
+        return values
 def split_string_at_last_dot(input_string):
     last_dot_index = input_string.rfind('.')
     if last_dot_index != -1:
