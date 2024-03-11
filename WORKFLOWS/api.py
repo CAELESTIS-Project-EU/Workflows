@@ -42,7 +42,7 @@ def get_file_extension(file_path):
 if __name__ == '__main__':
     """path = "/home/rcecco/BSCprojects/templates_yaml/AML/multiple_chain.xml"
     execution_folder = "/home/rcecco/BSCprojects/testCODE/"
-    data_folder = "/home/rcecco/BSCprojects/testCODE/""""
+    data_folder = "/home/rcecco/BSCprojects/testCODE/"""
     path = str(sys.argv[1])
     execution_folder = str(sys.argv[2])
     data_folder = str(sys.argv[3])
