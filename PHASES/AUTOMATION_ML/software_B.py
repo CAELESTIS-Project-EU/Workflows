@@ -4,7 +4,6 @@ from pycompss.api.parameter import *
 
 @task(returns=1)"""
 def run(**kwargs):
-    print("SOFTWARE B")
-    print(kwargs)
-    s="Run Software B with " + kwargs.values()[0]
+    s="Run Software B with " + kwargs.values().get("B_description")
+    print(s)
     return s

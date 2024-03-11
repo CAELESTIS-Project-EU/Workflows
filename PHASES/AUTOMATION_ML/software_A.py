@@ -3,7 +3,6 @@ from pycompss.api.parameter import *
 
 @task(returns=1)"""
 def run( **kwargs):
-    print("SOFTWARE A")
-    print(kwargs)
-    s="Run Software A with "+ kwargs.values()[0]
+    s="Run Software A with "+ str(kwargs.values().get("execution_folder"))
+    print(s)
     return s
