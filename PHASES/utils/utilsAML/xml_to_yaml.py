@@ -18,16 +18,16 @@ def inputs_parser(root):
     if inputs_element is not None:
         for internal_element in inputs_element.findall('.//caex:InternalElement', namespaces=namespace):
             internal_element_name = internal_element.get('Name')
-            attribute_source = internal_element.find('.//caex:Attribute[@Name="source"]/caex:Value', namespaces=namespace)
-            attribute_destination = internal_element.find('.//caex:Attribute[@Name="destination"]/caex:Value', namespaces=namespace)
+            attribute_source = internal_element.find('.//caex:Attribute[@Name="server"]/caex:Value', namespaces=namespace)
+            attribute_destination = internal_element.find('.//caex:Attribute[@Name="path"]/caex:Value', namespaces=namespace)
 
             if attribute_source is not None and attribute_destination is not None:
                 source_value = attribute_source.text if attribute_source.text is not None else ''
                 destination_value = attribute_destination.text if attribute_destination.text is not None else ''
 
                 inputs_data[internal_element_name] = [
-                    {'source': source_value},
-                    {'destination': destination_value}
+                    {'server': source_value},
+                    {'path': destination_value}
                 ]
 
     return inputs_data
@@ -42,8 +42,8 @@ def outputs_parser(root):
     if outputs_element is not None:
         for internal_element in outputs_element.findall('.//caex:InternalElement', namespaces=namespace):
             internal_element_name = internal_element.get('Name')
-            attribute_source = internal_element.find('.//caex:Attribute[@Name="source"]/caex:Value', namespaces=namespace)
-            attribute_destination = internal_element.find('.//caex:Attribute[@Name="destination"]/caex:Value', namespaces=namespace)
+            attribute_source = internal_element.find('.//caex:Attribute[@Name="path"]/caex:Value', namespaces=namespace)
+            attribute_destination = internal_element.find('.//caex:Attribute[@Name="server"]/caex:Value', namespaces=namespace)
 
             if attribute_source is not None and attribute_destination is not None:
                 source_value = attribute_source.text if attribute_source.text is not None else ''
