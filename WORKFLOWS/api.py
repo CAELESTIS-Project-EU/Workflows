@@ -21,6 +21,7 @@ def workflow(path, execution_folder, data_folder):
             module = importlib.import_module(module_call)
             getattr(module, function_call)(execution_folder, data_folder, phases, inputs, outputs, parameters)
     elif extension==".aml" or extension==".xml":
+        print(path)
         data = xml_to_yaml.execution(path)
         print(data)
         workflow_type = data.get("workflow_type")

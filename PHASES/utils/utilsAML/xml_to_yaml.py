@@ -112,17 +112,37 @@ def parameters_parser(root):
     return parameters_data
 
 def workflow_parser(xml_file):
-    tree = ET.parse(xml_file)
-    root = tree.getroot()
+    try:
+        tree = ET.parse(xml_file)
+        root = tree.getroot()
 
-    workflow_data = {'workflow_type': None, 'phases': [], 'outputs': {}, 'inputs': {}, 'parameters': {}}
+        workflow_data = {'workflow_type': None, 'phases': [], 'outputs': {}, 'inputs': {}, 'parameters': {}}
+        print("workflow_data 1")
+        print(workflow_data)
+        workflow_data['workflow_type'] = workflow_type_parser(root)
+        print("workflow_data 2")
+        print(workflow_data)
 
-    workflow_data['workflow_type'] = workflow_type_parser(root)
-    workflow_data['inputs'] = inputs_parser(root)
-    workflow_data['outputs'] = outputs_parser(root)
-    workflow_data['phases'] = phases_parser(root)
-    workflow_data['parameters'] = parameters_parser(root)
-    return workflow_data
+        workflow_data['inputs'] = inputs_parser(root)
+        print("workflow_data 3")
+        print(workflow_data)
+
+        workflow_data['outputs'] = outputs_parser(root)
+        print("workflow_data 4")
+        print(workflow_data)
+
+        workflow_data['phases'] = phases_parser(root)
+        print("workflow_data 5")
+        print(workflow_data)
+
+        workflow_data['parameters'] = parameters_parser(root)
+        print("workflow_data 6")
+        print(workflow_data)
+        return workflow_data
+    except Exception as e:
+        print(f"Error: {e}")
+
+
 
 
 def execution(path):
