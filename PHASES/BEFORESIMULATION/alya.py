@@ -61,7 +61,7 @@ def vars_func(prepare_args):
     return variables
 
 
-
+@task(returns=1)
 def prepare_sld(prepare_args, variables, **kwargs):
     original_name_sim = get_value(prepare_args, "original_name_sim")
     template = get_value(prepare_args, "template_sld")
@@ -70,7 +70,6 @@ def prepare_sld(prepare_args, variables, **kwargs):
     name_sim = get_value(prepare_args,"name_sim")
     # simulation_wdir = execution_folder + "/SIMULATIONS/" + original_name + "-s" + str(i) + "/"
     if not os.path.isdir(simulation_wdir):
-        print(simulation_wdir)
         os.makedirs(simulation_wdir)
 
     create_env_simulations(mesh, simulation_wdir, original_name_sim, name_sim)
@@ -88,7 +87,7 @@ def prepare_sld(prepare_args, variables, **kwargs):
     return
 
 
-
+@task(returns=1)
 def prepare_fie(prepare_args, variables, **kwargs):
     template = get_value(prepare_args, "template_fie")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
@@ -107,7 +106,7 @@ def prepare_fie(prepare_args, variables, **kwargs):
     return
 
 
-
+@task(returns=1)
 def prepare_dom(prepare_args, **kwargs):
     template = get_value(prepare_args, "template_dom")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
