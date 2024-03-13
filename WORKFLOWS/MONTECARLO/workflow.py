@@ -11,12 +11,11 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     sample_set = compss_wait_on(sample_set)
     original_name_sim = parameters.get("original_name_sim")
     results_folder = execution_folder + "/results/"
-    num_rows, num_cols = sample_set.shape
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
     write_file(results_folder, sample_set, "xFile.npy")
     y = []
-    for i in range(num_rows):
+    for i in range(sample_set.shape[0]):
         values = sample_set[i, :]
         name_sim = original_name_sim + "-s" + str(i)
         simulation_wdir = execution_folder + "/SIMULATIONS/" + name_sim + "/"
