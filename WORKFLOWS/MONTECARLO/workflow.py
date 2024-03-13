@@ -22,4 +22,17 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
                           out=sim_out)
         y.append(new_y)
     phase.run(args_values.get_values(phases.get("post_process_merge"), inputs, outputs, parameters, data_folder, locals()))
+    write_file(results_folder, x, "xFile.npy")
+    write_file(results_folder, y, "yFile.npy")
+    return
+
+def write_file(output_folder, elements, nameFile, **kwargs):
+    model_file= os.path.join(output_folder, nameFile)
+    write(model_file, elements)
+
+
+def write(file, element):
+    with open(file, 'wb') as f3:
+        np.save(f3, element)
+        f3.close()
     return
