@@ -1,5 +1,6 @@
 import numpy as np
-
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 from PHASES.utils import args_values, phase
 from pycompss.api.api import compss_wait_on
 import os
@@ -14,7 +15,6 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
     write_file(results_folder, sample_set, "xFile.npy")
-    print("NUM ROW:", str(num_rows))
     y = []
     for i in range(num_rows):
         values = sample_set[i, :]
@@ -30,6 +30,8 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     write_file(results_folder, y, "yFile.npy")
     return
 
+
+@task(elements=COLLECTION_IN)
 def write_file(output_folder, elements, nameFile, **kwargs):
     model_file= os.path.join(output_folder, nameFile)
     write(model_file, elements)
