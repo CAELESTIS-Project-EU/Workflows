@@ -69,8 +69,11 @@ def prepare_sld(prepare_args, variables, **kwargs):
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     name_sim = get_value(prepare_args,"name_sim")
     # simulation_wdir = execution_folder + "/SIMULATIONS/" + original_name + "-s" + str(i) + "/"
+    print("SIMULATION_WDIR PRINT: "+simulation_wdir)
     if not os.path.isdir(simulation_wdir):
+        print("CREATION FOLDER START "+simulation_wdir)
         os.makedirs(simulation_wdir)
+        print("CREATION FOLDER END "+simulation_wdir)
 
     create_env_simulations(mesh, simulation_wdir, original_name_sim, name_sim)
     simulation = simulation_wdir + "/" + name_sim + ".sld.dat"
