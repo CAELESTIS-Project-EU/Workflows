@@ -1,14 +1,16 @@
 from pycompss.api.api import compss_wait_on
 
-from PHASES.utils import phase, args_values
+from PHASES.utils import phase
 import os
 
 
 def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
-    out1 = phase.run(args_values.get_values(phases.get("postSIM"), inputs, outputs, parameters, data_folder, locals()))
+    """out1 = phase.run(args_values.get_values(phases.get("postSIM"), inputs, outputs, parameters, data_folder, locals()))"""
+    out1 = phase.run(phases.get("postSIM"), inputs, outputs, parameters, data_folder, locals())
     out1=compss_wait_on(out1)
     print(out1)
-    out2 = phase.run(args_values.get_values(phases.get("simulation"), inputs, outputs, parameters, data_folder, locals()))
+    out2 = phase.run(phases.get("simulation"), inputs, outputs, parameters, data_folder, locals())
+    """out2 = phase.run(args_values.get_values(phases.get("simulation"), inputs, outputs, parameters, data_folder, locals()))"""
     out2 = compss_wait_on(out2)
     print(out2)
     return
