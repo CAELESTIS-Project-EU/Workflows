@@ -3,19 +3,19 @@ from PHASES.utils import args_values
 
 def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
     # Assuming phase_info is a tuple (phase_function, phase_args)
-    if len(phase)==1:
+    if isinstance(phase, dict):
         phase_info=args_values.get_values(phase, inputs, outputs, parameters, data_folder, local_vars)
-        if isinstance(phase_info, tuple):
-            phase_function, phase_args = phase_info
-            module_call, function_call = split_string_at_last_dot(phase_function)
-            module = importlib.import_module(module_call)
-            return getattr(module, function_call)(**phase_args, **kwargs)
-        elif isinstance(phase_info, dict):
-            phase_function = phase_info.get("type")
-            phase_args = phase_info.get("arguments")
-            module_call, function_call = split_string_at_last_dot(phase_function)
-            module = importlib.import_module(module_call)
-            return getattr(module, function_call)(**phase_args, **kwargs)
+        phase_function, phase_args = phase_info
+        module_call, function_call = split_string_at_last_dot(phase_function)
+        module = importlib.import_module(module_call)
+        return getattr(module, function_call)(**phase_args, **kwargs)
+    elif isinstance(phase, list) and len(phase)==1:
+        phase_info = args_values.get_values(phase, inputs, outputs, parameters, data_folder, local_vars)
+        phase_function = phase_info.get("type")
+        phase_args = phase_info.get("arguments")
+        module_call, function_call = split_string_at_last_dot(phase_function)
+        module = importlib.import_module(module_call)
+        return getattr(module, function_call)(**phase_args, **kwargs)
     else:
         values = []
         for p in phase:

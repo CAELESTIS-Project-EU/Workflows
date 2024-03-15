@@ -1,7 +1,5 @@
 from pycompss.api.api import compss_wait_on
-
 from PHASES.utils import phase
-import os
 
 
 def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
