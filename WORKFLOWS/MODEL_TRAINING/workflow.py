@@ -1,6 +1,8 @@
 import numpy as np
 from PHASES.utils import args_values, phase
 from pycompss.api.api import compss_wait_on
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 import os
 import yaml
 
@@ -29,6 +31,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     write_file(results_folder, y, "yFile.npy")
     return
 
+@task(elements=COLLECTION_IN)
 def write_file(output_folder, elements, nameFile, **kwargs):
     model_file= os.path.join(output_folder, nameFile)
     write(model_file, elements)
