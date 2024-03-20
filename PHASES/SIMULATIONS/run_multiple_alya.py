@@ -19,9 +19,10 @@ def run_permeability(case_name, simulation_wdir, cases_permeability, **kwargs):
         results.append(simulation(case_name, simulation_wdir_case, **kwargs))
     return results
 
-def run_rve(case_name, simulation_wdir, cases_permeability, **kwargs):
+def run_rve(case, simulation_wdir, listloads, **kwargs):
     results=[]
-    for case in cases_permeability:
-        simulation_wdir_case = os.path.join(simulation_wdir, case)
-        results.append(simulation(case_name, simulation_wdir_case, **kwargs))
+    for load in listloads:
+        name = case + "-"+str(load)
+        simulation_wdir_case = os.path.join(simulation_wdir, name)
+        results.append(simulation(name, simulation_wdir_case, **kwargs))
     return results

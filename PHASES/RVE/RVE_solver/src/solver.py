@@ -13,6 +13,8 @@ from .Writers.WriteAlyaPos import writeAlyaPos
 
 import numpy
 import os
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 
 VERBOSITY = 1
 
@@ -22,6 +24,7 @@ if VERBOSITY == 1:
 else:
     def verbosityPrint(str):
         pass
+
 
 def run(file, meshPath, outputPath, iload, debug):
     """
@@ -52,7 +55,8 @@ def run(file, meshPath, outputPath, iload, debug):
         writeAlyaSld3D(f'{outputPath}{file}{dash_iload}.sld.dat', file, dash_iload, 'STATIC', kfl_coh, nOfMaterials, iload, lx, ly, lz, debug)
     return
 
-def start(listloads, case, simulation_wdir):
+@task(returns=1)
+def start(listloads, case, simulation_wdir, **kwargs):
     # Get the start time
     st = time.time()
 
@@ -87,4 +91,4 @@ def start(listloads, case, simulation_wdir):
     
     if VERBOSITY == 1:
         print('Execution time:', round(elapsed_time,2), 'seconds')
-    return
+    return True
