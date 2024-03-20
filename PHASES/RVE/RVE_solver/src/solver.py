@@ -64,7 +64,7 @@ def start(listloads, case, simulation_wdir, **kwargs):
     # User inputs
     #-------------------------------------------------------------------
 
-    debug = True
+    debug = False
     #case = 'RVE_10_10_1'
     #case = 'RVE_Test_1'
     #case = 'twoFibres'
