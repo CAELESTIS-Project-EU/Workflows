@@ -44,7 +44,10 @@ def mesher3D(file, gmshBinFile, gmsh2alya, dataPath, outputPath, h, c, nOfLevels
     # Get the start time
     t1 = time.time()
 
-    RVE = numpy.load(f'{dataPath}/{file}.npz')
+    try:
+        RVE = numpy.load(f'{dataPath}/{file}.npz')
+    except FileNotFoundError:
+        raise FileNotFoundError(f"The file '{file}.npz' does not exist in the directory '{dataPath}'.")
 
     scriptFile = f'{outputPath}/{file}.geo'
     mshFile = f'{outputPath}/{file}.msh'

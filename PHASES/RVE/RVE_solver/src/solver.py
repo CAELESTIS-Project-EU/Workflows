@@ -1,9 +1,3 @@
-import pathlib
-path = pathlib.Path(__file__).parent.resolve()
-
-import sys
-sys.path.append(path)
-
 import time
 
 from Readers.ReadAlyaMat import readAlyaMat
@@ -56,9 +50,9 @@ def run(file, meshPath, outputPath, iload, debug):
         writeAlyaSld2D(f'{outputPath}{file}{dash_iload}.sld.dat', file, dash_iload, 'STATIC', kfl_coh, nOfMaterials, iload, lx, ly, lz, debug)
     else:
         writeAlyaSld3D(f'{outputPath}{file}{dash_iload}.sld.dat', file, dash_iload, 'STATIC', kfl_coh, nOfMaterials, iload, lx, ly, lz, debug)
-    
-if __name__ == '__main__':
+    return
 
+def start(listloads, case, simulation_wdir):
     # Get the start time
     st = time.time()
 
@@ -71,19 +65,14 @@ if __name__ == '__main__':
     #case = 'RVE_Test_1'
     #case = 'twoFibres'
     #case = 'oneFibre'
-    case = 'RVE_1x1_with_voids_1'
-    listloads = ['11', '22', '12']
 
     #-------------------------------------------------------------------
 
-    # Set paths
-    basePath = f'{path}/../..'
-    dataPath = f'{basePath}/RVE_gen/data'
 
     # Create load case scenarios    
     for iload in listloads:
-        meshPath =  f'{path}/../../output/'+case+'/msh/'
-        outputPath = f'{path}/../../output/'+case+'/'+case+'-'+iload+'/'
+        meshPath =  f'{simulation_wdir}/msh/'
+        outputPath = f'{simulation_wdir}/'+case+'-'+iload+'/'
         if not os.path.exists(outputPath):
             os.makedirs(outputPath)
             
@@ -98,3 +87,4 @@ if __name__ == '__main__':
     
     if VERBOSITY == 1:
         print('Execution time:', round(elapsed_time,2), 'seconds')
+    return

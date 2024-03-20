@@ -9,21 +9,17 @@ def mesher(case, h, c, nOfLevels, generateCohesiveElements, simulation_wdir, dat
     simulation_wdir=simulation_wdir+"/msh/"
     os.makedirs(simulation_wdir)
 
-    gmshBinFile = os.environ.get('gmshBinFile')
-
-    if gmshBinFile is not None:
-        print(f"The value of gmshBinFile is: {gmshBinFile}")
-    else:
-        raise Exception("Environment variable 'gmshBinFile' is not set.")
-
-    gmsh2alya = os.environ.get('gmsh2alya')
-
-    if gmsh2alya is not None:
-        print(f"The value of gmshBinFile is: {gmsh2alya}")
-    else:
-        raise Exception("Environment variable 'gmshBinFile' is not set.")
+    gmshBinFile = check_environment_variable('gmshBinFile')
+    gmsh2alya = check_environment_variable('gmsh2alya')
     
     # Run mesher
     mesher3D(case, gmshBinFile, gmsh2alya, dataPath, simulation_wdir, h, c, nOfLevels, generateCohesiveElements)
 
 
+def check_environment_variable(variable_name):
+    value = os.environ.get(variable_name)
+    if value is not None:
+        print(f"The value of {variable_name} is: {value}")
+        return value
+    else:
+        raise Exception(f"Environment variable '{variable_name}' is not set.")
