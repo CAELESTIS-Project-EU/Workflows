@@ -20,7 +20,7 @@ def writeAlyaDat(file, filename, dash_iload, debug):
     stream.write('  TIME_COUPLING:          GLOBAL, PRESCRIBED\n')
     stream.write(f'  TIME_INTERVAL:          {0.0:1.5f} {1.0:1.5f}\n')
     stream.write(f'  TIME_STEP_SIZE=         {0.1:1.5f}\n')
-    stream.write('  NUMBER_OF_STEPS=        0\n')
+    stream.write('  NUMBER_OF_STEPS=        10\n')
     stream.write('  MAXIMUM_NUMBER_GLOBAL=  1\n')
     stream.write('  SOLIDZ_MODULE:          ON\n')
     stream.write('  END_SOLIDZ_MODULE\n')
