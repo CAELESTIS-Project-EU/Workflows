@@ -19,6 +19,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         out_msh= phase.run(phases.get("rve_mesher"), inputs, outputs, parameters, data_folder, locals())
         out_solver=phase.run(phases.get("rve_solver"), inputs, outputs, parameters, data_folder, locals(), out=out_msh)
         sim_out = phase.run(phases.get("sim"), inputs, outputs, parameters, data_folder, locals(), out=out_solver)
+    #collect_alya_result
     return
 
 
