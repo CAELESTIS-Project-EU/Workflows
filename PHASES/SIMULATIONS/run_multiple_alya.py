@@ -12,7 +12,14 @@ def simulation(case_name, simulation_wdir, **kwargs):
     return
 
 
-def alya_simulation(case_name, simulation_wdir, cases_permeability, **kwargs):
+def run_permeability(case_name, simulation_wdir, cases_permeability, **kwargs):
+    results=[]
+    for case in cases_permeability:
+        simulation_wdir_case = os.path.join(simulation_wdir, case)
+        results.append(simulation(case_name, simulation_wdir_case, **kwargs))
+    return results
+
+def run_rve(case_name, simulation_wdir, cases_permeability, **kwargs):
     results=[]
     for case in cases_permeability:
         simulation_wdir_case = os.path.join(simulation_wdir, case)
