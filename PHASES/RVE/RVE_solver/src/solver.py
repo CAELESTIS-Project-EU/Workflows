@@ -56,7 +56,7 @@ def run(file, meshPath, outputPath, iload, debug):
     return
 
 @task(returns=1)
-def start(listloads, case, simulation_wdir, **kwargs):
+def start(listloads, case, simulation_wdir, debug, **kwargs):
     # Get the start time
     st = time.time()
 
@@ -64,7 +64,6 @@ def start(listloads, case, simulation_wdir, **kwargs):
     # User inputs
     #-------------------------------------------------------------------
 
-    debug = False
     #case = 'RVE_10_10_1'
     #case = 'RVE_Test_1'
     #case = 'twoFibres'
