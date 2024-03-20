@@ -1,6 +1,6 @@
-from Readers.GmshReader import readMesh
+from ..Readers.GmshReader import readMesh
 
-from Writers.Gmsh3dWriter import gmsh3DWriter
+from ..Writers.Gmsh3dWriter import gmsh3DWriter
 
 import numpy
 

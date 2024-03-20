@@ -1,7 +1,7 @@
-from Readers.GmshReader import readMesh
+from ..Readers.GmshReader import readMesh
 
-from MeshOperations import PeriodicBoundaryConditions
-from Extrusion.ExtrudeMesh import extrudeMesh
+from ..MeshOperations import PeriodicBoundaryConditions
+from ..Extrusion.ExtrudeMesh import extrudeMesh
 
 import numpy
 

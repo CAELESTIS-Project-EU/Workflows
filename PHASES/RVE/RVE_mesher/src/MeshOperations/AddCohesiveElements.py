@@ -1,6 +1,5 @@
-from MeshOperations import DetectMaterials, GlobalMeshFaces
 
-from Readers.GmshReader import readMesh
+from ..Readers.GmshReader import readMesh
 
 import numpy
 

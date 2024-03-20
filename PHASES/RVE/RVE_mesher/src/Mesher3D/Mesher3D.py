@@ -2,20 +2,19 @@ import shutil
 
 import time
 
-from GmshMesher.GmshMesher import gmshMesher
+from ..GmshMesher.GmshMesher import gmshMesher
 
-from Readers.GmshReader import readMesh
-from Readers.BoundaryConditionReader import readBoundaryCondition
+from ..Readers.GmshReader import readMesh
+from ..Readers.BoundaryConditionReader import readBoundaryCondition
+from ..Writers.GmshWriter import writeMesh
+from ..Writers.Gmsh3dWriter import gmsh3DWriter
+from ..Writers.WriteAlyaElementType import writeElementType
+from ..Writers.WriteAlyaElementLocalDirections import writeElementLocalDirections
+from ..Writers.WriteAlyaBoundaryCondition import writeBoundaryCondition
+from ..Writers.WriteAlyaPeriodicConditions import writePeriodicConditions
+from ..Writers.WriteAlyaSet import writeAlyaSet
 
-from Writers.GmshWriter import writeMesh
-from Writers.Gmsh3dWriter import gmsh3DWriter
-from Writers.WriteAlyaElementType import writeElementType
-from Writers.WriteAlyaElementLocalDirections import writeElementLocalDirections
-from Writers.WriteAlyaBoundaryCondition import writeBoundaryCondition
-from Writers.WriteAlyaPeriodicConditions import writePeriodicConditions
-from Writers.WriteAlyaSet import writeAlyaSet
-
-from MeshOperations import \
+from ..MeshOperations import \
     RemoveOuterElements, \
     DetectMaterials, \
     DetectInterfaces, \
@@ -24,7 +23,7 @@ from MeshOperations import \
     PeriodicBoundaryConditions, \
     ObtainBoundaryFaces
 
-from Extrusion import \
+from ..Extrusion import \
     ExtrudeMesh, \
     ExtrudeBoundaries, \
     ExtrudePeriodicBoundaryCondition

@@ -1,7 +1,7 @@
-from MeshOperations import DetectInterfaces
+from ..MeshOperations import DetectInterfaces
 
-from Readers.GmshReader import readMesh
-from Writers.GmshWriter import writeMesh
+from ..Readers.GmshReader import readMesh
+from ..Writers.GmshWriter import writeMesh
 
 import numpy
 
