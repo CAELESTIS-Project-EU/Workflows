@@ -1,15 +1,15 @@
 import time
 
-from Readers.ReadAlyaMat import readAlyaMat
-from Readers.ReadAlyaCha import readAlyaCha
-from Readers.ReadAlyaGeo import readAlyaGeo
+from .Readers.ReadAlyaMat import readAlyaMat
+from .Readers.ReadAlyaCha import readAlyaCha
+from .Readers.ReadAlyaGeo import readAlyaGeo
 
-from Writers.WriteAlyaDat import writeAlyaDat
-from Writers.WriteAlyaKer import writeAlyaKer
-from Writers.WriteAlyaDom import writeAlyaDom
-from Writers.WriteAlyaSld import writeAlyaSld3D
-from Writers.WriteAlyaSld import writeAlyaSld2D
-from Writers.WriteAlyaPos import writeAlyaPos
+from .Writers.WriteAlyaDat import writeAlyaDat
+from .Writers.WriteAlyaKer import writeAlyaKer
+from .Writers.WriteAlyaDom import writeAlyaDom
+from .Writers.WriteAlyaSld import writeAlyaSld3D
+from .Writers.WriteAlyaSld import writeAlyaSld2D
+from .Writers.WriteAlyaPos import writeAlyaPos
 
 import numpy
 import os
