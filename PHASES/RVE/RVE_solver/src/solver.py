@@ -72,12 +72,12 @@ def start(listloads, case, simulation_wdir):
     # Create load case scenarios    
     for iload in listloads:
         meshPath =  f'{simulation_wdir}/msh/'
-        outputPath = f'{simulation_wdir}/'+case+'-'+iload+'/'
+        outputPath = f'{simulation_wdir}/'+case+'-'+str(iload)+'/'
         if not os.path.exists(outputPath):
             os.makedirs(outputPath)
             
         # Run Alya writer
-        run(case, meshPath, outputPath, iload, debug)
+        run(case, meshPath, outputPath, str(iload), debug)
 
     # Get the end time
     et = time.time()
