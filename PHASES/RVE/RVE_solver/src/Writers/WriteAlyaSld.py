@@ -305,7 +305,7 @@ def writeAlyaSld3D(file, filename, dash_iload, kfl_timei, kfl_coh, nmate, iload,
     stream.write('  ALGEBRAIC_SOLVER\n')
     stream.write('    SOLVER:             CG\n')
     stream.write('$    SOLVER:             GMRES, KRYLOV= 200\n')
-    stream.write('    CONVERGENCE:        ITERATIONS= 500, TOLERANCE= 1.0E-6\n')
+    stream.write('    CONVERGENCE:        ITERATIONS= 1000, TOLERANCE= 1.0E-6\n')
     stream.write('    PRECONDITIONER:     DIAGONAL\n')
     stream.write('    COARSE:             OFF\n')
     stream.write('    OPTIONS:            ZERO_FIXITY\n')
