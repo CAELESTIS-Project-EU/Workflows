@@ -10,8 +10,11 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
+    simulation_folder = execution_folder + "/SIMULATIONS/"
+    if not os.path.isdir(simulation_folder):
+        os.makedirs(simulation_folder)
     for i in range(parameters.get("n_cases")):
-        simulation_wdir = execution_folder + "/SIMULATIONS-s" + str(i) + "/"
+        simulation_wdir = simulation_folder + "/SIMULATION-s" + str(i) + "/"
         phase.run(phases.get("rve_mesher"), inputs, outputs, parameters, data_folder, locals())
     return
 
