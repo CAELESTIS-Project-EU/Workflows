@@ -1,4 +1,6 @@
 import os
+import re
+
 
 def get_values(phase, inputs, outputs, parameters, data_folder, symbol_table):
     if isinstance(phase, dict):
@@ -41,7 +43,19 @@ def get_arguments_XML(phase_list, inputs, outputs, parameters, data_folder, symb
                 first_part, second_part = extract_parts(search_params)
                 args.update(switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table))
             else:
-                args.update({key: value})
+                pattern = r'\{.*?\}'
+                # Search for the pattern in the string
+                matches = re.findall(pattern, str(value))
+                if matches:
+                    matches = re.findall(r'\{([^}]*)\}', str(value))
+                    for matchA in matches:
+                        first_part, second_part = extract_parts(matchA)
+                        output=switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table)
+                        value=value.format(matchA = output)
+                    args.update({key: value})
+                    print("ARGS:",str(args))
+                else:
+                    args.update({key: value})
     return {"type":typePhase, "arguments":args}
 
 def switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table):
@@ -55,6 +69,20 @@ def switch_values(first_part, second_part, inputs, outputs, parameters, data_fol
         return add_entry(second_part, get_variable_value(second_part, symbol_table))
     else:
         raise ValueError(f"Unsupported first_part value: {first_part}")
+
+
+def switch_values_xml(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table):
+    if first_part == "outputs":
+        return get_outputs_xml(second_part, outputs)
+    elif first_part == "inputs":
+        return get_inputs_xml(second_part, inputs, data_folder)
+    elif first_part == "parameters":
+        return get_param_xml(second_part, parameters)
+    elif first_part == "variables":
+        return get_variable_value_xml(second_part, symbol_table)
+    else:
+        raise ValueError(f"Unsupported first_part value: {first_part}")
+
 
 def get_variable_value(variable_name, symbol_table):
     if variable_name in symbol_table:
@@ -89,6 +117,28 @@ def starts_with_dollar(input_string):
 def add_entry(key, value):
     new_entry = {key: value}
     return new_entry
+
+def get_variable_value_xml(variable_name, symbol_table):
+    if variable_name in symbol_table:
+        return symbol_table[variable_name]
+    else:
+        return f"Variable '{variable_name}' not found."
+
+def get_param_xml(value_in, parameters_yaml):
+    param = extract_value(parameters_yaml, value_in)
+    return param
+
+
+def get_inputs_xml(value_in, input_yaml, data_folder):
+    input_folder = extract_value_files(input_yaml, value_in)
+    input_folder = os.path.join(data_folder, input_folder) if input_folder else None
+    return input_folder
+
+
+def get_outputs_xml(value_in, outputs_yaml):
+    outputs_folder = extract_value_files(outputs_yaml, value_in)
+    return outputs_folder
+
 
 def get_param(value_in, parameters_yaml):
     param = extract_value(parameters_yaml, value_in)

@@ -1,5 +1,5 @@
 import numpy as np
-from PHASES.utils import args_values, phase
+from PHASES.utils import phase
 from pycompss.api.api import compss_wait_on
 from pycompss.api.task import task
 from pycompss.api.parameter import *
@@ -16,7 +16,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     write_file(results_folder, sample_set, "xFile.npy")
     y = []
     for i in range(sample_set.shape[0]):
-        values = sample_set[i, :]
+        doe_row = sample_set[i, :]
         name_sim = original_name_sim + "-s" + str(i)
         simulation_wdir = execution_folder + "/SIMULATIONS/" + name_sim + "/"
         prepare_out = phase.run(phases.get("prepare_data"), inputs, outputs, parameters, data_folder, locals())

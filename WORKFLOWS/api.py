@@ -4,7 +4,6 @@ import sys
 import yaml
 import importlib
 from PHASES.utils import parserAML, phase as phase
-from PHASES.utils.utilsAML import xml_to_yaml
 
 
 def workflow(path, execution_folder, data_folder):
