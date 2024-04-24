@@ -38,3 +38,9 @@ def sampling(sampler_input_file):
         number+=1
     return X_fact
     #np.savetxt('doe_file.txt', X_fact, ['%i','%i','%i','%i','%.4e'], delimiter = '\t')
+
+
+@task(returns=1)
+def from_doe(doe_input_file):
+    X_fact = np.loadtxt(doe_input_file)
+    return X_fact

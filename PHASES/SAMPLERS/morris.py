@@ -6,6 +6,7 @@ import re
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 
+
 def get_names(sampler_args):
     problem = sampler_args.get("problem")
     variables = problem.get("variables-sampler")
@@ -24,8 +25,7 @@ def sampling(problem, r, p, **kwargs):
     else:
         N = r * (int(probDef["num_vars"]) + 1)
         param_values = morrisSampler.sample(probDef, N=N, optimal_trajectories=r, num_levels=p)
-        return param_values
-
+        return param_values, probDef
 
 
 def problem_def(problem, **kwargs):
@@ -52,6 +52,7 @@ def problem_def(problem, **kwargs):
         'bounds': bounds
     }
     return problem
+
 
 @task(returns=1)
 def vars_func(sampler_args, variables_sampled):

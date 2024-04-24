@@ -1,33 +1,35 @@
 USER=bsc19518
-NAMEFILE=montecarlo_FEM_OHT_nom_daac1321-0982-43af-808e-04f415359fdf.yaml
-WORKFLOW_FOLDER=/gpfs/scratch/bsc19/bsc19518/results/execution_a093561f-ad6d-4748-8c56-7bf309626f0f/workflows
-EXECUTION_FOLDER=/gpfs/scratch/bsc19/bsc19518/results/execution_a093561f-ad6d-4748-8c56-7bf309626f0f/execution
-NUM_NODES=12
-EXEC_TIME=1440
-QOS=bsc_cs
-INSTALL_DIR=/home/bsc19/bsc19518/installWorkflow/
-BRANCH=main
-DATA_DIR=/home/bsc19/bsc19518/data_dir/
+NAMEFILE=test.yaml
+WORKFLOW_FOLDER=/home/bsc/bsc019518/experiment
+EXECUTION_FOLDER=/home/bsc/bsc019518/experiment/execution
+NUM_NODES=2
+EXEC_TIME=120
+QOS=gp_debug
+INSTALL_DIR=/home/bsc/bsc019518/install_workflow/
+DATA_DIR=/home/bsc/bsc019518/data/
 
-export ALYA_BIN=/gpfs/projects/bsce81/alya/builds/Alya_no3.x
-export ALYA_PROCS=32
+export ALYA_BIN=/gpfs/projects/cns100/examples/cantilever/Executables/Alya_mn5g.x
+export ALYA_PROCS=56
 export ALYA_PPN=16
 
 module purge
-module load oneapi/2021.4.0
-module load intel/2021.4.0
-module load impi/2021.4.0
-module load ALYA/mpio
-module load mkl/2021.4
-module load boost/1.78.0
-module load python/3.9.10
+# alya modules
+module load ucx/1.15.0-gcc openmpi/4.1.5-gcc
+# python modules
+module load mkl hdf5/1.14.1-2-gcc-openmpi python/3.12.1-gcc
+# gmesh modules
+module load intel gmsh/4.12.2
+# COMPSs module
+module load COMPSs/3.3
+
+export COMPSS_MPIRUN_TYPE=ompi
+
 
 export PYTHONPATH=$INSTALL_DIR:$PYTHONPATH
 
-module load compss/3.3
 # shellcheck disable=SC2164
 cd $EXECUTION_FOLDER
-enqueue_compss -g -t -d --worker_working_dir=$PWD --scheduler=es.bsc.compss.scheduler.orderstrict.fifo.FifoTS --job_execution_dir=$EXECUTION_FOLDER --qos=$QOS --exec_time=$EXEC_TIME --pythonpath=$PYTHONPATH --num_nodes=$NUM_NODES --worker_in_master_cpus=16 $INSTALL_DIR/$BRANCH/WORKFLOWS/api.py $WORKFLOW_FOLDER/$NAMEFILE $EXECUTION_FOLDER $DATA_DIR
+enqueue_compss -g -t -d --worker_working_dir=$PWD --scheduler=es.bsc.compss.scheduler.orderstrict.fifo.FifoTS --job_execution_dir=$EXECUTION_FOLDER --qos=$QOS --exec_time=$EXEC_TIME --pythonpath=$PYTHONPATH --num_nodes=$NUM_NODES --worker_in_master_cpus=112 /home/bsc/bsc019518/install_workflow/Workflows/WORKFLOWS/api.py $WORKFLOW_FOLDER/$NAMEFILE $EXECUTION_FOLDER $DATA_DIR
 
 echo DONEEE
 

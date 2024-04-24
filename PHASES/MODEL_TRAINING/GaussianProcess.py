@@ -4,6 +4,9 @@ from dislib.model_selection import GridSearchCV
 import dislib as ds
 import pandas as pd
 import numpy as np
+from pycompss.api.api import compss_wait_on
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 
 
 @task(returns=1)

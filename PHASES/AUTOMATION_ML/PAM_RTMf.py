@@ -3,7 +3,7 @@ ESI Group
 SMO
 """
 import os
-from bbesi_rtm_api import Visual_API
+from utils.bbesi_rtm_api import Visual_API
 def PAM_RTMf(**kwargs):
 
     '''

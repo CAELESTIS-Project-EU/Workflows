@@ -7,7 +7,7 @@ Created on Wed Jun 28 15:47:58 2023
 
 def PAM_RTMc(**kwargs):
     import os
-    from bbesi_rtm_api import Visual_API
+    from utils.bbesi_rtm_api import Visual_API
     import socket
     print('_____________________________________________________________________________________')
     print('Starting curing simulation')
