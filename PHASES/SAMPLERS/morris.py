@@ -17,7 +17,7 @@ def get_names(sampler_args):
     return names
 
 
-@task(returns=1)
+@task(returns=2)
 def sampling(problem, r, p, **kwargs):
     probDef = problem_def(problem, **kwargs)
     if (r == None or p == None):
