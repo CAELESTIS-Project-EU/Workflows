@@ -9,6 +9,7 @@ import os
 def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
     sample_set, problemDef = phase.run(phases.get("sampler"), inputs, outputs, parameters,  data_folder, locals())
     sample_set = compss_wait_on(sample_set)
+    problemDef= compss_wait_on(problemDef)
     original_name_sim = parameters.get("original_name_sim")
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
@@ -25,7 +26,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         y.append(new_y)
     out_post=phase.run(phases.get("post_process_merge"), inputs, outputs, parameters, data_folder, locals())
     write_file(results_folder, y, "yFile.npy")
-    phase.run(phases.get("sensitivity"), inputs, outputs, parameters, data_folder, locals(),out=out_post)
+    phase.run(phases.get("sensitivity"), inputs, outputs, parameters, data_folder, locals())
     return
 
 
