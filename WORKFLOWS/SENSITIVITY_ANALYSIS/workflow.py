@@ -26,7 +26,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         y.append(new_y)
     out_post=phase.run(phases.get("post_process_merge"), inputs, outputs, parameters, data_folder, locals())
     write_file(results_folder, y, "yFile.npy")
-    phase.run(phases.get("sensitivity"), inputs, outputs, parameters, data_folder, locals())
+    phase.run(phases.get("sensitivity"), inputs, outputs, parameters, data_folder, locals(), out=out_post)
     return
 
 
