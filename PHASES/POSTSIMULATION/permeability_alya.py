@@ -11,6 +11,9 @@ from pycompss.api.parameter import *
 import numpy as np
 import math
 
+from PHASES.MESHER.permeability_mesher.PermeabilityCalc import Permeability_Calculation_sim
+from PHASES.MESHER.permeability_mesher.WriteAlyaSet4 import AdjSets
+
 
 # leemos que es cada columna al principio
 # nos quedamos la ultima iteracion
@@ -20,37 +23,49 @@ def postProcessPermeability(**kwargs):
     for item in kwargs['postProcessParam']:
         kwargs.update(item)
     values = kwargs.get("values")
-    kwargs['angles_tows'] = [values[0], values[1], values[2], values[3]]
-    kwargs['L_pro'] = values[4]
+    kwargs['angulos_tows'] = [values['angle_1'], values['angle_2'], values['angle_3'], values['angle_4'],
+                              values['angle_5'], values['angle_6']]
+    kwargs['L_pro'] = values['L_pro']
+    kwargs['w_tow'] = values['w_tow']
+    kwargs['n_tows'] = values['n_tows']
+    kwargs['n_capas'] = len(kwargs['angulos_tows'])
+    kwargs['Lset'] = values['Lset']
+    kwargs['density'] = values['Density']
+    kwargs['viscosity'] = values['Viscosity']
+    kwargs['gravity'] = values['Gravity']
     del kwargs['postProcessParam']
     return postproCaso(**kwargs)
 
 
 
 @task(out=COLLECTION_IN, returns=1)
-def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angles_tows, n_tows, n_layers, Lset, **kwargs):
-    archivo_x = 'x-flow/' + case_name + '-element.nsi.set'
-    archivo_y = 'y-flow/' + case_name + '-element.nsi.set'
-    archivo_z = 'z-flow/' + case_name + '-element.nsi.set'
-    num_case = int(extract_number(case_name))
+def postproCaso(simulation_wdir, caseName, w_tow, L_pro, angulos_tows, n_tows, n_capas, Lset, gravity, density, viscosity, **kwargs):
+    path_caso = simulation_wdir
+    num_caso=extract_number(caseName)
+    archivo_x = 'x-flow/Caso_' + str(num_caso) + '-element.nsi.set'
+    archivo_y = 'y-flow/Caso_' + str(num_caso) + '-element.nsi.set'
+    archivo_z = 'z-flow/Caso_' + str(num_caso) + '-element.nsi.set'
     archivos = [archivo_x, archivo_y, archivo_z]
-    for angulo in angles_tows:
+    for angulo in angulos_tows:
         if angulo == 0 or angulo == 90:
             angulo_dist_0_90 = 90.0
         else:
             angulo_dist_0_90 = angulo
     Ldom = n_tows * (w_tow + L_pro) / math.sin(math.radians(angulo_dist_0_90))
-    dimYc = math.ceil(Ldom / Lset)
-    dimXc = math.ceil(Ldom / Lset)
-    dimZc = n_layers
+    dimYc = int(Ldom / Lset)
+    dimXc = int(Ldom / Lset)
+    nsetscapa = dimXc * dimYc
+    dimZc = n_capas
     nOut = 6
-    joint_sets = np.zeros([len(archivos), dimXc - 2, dimYc - 2, dimZc, nOut])
+    # joint_sets = np.zeros([len(archivos), dimXc-2, dimYc-2, dimZc, nOut])
+
+    sets = np.zeros([dimXc * dimYc * dimZc, 1 + nOut * 3])
     for n, direccion in enumerate(archivos):
         # direccion = 'x-element.nsi.set'
         header = []
         last_iter_R = []
         last_iter = []
-        with open(simulation_wdir + "/" + direccion, 'r') as f:
+        with open(path_caso + direccion, 'r') as f:
             for row in f:
                 if row != '# START\n':
                     header.append(row)
@@ -64,24 +79,47 @@ def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angles_tows, n_tows, n
 
         for row in reversed(last_iter_R):
             last_iter.append(row)
-        sets = np.asarray(last_iter, dtype=float)
-        # sets = sets[:,1:]
-        sets4d = np.reshape(sets, [dimXc, dimYc, dimZc, nOut])
-        iset = 0
-        for x in range(1, dimXc - 1):
-            for y in range(1, dimYc - 1):
-                for z in range(dimZc):
-                    joint_sets[n, x - 1, y - 1, z] = np.r_[iset, np.mean(
-                        np.c_[sets4d[x - 1, y - 1, z, 1:], sets4d[x - 1, y, z, 1:], sets4d[x, y + 1, z, 1:],
-                        sets4d[x, y - 1, z, 1:], sets4d[x, y, z, 1:], sets4d[x, y + 1, z, 1:],
-                        sets4d[x + 1, y - 1, z, 1:], sets4d[x + 1, y, z, 1:], sets4d[x, y + 1, z, 1:]], axis=1)]
-                    iset += 1
-    nsets2 = (dimXc - 2) * (dimYc - 2) * dimZc
-    ujsets = np.c_[num_case * np.ones(nsets2), np.reshape(joint_sets[0], [nsets2, 6]),
-    np.reshape(joint_sets[0], [nsets2, 6])[:, 1:], np.reshape(joint_sets[0], [nsets2, 6])[:, 1:]]
-    np.savetxt(simulation_wdir + '/set_results.csv', ujsets, delimiter=',')
-    return
+        sets[:, 1 + n * nOut:1 + (n + 1) * nOut] = np.asarray(last_iter, dtype=float)[:, 2:]
+        sets[:, 0] = np.asarray(last_iter, dtype=float)[:, 0]
+    extrasets = []
+    iset = 1
+    for order in range(3):
+        for set1 in sets:
+            if (order <= (set1[0] % nsetscapa) % dimXc < (dimXc - order)) and (
+                    order <= int((set1[0] % nsetscapa) / dimYc) < (dimXc - order)):
+                neighbours = AdjSets(set1[0] - 1, dimXc, order)
+                setstomerge = sets[neighbours.astype(int)]
+                setstomerge[:, 0] = iset
+                extrasets.append(np.r_[num_caso, iset, Lset * (order * 2 + 1), np.mean(setstomerge, axis=0)[1:]])
+                iset += 1
+    extrasets = np.asarray(extrasets)
 
+    np.savetxt(path_caso + 'set_results.csv', extrasets, delimiter=',')
+    # setfiles = os.listdir('output/Caso_'+str(num_caso)+'/msh')
+    ruta_caso = 'output/Caso_' + str(num_caso)
+    ruta_mesh = os.path.join(ruta_caso, 'msh')
+    set_outputs = np.loadtxt(os.path.join(ruta_caso, 'set_results.csv'), delimiter=',')
+    for file in os.listdir(ruta_mesh):
+        if '.txt' in file and os.stat(os.path.join(ruta_mesh, file)).st_size != 0:
+            set_results = []
+            toRom = []
+            set_inputs = []
+            with open(os.path.join(ruta_mesh, file), 'r') as f:
+                for line in f:
+                    new_line = line.replace(',', ' ')
+                    splitline = re.split('\s+', new_line)[:-1]
+                    set_inputs.append(splitline)
+            set_inputs = np.asarray(set_inputs, dtype=float)
+            for line_in in set_inputs:
+                line_out = set_outputs[np.all(set_outputs[:, :3] == line_in[:3], axis=1), 3:]
+                if len(line_out) != 0:
+                    set_results.append(np.r_[line_in, line_out[0]])
+            set_results = np.asarray(set_results)
+            for line in set_results:
+                evl, evt0, evt1 = Permeability_Calculation_sim(gravity, density, viscosity, line[-18:])
+                toRom.append(np.r_[line[:-18], evl, evt0, evt1])
+            np.savetxt(os.path.join(ruta_caso, 'toRom' + file), np.asarray(toRom))
+    return
 
 def extract_number(case_name):
     # Using regular expression to find the number in the string

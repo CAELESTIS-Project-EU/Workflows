@@ -14,7 +14,8 @@ from PHASES.MESHER.permeability_mesher.PermeabilityCalc import Permeability_Calc
 #leemos que es cada columna al principio
 #nos quedamos la ultima iteracion
 
-def postproCaso(num_caso, w_tow, L_pro, angulos_tows, n_tows, n_capas, Lset, gravity, density, viscosity):
+@task(out=COLLECTION_IN, returns=1)
+def postproCaso(num_caso, w_tow, L_pro, angulos_tows, n_tows, n_capas, Lset, gravity, density, viscosity,  **kwargs):
     path_caso = 'output/Caso_' + str(num_caso) + '/'
     archivo_x = 'x-flow/Caso_'+str(num_caso)+'-element.nsi.set'
     archivo_y = 'y-flow/Caso_'+str(num_caso)+'-element.nsi.set'
@@ -92,3 +93,4 @@ def postproCaso(num_caso, w_tow, L_pro, angulos_tows, n_tows, n_capas, Lset, gra
                 evl, evt0, evt1 = Permeability_Calculation_sim(gravity, density, viscosity, line[-18:])
                 toRom.append(np.r_[line[:-18],evl,evt0,evt1])
             np.savetxt(os.path.join(ruta_caso,'toRom'+file),np.asarray(toRom))
+    return

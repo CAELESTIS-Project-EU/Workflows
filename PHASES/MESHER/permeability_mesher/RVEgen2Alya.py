@@ -78,7 +78,7 @@ def permeability_mesher(**kwargs):
 @task(returns=1)
 def RVEgen2Alya(simulation_wdir, caseName, density, viscosity, gravity, volume_fraction, tipo_fallo, factor_desplazamiento, w_tow,
                 h_tow, L_pro, n_elementos_gap, n_elementos_towsingap,
-                n_elementos_capa, n_capas, angulos_tows, n_tows, Lset, ol, ajus_ol, ol_izd, ol_drch, AlyaSet, debug, consider_FVF_variation, Full_periodicity):
+                n_elementos_capa, n_capas, angulos_tows, n_tows, Lset, ol, ajus_ol, ol_izd, ol_drch, AlyaSet, debug, consider_FVF_variation, Full_periodicity,  **kwargs):
     print("    Generating geometry ...")
 
     # Get the start time
@@ -553,7 +553,7 @@ def RVEgen2Alya(simulation_wdir, caseName, density, viscosity, gravity, volume_f
         writeAlyaPos(path, fileName)
 
         # Job Launcher
-        #writeJobLauncher(path, fileName, queue, numCPUs)
+        #writeJobLauncher(path, fileName)
 
     # Get the end time
     et = time.time()
