@@ -30,10 +30,7 @@ from PHASES.MESHER.permeability_mesher.FVF_variation_defects import FVF_variatio
 from PHASES.MESHER.permeability_mesher.GenerateMeshOris import Mesh_and_Oris
 
 def permeability_from_doe(**kwargs):
-    for item in kwargs['problem_mesher']:
-        kwargs.update(item)
     values=kwargs.get("values")
-
     kwargs['density'] = values['Density']
     kwargs['viscosity'] = values['Viscosity']
     kwargs['gravity'] = values['Gravity']
