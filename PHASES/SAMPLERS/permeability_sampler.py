@@ -43,5 +43,5 @@ def sampling(sampler_input_file):
 
 @task(returns=1)
 def from_doe(sampler_input_file):
-    X_fact = pd.read_csv(sampler_input_file, delimiter='\t')
+    X_fact = np.genfromtxt(sampler_input_file.csv, delimiter='\t')
     return X_fact
