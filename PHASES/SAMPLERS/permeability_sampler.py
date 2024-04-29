@@ -2,6 +2,7 @@
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 import numpy as np
+import pandas as pd
 import itertools
 #lee un txt llamado doe_seed.txt que contiene una linea por cada
 #variable, en cada linea aparecen el minimo y maximo valor
@@ -42,5 +43,5 @@ def sampling(sampler_input_file):
 
 @task(returns=1)
 def from_doe(sampler_input_file):
-    X_fact = np.loadtxt(sampler_input_file)
+    X_fact = pd.read_csv(sampler_input_file, delimiter='\t')
     return X_fact
