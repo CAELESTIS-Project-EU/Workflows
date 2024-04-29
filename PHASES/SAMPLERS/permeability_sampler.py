@@ -41,6 +41,6 @@ def sampling(sampler_input_file):
 
 
 @task(returns=1)
-def from_doe(doe_input_file):
-    X_fact = np.loadtxt(doe_input_file)
+def from_doe(sampler_input_file):
+    X_fact = np.loadtxt(sampler_input_file)
     return X_fact
