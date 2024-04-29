@@ -6,6 +6,7 @@ from PHASES.utils import args_values, phase
 import os
 
 
+
 def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
     data_set = phase.run(phases.get("sampler"), inputs, outputs, parameters, data_folder, locals())
     data_set = compss_wait_on(data_set)
@@ -15,7 +16,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         os.makedirs(results_folder)
     write_file(results_folder, data_set, "xFile.npy")
     y = []
-    for i in range(data_set.shape[0]):
+    for i, values in data_set.iterrows():
         values = data_set[i, :]
         caseName = "case_" + str(i + 1)
         simulation_wdir = execution_folder + "/SIMULATIONS/" + caseName
