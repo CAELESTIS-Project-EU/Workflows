@@ -59,7 +59,6 @@ def permeability_from_doe(**kwargs):
     kwargs['debugELSET'] = False
 
     del kwargs['values']
-    del kwargs['problem_mesher']
     return RVEgen2Alya(**kwargs)
 
 def permeability_mesher(**kwargs):
