@@ -76,7 +76,7 @@ def permeability_mesher(**kwargs):
 
 
 @task(returns=1)
-def RVEgen2Alya(simulation_wdir, caseName, density, viscosity, gravity, volume_fraction, tipo_fallo, factor_desplazamiento, w_tow,
+def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_fraction, tipo_fallo, factor_desplazamiento, w_tow,
                 h_tow, L_pro, n_elementos_gap, n_elementos_towsingap,
                 n_elementos_capa, n_capas, angulos_tows, n_tows, Lset, ol, ajus_ol, ol_izd, ol_drch, AlyaSet, debug, consider_FVF_variation, Full_periodicity,  **kwargs):
     print("    Generating geometry ...")
@@ -178,15 +178,15 @@ def RVEgen2Alya(simulation_wdir, caseName, density, viscosity, gravity, volume_f
                                                                                         factor_desplazamiento)
 
     # Job case
-    # caseName = 'Caso_0_0_0_w2mm_lpro0p2mm_fine'
+    # case_name = 'Caso_0_0_0_w2mm_lpro0p2mm_fine'
 
     # Set paths for directories
     basePath = f'{simulation_wdir}'
-    outputPath = f'{basePath}/output/' + caseName
+    outputPath = f'{basePath}/output/' + case_name
     if os.path.exists(outputPath):
-        shutil.rmtree(f'{basePath}/output/' + caseName)
+        shutil.rmtree(f'{basePath}/output/' + case_name)
     os.makedirs(outputPath)
-    outputMeshPath = f'{basePath}/output/' + caseName + '/msh/'
+    outputMeshPath = f'{basePath}/output/' + case_name + '/msh/'
     os.makedirs(outputMeshPath)
     ##########################################
     ##########################################
@@ -293,7 +293,7 @@ def RVEgen2Alya(simulation_wdir, caseName, density, viscosity, gravity, volume_f
 
     # Alya geo file
     Elementsetmaterials, numero_elemento, posicion_n_nodo, Porosityfield_dir1_array, Porosityfield_dir2_array, Porosityfield_dir3_array = writeAlyaGeo(
-        outputMeshPath, caseName, dimXc, dimYc, dimZc, matriz_4d, matriz_4dc, matriz_3dc_inout, matriz_3dc_oris,
+        outputMeshPath, case_name, dimXc, dimYc, dimZc, matriz_4d, matriz_4dc, matriz_3dc_inout, matriz_3dc_oris,
         angulos_tows, n_elementos_capa, matriz_3dc_FVF)
 
     fin = time.time()
@@ -307,7 +307,7 @@ def RVEgen2Alya(simulation_wdir, caseName, density, viscosity, gravity, volume_f
     # --------------------------------------------
     inicio = time.time()
     print('    Writting Alya jobName.mat.dat ...')
-    nmate = writeAlyaMat(outputMeshPath, caseName, Elementsetmaterials)
+    nmate = writeAlyaMat(outputMeshPath, case_name, Elementsetmaterials)
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        Mat file generation time: {round(tiempo_ej / 60, 2)} min")
@@ -389,14 +389,14 @@ def RVEgen2Alya(simulation_wdir, caseName, density, viscosity, gravity, volume_f
     # 	print(f"Tiempo de ejecución getRVEboundaries: {tiempo_ej} segundos")
     # 	inicio = time.time()
 
-    writeAlyaBou(outputMeshPath, caseName, b_list)
+    writeAlyaBou(outputMeshPath, case_name, b_list)
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        Bou file generation time: {round(tiempo_ej / 60, 2)} min")
     inicio = time.time()
 
     print('    Writting Alya jobName.fix.dat ...')
-    writeAlyaFix(outputMeshPath, caseName, b_list)
+    writeAlyaFix(outputMeshPath, case_name, b_list)
 
     numerodenodos = int(len(posicion_n_nodo[:, 0, 0]) * len(posicion_n_nodo[0, :, 0]) * len(posicion_n_nodo[0, 0, :]))
     numerodeelementos = len(Elementsetmaterials[:, 0])
@@ -423,7 +423,7 @@ def RVEgen2Alya(simulation_wdir, caseName, density, viscosity, gravity, volume_f
 
     print('    Writting Alya jobName.fie.dat ...')
 
-    writeAlyaFie(outputMeshPath, caseName, viscosity, volume_fraction_tows, Elementsetmaterials, \
+    writeAlyaFie(outputMeshPath, case_name, viscosity, volume_fraction_tows, Elementsetmaterials, \
                  numerodeelementos, Porosityfield_dir1_array, Porosityfield_dir2_array, Porosityfield_dir3_array)
 
     fin = time.time()
@@ -454,11 +454,11 @@ def RVEgen2Alya(simulation_wdir, caseName, density, viscosity, gravity, volume_f
 
     # Alya Set
     if AlyaSet == 'All':
-        writeAlyaSet(outputMeshPath, caseName, numerodeelementos, numerodeboundelems)
+        writeAlyaSet(outputMeshPath, case_name, numerodeelementos, numerodeboundelems)
     else:
-        # 	    writeAlyaSetFtMats(outputMeshPath, caseName, matriz_3dc_inout, Lset, n_capas, nodes)
-        # 		writeAlyaSet3(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, mov_geometria_array, ol, ol_izd, ol_drch, desfase_array, angulos_tows, w_tow, tipo_fallo)
-        writeAlyaSet4(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, mov_geometria_array, ol, ol_izd,
+        # 	    writeAlyaSetFtMats(outputMeshPath, case_name, matriz_3dc_inout, Lset, n_capas, nodes)
+        # 		writeAlyaSet3(outputMeshPath, case_name, Lset, n_capas, nodes, L_pro, Ldom, mov_geometria_array, ol, ol_izd, ol_drch, desfase_array, angulos_tows, w_tow, tipo_fallo)
+        writeAlyaSet4(outputMeshPath, case_name, Lset, n_capas, nodes, L_pro, Ldom, mov_geometria_array, ol, ol_izd,
                       ol_drch, desfase_array, angulos_tows, w_tow, tipo_fallo, matriz_3dc_FVF)
 
     fin = time.time()
@@ -532,7 +532,7 @@ def RVEgen2Alya(simulation_wdir, caseName, density, viscosity, gravity, volume_f
     for j in range(len(simulaciones)):
         path = outputPath + '/' + str(simulaciones[j]) + '/'
         os.makedirs(path)
-        fileName = caseName
+        fileName = case_name
         icase = str(simulaciones[j])
 
         node = 1  # TODO: Coger un nodo que no este en la direccion del flow (solo en z)
