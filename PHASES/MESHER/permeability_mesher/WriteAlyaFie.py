@@ -1,22 +1,41 @@
 import numpy as np
 
-def writeAlyaFie(path, fileName, visco, K11, K22, Elementsetmaterials, numerodeelementos, Porosityfield_dir1_array,
+def writeAlyaFie(path, fileName, visco, volume_fraction, Elementsetmaterials, numerodeelementos, Porosityfield_dir1_array,
                  Porosityfield_dir2_array,Porosityfield_dir3_array):
     """ Alya caseName.fie.dat file
     """
+    
+	# Material properties
+    packing = 'hexa' # 'quad' or 'hexa' packing
+    if packing == 'quad':
+        c = 57.0
+        C1 = 16.0/(9.0*np.pi*np.sqrt(2.0))
+        vf_max = np.pi/4.0
+    elif packing == 'hexa':
+        c = 53.0
+        C1 = 16.0/(9.0*np.pi*np.sqrt(6.0))
+        vf_max = np.pi/(2.0*np.sqrt(3.0))
+    else:
+        print("NO SE HA SELECCIONADO PACKING")
+    R_fibra = 2.5e-6 # metros
+    
     
     stream = open(path + fileName + '.fie.dat',"w", newline='\n')
     
     stream.write("FIELD= 1\n")
 
-    Sloc = np.array([[ K11,   0.0,  0.0],
-                     [ 0.0,   K22,  0.0],
-                     [ 0.0,   0.0,  K22]])
-    Sloc = np.linalg.inv(Sloc)
     
     for i in range(numerodeelementos):
         materialId = int(Elementsetmaterials[i][1])
         if materialId == 2:
+            k_lon     = (8.0*R_fibra**2.0*(1.0-volume_fraction)**3.0)/(c*volume_fraction)
+            k_per     = C1*R_fibra**2.0*(np.sqrt(vf_max/volume_fraction)-1.0)**(5.0/2.0)
+            
+            Sloc = np.array([[ k_lon,   0.0,  0.0],
+                             [ 0.0,   k_per,  0.0],
+                             [ 0.0,   0.0,  k_per]])
+            Sloc = np.linalg.inv(Sloc)
+            
             # Bulk
             # Transformation matrix
             u1 = Porosityfield_dir1_array[i,:]
@@ -37,7 +56,7 @@ def writeAlyaFie(path, fileName, visco, K11, K22, Elementsetmaterials, numerodee
     
     return
 
-def rotate_tensor_local_to_global_with_theta(S_local, theta):
+def rotate_tensor_local_to_global_with_theta(Sloc, theta):
     # Rotation matrix
     Q = np.array([[ np.cos(theta),  np.sin(theta), 0.0],
                   [-np.sin(theta),  np.cos(theta), 0.0],

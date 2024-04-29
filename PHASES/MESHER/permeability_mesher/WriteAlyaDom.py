@@ -1,5 +1,5 @@
 
-def writeAlyaDom(path, fileName, icase, npoin, nelem, nboun, nmate, periodicityMethod, fieldFlag):
+def writeAlyaDom(path, fileName, icase, npoin, nelem, nboun, nmate, periodicityMethod, fieldFlag, Full_periodicity):
     """ Alya caseName.dom.dat file
     """
     
@@ -28,14 +28,21 @@ def writeAlyaDom(path, fileName, icase, npoin, nelem, nboun, nmate, periodicityM
     stream.write('  BOUNDARY_ELEMENT:                ON\n')
     stream.write('  GROUPS=                          512, SEQUENTIAL_FRONTRAL\n')
     if periodicityMethod == 'Automatic':
-        stream.write('  PERIODICITY:                     BOUNDARY_CODES, TOLER= AUTOMATIC\n')
-        if icase == 'x-flow' or icase == 'y-flow':
-            stream.write('    1  2\n')
-            stream.write('    3  4\n')
-        else:
+        if Full_periodicity == True:
+            stream.write('  PERIODICITY:                     BOUNDARY_CODES, TOLER= AUTOMATIC\n')
             stream.write('    1  2\n')
             stream.write('    3  4\n')
             stream.write('    5  6\n')
+        else:
+            stream.write('  PERIODICITY:                     BOUNDARY_CODES, TOLER= AUTOMATIC\n')
+            if icase == 'x-flow' or icase == 'y-flow':
+                stream.write('    1  2\n')
+                stream.write('    3  4\n')
+            else:
+                stream.write('    1  2\n')
+                stream.write('    3  4\n')
+                stream.write('    5  6\n')
+        
         stream.write('  END_PERIODICITY\n')
     stream.write('END_STRATEGY\n')
     stream.write('$-------------------------------------------------------------------\n')

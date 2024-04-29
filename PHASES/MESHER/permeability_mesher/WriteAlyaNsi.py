@@ -1,5 +1,5 @@
 
-def writeAlyaNsi(debug, path, fileName, icase, pressure, gravity, lx, ly, lz, node):
+def writeAlyaNsi(debug, path, fileName, icase, pressure, gravity, lx, ly, lz, node, Full_periodicity):
     """ Alya caseName.nsi.dat file
     """
     
@@ -52,26 +52,47 @@ def writeAlyaNsi(debug, path, fileName, icase, pressure, gravity, lx, ly, lz, no
     stream.write('$                    FG    BC         F     B\n')
     stream.write('$                    GH    CD         G     C\n')  
     stream.write('$    DHGC  AEFB      HE    DA         H     D\n')
-    if icase == 'z-flow':
+    if Full_periodicity == True:
         stream.write('$    EFGH  ABCD      BC    AD         G     A\n')
         stream.write('$                    EH    AD\n')        
         stream.write('$                    FG    AD\n')
-    stream.write('$\n')
-    if icase == 'x-flow':
-        stream.write('$   Flow:         x-direction\n')
-        stream.write('$   Wall no-slip: AEFB and DHGC, vz= 0.0\n')
-        stream.write(f'$   Pressure:     {pressure:1.5e}\n')
-        stream.write('$   Periodicity:  BCGF with ADHE and DHGC with AEFB\n')
-    elif icase == 'y-flow':
-        stream.write('$   Flow:         y-direction\n')
-        stream.write('$   Wall no-slip: AEFB and DHGC, vz= 0.0\n')
-        stream.write(f'$   Pressure:     {pressure:1.5e}\n')
-        stream.write('$   Periodicity:  BCGF with ADHE and DHGC with AEFB\n')
-    elif icase == 'z-flow':
-        stream.write('$   Flow:         z-direction\n')
-        stream.write('$   Wall no-slip: -\n')
-        stream.write(f'$   Pressure:     {pressure:1.5e}\n')
-        stream.write('$   Periodicity:  All\n')
+        stream.write('$\n')
+        if icase == 'x-flow':
+            stream.write('$   Flow:         x-direction\n')
+            stream.write('$   Wall no-slip: -\n')
+            stream.write(f'$   Pressure:     {pressure:1.5e}\n')
+            stream.write('$   Periodicity:  All\n')
+        elif icase == 'y-flow':
+            stream.write('$   Flow:         y-direction\n')
+            stream.write('$   Wall no-slip: -\n')
+            stream.write(f'$   Pressure:     {pressure:1.5e}\n')
+            stream.write('$   Periodicity:  All\n')
+        elif icase == 'z-flow':
+            stream.write('$   Flow:         z-direction\n')
+            stream.write('$   Wall no-slip: -\n')
+            stream.write(f'$   Pressure:     {pressure:1.5e}\n')
+            stream.write('$   Periodicity:  All\n')
+    else:
+        if icase == 'z-flow':
+            stream.write('$    EFGH  ABCD      BC    AD         G     A\n')
+            stream.write('$                    EH    AD\n')        
+            stream.write('$                    FG    AD\n')
+        stream.write('$\n')
+        if icase == 'x-flow':
+            stream.write('$   Flow:         x-direction\n')
+            stream.write('$   Wall no-slip: AEFB and DHGC, vz= 0.0\n')
+            stream.write(f'$   Pressure:     {pressure:1.5e}\n')
+            stream.write('$   Periodicity:  BCGF with ADHE and DHGC with AEFB\n')
+        elif icase == 'y-flow':
+            stream.write('$   Flow:         y-direction\n')
+            stream.write('$   Wall no-slip: AEFB and DHGC, vz= 0.0\n')
+            stream.write(f'$   Pressure:     {pressure:1.5e}\n')
+            stream.write('$   Periodicity:  BCGF with ADHE and DHGC with AEFB\n')
+        elif icase == 'z-flow':
+            stream.write('$   Flow:         z-direction\n')
+            stream.write('$   Wall no-slip: -\n')
+            stream.write(f'$   Pressure:     {pressure:1.5e}\n')
+            stream.write('$   Periodicity:  All\n')
     stream.write('$\n')
     stream.write('$ Units:     SI\n')
     stream.write('$\n')
@@ -134,7 +155,7 @@ def writeAlyaNsi(debug, path, fileName, icase, pressure, gravity, lx, ly, lz, no
         stream.write('  POSTPROCESS VELOC\n')
         stream.write('  POSTPROCESS PRESS\n')
     stream.write('  ELEMENT_SET\n')
-    stream.write('    MEANP\n')
+    stream.write('    GRADP\n')
     stream.write('    VELOX\n')
     stream.write('    VELOY\n')
     stream.write('    VELOZ\n')
@@ -148,35 +169,11 @@ def writeAlyaNsi(debug, path, fileName, icase, pressure, gravity, lx, ly, lz, no
     stream.write('BOUNDARY_CONDITIONS\n')
     stream.write('  PARAMETERS\n')
     stream.write('    INITIAL_CONDITIONS: CONSTANT, VALUE= 0.0, 0.0, 0.0\n')
-    if icase == 'x-flow' or icase == 'y-flow':
-        stream.write('    FIX_PRESSURE: AUTOMATIC\n')
-    else:
+    if Full_periodicity == True:
         stream.write(f'    FIX_PRESSURE: WEAK, ON_NODE= {node}, VALUE= 0.0, MULTIPLICATIVE= 1.1\n')
-    #stream.write(f'    PRESSURE: DARCY\n')
-    stream.write('  END_PARAMETERS\n')
-    stream.write('  CODES, NODES\n')
-    if icase == 'x-flow' or icase == 'y-flow':
-        # Flow in x-direction
-        stream.write('    1 & 5      001 0.0 0.0 0.0\n')
-        stream.write('    1 & 6      001 0.0 0.0 0.0\n')
-        stream.write('    3 & 5      001 0.0 0.0 0.0\n')
-        stream.write('    4 & 5      001 0.0 0.0 0.0\n')
-        stream.write('    3 & 6      001 0.0 0.0 0.0\n')
-        stream.write('    4 & 6      001 0.0 0.0 0.0\n')
-        stream.write('    5          001 0.0 0.0 0.0\n')
-        stream.write('    6          001 0.0 0.0 0.0\n')
-        stream.write('    2 & 6      001 0.0 0.0 0.0\n')
-        stream.write('    2 & 5      001 0.0 0.0 0.0\n')
-        stream.write('    1 & 3 & 5  001 0.0 0.0 0.0\n')
-        stream.write('    2 & 4 & 5  001 0.0 0.0 0.0\n')
-        stream.write('    1 & 4 & 5  001 0.0 0.0 0.0\n')
-        stream.write('    2 & 3 & 5  001 0.0 0.0 0.0\n')
-        stream.write('    2 & 4 & 6  001 0.0 0.0 0.0\n')
-        stream.write('    1 & 3 & 6  001 0.0 0.0 0.0\n')
-        stream.write('    1 & 4 & 6  001 0.0 0.0 0.0\n')
-        stream.write('    2 & 3 & 6  001 0.0 0.0 0.0\n')
-    elif icase == 'z-flow':
-        # Flow in z-direction
+        # stream.write(f'    PRESSURE: DARCY\n')
+        stream.write('  END_PARAMETERS\n')
+        stream.write('  CODES, NODES\n')
         stream.write('    1 & 5      000 0.0 0.0 0.0\n')
         stream.write('    1 & 6      000 0.0 0.0 0.0\n')
         stream.write('    3 & 5      000 0.0 0.0 0.0\n')
@@ -203,21 +200,63 @@ def writeAlyaNsi(debug, path, fileName, icase, pressure, gravity, lx, ly, lz, no
         stream.write('    1 & 3 & 6  000 0.0 0.0 0.0\n')
         stream.write('    1 & 4 & 6  000 0.0 0.0 0.0\n')
         stream.write('    2 & 3 & 6  000 0.0 0.0 0.0\n')
+    else:
+        if icase == 'x-flow' or icase == 'y-flow':
+            stream.write('    FIX_PRESSURE: AUTOMATIC\n')
+        else:
+            stream.write(f'    FIX_PRESSURE: WEAK, ON_NODE= {node}, VALUE= 0.0, MULTIPLICATIVE= 1.1\n')
+            # stream.write(f'    PRESSURE: DARCY\n')
+        stream.write('  END_PARAMETERS\n')
+        stream.write('  CODES, NODES\n')
+        if icase == 'x-flow' or icase == 'y-flow':
+            # Flow in x-direction
+            stream.write('    1 & 5      111 0.0 0.0 0.0\n')
+            stream.write('    1 & 6      111 0.0 0.0 0.0\n')
+            stream.write('    3 & 5      111 0.0 0.0 0.0\n')
+            stream.write('    4 & 5      111 0.0 0.0 0.0\n')
+            stream.write('    3 & 6      111 0.0 0.0 0.0\n')
+            stream.write('    4 & 6      111 0.0 0.0 0.0\n')
+            stream.write('    5          111 0.0 0.0 0.0\n')
+            stream.write('    6          111 0.0 0.0 0.0\n')
+            stream.write('    2 & 6      111 0.0 0.0 0.0\n')
+            stream.write('    2 & 5      111 0.0 0.0 0.0\n')
+            stream.write('    1 & 3 & 5  111 0.0 0.0 0.0\n')
+            stream.write('    2 & 4 & 5  111 0.0 0.0 0.0\n')
+            stream.write('    1 & 4 & 5  111 0.0 0.0 0.0\n')
+            stream.write('    2 & 3 & 5  111 0.0 0.0 0.0\n')
+            stream.write('    2 & 4 & 6  111 0.0 0.0 0.0\n')
+            stream.write('    1 & 3 & 6  111 0.0 0.0 0.0\n')
+            stream.write('    1 & 4 & 6  111 0.0 0.0 0.0\n')
+            stream.write('    2 & 3 & 6  111 0.0 0.0 0.0\n')
+        elif icase == 'z-flow':
+            # Flow in z-direction
+            stream.write('    1 & 5      000 0.0 0.0 0.0\n')
+            stream.write('    1 & 6      000 0.0 0.0 0.0\n')
+            stream.write('    3 & 5      000 0.0 0.0 0.0\n')
+            stream.write('    4 & 5      000 0.0 0.0 0.0\n')
+            stream.write('    3 & 6      000 0.0 0.0 0.0\n')
+            stream.write('    2 & 3      000 0.0 0.0 0.0\n')
+            stream.write('    4 & 6      000 0.0 0.0 0.0\n')
+            stream.write('    2          000 0.0 0.0 0.0\n')
+            stream.write('    5          000 0.0 0.0 0.0\n')
+            stream.write('    1 & 3      000 0.0 0.0 0.0\n')
+            stream.write('    3          000 0.0 0.0 0.0\n')
+            stream.write('    4          000 0.0 0.0 0.0\n')
+            stream.write('    1 & 4      000 0.0 0.0 0.0\n')
+            stream.write('    2 & 4      000 0.0 0.0 0.0\n')
+            stream.write('    6          000 0.0 0.0 0.0\n')
+            stream.write('    2 & 6      000 0.0 0.0 0.0\n')
+            stream.write('    1          000 0.0 0.0 0.0\n')
+            stream.write('    2 & 5      000 0.0 0.0 0.0\n')
+            stream.write('    1 & 3 & 5  000 0.0 0.0 0.0\n')
+            stream.write('    2 & 4 & 5  000 0.0 0.0 0.0\n')
+            stream.write('    1 & 4 & 5  000 0.0 0.0 0.0\n')
+            stream.write('    2 & 3 & 5  000 0.0 0.0 0.0\n')
+            stream.write('    2 & 4 & 6  000 0.0 0.0 0.0\n')
+            stream.write('    1 & 3 & 6  000 0.0 0.0 0.0\n')
+            stream.write('    1 & 4 & 6  000 0.0 0.0 0.0\n')
+            stream.write('    2 & 3 & 6  000 0.0 0.0 0.0\n')
     stream.write('  END_CODES\n')
-    #stream.write('  CODES, BOUNDARIES\n')
-    #if icase == 'x-flow':
-        # Flow in x-direction
-        #stream.write(f'    1 2 {pressure:1.5e}\n')
-        #stream.write('    2 2 0.0\n')
-    #elif icase == 'y-flow':
-        # Flow in y-direction
-        #stream.write(f'    3 2 {pressure:1.5e}\n')
-        #stream.write('    4 2 0.0\n')
-    #elif icase == 'z-flow':
-        # Flow in z-direction
-        #stream.write(f'    5 2 {pressure:1.5e}\n')
-        #stream.write('    6 2 0.0\n')
-    #stream.write('  END_CODES\n')
     stream.write('END_BOUNDARY_CONDITIONS\n')
     stream.write('$-------------------------------------------------------------------\n')
     

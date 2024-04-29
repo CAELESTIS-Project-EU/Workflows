@@ -7,23 +7,23 @@ import os
 
 
 def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
-    sample_set = phase.run(phases.get("sampler"), inputs, outputs, parameters, data_folder, locals())
-    sample_set = compss_wait_on(sample_set)
+    values = phase.run(phases.get("sampler"), inputs, outputs, parameters, data_folder, locals())
+    values = compss_wait_on(values)
     original_name_sim = parameters.get("original_name_sim")
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
-    write_file(results_folder, sample_set, "xFile.npy")
+    write_file(results_folder, values, "xFile.npy")
     y = []
-    for i in range(sample_set.shape[0]):
-        values = sample_set[i, :]
-        case_name = "case_" + str(i + 1)
-        simulation_wdir = execution_folder + "/SIMULATIONS/" + case_name
+    for i in range(values.shape[0]):
+        values = values[i, :]
+        caseName = "case_" + str(i + 1)
+        simulation_wdir = execution_folder + "/SIMULATIONS/" + caseName
         name_sim = phase.run(phases.get("mesher"), inputs, outputs, parameters, data_folder, locals())
-        sim_out = phase.run(phases.get("sim"), inputs, outputs, parameters, data_folder, locals(), out=name_sim)
+        """sim_out = phase.run(phases.get("sim"), inputs, outputs, parameters, data_folder, locals(), out=name_sim)
         post_p_out = phase.run(phases.get("post_process"), inputs, outputs, parameters, data_folder, locals(),out=sim_out)
     simulation_wdir = execution_folder + "/SIMULATIONS/"
-    sim_out = phase.run(phases.get("join_cases"), inputs, outputs, parameters, data_folder, locals(),out=post_p_out)
+    sim_out = phase.run(phases.get("join_cases"), inputs, outputs, parameters, data_folder, locals(),out=post_p_out)"""
     return
 
 
