@@ -23,6 +23,7 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
     # Definir los valores iniciales y finales para discretización en Z
     z0 = 0.0  # Primer valor
     zn = n_capas*h_tow  # Último valor
+    print("Mesh_and_Oris 2")
 
     # Crear el vector de puntos equidistantes
     vector_equidistante_Z = np.linspace(z0, zn, n_espesor)
@@ -44,6 +45,7 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
 
     matriz_4d[:, 0, :, 2] = np.repeat(vector_equidistante_Z[:, np.newaxis], dimX, axis=1).T
     matriz_4d[:, 1:, :, 2] = matriz_4d[:, 0, :, 2][:, np.newaxis, :]
+    print("Mesh_and_Oris 3")
 
     ###############################################################
     ###############################################################
@@ -77,6 +79,7 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
     dimYc = int(nc)  # Dimensión 2
     dimZc = int(n_espesorc)  # Dimensión 3
     dimCoord = 3  # Dimensión 4
+    print("Mesh_and_Oris 4")
 
     # Crea una matriz de 4 dimensiones llena de ceros
     matriz_4dc = np.zeros((dimXc, dimYc, dimZc, dimCoord))
@@ -104,6 +107,7 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
     # Cargar el archivo STL en un objeto Trimesh
     mesh_loaded = []
     contarTow = 0
+    print("Mesh_and_Oris 5")
 
     for i in datos_input:
         contarTow += 1
@@ -114,6 +118,8 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
     # Verificar si el punto está dentro de la geometría
     matriz_3dc_oris = np.zeros((dimXc, dimYc, dimZc, 3))
     nodes = []
+    print("Mesh_and_Oris 6")
+
     for i in range(0,dimXc):
         for j in range(0,dimYc):
             for k in range(0,dimZc):
@@ -126,6 +132,7 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
     node_tows = np.zeros([len(tow_contains[0]),contarTow])
     for n, tow in enumerate(tow_contains):
         node_tows[:,n] = tow*(n+1)
+    print("Mesh_and_Oris 7")
 
     
 # 	fin = time.time()
@@ -136,6 +143,7 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
 # 	inicio = time.time() 
     matriz_1dc_inout = np.max(node_tows, axis = 1) #controla que tow quedarse en caso de que un nodo esté en varios
     matriz_3dc_inout = np.reshape(matriz_1dc_inout, [dimXc, dimYc, dimZc])
+
     for i in range(1,dimXc-1):
         for j in range(1,dimYc-1):
             for k in range(1,dimZc-1):
@@ -158,6 +166,7 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
                         matriz_3dc_inout[i+1, j, k] = matriz_3dc_inout[i+1, j, k+1]
                         matriz_3dc_inout[i+1, j+1, k] = matriz_3dc_inout[i+1, j+1, k+1]
 
+    print("Mesh_and_Oris 8")
 
     for k in range(0,dimZc):
         for i in range(0,dimXc):
@@ -266,5 +275,5 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
                         print("Error. Revisar asignacion de orientacion")
                         sys.exit()  # Termina la ejecución del programa
 
-
+    print("Mesh_and_Oris 9")
     return dimXc, dimYc, dimZc, matriz_4d, matriz_4dc, matriz_3dc_inout, matriz_3dc_oris, nodes
