@@ -151,7 +151,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
     ###################################################################
     ###################################################################
     ###################################################################
-
+    print("HERE 1")
     if tipo_fallo == "N":
         datos_input, n_nodos, n_espesor, Ldom, desfase_array, mov_geometria_array = NoFallos(w_tow, h_tow, L_pro,
                                                                                              angulos_tows, n_capas,
@@ -175,7 +175,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
                                                                                         n_elementos_towsingap,
                                                                                         n_elementos_capa,
                                                                                         factor_desplazamiento)
-
+    print("HERE 2")
     # Job case
     # case_name = 'Caso_0_0_0_w2mm_lpro0p2mm_fine'
 
@@ -205,7 +205,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
 
         # Guardar el objeto STL en un archivo
         combined[contarTow - 1].save(archivo_stl)
-
+    print("HERE 3")
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        Geometry generation time: {round(tiempo_ej / 60, 2)} min")
@@ -229,7 +229,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
                                                                                                          outputPath,
                                                                                                          planos_Yarn,
                                                                                                          centros_Yarn)
-
+    print("HERE 4")
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        Mesh and Oris generation time: {round(tiempo_ej / 60, 2)} min")
@@ -273,7 +273,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
     if tipo_fallo == 'O' or tipo_fallo == 'G':
         if consider_FVF_variation == True:
             matriz_3dc_FVF = FVF_variation(matriz_3dc_inout, n_capas, matriz_3dc_FVF, ajus_ol)
-
+    print("HERE 5")
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        FVF generation time: {round(tiempo_ej / 60, 2)} min")
@@ -288,7 +288,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
     Elementsetmaterials, numero_elemento, posicion_n_nodo, Porosityfield_dir1_array, Porosityfield_dir2_array, Porosityfield_dir3_array = writeAlyaGeo(
         outputMeshPath, case_name, dimXc, dimYc, dimZc, matriz_4d, matriz_4dc, matriz_3dc_inout, matriz_3dc_oris,
         angulos_tows, n_elementos_capa, matriz_3dc_FVF)
-
+    print("HERE 6")
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        Geo file generation time: {round(tiempo_ej / 60, 2)} min")
@@ -301,6 +301,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
     inicio = time.time()
     print('    Writting Alya jobName.mat.dat ...')
     nmate = writeAlyaMat(outputMeshPath, case_name, Elementsetmaterials)
+    print("HERE 7")
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        Mat file generation time: {round(tiempo_ej / 60, 2)} min")
