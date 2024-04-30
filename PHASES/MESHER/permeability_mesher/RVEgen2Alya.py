@@ -71,10 +71,13 @@ def permeability_mesher(**kwargs):
     return RVEgen2Alya(**kwargs)
 
 
-@task(returns=1)
 def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_fraction, tipo_fallo, factor_desplazamiento, w_tow,
                 h_tow, L_pro, n_elementos_gap, n_elementos_towsingap,
-                n_elementos_capa, n_capas, angulos_tows, n_tows, Lset, ol, ajus_ol, ol_izd, ol_drch, AlyaSet, debug, consider_FVF_variation, Full_periodicity,  **kwargs):
+                n_elementos_capa, n_capas, angulos_tows, n_tows, Lset, ol, ajus_ol, ol_izd, ol_drch, AlyaSet, debug, consider_FVF_variation, Full_periodicity):
+    outputPath = f'{simulation_wdir}'
+    os.makedirs(outputPath)
+    outputMeshPath = f'{simulation_wdir}/msh/'
+    os.makedirs(outputMeshPath)
     print("    Generating geometry ...")
 
     # Get the start time
@@ -177,10 +180,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
     # case_name = 'Caso_0_0_0_w2mm_lpro0p2mm_fine'
 
     # Set paths for directories
-    outputPath = f'{simulation_wdir}'
-    os.makedirs(outputPath)
-    outputMeshPath = f'{simulation_wdir}/msh/'
-    os.makedirs(outputMeshPath)
+
     ##########################################
     ##########################################
     ##########################################
