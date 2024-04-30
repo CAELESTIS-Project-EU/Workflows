@@ -118,7 +118,6 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
     for i in range(0,dimXc):
         for j in range(0,dimYc):
             for k in range(0,dimZc):
-                print(f"Mesh_and_Oris {i} {j} {k}")
                 nodes.append(np.array([[matriz_4dc[i,j,k,0], matriz_4dc[i,j,k,1], matriz_4dc[i,j,k,2]]]))
     nodes = np.asarray(nodes, dtype = float)
     nodes = nodes[:,0,:]
@@ -160,8 +159,6 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
                         matriz_3dc_inout[i+1, j-1, k] = matriz_3dc_inout[i+1, j-1, k+1]
                         matriz_3dc_inout[i+1, j, k] = matriz_3dc_inout[i+1, j, k+1]
                         matriz_3dc_inout[i+1, j+1, k] = matriz_3dc_inout[i+1, j+1, k+1]
-
-    print("Mesh_and_Oris 8")
 
     for k in range(0,dimZc):
         for i in range(0,dimXc):
