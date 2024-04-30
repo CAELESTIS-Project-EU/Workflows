@@ -177,12 +177,9 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
     # case_name = 'Caso_0_0_0_w2mm_lpro0p2mm_fine'
 
     # Set paths for directories
-    basePath = f'{simulation_wdir}'
-    outputPath = f'{basePath}/output/' + case_name
-    if os.path.exists(outputPath):
-        shutil.rmtree(f'{basePath}/output/' + case_name)
+    outputPath = f'{simulation_wdir}'
     os.makedirs(outputPath)
-    outputMeshPath = f'{basePath}/output/' + case_name + '/msh/'
+    outputMeshPath = f'{simulation_wdir}/msh/'
     os.makedirs(outputMeshPath)
     ##########################################
     ##########################################
