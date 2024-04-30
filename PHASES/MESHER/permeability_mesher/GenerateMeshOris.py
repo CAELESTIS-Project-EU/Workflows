@@ -123,6 +123,7 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
     for i in range(0,dimXc):
         for j in range(0,dimYc):
             for k in range(0,dimZc):
+                print(f"Mesh_and_Oris {i} {j} {k}")
                 nodes.append(np.array([[matriz_4dc[i,j,k,0], matriz_4dc[i,j,k,1], matriz_4dc[i,j,k,2]]]))
     nodes = np.asarray(nodes, dtype = float)
     nodes = nodes[:,0,:]
