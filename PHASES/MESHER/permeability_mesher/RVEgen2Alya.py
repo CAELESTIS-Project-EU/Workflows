@@ -70,7 +70,6 @@ def permeability_mesher(**kwargs):
     del kwargs['problem_mesher']
     return RVEgen2Alya(**kwargs)
 
-@task(returns=1)
 def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_fraction, tipo_fallo, factor_desplazamiento, w_tow,
                 h_tow, L_pro, n_elementos_gap, n_elementos_towsingap,
                 n_elementos_capa, n_capas, angulos_tows, n_tows, Lset, ol, ajus_ol, ol_izd, ol_drch, AlyaSet, debug, consider_FVF_variation, Full_periodicity, **kwargs):

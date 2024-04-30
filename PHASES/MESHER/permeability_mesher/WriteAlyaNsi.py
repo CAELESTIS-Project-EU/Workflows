@@ -1,9 +1,7 @@
-
 def writeAlyaNsi(debug, path, fileName, icase, pressure, gravity, lx, ly, lz, node, Full_periodicity):
     """ Alya caseName.nsi.dat file
     """
-    
-    stream = open(path+fileName+'.nsi.dat', 'w', newline='\n')
+    stream = open(path + fileName + '.nsi.dat', 'w', newline='\n')
 
     stream.write('$-------------------------------------------------------------------\n')
     stream.write('$\n')
@@ -16,10 +14,10 @@ def writeAlyaNsi(debug, path, fileName, icase, pressure, gravity, lx, ly, lz, no
     stream.write('$\n')
     stream.write('$ Boundary conditions:\n')
     stream.write('$\n')
-    stream.write('$   D            C\n') 
-    stream.write('$    o----------o          o----------o\n')        
-    stream.write('$    |\         |\         |\         |\ \n')      
-    stream.write('$    | \        | \        | \    4   | \ \n')   
+    stream.write('$   D            C\n')
+    stream.write('$    o----------o          o----------o\n')
+    stream.write('$    |\         |\         |\         |\ \n')
+    stream.write('$    | \        | \        | \    4   | \ \n')
     stream.write('$    |  \ H     |  \ G     |  \  5    |  \ \n')
     stream.write('$    |   o------+---o      |   o------+---o\n')
     stream.write('$    |   |      |   |      | 1 |      | 2 |\n')
@@ -50,11 +48,11 @@ def writeAlyaNsi(debug, path, fileName, icase, pressure, gravity, lx, ly, lz, no
     stream.write('$   Slave Master    Slave Master    Slave Master\n')
     stream.write('$    BCGF  ADHE      EF    AB         E     A\n')
     stream.write('$                    FG    BC         F     B\n')
-    stream.write('$                    GH    CD         G     C\n')  
+    stream.write('$                    GH    CD         G     C\n')
     stream.write('$    DHGC  AEFB      HE    DA         H     D\n')
     if Full_periodicity == True:
         stream.write('$    EFGH  ABCD      BC    AD         G     A\n')
-        stream.write('$                    EH    AD\n')        
+        stream.write('$                    EH    AD\n')
         stream.write('$                    FG    AD\n')
         stream.write('$\n')
         if icase == 'x-flow':
@@ -75,7 +73,7 @@ def writeAlyaNsi(debug, path, fileName, icase, pressure, gravity, lx, ly, lz, no
     else:
         if icase == 'z-flow':
             stream.write('$    EFGH  ABCD      BC    AD         G     A\n')
-            stream.write('$                    EH    AD\n')        
+            stream.write('$                    EH    AD\n')
             stream.write('$                    FG    AD\n')
         stream.write('$\n')
         if icase == 'x-flow':
@@ -130,12 +128,12 @@ def writeAlyaNsi(debug, path, fileName, icase, pressure, gravity, lx, ly, lz, no
     stream.write('    TAU_STRATEGY:         Codina\n')
     stream.write('  END_ALGORITHM\n')
     stream.write('  MOMENTUM\n')
-    stream.write('    ALGEBRAIC_SOLVER\n')     
+    stream.write('    ALGEBRAIC_SOLVER\n')
     stream.write('      SOLVER:             BICGSTAB\n')
     stream.write('      CONVERGENCE:        ITERATIONS= 1000, TOLERANCE= 1.0e-10, ADAPTIVE, RATIO= 1.0e-3\n')
     stream.write('      OUTPUT:             CONVERGENCE\n')
     stream.write('      PRECONDITIONER:     DIAGONAL\n')
-    stream.write('    END_ALGEBRAIC_SOLVER\n')     
+    stream.write('    END_ALGEBRAIC_SOLVER\n')
     stream.write('  END_MOMENTUM\n')
     stream.write('  CONTINUITY \n')
     stream.write('    ALGEBRAIC_SOLVER\n')
@@ -143,7 +141,7 @@ def writeAlyaNsi(debug, path, fileName, icase, pressure, gravity, lx, ly, lz, no
     stream.write('       CONVERGENCE:       ITERATIONS= 1000, TOLERANCE= 1.0e-10, ADAPTIVE, RATIO= 1.0e-3\n')
     stream.write('       OUTPUT:            CONVERGENCE\n')
     stream.write('       PRECONDITIONER:    DIAGONAL\n')
-    stream.write('    END_ALGEBRAIC_SOLVER\n')     
+    stream.write('    END_ALGEBRAIC_SOLVER\n')
     stream.write('  END_CONTINUITY\n')
     stream.write('  DIRICHLET: MATRIX\n')
     stream.write('END_NUMERICAL_TREATMENT\n')
@@ -259,7 +257,5 @@ def writeAlyaNsi(debug, path, fileName, icase, pressure, gravity, lx, ly, lz, no
     stream.write('  END_CODES\n')
     stream.write('END_BOUNDARY_CONDITIONS\n')
     stream.write('$-------------------------------------------------------------------\n')
-    
-    stream.close()
 
-    
+    stream.close()
