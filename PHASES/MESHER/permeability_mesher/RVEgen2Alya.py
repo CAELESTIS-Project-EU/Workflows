@@ -75,9 +75,13 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
                 h_tow, L_pro, n_elementos_gap, n_elementos_towsingap,
                 n_elementos_capa, n_capas, angulos_tows, n_tows, Lset, ol, ajus_ol, ol_izd, ol_drch, AlyaSet, debug, consider_FVF_variation, Full_periodicity, **kwargs):
     outputPath = f'{simulation_wdir}'
-    os.makedirs(outputPath)
+    if not os.path.isdir(outputPath):
+        os.makedirs(outputPath)
+
     outputMeshPath = f'{simulation_wdir}/msh/'
-    os.makedirs(outputMeshPath)
+    if not os.path.isdir(outputMeshPath):
+        os.makedirs(outputMeshPath)
+
     print("    Generating geometry ...")
 
     # Get the start time
