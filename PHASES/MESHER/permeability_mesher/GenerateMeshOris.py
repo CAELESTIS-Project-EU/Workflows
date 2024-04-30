@@ -113,7 +113,6 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
     # Verificar si el punto está dentro de la geometría
     matriz_3dc_oris = np.zeros((dimXc, dimYc, dimZc, 3))
     nodes = []
-    print("Mesh_and_Oris 6")
 
     for i in range(0,dimXc):
         for j in range(0,dimYc):

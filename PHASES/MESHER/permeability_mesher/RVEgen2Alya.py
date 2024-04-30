@@ -78,7 +78,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
     outputPath = f'{simulation_wdir}'
     if not os.path.isdir(outputPath):
         os.makedirs(outputPath)
-
+    print(f'Case_name = {case_name}')
     outputMeshPath = f'{simulation_wdir}/msh/'
     if not os.path.isdir(outputMeshPath):
         os.makedirs(outputMeshPath)
