@@ -71,7 +71,6 @@ def permeability_mesher(**kwargs):
     return RVEgen2Alya(**kwargs)
 
 
-@task(returns=1)
 def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_fraction, tipo_fallo, factor_desplazamiento, w_tow,
                 h_tow, L_pro, n_elementos_gap, n_elementos_towsingap,
                 n_elementos_capa, n_capas, angulos_tows, n_tows, Lset, ol, ajus_ol, ol_izd, ol_drch, AlyaSet, debug, consider_FVF_variation, Full_periodicity, **kwargs):
@@ -223,7 +222,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
     # Mesh and orientation
 
     inicio = time.time()
-
+    print("DONE UNTIL HERE 1")
     dimXc, dimYc, dimZc, matriz_4d, matriz_4dc, matriz_3dc_inout, matriz_3dc_oris, nodes = Mesh_and_Oris(Ldom, n_nodos,
                                                                                                          n_capas, h_tow,
                                                                                                          n_espesor,
@@ -231,6 +230,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
                                                                                                          outputPath,
                                                                                                          planos_Yarn,
                                                                                                          centros_Yarn)
+    print("DONE UNTIL HERE 2")
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        Mesh and Oris generation time: {round(tiempo_ej / 60, 2)} min")
