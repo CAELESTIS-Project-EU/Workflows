@@ -3,7 +3,6 @@ import trimesh
 import sys
 
 def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPath, planos_Yarn, centros_Yarn):
-    print("Mesh_and_Oris 1")
     ###############################################################
     ###############################################################
     # Definir los valores iniciales y finales para discretización en X
