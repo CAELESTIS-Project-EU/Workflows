@@ -416,7 +416,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
 
     print('    Writting Alya jobName.fie.dat ...')
 
-    writeAlyaFie(outputMeshPath, case_name, viscosity, volume_fraction_tows, Elementsetmaterials, \
+    writeAlyaFie(outputMeshPath, case_name, viscosity, volume_fraction_tows, Elementsetmaterials,
                  numerodeelementos, Porosityfield_dir1_array, Porosityfield_dir2_array, Porosityfield_dir3_array)
 
     fin = time.time()

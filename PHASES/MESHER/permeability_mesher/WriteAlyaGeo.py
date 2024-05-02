@@ -41,7 +41,6 @@ def writeAlyaGeo(outputMeshPath, caseName, dimXc, dimYc, dimZc, matriz_4d, matri
     gx.write("NODES_PER_ELEMENT")
     n_elems = dimXc*dimYc*dimZc
     for i in range(n_elems):
-        print(f"THIRD LOOP {i} out of dimXc {n_elems}")
         #gx.write("\n   "+str(int(i)+1)+" "+str(n_elems[i]))
         gx.write("\n   "+str(int(i)+1)+" "+str(int(8)))  # Los modelos siempre van a ser hexaedros
     gx.write("\nEND_NODES_PER_ELEMENT")
@@ -56,7 +55,6 @@ def writeAlyaGeo(outputMeshPath, caseName, dimXc, dimYc, dimZc, matriz_4d, matri
     n_nodo = 1
     posicion_n_nodo = np.zeros((len(matriz_4d[:,0,0,0]), len(matriz_4d[0,:,0,0]), len(matriz_4d[0,0,:,0])))
     for i in range(len(matriz_4d[:,0,0])):
-        print(f"THIRD LOOP {i} out of matriz_4d {(len(matriz_4d[:,0,0]))}")
         for j in range(len(matriz_4d[0,:,0])):
             for k in range(len(matriz_4d[0,0,:])):
                 posicion_n_nodo[i,j,k]=n_nodo
@@ -75,7 +73,6 @@ def writeAlyaGeo(outputMeshPath, caseName, dimXc, dimYc, dimZc, matriz_4d, matri
     numero_elemento = np.zeros((len(matriz_4dc[:,0,0,0]), len(matriz_4dc[0,:,0,0]), len(matriz_4dc[0,0,:,0])))
     n_elemento = 1
     for i in range(len(matriz_4dc[:,0,0])):
-        print(f"5 LOOP {i} out of matriz_4d {(len(matriz_4d[:, 0, 0]))}")
         for j in range(len(matriz_4dc[0,:,0])):
             for k in range(len(matriz_4dc[0,0,:])):
                 e0 = str(int(n_elemento))
@@ -144,7 +141,6 @@ def writeAlyaGeo(outputMeshPath, caseName, dimXc, dimYc, dimZc, matriz_4d, matri
     gx.write("\nCOORDINATES")
     n_nodo = 1
     for i in range(len(matriz_4d[:,0,0,0])):
-        print(f"6 LOOP {i} out of matriz_4d {(len(matriz_4d[:, 0, 0]))}")
         for j in range(len(matriz_4d[0,:,0,0])):
             for k in range(len(matriz_4d[0,0,:,0])):
                 coor_x = np.format_float_scientific(matriz_4d[i, j, k, 0],precision=6)
