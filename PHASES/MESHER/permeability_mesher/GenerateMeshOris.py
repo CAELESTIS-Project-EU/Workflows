@@ -139,6 +139,7 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
     matriz_3dc_inout = np.reshape(matriz_1dc_inout, [dimXc, dimYc, dimZc])
 
     for i in range(1,dimXc-1):
+        print(f"FIRST LOOP {i} out of dimXc {dimXc}")
         for j in range(1,dimYc-1):
             for k in range(1,dimZc-1):
                 if (matriz_3dc_inout[i-1, j-1, k] and matriz_3dc_inout[i-1, j, k] and matriz_3dc_inout[i-1, j+1, k] and
@@ -161,6 +162,7 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
                         matriz_3dc_inout[i+1, j+1, k] = matriz_3dc_inout[i+1, j+1, k+1]
     print("Mesh_and_Oris 2")
     for k in range(0,dimZc):
+        print(f"SECOND LOOP {i} out of dimXc {dimXc}")
         for i in range(0,dimXc):
             for j in range(0,dimYc):
                 point_to_check = np.array([[matriz_4dc[i,j,k,0], matriz_4dc[i,j,k,1], matriz_4dc[i,j,k,2]]])

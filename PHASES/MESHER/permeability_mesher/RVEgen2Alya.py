@@ -290,6 +290,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
         angulos_tows, n_elementos_capa, matriz_3dc_FVF)
     fin = time.time()
     tiempo_ej = fin - inicio
+    print("DONE UNTIL HERE 3")
     print(f"        Geo file generation time: {round(tiempo_ej / 60, 2)} min")
 
     # --------------------------------------------
