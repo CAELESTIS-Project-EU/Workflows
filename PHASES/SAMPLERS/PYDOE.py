@@ -1,5 +1,5 @@
 from pyDOE import *
-from scipy.stats.distributions import norm
+from scipy.stats.distributions import norm, uniform, weibull_min, lognorm
 import numpy as np
 import importlib
 import re
@@ -49,7 +49,60 @@ def sampling(problem, **kwargs):
     samples_final = np.concatenate((sample_uni_extract, sample_norm_extract))
     return samples_final
 
+@task(returns=1)
+def sampling_distribution(problem, **kwargs):
+    """sampler_args=kwargs.get("args")
+    problem= get_value(sampler_args, "problem")"""
+    
+    variables = problem.get("variables-sampler")
+    n_samples = int(problem.get("n_samples"))
+    num_var = int(problem.get("num_var"))
+    
+    covs = []
+    means = []
+    sigmas = []
+    alphas = []
+    betas = [] 
+    typeDistr = []
+    for item in variables:
+        for key, value in item.items():
+            distr = value.get('distr', None)
+            mean = float(value.get("mean"))
+            sigma = value.get('sigma', None)
+            cov = value.get('cov', None)
+            alpha = value.get('alpha', None)
+            beta = value.get('beta', None)
+            means.append(mean)
+            typeDistr.append(distr)
+            if sigma:
+                sigmas.append(float(sigma))
+            elif cov:
+                cov= float(cov)
+                covs.append(cov)
+                sigma=(mean * cov)/100.
+                sigmas.append(sigma)
+            if alpha:
+                alphas.append(float(alpha))
+            if beta:
+                betas.append(float(beta))
 
+    lhs_sample = lhs(num_var, n_samples, criterion="maximin")
+    
+    samples_final = np.zeros((n_samples, num_var))
+    
+    for i in range(num_var):
+        if typeDistr[i] == 'norm':
+            samples_final[:, i] = norm(loc=means[i], scale=sigmas[i]).ppf(lhs_sample[:, i])
+        elif typeDistr[i] == 'uniform':
+            lower_bound = means[i] - means[i]*covs[i]/100.
+            upper_bound = means[i] + means[i]*covs[i]/100.
+            samples_final[:, i] = uniform(loc=lower_bound, scale=(upper_bound - lower_bound)).ppf(lhs_sample[:, i])
+        elif typeDistr[i] == 'weibull': 
+            samples_final[:, i] = weibull_min(betas[i], scale=alphas[i], loc=0).ppf(lhs_sample[:, i])
+        elif typeDistr[i] == 'lognorm':
+            samples_final[:, i] = lognorm(s=sigmas[i], loc=means[i]).ppf(lhs_sample[:, i])
+            
+    return samples_final
 
 def get_value(element, param):
     if param in element:
