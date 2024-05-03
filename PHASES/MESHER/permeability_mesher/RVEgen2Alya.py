@@ -31,8 +31,6 @@ from PHASES.MESHER.permeability_mesher.GenerateMeshOris import Mesh_and_Oris
 
 def permeability_from_doe(**kwargs):
     values=kwargs.get("values")
-    print("VALUES")
-    print(values)
     kwargs['density'] = values['Density']
     kwargs['viscosity'] = values['Viscosity']
     kwargs['gravity'] = values['Gravity']

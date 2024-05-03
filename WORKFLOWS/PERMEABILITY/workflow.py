@@ -10,8 +10,6 @@ import os
 def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
     data_set = phase.run(phases.get("sampler"), inputs, outputs, parameters, data_folder, locals())
     data_set = compss_wait_on(data_set)
-    print("DATA SET")
-    print(data_set)
     original_name_sim = parameters.get("original_name_sim")
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
@@ -19,8 +17,6 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     write_file(results_folder, data_set, "xFile.npy")
     y = []
     for i, values in data_set.iterrows():
-        print("values")
-        print(values)
         case_name = "case_" + str(i)
         simulation_wdir = execution_folder + "/SIMULATIONS/" + case_name
         name_sim = phase.run(phases.get("mesher"), inputs, outputs, parameters, data_folder, locals())
