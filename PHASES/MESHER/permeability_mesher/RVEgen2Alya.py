@@ -70,7 +70,6 @@ def permeability_mesher(**kwargs):
     del kwargs['problem_mesher']
     return RVEgen2Alya(**kwargs)
 
-
 @task(returns=1)
 def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_fraction, tipo_fallo, factor_desplazamiento, w_tow,
                 h_tow, L_pro, n_elementos_gap, n_elementos_towsingap,
@@ -522,6 +521,7 @@ def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_
     length = [lx * 1e-3, ly * 1e-3, lz * 1e-3]  # TODO: Acordar las unidades y quitar!
     for j in range(len(simulaciones)):
         path = outputPath + '/' + str(simulaciones[j]) + '/'
+        print(f"PATH= {path}")
         os.makedirs(path)
         fileName = case_name
         icase = str(simulaciones[j])

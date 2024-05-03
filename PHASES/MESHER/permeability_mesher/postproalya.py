@@ -15,8 +15,8 @@ from PHASES.MESHER.permeability_mesher.PermeabilityCalc import Permeability_Calc
 #nos quedamos la ultima iteracion
 
 @task(out=COLLECTION_IN, returns=1)
-def postproCaso(num_caso, w_tow, L_pro, angulos_tows, n_tows, n_capas, Lset, gravity, density, viscosity,  **kwargs):
-    path_caso = 'output/Caso_' + str(num_caso) + '/'
+def postproCaso(case_name, w_tow, L_pro, angulos_tows, n_tows, n_capas, Lset, gravity, density, viscosity,  **kwargs):
+    path_caso = 'output/'+case_name+'/'
     archivo_x = 'x-flow/Caso_'+str(num_caso)+'-element.nsi.set'
     archivo_y = 'y-flow/Caso_'+str(num_caso)+'-element.nsi.set'
     archivo_z = 'z-flow/Caso_'+str(num_caso)+'-element.nsi.set'

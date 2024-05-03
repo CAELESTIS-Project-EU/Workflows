@@ -20,28 +20,25 @@ from PHASES.MESHER.permeability_mesher.WriteAlyaSet4 import AdjSets
 
 
 def postProcessPermeability(**kwargs):
-    for item in kwargs['postProcessParam']:
-        kwargs.update(item)
     values = kwargs.get("values")
+    kwargs['w_tow'] = values['w_tow']
+    kwargs['L_pro'] = values['L_pro']
     kwargs['angulos_tows'] = [values['angle_1'], values['angle_2'], values['angle_3'], values['angle_4'],
                               values['angle_5'], values['angle_6']]
-    kwargs['L_pro'] = values['L_pro']
-    kwargs['w_tow'] = values['w_tow']
     kwargs['n_tows'] = values['n_tows']
-    kwargs['n_capas'] = len(kwargs['angulos_tows'])
     kwargs['Lset'] = values['Lset']
+    kwargs['gravity'] = values['Gravity']
     kwargs['density'] = values['Density']
     kwargs['viscosity'] = values['Viscosity']
-    kwargs['gravity'] = values['Gravity']
-    del kwargs['postProcessParam']
+    del kwargs['values']
     return postproCaso(**kwargs)
 
 
 
+
 @task(out=COLLECTION_IN, returns=1)
-def postproCaso(simulation_wdir, caseName, w_tow, L_pro, angulos_tows, n_tows, n_capas, Lset, gravity, density, viscosity, **kwargs):
-    path_caso = simulation_wdir
-    num_caso=extract_number(caseName)
+def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angulos_tows, n_tows, n_capas, Lset, gravity, density, viscosity, **kwargs):
+    num_caso=extract_number(case_name)
     archivo_x = 'x-flow/Caso_' + str(num_caso) + '-element.nsi.set'
     archivo_y = 'y-flow/Caso_' + str(num_caso) + '-element.nsi.set'
     archivo_z = 'z-flow/Caso_' + str(num_caso) + '-element.nsi.set'
@@ -65,7 +62,7 @@ def postproCaso(simulation_wdir, caseName, w_tow, L_pro, angulos_tows, n_tows, n
         header = []
         last_iter_R = []
         last_iter = []
-        with open(path_caso + direccion, 'r') as f:
+        with open(simulation_wdir + direccion, 'r') as f:
             for row in f:
                 if row != '# START\n':
                     header.append(row)
@@ -94,7 +91,7 @@ def postproCaso(simulation_wdir, caseName, w_tow, L_pro, angulos_tows, n_tows, n
                 iset += 1
     extrasets = np.asarray(extrasets)
 
-    np.savetxt(path_caso + 'set_results.csv', extrasets, delimiter=',')
+    np.savetxt(simulation_wdir + 'set_results.csv', extrasets, delimiter=',')
     # setfiles = os.listdir('output/Caso_'+str(num_caso)+'/msh')
     ruta_caso = 'output/Caso_' + str(num_caso)
     ruta_mesh = os.path.join(ruta_caso, 'msh')
@@ -120,6 +117,7 @@ def postproCaso(simulation_wdir, caseName, w_tow, L_pro, angulos_tows, n_tows, n
                 toRom.append(np.r_[line[:-18], evl, evt0, evt1])
             np.savetxt(os.path.join(ruta_caso, 'toRom' + file), np.asarray(toRom))
     return
+
 
 def extract_number(case_name):
     # Using regular expression to find the number in the string
