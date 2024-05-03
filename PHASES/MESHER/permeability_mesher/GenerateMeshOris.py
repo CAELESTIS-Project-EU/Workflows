@@ -264,5 +264,4 @@ def Mesh_and_Oris(Ldom, n_nodos,n_capas, h_tow, n_espesor, datos_input, outputPa
                     else:
                         print("Error. Revisar asignacion de orientacion")
                         sys.exit()  # Termina la ejecución del programa
-    print("Mesh_and_Oris 3")
     return dimXc, dimYc, dimZc, matriz_4d, matriz_4dc, matriz_3dc_inout, matriz_3dc_oris, nodes
