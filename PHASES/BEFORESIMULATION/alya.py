@@ -18,6 +18,11 @@ def prepare_data(**kwargs):
         out3 = prepare_dom(prepare_args, out=out1)
     return out3
 
+def prepare_data_coupontool(**kwargs):
+    prepare_args = kwargs
+    variables = vars_func(prepare_args)
+    out1 = prepare_coupontool(prepare_args, variables)
+    return out1
 
 def check_template_exist(element, template):
     if template in element:
@@ -124,6 +129,26 @@ def prepare_dom(prepare_args, **kwargs):
             f2.write(filedata)
             f.close()
         f2.close()
+    return
+
+@task(returns=1)
+def prepare_coupontool(prepare_args, **kwargs):
+    from coupontool.COUPOtool import run
+    template = get_value(prepare_args, "template_coupontool")
+    simulation_wdir = get_value(prepare_args, "simulation_wdir")
+    name_sim = get_value(prepare_args, "name_sim")
+    simulation = simulation_wdir + "/" + name_sim + "inputs-oht-pri-temp.py"
+    with open(simulation, 'w') as f2:
+        with open(template, 'r') as f:
+            filedata = f.read()
+            for i in range(len(variables)):
+                item = variables[i]
+                for name, bound in item.items():
+                    filedata = filedata.replace("%" + name + "%", str(bound))
+            f2.write(filedata)
+            f.close()
+        f2.close()
+    run(simulation, name_sim,  simulation_wdir, 'open-hole', 'True')
     return
 
 def get_value(element, param):
