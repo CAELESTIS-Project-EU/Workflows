@@ -58,7 +58,7 @@ parameters:
       - G1T: {distr: weibull, mean: 186.8, alpha: 203.5, beta: 4.7}
       - G1C: {distr: lognorm, mean: 114.32, alpha: 4.7, beta: 0.2}
       - GIc: {distr: weibull, mean: 0.802, alpha: 0.8104, beta: 0.0609}
-      - GIIc: {distr: weibull, mean: 1.3815, alpha: 1.4203 beta: 0.1730}
+      - GIIc: {distr: weibull, mean: 1.3815, alpha: 1.4203, beta: 0.1730}
       - YBC: {distr: norm, mean: 600., cov: 2.}
       - YBT: {distr: norm, mean: 38.7, cov: 2.}
       - Sp: {distr: norm, mean: 66.9, cov: 2.}
