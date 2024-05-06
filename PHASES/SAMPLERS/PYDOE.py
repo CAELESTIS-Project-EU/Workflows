@@ -66,26 +66,19 @@ def sampling_distribution(problem, **kwargs):
     typeDistr = []
     for item in variables:
         for key, value in item.items():
-            distr = value.get('distr', None)
+            distr = value.get('distr')
             mean = float(value.get("mean"))
-            sigma = value.get('sigma', None)
-            cov = value.get('cov', None)
-            alpha = value.get('alpha', None)
-            beta = value.get('beta', None)
-            means.append(mean)
+            sigma = float(value.get('sigma'))
+            cov = float(value.get('cov'))
+            alpha = float(value.get('alpha'))
+            beta = float(value.get('beta'))
             typeDistr.append(distr)
-            if sigma:
-                sigmas.append(float(sigma))
-            elif cov:
-                cov= float(cov)
-                covs.append(cov)
-                sigma=(mean * cov)/100.
-                sigmas.append(sigma)
-            if alpha:
-                alphas.append(float(alpha))
-            if beta:
-                betas.append(float(beta))
-
+            means.append(mean)
+            covs.append(cov)
+            sigmas.append(sigma)
+            alphas.append(alpha)
+            betas.append(beta)
+            
     lhs_sample = lhs(num_var, n_samples, criterion="maximin")
     
     samples_final = np.zeros((n_samples, num_var))
