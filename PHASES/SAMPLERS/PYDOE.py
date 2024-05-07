@@ -112,39 +112,6 @@ def get_names(sampler_args):
             names.append(key)
     return names
 
-@task(returns=1)
-def vars_func(sampler_args, variables_sampled, **kwargs):
-    names=get_names(sampler_args)
-    problem = sampler_args.get("problem")
-    variables_fixed= problem.get("variables-fixed")
-    calls = problem.get("variables-derivate")
-    variables = []
-    for i in range(len(variables_sampled)):
-        value = {names[i]: variables_sampled[i]}
-        variables.append(value)
-    for variable_fixed in variables_fixed:
-        variables.append(variable_fixed)
-    for name, value in calls.items():
-        call = value
-        head, tail = call.get("method").split(".")
-        parameters = call.get("parameters")
-        args = []
-        for parameter in parameters:
-            if re.search("eval\(", parameter):
-                s = parameter.replace('eval(', '')
-                s = s.replace(')', '')
-                res = callEval(s, variables)
-                args.append(res)
-            else:
-                args.append(loop(parameter, variables))
-        module = importlib.import_module('PHASES.TRANSFORMATIONS.' + head)
-        c = getattr(module, tail)(*args)
-        outputs = call.get("outputs")
-        for i in range(len(outputs)):
-            var = {outputs[i]: c[i]}
-            variables.append(var)
-    return variables
-
 def callEval(parameter, variables):
     groups = re.split(r'\b', parameter)
     for group in groups:

@@ -21,7 +21,7 @@ def prepare_data(**kwargs):
 def prepare_data_coupontool(**kwargs):
     prepare_args = kwargs
     variables = vars_func(prepare_args)
-    out1 = prepare_coupontool(prepare_args, variables)
+    out1 = prepare_coupontool(prepare_args, variables, **kwargs)
     return out1
 
 def check_template_exist(element, template):
@@ -44,25 +44,27 @@ def vars_func(prepare_args):
         variables.append(value)
     for variable_fixed in variables_fixed:
         variables.append(variable_fixed)
-    for name, value in calls.items():
-        call = value
-        head, tail = call.get("method").split(".")
-        parameters = call.get("parameters")
-        args = []
-        for parameter in parameters:
-            if re.search("eval\(", parameter):
-                s = parameter.replace('eval(', '')
-                s = s.replace(')', '')
-                res = callEval(s, variables)
-                args.append(res)
-            else:
-                args.append(loop(parameter, variables))
-        module = importlib.import_module('PHASES.TRANSFORMATIONS.' + head)
-        c = getattr(module, tail)(*args)
-        outputs = call.get("outputs")
-        for i in range(len(outputs)):
-            var = {outputs[i]: c[i]}
-            variables.append(var)
+    if calls:
+        for name, value in calls.items():
+            call = value
+            head, tail = call.get("method").split(".")
+            parameters = call.get("parameters")
+            args = []
+            for parameter in parameters:
+                if re.search("eval\(", parameter):
+                    s = parameter.replace('eval(', '')
+                    s = s.replace(')', '')
+                    res = callEval(s, variables)
+                    args.append(res)
+                else:
+                    args.append(loop(parameter, variables))
+            module = importlib.import_module('PHASES.TRANSFORMATIONS.' + head)
+            c = getattr(module, tail)(*args)
+            outputs = call.get("outputs")
+            for i in range(len(outputs)):
+                var = {outputs[i]: c[i]}
+                variables.append(var)
+
     return variables
 
 
@@ -132,12 +134,14 @@ def prepare_dom(prepare_args, **kwargs):
     return
 
 @task(returns=1)
-def prepare_coupontool(prepare_args, **kwargs):
-    from coupontool.COUPOtool import run
+def prepare_coupontool(prepare_args, variables, **kwargs):
+    from coupontool import COUPONtool
     template = get_value(prepare_args, "template_coupontool")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     name_sim = get_value(prepare_args, "name_sim")
-    simulation = simulation_wdir + "/" + name_sim + "inputs-oht-pri-temp.py"
+    simulation = simulation_wdir + "/" + name_sim + '.py'
+    if not os.path.isdir(simulation_wdir):
+        os.makedirs(simulation_wdir)
     with open(simulation, 'w') as f2:
         with open(template, 'r') as f:
             filedata = f.read()
@@ -148,7 +152,7 @@ def prepare_coupontool(prepare_args, **kwargs):
             f2.write(filedata)
             f.close()
         f2.close()
-    run(simulation, name_sim,  simulation_wdir, 'open-hole', 'True')
+    COUPONtool.run(simulation, name_sim,  simulation_wdir, 'open-hole', 'True')
     return
 
 def get_value(element, param):
