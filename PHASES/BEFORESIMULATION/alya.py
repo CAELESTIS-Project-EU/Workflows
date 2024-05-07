@@ -152,7 +152,7 @@ def prepare_coupontool(prepare_args, variables, **kwargs):
             f2.write(filedata)
             f.close()
         f2.close()
-    COUPONtool.runCOUPONtool(simulation, name_sim,  simulation_wdir, 'open-hole', 'True')
+    COUPONtool.runCOUPONtool(simulation, name_sim,  simulation_wdir, 'open-hole', debug=False)
     return
 
 def get_value(element, param):
