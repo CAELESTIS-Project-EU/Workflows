@@ -5,7 +5,7 @@ phases:
     type: PHASES.SAMPLERS.PYDOE.sampling_distribution
     arguments: 
       - problem: $parameters.problem
-  prepare_data: 
+  prepare_data:
     type: PHASES.BEFORESIMULATION.alya.prepare_data_coupontool
     arguments:
       - template_coupontool: $inputs.template_coupontool
@@ -37,7 +37,7 @@ outputs:
     - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/test2J"
     - overwrite : true
 inputs:
-  template_coupontool: 
+  template_coupontool:
     - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/templates/inputs-oht-pri-tem.py"
     - path: "templates/inputs-oht-pri-tem.py"
 parameters:

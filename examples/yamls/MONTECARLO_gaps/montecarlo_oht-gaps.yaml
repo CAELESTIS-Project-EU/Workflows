@@ -7,8 +7,7 @@ phases:
       - problem: $parameters.problem
   prepare_data:
     type: PHASES.BEFORESIMULATION.alya.prepare_data_coupontool
-    arguments: 
-      - mesh: $inputs.mesh
+    arguments:
       - template_coupontool: $inputs.template_coupontool
       - problem: $parameters.problem
       - simulation_wdir: $variables.simulation_wdir
@@ -43,13 +42,14 @@ inputs:
     - path: "templates/inputs-oht-gap-tem.py"
 parameters:
   problem:
-    num_var: 4
+    num_var: 5
     n_samples: 3
     variables-sampler:
-      - gapWidth1: {distr: uniform, mean: 5., cov: 2.}
-      - gapWidth2: {distr: uniform, mean: 5., cov: 2.}
-      - gapPos1: {distr: uniform, mean: 2., cov: 2.}
-      - gapPos2: {distr: uniform, mean: 5., cov: 2.}
+      - gapWidth1: {distr: uniform, mean: 5.,  sigma: 0.5, cov: 10.,  alpha: 0.0, beta: 0.0}
+      - gapWidth2: {distr: uniform, mean: 5.,  sigma: 0.5, cov: 10.,  alpha: 0.0, beta: 0.0}
+      - gapPos1:   {distr: uniform, mean: 2.,  sigma: 6.0, cov: 300., alpha: 0.0, beta: 0.0}
+      - gapPos2:   {distr: uniform, mean: 5.,  sigma: 5.0, cov: 100., alpha: 0.0, beta: 0.0}
+      - pressure:  {distr: norm,    mean: 10., sigma: 1.0, cov: 10.,  alpha: 0.0, beta: 0.0}
     variables-fixed:
       - W: 36.
       - R: 6.
@@ -57,7 +57,7 @@ parameters:
       - E11C: 134540.
       - E22: 7730.
       - v12: 0.33
-      - G12: 4280.
+      - G12: 4276.6
       - XT: 2212.85
       - fXT: 0.4
       - XC: 1109.66
@@ -73,18 +73,18 @@ parameters:
       - fGT: 0.3
       - G1C: 114.32
       - fGC: 0.00061
-      - GIc: 0.76764
+      - GIc: 0.802
       - G2C: 1.31
       - GIIc: 1.3815
       - G6s: 1.3815
       - thick: 0.183
-      - etaBK: 1.45
+      - etaBK: 1.15
       - Kp: 1.0000e+05
       - a0: 0.9250
       - v23: 0.487
-      - G2T: 0.2800
+      - G2T: 0.802
       - muGSL: 0.0035
       - mufXC: 0.1
-  original_name_sim: OHT_Validation_D2
+  original_name_sim: oht-gap
 environment:
   ALYA_PROCS: 112
