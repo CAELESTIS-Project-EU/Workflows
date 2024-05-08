@@ -76,15 +76,22 @@ parameters:
       - GIc: 0.802
       - G2C: 1.31
       - GIIc: 1.3815
+      - G25c: 0.8644
+      - G50c: 0.8208
+      - G75c: 1.0672
       - G6s: 1.3815
       - thick: 0.183
-      - etaBK: 1.15
       - Kp: 1.0000e+05
       - a0: 0.9250
       - v23: 0.487
       - G2T: 0.802
       - muGSL: 0.0035
       - mufXC: 0.1
+    variables-derivate:
+      bk:
+        method: etaBK.etaBK_CAELESTIS_project
+        parameters: [GIc, GIIc, G25c, G50c, G75c]
+        outputs: [etaBK]
   original_name_sim: oht-gap
 environment:
   ALYA_PROCS: 112
