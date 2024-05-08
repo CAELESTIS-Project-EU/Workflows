@@ -94,7 +94,7 @@ def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angulos_tows, n_tows, 
 
     np.savetxt(simulation_wdir + 'set_results.csv', extrasets, delimiter=',')
     # setfiles = os.listdir('output/Caso_'+str(num_caso)+'/msh')
-    ruta_caso = 'output/Caso_' + str(num_caso)
+    ruta_caso = simulation_wdir+ case_name
     ruta_mesh = os.path.join(ruta_caso, 'msh')
     set_outputs = np.loadtxt(os.path.join(ruta_caso, 'set_results.csv'), delimiter=',')
     for file in os.listdir(ruta_mesh):
