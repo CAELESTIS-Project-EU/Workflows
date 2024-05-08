@@ -16,6 +16,7 @@ if [[ $DEST_PATH == */ ]]; then
     DEST_PATH="${DEST_PATH%/}"
 fi
 
+chmod +x "$DEST_PATH/scripts/mn5/loadModule.sh"
 chmod +x "$DEST_PATH/scripts/mn/loadModule.sh"
 chmod +x "$DEST_PATH/scripts/nord/loadModule.sh"
 # shellcheck disable=SC1090
