@@ -40,9 +40,9 @@ def postProcessPermeability(**kwargs):
 @task(out=COLLECTION_IN, returns=1)
 def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angulos_tows, n_tows, n_capas, Lset, gravity, density, viscosity, **kwargs):
     num_caso=extract_number(case_name)
-    archivo_x = 'x-flow/Caso_' + str(num_caso) + '-element.nsi.set'
-    archivo_y = 'y-flow/Caso_' + str(num_caso) + '-element.nsi.set'
-    archivo_z = 'z-flow/Caso_' + str(num_caso) + '-element.nsi.set'
+    archivo_x = 'x-flow/'+ case_name+ '-element.nsi.set'
+    archivo_y = 'y-flow/'+ case_name+ '-element.nsi.set'
+    archivo_z = 'z-flow/'+ case_name+ '-element.nsi.set'
     archivos = [archivo_x, archivo_y, archivo_z]
     for angulo in angulos_tows:
         if angulo == 0 or angulo == 90:
