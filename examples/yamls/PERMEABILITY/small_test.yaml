@@ -1,0 +1,36 @@
+---
+workflow_type:  WORKFLOWS.PERMEABILITY.workflow.execution
+phases:
+  sampler:
+    type: PHASES.SAMPLERS.permeability_sampler.from_doe
+    arguments:
+      - sampler_input_file: $parameters.sampler_input_file
+  mesher:
+    type: PHASES.MESHER.permeability_mesher.RVEgen2Alya.permeability_from_doe
+    arguments:
+      - values: $variables.values
+      - case_name: $variables.case_name
+      - simulation_wdir: $variables.simulation_wdir
+  sim:
+    type: PHASES.SIMULATIONS.run_multiple_alya.run_permeability
+    arguments:
+      - simulation_wdir: $variables.simulation_wdir
+      - case_name: $variables.case_name
+      - cases_permeability: $parameters.cases_permeability
+  post_process:
+    type: PHASES.POSTSIMULATION.permeability_alya.postProcessPermeability
+    arguments:
+      - case_name: $variables.case_name
+      - simulation_wdir: $variables.simulation_wdir
+      - values: $variables.values
+outputs:
+  alya_output:
+    - path: alya_output.txt
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/test2J"
+    - overwrite : true
+inputs:
+parameters:
+  sampler_input_file: "/home/bsc/bsc019518/MN4/bsc19518/perm_files/small_doe_file.txt"
+  cases_permeability: ["x-flow", "y-flow", "z-flow"]
+  original_name_sim: PERM_SIM
+
