@@ -23,6 +23,12 @@ phases:
       - case_name: $variables.case_name
       - simulation_wdir: $variables.simulation_wdir
       - values: $variables.values
+  join_cases:
+    type: PHASES.POSTSIMULATION.permeability_alya.JoinCases
+    arguments:
+      - outputName: $variables.outputName
+      - simulation_wdir: $variables.simulation_wdir
+      - results_folder: $variables.results_folder
 outputs:
   alya_output:
     - path: alya_output.txt

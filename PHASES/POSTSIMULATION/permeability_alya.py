@@ -138,7 +138,7 @@ def extract_number(case_name):
 import os
 # import pandas as pd
 
-@task(returns=1)
+@task(out=COLLECTION_IN, returns=1)
 def JoinCases(simulation_wdir, outputName, results_folder, erase_previous = True, **kwargs):
     outputFile= os.path.join(results_folder, outputName)
     if erase_previous:
