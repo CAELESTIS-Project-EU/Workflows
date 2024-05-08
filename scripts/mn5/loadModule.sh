@@ -14,7 +14,7 @@ module load intel gmsh/4.12.2
 # COMPSs module
 module load COMPSs/3.3
 
-
+export COMPSS_MPIRUN_TYPE=openmpi
 
 
 export PYTHONPATH=$DEST_PATH:/gpfs/projects/cns100/pips/python3.12/site-packages/:$INSTALL_DIR:$PYTHONPATH:/gpfs/projects/cns100/tests/install_workflow_coupontool/
