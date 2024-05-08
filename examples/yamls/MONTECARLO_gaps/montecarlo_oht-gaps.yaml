@@ -87,11 +87,6 @@ parameters:
       - G2T: 0.802
       - muGSL: 0.0035
       - mufXC: 0.1
-    variables-derivate:
-      bk:
-        method: etaBK.etaBK_CAELESTIS_project
-        parameters: [GIc, GIIc, G25c, G50c, G75c]
-        outputs: [etaBK]
   original_name_sim: oht-gap
 environment:
   ALYA_PROCS: 112

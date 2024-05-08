@@ -6,8 +6,9 @@ phases:
     arguments: 
       - problem: $parameters.problem
   prepare_data:
-    type: PHASES.BEFORESIMULATION.alya.prepare_data_coupontool
+    type: PHASES.BEFORESIMULATION.alya.prepare_data
     arguments:
+      - mesh: $inputs.mesh
       - template_coupontool: $inputs.template_coupontool
       - problem: $parameters.problem
       - simulation_wdir: $variables.simulation_wdir
@@ -37,9 +38,15 @@ outputs:
     - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/test2J"
     - overwrite : true
 inputs:
-  template_coupontool:
-    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/templates/inputs-oht-pri-tem.py"
-    - path: "templates/inputs-oht-pri-tem.py"
+  mesh: 
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/meshes/oht-pri"
+    - path: "meshes/oht-pri"
+  template_sld: 
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/templates/oht-pri-tem.sld.dat"
+    - path: "templates/oht-pri-tem.sld.dat"
+  template_dom: 
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/templates/oht-pri-tem.dom.dat"
+    - path: "templates/oht-pri-tem.dom.dat"
 parameters:
   problem:
     num_var: 30
@@ -83,6 +90,23 @@ parameters:
       - v23: 0.487
       - muGSL: 0.0035
       - mufXC: 0.1
+    variables-derivate:
+      in1:
+        method: insitu_strengths.in_situ_CAELESTIS_project_IN
+        parameters: [thick, E11, E22, v12, G12, YT, YC, SL, Kplas, Sp, GIIc, GIc]
+        outputs: [YTIN1T, YCIN1T, SLIN1T]
+      in2:
+        method: insitu_strengths.in_situ_CAELESTIS_project_IN
+        parameters: [eval(2*thick), E11, E22, v12, G12, YT, YC, SL, Kplas, Sp, GIIc, GIc]
+        outputs: [YTIN2T, YCIN2T, SLIN2T]
+      out:
+        method: insitu_strengths.in_situ_CAELESTIS_project_OUT
+        parameters: [thick, E11, E22, v12, G12, YT, YC, SL, Kplas, Sp, GIIc, GIc]
+        outputs: [YTOUT1T, YCOUT1T, SLOUT1T]
+      bk:
+        method: etaBK.etaBK_value
+        parameters: [GIc, GIIc, G25c, G50c, G75c]
+        outputs: [etaBK]
   original_name_sim: oht-pri
 environment:
   ALYA_PROCS: 112
