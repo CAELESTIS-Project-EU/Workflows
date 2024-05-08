@@ -30,6 +30,7 @@ def postProcessPermeability(**kwargs):
     kwargs['gravity'] = values['Gravity']
     kwargs['density'] = values['Density']
     kwargs['viscosity'] = values['Viscosity']
+    kwargs['n_capas'] = len(kwargs['angulos_tows'])
     del kwargs['values']
     return postproCaso(**kwargs)
 
