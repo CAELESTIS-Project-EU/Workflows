@@ -117,7 +117,7 @@ def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angulos_tows, n_tows, 
                 evl, evt0, evt1 = Permeability_Calculation_sim(gravity, density, viscosity, line[-18:])
                 toRom.append(np.r_[line[:-18], evl, evt0, evt1])
             np.savetxt(os.path.join(ruta_caso, 'toRom' + file), np.asarray(toRom))
-    return
+    return []
 
 
 def extract_number(case_name):

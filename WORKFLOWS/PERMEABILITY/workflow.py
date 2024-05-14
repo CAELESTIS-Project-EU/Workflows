@@ -1,4 +1,5 @@
-from pycompss.api.api import compss_wait_on
+from pycompss.api.api import compss_wait_on, compss_barrier
+
 import numpy as np
 from pycompss.api.task import task
 from pycompss.api.parameter import *
@@ -24,7 +25,8 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         sim_out = phase.run(phases.get("sim"), inputs, outputs, parameters, data_folder, locals(), out=name_sim)
         post_p_out = phase.run(phases.get("post_process"), inputs, outputs, parameters, data_folder, locals(),out=sim_out)
     simulation_wdir = execution_folder + "/SIMULATIONS/"
-    sim_out = phase.run(phases.get("join_cases"), inputs, outputs, parameters, data_folder, locals(),out=post_p_out)
+    compss_barrier()
+    sim_out = phase.run(phases.get("join_cases"), inputs, outputs, parameters, data_folder, locals())
     return
 
 
