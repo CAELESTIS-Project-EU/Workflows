@@ -15,16 +15,20 @@ phases:
     type: PHASES.SIMULATIONS.run_multiple_alya.run_permeability
     arguments:
       - simulation_wdir: $variables.simulation_wdir
-      - name_sim: $variables.name_sim
+      - case_name: $variables.case_name
       - cases_permeability: $parameters.cases_permeability
   post_process:
     type: PHASES.POSTSIMULATION.permeability_alya.postProcessPermeability
     arguments:
-      - name_sim: $variables.name_sim
+      - case_name: $variables.case_name
       - simulation_wdir: $variables.simulation_wdir
-      - angles_tows: $variables.angles_tows
-      - L_pro: $variables.L_pro
-      - postProcessParam: $parameters.postProcessParam
+      - values: $variables.values
+  join_cases:
+    type: PHASES.POSTSIMULATION.permeability_alya.JoinCases
+    arguments:
+      - outputName: $variables.outputName
+      - simulation_wdir: $variables.simulation_wdir
+      - results_folder: $variables.results_folder
 outputs:
   alya_output:
     - path: alya_output.txt
@@ -35,4 +39,5 @@ parameters:
   sampler_input_file: "/home/bsc/bsc019518/MN4/bsc19518/perm_files/doe_file.txt"
   cases_permeability: ["x-flow", "y-flow", "z-flow"]
   original_name_sim: PERM_SIM
-
+environment:
+  ALYA_PROCS: 32
