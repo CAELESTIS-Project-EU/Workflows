@@ -5,6 +5,7 @@ import shutil
 import os
 import time
 from pycompss.api.task import task
+from pycompss.api.constraint import constraint
 from pycompss.api.parameter import *
 
 from PHASES.MESHER.permeability_mesher.WriteAlyaBou import writeAlyaBou
@@ -70,6 +71,8 @@ def permeability_mesher(**kwargs):
     del kwargs['problem_mesher']
     return RVEgen2Alya(**kwargs)
 
+
+@constraint(computing_units='$RVEGEN_CUS')
 @task(returns=1)
 def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_fraction, tipo_fallo, factor_desplazamiento, w_tow,
                 h_tow, L_pro, n_elementos_gap, n_elementos_towsingap,

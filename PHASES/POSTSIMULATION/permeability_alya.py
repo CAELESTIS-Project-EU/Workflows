@@ -117,7 +117,7 @@ def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angulos_tows, n_tows, 
                 evl, evt0, evt1 = Permeability_Calculation_sim(gravity, density, viscosity, line[-18:])
                 toRom.append(np.r_[line[:-18], evl, evt0, evt1])
             np.savetxt(os.path.join(ruta_caso, 'toRom' + file), np.asarray(toRom))
-    return []
+    return np.asarray(toRom)
 
 
 def extract_number(case_name):
@@ -139,7 +139,7 @@ import os
 # import pandas as pd
 
 @task(out=COLLECTION_IN, returns=1)
-def JoinCases(simulation_wdir, outputName, results_folder, erase_previous = True, **kwargs):
+def JoinCases(simulation_wdir, outputName, results_folder,  out, erase_previous = True, **kwargs):
     outputFile= os.path.join(results_folder, outputName)
     if erase_previous:
         open(outputFile, 'w').close()
@@ -150,12 +150,13 @@ def JoinCases(simulation_wdir, outputName, results_folder, erase_previous = True
     s3 = 'variable1s3;variable2s3;variable3s3;variable4s3;variable5s3'
     with open(outputFile, 'a') as f:
         f.write('simulacion;set;' + s1 + s2 + s3 + '\n')
-    for caso in lista_casos:
+    """for caso in lista_casos:
         with open(simulation_wdir + caso + '/set_results.csv', 'r') as f:
             new_case = f.readlines()
             # Reemplazar comas por punto y coma (;) en cada línea
-            modified_lines = [line.replace(',', ';') for line in new_case]
-
+            modified_lines = [line.replace(',', ';') for line in new_case]"""
+    for l in out:
+        l=l.tolist()
         with open(outputFile, 'a') as f:
-            f.writelines(modified_lines)
+            f.writelines(';'.join(map(str,l)))
     return

@@ -2,6 +2,7 @@ DEST_PATH="$1"
 export ALYA_BIN=/gpfs/projects/bsc19/CAELESTIS/alya/builds/Alya_no3.x
 export ALYA_PROCS=32
 export ALYA_PPN=16
+export RVEGEN_CUS=16
 export gmshBinFile=/gpfs/projects/bsce81/gmsh/gmsh-4.11.1-Linux64/bin/gmsh
 export gmsh2alya=/gpfs/projects/bsc19/CAELESTIS/alya/builds/gmsh2alya.pl
 module purge

@@ -23,10 +23,10 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         simulation_wdir = execution_folder + "/SIMULATIONS/" + case_name
         name_sim = phase.run(phases.get("mesher"), inputs, outputs, parameters, data_folder, locals())
         sim_out = phase.run(phases.get("sim"), inputs, outputs, parameters, data_folder, locals(), out=name_sim)
-        post_p_out = phase.run(phases.get("post_process"), inputs, outputs, parameters, data_folder, locals(),out=sim_out)
+        new_result = phase.run(phases.get("post_process"), inputs, outputs, parameters, data_folder, locals(),out=sim_out)
+        y.append(new_result)
     simulation_wdir = execution_folder + "/SIMULATIONS/"
-    compss_barrier()
-    sim_out = phase.run(phases.get("join_cases"), inputs, outputs, parameters, data_folder, locals())
+    sim_out = phase.run(phases.get("join_cases"), inputs, outputs, parameters, data_folder, locals(), out=y)
     return
 
 

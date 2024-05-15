@@ -36,8 +36,8 @@ outputs:
     - overwrite : true
 inputs:
 parameters:
-  sampler_input_file: "/home/bsc/bsc019518/MN4/bsc19518/perm_files/doe_file.txt"
+  sampler_input_file: "/home/bsc/bsc019518/MN4/bsc19518/perm_files/another_doe.txt"
   cases_permeability: ["x-flow", "y-flow", "z-flow"]
   original_name_sim: PERM_SIM
 environment:
-  ALYA_PROCS: 32
+  ALYA_PROCS: 16
