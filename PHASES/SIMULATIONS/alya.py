@@ -1,9 +1,16 @@
 from pycompss.api.mpi import mpi
 from pycompss.api.task import task
 from pycompss.api.parameter import *
+from pycompss.api.on_failure import on_failure
+import os
 
+alya_procs=int(os.environ.get("ALYA_PROCS", "2"))
+alya_ppn=int(os.environ.get("ALYA_PPN", "2"))
+if alya_procs < alya_ppn:
+    alya_ppn=alya_procs
 
-@mpi(runner="mpirun", binary="$ALYA_BIN", args="{{name_sim}}", processes="$ALYA_PROCS", processes_per_node="$ALYA_PPN", working_dir="{{simulation_wdir}}")
+@on_failure(management='IGNORE')
+@mpi(runner="mpirun", binary="$ALYA_BIN", args="{{name_sim}}", processes=alya_procs, processes_per_node=alya_ppn, working_dir="{{simulation_wdir}}")
 @task(returns=1, time_out=3600)
 def simulation(name_sim, simulation_wdir, **kwargs):
     return

@@ -2,31 +2,18 @@
 
 import numpy as np
 import shutil
-import pathlib
-# path = pathlib.Path(__file__).parent.resolve()
 import os
-
-path = os.getcwd()
-import sys
-
-sys.path.append(path)
-
 import time
-
-import math
-import trimesh
 from pycompss.api.task import task
+from pycompss.api.constraint import constraint
 from pycompss.api.parameter import *
-
 
 from PHASES.MESHER.permeability_mesher.WriteAlyaBou import writeAlyaBou
 from PHASES.MESHER.permeability_mesher.WriteAlyaFix import writeAlyaFix
 from PHASES.MESHER.permeability_mesher.WriteAlyaFie import writeAlyaFie
 from PHASES.MESHER.permeability_mesher.WriteAlyaSet import writeAlyaSet
-from PHASES.MESHER.permeability_mesher.WriteAlyaSet3 import writeAlyaSet3
 from PHASES.MESHER.permeability_mesher.WriteAlyaSet4 import writeAlyaSet4
 from PHASES.MESHER.permeability_mesher.WriteAlyaMat import writeAlyaMat
-from PHASES.MESHER.permeability_mesher.FeatsFromMats import writeAlyaSetFtMats
 from PHASES.MESHER.permeability_mesher.WriteAlyaNsi import writeAlyaNsi
 from PHASES.MESHER.permeability_mesher.WriteAlyaDom import writeAlyaDom
 from PHASES.MESHER.permeability_mesher.WriteAlyaDat import writeAlyaDat
@@ -44,13 +31,35 @@ from PHASES.MESHER.permeability_mesher.FVF_variation_defects import FVF_variatio
 from PHASES.MESHER.permeability_mesher.GenerateMeshOris import Mesh_and_Oris
 
 def permeability_from_doe(**kwargs):
-    for item in kwargs['problem_mesher']:
-        kwargs.update(item)
     values=kwargs.get("values")
-    kwargs['angles_tows'] = [values[2], values[3], values[4], values[5], values[6], values[7]]
-    kwargs['w_tow'] = float(values[0])
-    kwargs['L_pro'] = values[1]
-    del kwargs['problem_mesher']
+    kwargs['density'] = values['Density']
+    kwargs['viscosity'] = values['Viscosity']
+    kwargs['gravity'] = values['Gravity']
+    kwargs['volume_fraction'] = values['FVF_component']
+    kwargs['w_tow'] = values['w_tow']
+    kwargs['h_tow'] = values['h_tow']
+    kwargs['L_pro'] = values['L_pro']
+    kwargs['n_tows'] = values['n_tows']
+    kwargs['tipo_fallo'] = values['Defect']
+    kwargs['consider_FVF_variation'] = values['FVF_variation']
+    kwargs['Full_periodicity'] = values['Full_Periodicity']
+    kwargs['n_elementos_gap'] = values['n_elements_gap']
+    kwargs['n_elementos_capa'] = values['n_elements_layer']
+    kwargs['n_elementos_towsingap'] = 100
+    kwargs['angulos_tows'] = [values['angle_1'], values['angle_2'], values['angle_3'], values['angle_4'],
+                              values['angle_5'], values['angle_6']]
+    kwargs['n_capas'] = len(kwargs['angulos_tows'])
+    kwargs['Lset'] = values['Lset']
+    kwargs['ol'] = values['Defect_Size']
+    kwargs['ol_izd'] = values['Defect_Transition']
+    kwargs['ol_drch'] = values['Defect_Transition']
+    kwargs['factor_desplazamiento'] = 1 / 10
+    kwargs['ajus_ol'] = 5 / 6
+    kwargs['AlyaSet'] = 'Feat'  # or 'All' as needed
+    kwargs['debug'] = False
+    kwargs['debugELSET'] = False
+
+    del kwargs['values']
     return RVEgen2Alya(**kwargs)
 
 def permeability_mesher(**kwargs):
@@ -63,10 +72,19 @@ def permeability_mesher(**kwargs):
     return RVEgen2Alya(**kwargs)
 
 
-@task(returns=1)
-def RVEgen2Alya(path, num_caso, Density, Viscosity, Gravity, FVF_component, Defect, factor_desplazamiento,
-                w_tow, h_tow, L_pro, n_elements_gap, n_elementos_towsingap,
-                n_elements_layer, n_layers, angles_tows, n_tows, Lset, Defect_Size, ajus_ol, Defect_Transition, ol_drch, AlyaSet, debug, consider_FVF_variation, Full_Periodicity):
+#@constraint(computing_units='$RVEGEN_CUS')
+#@task(returns=1)
+def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_fraction, tipo_fallo, factor_desplazamiento, w_tow,
+                h_tow, L_pro, n_elementos_gap, n_elementos_towsingap,
+                n_elementos_capa, n_capas, angulos_tows, n_tows, Lset, ol, ajus_ol, ol_izd, ol_drch, AlyaSet, debug, consider_FVF_variation, Full_periodicity, **kwargs):
+    outputPath = f'{simulation_wdir}'
+    if not os.path.isdir(outputPath):
+        os.makedirs(outputPath)
+    print(f'Case_name = {case_name}')
+    outputMeshPath = f'{simulation_wdir}/msh/'
+    if not os.path.isdir(outputMeshPath):
+        os.makedirs(outputMeshPath)
+
     print("    Generating geometry ...")
 
     # Get the start time
@@ -95,7 +113,7 @@ def RVEgen2Alya(path, num_caso, Density, Viscosity, Gravity, FVF_component, Defe
     # Problem setup
     # 	debug = False
     #   Presion_de_inyeccion = 70000.0
-    # 	Gravity = 10000.0
+    # 	gravity = 10000.0
     TotalTimeSimulation = 1000.0
     MaxNumSteps = 1e6
     periodicityMethod = 'Automatic'
@@ -119,66 +137,55 @@ def RVEgen2Alya(path, num_caso, Density, Viscosity, Gravity, FVF_component, Defe
     ###################################################################
     ###################################################################
     ###################################################################
-    # 	Defect = "O"
+    # 	tipo_fallo = "O"
     # 	w_tow = 5.0
     # 	h_tow = 0.182			# Altura (espesor) de la capa.
     # 	L_pro = 0.2
-    # 	n_elements_gap = 2     # Numero de elementos que queremos que haya en cada gap (colocado a 0 o 90).
+    # 	n_elementos_gap = 2     # Numero de elementos que queremos que haya en cada gap (colocado a 0 o 90).
     # 	# Hay que tener cuidado porque el numero de elementos del modelo crece muy rapido.
     # 	n_elementos_towsingap = 100 # Numero de elementos en cada tow en caso de que L_pro=0.0
-    # 	n_elements_layer = 2    # Numero de elementos que queremos que haya en cada capa
-    # 	n_layers = 3	# Numero de capas que se generan
-    # 	angles_tows = [0, 0, 0, 135, 0] #Angulos correspondiente a cada capa
+    # 	n_elementos_capa = 2    # Numero de elementos que queremos que haya en cada capa
+    # 	n_capas = 3	# Numero de capas que se generan
+    # 	angulos_tows = [0, 0, 0, 135, 0] #Angulos correspondiente a cada capa
     # 	n_tows = 2
     # 	Lset = 1
     # 	# Variables a continuacion seran llamadas en caso de fallo (overlap/gap)
-    # 	Defect_Size = 2.0
+    # 	ol = 2.0
     # 	ajus_ol = 5/6
-    # 	Defect_Transition = 0.6
+    # 	ol_izd = 0.6
     # 	ol_drch = 0.6
     ###################################################################
     ###################################################################
     ###################################################################
     ###################################################################
-
-    if Defect == "N":
-        caseName = "Caso_" + str(num_caso)
+    if tipo_fallo == "N":
         datos_input, n_nodos, n_espesor, Ldom, desfase_array, mov_geometria_array = NoFallos(w_tow, h_tow, L_pro,
-                                                                                             angles_tows, n_layers,
-                                                                                             n_tows, n_elements_gap,
+                                                                                             angulos_tows, n_capas,
+                                                                                             n_tows, n_elementos_gap,
                                                                                              n_elementos_towsingap,
-                                                                                             n_elements_layer,
+                                                                                             n_elementos_capa,
                                                                                              factor_desplazamiento)
-    elif Defect == "O":
-        caseName = "Caso_" + str(num_caso)
-        datos_input, n_nodos, n_espesor, Ldom, desfase_array, mov_geometria_array = Overlap(w_tow, h_tow, L_pro, Defect_Size,
-                                                                                            ajus_ol, Defect_Transition, ol_drch,
-                                                                                            angles_tows, n_layers,
-                                                                                            n_tows, n_elements_gap,
+    elif tipo_fallo == "O":
+        datos_input, n_nodos, n_espesor, Ldom, desfase_array, mov_geometria_array = Overlap(w_tow, h_tow, L_pro, ol,
+                                                                                            ajus_ol, ol_izd, ol_drch,
+                                                                                            angulos_tows, n_capas,
+                                                                                            n_tows, n_elementos_gap,
                                                                                             n_elementos_towsingap,
-                                                                                            n_elements_layer,
+                                                                                            n_elementos_capa,
                                                                                             factor_desplazamiento)
-    elif Defect == "G":
-        caseName = "Caso_" + str(num_caso)
-        datos_input, n_nodos, n_espesor, Ldom, desfase_array, mov_geometria_array = Gap(w_tow, h_tow, L_pro, Defect_Size,
-                                                                                        ajus_ol, Defect_Transition, ol_drch,
-                                                                                        angles_tows, n_layers, n_tows,
-                                                                                        n_elements_gap,
+    elif tipo_fallo == "G":
+        datos_input, n_nodos, n_espesor, Ldom, desfase_array, mov_geometria_array = Gap(w_tow, h_tow, L_pro, ol,
+                                                                                        ajus_ol, ol_izd, ol_drch,
+                                                                                        angulos_tows, n_capas, n_tows,
+                                                                                        n_elementos_gap,
                                                                                         n_elementos_towsingap,
-                                                                                        n_elements_layer,
+                                                                                        n_elementos_capa,
                                                                                         factor_desplazamiento)
-
     # Job case
-    # caseName = 'Caso_0_0_0_w2mm_lpro0p2mm_fine'
+    # case_name = 'Caso_0_0_0_w2mm_lpro0p2mm_fine'
 
     # Set paths for directories
-    basePath = f'{path}'
-    outputPath = f'{basePath}/output/' + caseName
-    if os.path.exists(outputPath):
-        shutil.rmtree(f'{basePath}/output/' + caseName)
-    os.makedirs(outputPath)
-    outputMeshPath = f'{basePath}/output/' + caseName + '/msh/'
-    os.makedirs(outputMeshPath)
+
     ##########################################
     ##########################################
     ##########################################
@@ -203,7 +210,6 @@ def RVEgen2Alya(path, num_caso, Density, Viscosity, Gravity, FVF_component, Defe
 
         # Guardar el objeto STL en un archivo
         combined[contarTow - 1].save(archivo_stl)
-
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        Geometry generation time: {round(tiempo_ej / 60, 2)} min")
@@ -219,15 +225,13 @@ def RVEgen2Alya(path, num_caso, Density, Viscosity, Gravity, FVF_component, Defe
     # Mesh and orientation
 
     inicio = time.time()
-
     dimXc, dimYc, dimZc, matriz_4d, matriz_4dc, matriz_3dc_inout, matriz_3dc_oris, nodes = Mesh_and_Oris(Ldom, n_nodos,
-                                                                                                         n_layers, h_tow,
+                                                                                                         n_capas, h_tow,
                                                                                                          n_espesor,
                                                                                                          datos_input,
                                                                                                          outputPath,
                                                                                                          planos_Yarn,
                                                                                                          centros_Yarn)
-
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        Mesh and Oris generation time: {round(tiempo_ej / 60, 2)} min")
@@ -240,10 +244,10 @@ def RVEgen2Alya(path, num_caso, Density, Viscosity, Gravity, FVF_component, Defe
     #
     # --------------------------------------------
 
-    # 	del A, w_tow, angles_tows, archivo_stl, B, C, cent, centros_Yarn, comb
+    # 	del A, w_tow, angulos_tows, archivo_stl, B, C, cent, centros_Yarn, comb
     # 	del combined, contarTow, D, delante_detras, delante_detras_anterior, delante_detras_menor, delante_detras_posterior
     # 	del dimCoord, direccion, direccion_unitaria, distance
-    # 	del dot_product, fin, i, inicio, j, k, n, n_elements_layer, n_elements_gap
+    # 	del dot_product, fin, i, inicio, j, k, n, n_elementos_capa, n_elementos_gap
     # 	del normal_vector, p, P1, P2, p_plano, plan, planos_Yarn, point_to_check, posicion_posterior
     # 	del matriz_1dc_inout, menor_distancia, mesh_loaded, mesh_loaded_n, n_elementos_towsingap, n_espesor
     # 	del n_espesorc, n_nodos, n_tows, nc, node_tows, posicion_anterior, posicion_menor
@@ -264,14 +268,13 @@ def RVEgen2Alya(path, num_caso, Density, Viscosity, Gravity, FVF_component, Defe
     # Creamos una copia de la matriz que tiene la información de a qué tow pertenece cada elemento
     matriz_3dc_FVF = np.copy(matriz_3dc_inout)
     # Cálculo teórico del FVF de los tows para tener un FVF de componente dado
-    FVF_component_tows = (FVF_component * (w_tow + L_pro)) / w_tow
+    volume_fraction_tows = (volume_fraction * (w_tow + L_pro)) / w_tow
     # Los elementos que pertenecen a tow los ponemos con FVF
-    matriz_3dc_FVF[matriz_3dc_FVF != 0] = FVF_component_tows
+    matriz_3dc_FVF[matriz_3dc_FVF != 0] = volume_fraction_tows
     # Busca si hay overlap para cambiar la FVF
-    if Defect == 'O' or Defect == 'G':
+    if tipo_fallo == 'O' or tipo_fallo == 'G':
         if consider_FVF_variation == True:
-            matriz_3dc_FVF = FVF_variation(matriz_3dc_inout, n_layers, matriz_3dc_FVF, ajus_ol)
-
+            matriz_3dc_FVF = FVF_variation(matriz_3dc_inout, n_capas, matriz_3dc_FVF, ajus_ol)
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        FVF generation time: {round(tiempo_ej / 60, 2)} min")
@@ -284,9 +287,8 @@ def RVEgen2Alya(path, num_caso, Density, Viscosity, Gravity, FVF_component, Defe
 
     # Alya geo file
     Elementsetmaterials, numero_elemento, posicion_n_nodo, Porosityfield_dir1_array, Porosityfield_dir2_array, Porosityfield_dir3_array = writeAlyaGeo(
-        outputMeshPath, caseName, dimXc, dimYc, dimZc, matriz_4d, matriz_4dc, matriz_3dc_inout, matriz_3dc_oris,
-        angles_tows, n_elements_layer, matriz_3dc_FVF)
-
+        outputMeshPath, case_name, dimXc, dimYc, dimZc, matriz_4d, matriz_4dc, matriz_3dc_inout, matriz_3dc_oris,
+        angulos_tows, n_elementos_capa, matriz_3dc_FVF)
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        Geo file generation time: {round(tiempo_ej / 60, 2)} min")
@@ -298,7 +300,7 @@ def RVEgen2Alya(path, num_caso, Density, Viscosity, Gravity, FVF_component, Defe
     # --------------------------------------------
     inicio = time.time()
     print('    Writting Alya jobName.mat.dat ...')
-    nmate = writeAlyaMat(outputMeshPath, caseName, Elementsetmaterials)
+    nmate = writeAlyaMat(outputMeshPath, case_name, Elementsetmaterials)
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        Mat file generation time: {round(tiempo_ej / 60, 2)} min")
@@ -380,14 +382,14 @@ def RVEgen2Alya(path, num_caso, Density, Viscosity, Gravity, FVF_component, Defe
     # 	print(f"Tiempo de ejecución getRVEboundaries: {tiempo_ej} segundos")
     # 	inicio = time.time()
 
-    writeAlyaBou(outputMeshPath, caseName, b_list)
+    writeAlyaBou(outputMeshPath, case_name, b_list)
     fin = time.time()
     tiempo_ej = fin - inicio
     print(f"        Bou file generation time: {round(tiempo_ej / 60, 2)} min")
     inicio = time.time()
 
     print('    Writting Alya jobName.fix.dat ...')
-    writeAlyaFix(outputMeshPath, caseName, b_list)
+    writeAlyaFix(outputMeshPath, case_name, b_list)
 
     numerodenodos = int(len(posicion_n_nodo[:, 0, 0]) * len(posicion_n_nodo[0, :, 0]) * len(posicion_n_nodo[0, 0, :]))
     numerodeelementos = len(Elementsetmaterials[:, 0])
@@ -414,7 +416,7 @@ def RVEgen2Alya(path, num_caso, Density, Viscosity, Gravity, FVF_component, Defe
 
     print('    Writting Alya jobName.fie.dat ...')
 
-    writeAlyaFie(outputMeshPath, caseName, Viscosity, FVF_component_tows, Elementsetmaterials, \
+    writeAlyaFie(outputMeshPath, case_name, viscosity, volume_fraction_tows, Elementsetmaterials,
                  numerodeelementos, Porosityfield_dir1_array, Porosityfield_dir2_array, Porosityfield_dir3_array)
 
     fin = time.time()
@@ -445,12 +447,12 @@ def RVEgen2Alya(path, num_caso, Density, Viscosity, Gravity, FVF_component, Defe
 
     # Alya Set
     if AlyaSet == 'All':
-        writeAlyaSet(outputMeshPath, caseName, numerodeelementos, numerodeboundelems)
+        writeAlyaSet(outputMeshPath, case_name, numerodeelementos, numerodeboundelems)
     else:
-        # 	    writeAlyaSetFtMats(outputMeshPath, caseName, matriz_3dc_inout, Lset, n_layers, nodes)
-        # 		writeAlyaSet3(outputMeshPath, caseName, Lset, n_layers, nodes, L_pro, Ldom, mov_geometria_array, Defect_Size, Defect_Transition, ol_drch, desfase_array, angles_tows, w_tow, Defect)
-        writeAlyaSet4(outputMeshPath, caseName, Lset, n_layers, nodes, L_pro, Ldom, mov_geometria_array, Defect_Size, Defect_Transition,
-                      ol_drch, desfase_array, angles_tows, w_tow, Defect, matriz_3dc_FVF)
+        # 	    writeAlyaSetFtMats(outputMeshPath, case_name, matriz_3dc_inout, Lset, n_capas, nodes)
+        # 		writeAlyaSet3(outputMeshPath, case_name, Lset, n_capas, nodes, L_pro, Ldom, mov_geometria_array, ol, ol_izd, ol_drch, desfase_array, angulos_tows, w_tow, tipo_fallo)
+        writeAlyaSet4(outputMeshPath, case_name, Lset, n_capas, nodes, L_pro, Ldom, mov_geometria_array, ol, ol_izd,
+                      ol_drch, desfase_array, angulos_tows, w_tow, tipo_fallo, matriz_3dc_FVF)
 
     fin = time.time()
     tiempo_ej = fin - inicio
@@ -518,33 +520,34 @@ def RVEgen2Alya(path, num_caso, Density, Viscosity, Gravity, FVF_component, Defe
 
     lx = Ldom  # Esto son mm
     ly = Ldom  # Esto son mm
-    lz = n_layers * h_tow  # Esto son mm
+    lz = n_capas * h_tow  # Esto son mm
     length = [lx * 1e-3, ly * 1e-3, lz * 1e-3]  # TODO: Acordar las unidades y quitar!
     for j in range(len(simulaciones)):
         path = outputPath + '/' + str(simulaciones[j]) + '/'
+        print(f"PATH= {path}")
         os.makedirs(path)
-        fileName = caseName
+        fileName = case_name
         icase = str(simulaciones[j])
 
         node = 1  # TODO: Coger un nodo que no este en la direccion del flow (solo en z)
         # Preliminary calculations
-        #		Gravity = Presion_de_inyeccion/(Density*length[j])
-        Presion_de_inyeccion = Gravity * (Density * length[j])
+        #		gravity = Presion_de_inyeccion/(density*length[j])
+        Presion_de_inyeccion = gravity * (density * length[j])
 
         # Alya Dom
         writeAlyaDom(path, fileName, icase, int(numerodenodos), numerodeelementos, numerodeboundelems, nmate,
-                     periodicityMethod, fieldFlag, Full_Periodicity)
+                     periodicityMethod, fieldFlag, Full_periodicity)
         # Alya Dat
         writeAlyaDat(debug, path, fileName, TotalTimeSimulation, MaxNumSteps)
         # Alya Ker
-        writeAlyaKer(debug, path, fileName, nmate, Density, Viscosity)
+        writeAlyaKer(debug, path, fileName, nmate, density, viscosity)
         # Alya Nsi
-        writeAlyaNsi(debug, path, fileName, icase, Presion_de_inyeccion, Gravity, lx, ly, lz, node, Full_Periodicity)
+        writeAlyaNsi(debug, path, fileName, icase, Presion_de_inyeccion, gravity, lx, ly, lz, node, Full_periodicity)
         # Alya Pos
         writeAlyaPos(path, fileName)
 
         # Job Launcher
-        writeJobLauncher(path, fileName)
+        #writeJobLauncher(path, fileName)
 
     # Get the end time
     et = time.time()

@@ -1,23 +1,31 @@
 import os
-
 import numpy as np
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 import yaml
 
-
 @task(returns=1)
 def collect_results(simulation_wdir, name_sim, out, **kwargs):
     y = 0
-    path=os.path.join(simulation_wdir, name_sim + "-output.sld.yaml")
-    #path = simulation_wdir + "/" + name_sim + "-output.sld.yaml"
+    path = os.path.join(simulation_wdir, name_sim + "-output.sld.yaml")
     try:
-        f = open(path)
-        data = yaml.load(f, Loader=yaml.FullLoader)
-        variables = data.get("variables")
-        y = variables.get("FRXID")
+        with open(path, 'r') as f:
+            data = yaml.load(f, Loader=yaml.FullLoader)
+            if data:
+                variables = data.get("variables")
+                if variables:
+                    y = variables.get("FRXID", -1)
+                else:
+                    # If variables don't exist, return 0
+                    return 0
+            else:
+                # If file is empty, return 0
+                return 0
+    except FileNotFoundError:
+        # If file not found, return -1
+        return -1
     except Exception as e:
-        print("NOT FINDING THE RESULT FILE OF ALYA")
+        print("Error:", e)
         return 0
     return y
 

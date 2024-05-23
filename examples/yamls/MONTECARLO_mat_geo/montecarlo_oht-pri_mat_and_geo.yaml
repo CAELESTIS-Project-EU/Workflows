@@ -1,0 +1,88 @@
+---
+workflow_type: WORKFLOWS.MONTECARLO.workflow.execution
+phases:
+  sampler:
+    type: PHASES.SAMPLERS.PYDOE.sampling_distribution
+    arguments: 
+      - problem: $parameters.problem
+  prepare_data:
+    type: PHASES.BEFORESIMULATION.alya.prepare_data_coupontool
+    arguments:
+      - template_coupontool: $inputs.template_coupontool
+      - problem: $parameters.problem
+      - simulation_wdir: $variables.simulation_wdir
+      - values: $variables.values
+      - name_sim: $variables.name_sim
+      - original_name_sim: $variables.original_name_sim
+  sim:
+    type: PHASES.SIMULATIONS.alya.simulation
+    arguments:
+      - simulation_wdir: $variables.simulation_wdir
+      - name_sim: $variables.name_sim
+  post_process:
+    type: PHASES.POSTSIMULATION.alya.collect_results
+    arguments: 
+      - name_sim: $variables.name_sim
+      - simulation_wdir: $variables.simulation_wdir
+  post_process_merge:
+    type: PHASES.POSTSIMULATION.alya.write_results
+    arguments: 
+      - y: $variables.y
+      - alya_output: $outputs.alya_output
+      - results_folder: $variables.results_folder
+      - sample_set: $variables.sample_set
+outputs:
+  alya_output: 
+    - path: alya_output.txt
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/test2J"
+    - overwrite : true
+inputs:
+  template_coupontool:
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/templates/inputs-oht-pri-tem.py"
+    - path: "templates/inputs-oht-pri-tem.py"
+parameters:
+  problem:
+    num_var: 30
+    n_samples: 3
+    variables-sampler:
+      - E11:   {distr: weibull, mean: 141620., sigma: 10438.0, cov: 7.4,   alpha: 146100., beta: 16.2}
+      - XT:    {distr: weibull, mean: 2212.85, sigma: 138.1,   cov: 6.2,   alpha: 2274.7,  beta: 17.3}
+      - v12:   {distr: weibull, mean: 0.33,    sigma: 0.02,    cov: 6.0,   alpha: 0.3,     beta: 19.2}
+      - E22:   {distr: weibull, mean: 7730.,   sigma: 103.2,   cov: 1.3,   alpha: 7800.,   beta: 80.6}
+      - YT:    {distr: weibull, mean: 39.05,   sigma: 3.05,    cov: 7.8,   alpha: 40.3,    beta: 18.6}
+      - E11C:  {distr: weibull, mean: 134540., sigma: 12978.7, cov: 1.0,   alpha: 135100., beta: 124.8}
+      - XC:    {distr: weibull, mean: 1109.66, sigma: 75.5,    cov: 6.8,   alpha: 1143.4,  beta: 17.3}
+      - YC:    {distr: weibull, mean: 172.94,  sigma: 7.3,     cov: 4.2,   alpha: 176.3,   beta: 26.6}
+      - G12:   {distr: weibull, mean: 4276.6,  sigma: 266.8,   cov: 6.2,   alpha: 4400.0,  beta: 18.5}
+      - SL:    {distr: norm,    mean: 97.45,   sigma: 7.5,     cov: 7.7,   alpha: 97.5,    beta: 7.5}
+      - G1T:   {distr: weibull, mean: 186.8,   sigma: 42.8,    cov: 22.9,  alpha: 203.5,   beta: 4.7}
+      - G1C:   {distr: lognorm, mean: 114.32,  sigma: 30.6,    cov: 26.7,  alpha: 0.0,     beta: 0.0}
+      - GIc:   {distr: weibull, mean: 0.802,   sigma: 0.017,   cov: 2.12,  alpha: 0.8104,  beta: 60.9}
+      - GIIc:  {distr: weibull, mean: 1.3815,  sigma: 0.086,   cov: 6.23,  alpha: 1.4203,  beta: 17.6}
+      - G25c:  {distr: norm,    mean: 0.8644,  sigma: 0.1083,  cov: 12.53, alpha: 0.0,     beta: 0.0}
+      - G50c:  {distr: weibull, mean: 0.8208,  sigma: 0.1149,  cov: 14.01, alpha: 0.8691,  beta: 8.1}
+      - G75c:  {distr: weibull, mean: 1.0672,  sigma: 0.2341,  cov: 21.94, alpha: 1.1567,  beta: 5.3}
+      - YBC:   {distr: norm,    mean: 600.,    sigma: 12.0,    cov: 2.0,   alpha: 0.0,     beta: 0.0}
+      - YBT:   {distr: norm,    mean: 38.7,    sigma: 0.8,     cov: 2.0,   alpha: 0.0,     beta: 0.0}
+      - Sp:    {distr: norm,    mean: 66.9,    sigma: 1.3,     cov: 2.0,   alpha: 0.0,     beta: 0.0}
+      - Kplas: {distr: norm,    mean: 0.09,    sigma: 0.002,   cov: 2.0,   alpha: 0.0,     beta: 0.0}
+      - G2T:   {distr: weibull, mean: 0.802,   sigma: 0.017,   cov: 2.12,  alpha: 0.8104,  beta: 60.9}
+      - G2C:   {distr: norm,    mean: 1.31,    sigma: 0.03,    cov: 2.0,   alpha: 0.0,     beta: 0.0}
+      - G6s:   {distr: weibull, mean: 1.3815,  sigma: 0.086,   cov: 6.23,  alpha: 1.4203,  beta: 17.6}
+      - fXC:   {distr: norm,    mean: 0.2,     sigma: 0.004,   cov: 2.0,   alpha: 0.0,     beta: 0.0}
+      - fXT:   {distr: norm,    mean: 0.4,     sigma: 0.008,   cov: 2.0,   alpha: 0.0,     beta: 0.0}
+      - fGC:   {distr: norm,    mean: 0.00061, sigma: 0.00001, cov: 2.0,   alpha: 0.0,     beta: 0.0}
+      - fGT:   {distr: norm,    mean: 0.3,     sigma: 0.006,   cov: 2.0,   alpha: 0.0,     beta: 0.0}
+      - W:     {distr: uniform, mean: 36.,     sigma: 0.72,    cov: 2.0,   alpha: 0.0,     beta: 0.0}
+      - R:     {distr: uniform, mean: 6.,      sigma: 0.12,    cov: 2.0,   alpha: 0.0,     beta: 0.0}
+    variables-fixed:
+      - thick: 0.183
+      - pressure: 1.0
+      - Kp: 1.0000e+05
+      - a0: 0.9250
+      - v23: 0.487
+      - muGSL: 0.0035
+      - mufXC: 0.1
+  original_name_sim: oht-pri
+environment:
+  ALYA_PROCS: 112
