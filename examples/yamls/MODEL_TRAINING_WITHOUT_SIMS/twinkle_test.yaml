@@ -1,0 +1,34 @@
+---
+workflow_type: WORKFLOWS.MODEL_TRAINING_WITHOUT_SIMS.workflow.execution
+phases:
+  kernel_generation:
+    type: PHASES.MODEL_TRAINING.PARAMETERS.TwinkleEstimator.gen_param
+    arguments:
+      - working_dir: $variables.working_dir
+      - tamplate_name: $parameters.tamplate_name
+  training:
+    type: PHASES.MODEL_TRAINING.twinkle.training
+    arguments:
+      - training_params: $parameters.training_params 
+      - input_file: $parameters.input_file 
+      - tamplate_name: $parameters.tamplate_name
+      - working_dir: $variables.working_dir
+      - kernel: $variables.kernel 
+outputs:
+  alya_output:
+    - path: alya_output.txt
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/test2J"
+    - overwrite : true
+inputs:
+parameters:
+  training_params:
+    terms : [2, 3]
+    npoints : [3, 4]
+    mpoints : [2, 3]
+    gtol : [1e-4]
+    ttol : [1e-5]
+    alsiter: [300]
+    wflag: [0]
+  input_file: "/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/Train_K1_1e9.csv"
+  tamplate_name: "test"
+environment:
