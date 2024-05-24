@@ -18,11 +18,20 @@ def prepare_data(**kwargs):
         out3 = prepare_dom(prepare_args, out=out1)
     return out3
 
+
 def prepare_data_coupontool(**kwargs):
     prepare_args = kwargs
     variables = vars_func(prepare_args)
     out1 = prepare_coupontool(prepare_args, variables, **kwargs)
     return out1
+
+
+def prepare_data_rvetool(**kwargs):
+    prepare_args = kwargs
+    variables = vars_func(prepare_args)
+    out1 = prepare_coupontool(prepare_args, variables, **kwargs)
+    return out1
+
 
 def check_template_exist(element, template):
     if template in element:
@@ -133,6 +142,7 @@ def prepare_dom(prepare_args, **kwargs):
         f2.close()
     return
 
+
 @task(returns=1)
 def prepare_coupontool(prepare_args, variables, **kwargs):
     from coupontool import COUPONtool
@@ -152,8 +162,32 @@ def prepare_coupontool(prepare_args, variables, **kwargs):
             f2.write(filedata)
             f.close()
         f2.close()
-    COUPONtool.runCOUPONtool(simulation, name_sim,  simulation_wdir, 'open-hole', debug=False)
+    COUPONtool.runCOUPONtool(simulation, name_sim, simulation_wdir, 'open-hole', debug=False)
     return
+
+
+@task(returns=1)
+def prepare_rvetool(prepare_args, variables, **kwargs):
+    from rvetool import RVEtool
+    template = get_value(prepare_args, "template_rvetool")
+    simulation_wdir = get_value(prepare_args, "simulation_wdir")
+    name_sim = get_value(prepare_args, "name_sim")
+    simulation = simulation_wdir + "/" + name_sim + '.py'
+    if not os.path.isdir(simulation_wdir):
+        os.makedirs(simulation_wdir)
+    with open(simulation, 'w') as f2:
+        with open(template, 'r') as f:
+            filedata = f.read()
+            for i in range(len(variables)):
+                item = variables[i]
+                for name, bound in item.items():
+                    filedata = filedata.replace("%" + name + "%", str(bound))
+            f2.write(filedata)
+            f.close()
+        f2.close()
+    RVEtool.runRVEtool(simulation, name_sim, simulation_wdir, debug=False)
+    return
+
 
 def get_value(element, param):
     if param in element:
