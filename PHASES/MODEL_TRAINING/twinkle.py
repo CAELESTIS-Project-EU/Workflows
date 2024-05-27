@@ -1,29 +1,26 @@
+import os
 from dislib.model_selection import GridSearchCV
-import dislib as ds
 import pandas as pd
 from sklearn.metrics import r2_score
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 from pycompss.api.container import container
 from pycompss.api.binary import binary
-from PHASES.MODEL_TRAINING.PARAMETERS.TwinkleEstimator import TwinkleMyEstimator
+import numpy as np
 
 
-def twinkle(inputFile, Kfold_divisions, training_params, kernel, **kwargs):
+def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, **kwargs):
     params = {}
-
     for key, value in training_params.items():
         params[key] = value
-    print("PARAMS ENTER:", str(params))
     estimate_Twinkle = kernel
-    X = ds.load_txt_file(inputFile, (300,2), delimiter=";")[:,:4]
-    Y = ds.load_txt_file(inputFile, (300,1), delimiter=";")[:,[4]]
     searcher = GridSearchCV(estimate_Twinkle, params, cv=Kfold_divisions)
     searcher.fit(X,Y)
-    #searcher.score(X)
-    print("RESULT")
-    #print(pd.DataFrame(searcher.cv_results_))
+    df = pd.DataFrame(searcher.cv_results_)
+    file_out = os.path.join(results_folder, 'cv_results.csv')
+    df.to_csv(file_out, index=False)
     return
+
 
 @container(engine="SINGULARITY", options="-e", image="/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/twinkle.sif")
 @binary(binary="/Twinkle/runTwinkle", args="-file {{inputFile}} -out {{template_outFile}} -gtol {{gtol}} -ttol {{ttol}} -terms {{terms}} -alsiter {{alsiter}} -wflag {{wflag}}", working_dir="{{working_dir}}")
@@ -50,6 +47,10 @@ def post_twinkle(result_file):
     return data['prediction'].to_numpy()
 
 
-@task(returns=1)
-def twinkle_score(y_true, y_pred):
+
+@task(y_blocks=COLLECTION_IN, returns=1)
+def twinkle_score(y_blocks, y_pred):
+    y_true=np.block(y_blocks)
+    if len(y_true)!=len(y_pred):
+        return 0
     return r2_score(y_true, y_pred)

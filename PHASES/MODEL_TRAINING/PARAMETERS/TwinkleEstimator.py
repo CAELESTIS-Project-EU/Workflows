@@ -1,20 +1,17 @@
 import os
 import uuid
-
 import numpy as np
 from sklearn.base import BaseEstimator
 from pycompss.api.parameter import *
-from pycompss.api.api import compss_wait_on, compss_wait_on_file
-
+from pycompss.api.task import task
 from PHASES.MODEL_TRAINING.twinkle import twinkle_train, twinkle_score, twinkle_predict, post_twinkle
 
 @task(returns=1)
-def gen_param(folder, template, **kwargs):
-    return TwinkleMyEstimator(folder,template)
-
+def gen_param(execution_folder, template, **kwargs):
+    return TwinkleMyEstimator(execution_folder, template)
 
 class TwinkleMyEstimator(BaseEstimator):
-    def __init__(self, folder, template, *, param=1):
+    def __init__(self, execution_folder, template, *, param=1):
         self.param = param
         self.mpoints = None
         self.npoints = None
@@ -27,7 +24,7 @@ class TwinkleMyEstimator(BaseEstimator):
         self.wflag=None
         self.romFile=None
         self.template_evalFile=None
-        self.folder=folder
+        self.folder=execution_folder
 
 
     def __str__(self):
@@ -46,18 +43,12 @@ class TwinkleMyEstimator(BaseEstimator):
 
 
     def fit(self, X, Y):
-        print("FIT START")
-        # Generate a random UUID (version 4)
-
         file_temp=os.path.join(self.folder,"input"+self.template+".csv")
-        np.savetxt(file_temp, X.collect(), delimiter=";")
-        print("FIT END " + str(self))
+        save_file(X._blocks, file_temp)
         twinkle_train(file_temp, self.template, self.romFile, self.gtol, self.ttol, self.terms, self.alsiter, self.wflag, working_dir=self.folder)
-        compss_wait_on_file(self.romFile)
-        return self
+        return
 
     def set_params(self, **kwargs):
-        print("PARAMS START")
         # Iterate over the keyword arguments and set the attributes if they exist
         for key, value in kwargs.items():
             if hasattr(self, key):
@@ -69,23 +60,25 @@ class TwinkleMyEstimator(BaseEstimator):
         self.folder= folder_random
         self.romFile = os.path.join(folder_random, "Results_" + self.template + ".txt")
         self.template_evalFile = self.template+"_eval"
-        print("PARAMS END:"+str(self))
-        return
+        return self
 
     def score(self, X, Y, **kwargs):
         print("SCORE START")
-        y_pred=self.predict(X)  #199
-        #y_pred=compss_wait_on(y_pred)
-        y_true=Y.collect() #202
+        y_pred=self.predict(X)
+        y_true=Y._blocks
         print("SCORE END: "+str(self))
 
         return twinkle_score(y_true, y_pred)
 
     def predict(self, X, **kwargs):
-        eval_file_tmp=os.path.join(self.folder , "Eval_"+ self.template + ".txt")
-        out_file_tmp=os.path.join(self.folder , "Prediction_"+ self.template + "_eval.txt")
-        np.savetxt(eval_file_tmp, X.collect(), delimiter=";")
+        eval_file_tmp=os.path.join(self.folder , "Eval_"+self.template + ".txt")
+        out_file_tmp=os.path.join(self.folder , "Prediction_"+self.template + "_eval.txt")
+        save_file(X._blocks, eval_file_tmp)
         twinkle_predict(self.romFile, eval_file_tmp, out_file_tmp, self.template_evalFile, working_dir=self.folder)
         result= post_twinkle(out_file_tmp)
-        compss_wait_on_file(out_file_tmp)
         return result
+
+
+@task(x=COLLECTION_IN, data_set_file=FILE_OUT)
+def save_file(x, data_set_file):
+    np.savetxt(data_set_file, np.block(x), delimiter=";")
