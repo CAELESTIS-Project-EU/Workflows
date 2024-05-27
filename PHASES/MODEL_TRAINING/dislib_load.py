@@ -4,13 +4,12 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 
 
-@task(returns=1)
+@task(returns=2)
 def load_twinkle(**kwargs):
     column = kwargs.get("columnsX")
     blockSizeX = kwargs.get("blockSizeX")
     blockSizeY = kwargs.get("blockSizeY")
     input_file= kwargs.get("input_file")
-
     try:
         blockSizeX = eval(blockSizeX)
         blockSizeY = eval(blockSizeY)
@@ -20,7 +19,9 @@ def load_twinkle(**kwargs):
     if column is None or blockSizeX is None or blockSizeY is None or input_file is None:
         raise ValueError("Required parameters are missing")
     else:
-        return get_from_csv_permeability(input_file, column, blockSizeX, blockSizeY)
+        X = ds.load_txt_file(input_file, blockSizeX, delimiter=";")[:, :column]
+        Y = ds.load_txt_file(input_file, blockSizeY, delimiter=";")[:, [column]]
+        return X,Y
 
 @task(returns=1)
 def load(**kwargs):
@@ -39,7 +40,3 @@ def get_from_numpy(inputFileX, inputFileY):
     return X, Y
 
 
-def get_from_csv_permeability(inputFile, column, blockSizeX, blockSizeY):
-    X = ds.load_txt_file(inputFile, blockSizeX, delimiter=";")[:, :column]
-    Y = ds.load_txt_file(inputFile, blockSizeY, delimiter=";")[:, [column]]
-    return X, Y
