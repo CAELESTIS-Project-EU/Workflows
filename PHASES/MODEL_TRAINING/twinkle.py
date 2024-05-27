@@ -9,6 +9,7 @@ from pycompss.api.binary import binary
 import numpy as np
 
 
+@task()
 def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, **kwargs):
     params = {}
     for key, value in training_params.items():
@@ -19,7 +20,6 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, **kw
     df = pd.DataFrame(searcher.cv_results_)
     file_out = os.path.join(results_folder, 'cv_results.csv')
     df.to_csv(file_out, index=False)
-    return
 
 
 @container(engine="SINGULARITY", options="-e", image="/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/twinkle.sif")

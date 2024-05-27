@@ -13,8 +13,8 @@ phases:
     arguments:
       - execution_folder: $variables.execution_folder
       - template: $parameters.template
-  training:
-    type: PHASES.MODEL_TRAINING.twinkle.training
+  model_creation:
+    type: PHASES.MODEL_TRAINING.twinkle.twinkle
     arguments:
       - training_params: $parameters.training_params 
       - X: $variables.X
