@@ -6,7 +6,7 @@ from pycompss.api.parameter import *
 
 @task(returns=2)
 def load_twinkle(**kwargs):
-    column = kwargs.get("columnsX")
+    column = kwargs.get("column")
     blockSizeX = kwargs.get("blockSizeX")
     blockSizeY = kwargs.get("blockSizeY")
     input_file= kwargs.get("input_file")
