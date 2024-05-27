@@ -63,11 +63,8 @@ class TwinkleMyEstimator(BaseEstimator):
         return self
 
     def score(self, X, Y, **kwargs):
-        print("SCORE START")
         y_pred=self.predict(X)
         y_true=Y._blocks
-        print("SCORE END: "+str(self))
-
         return twinkle_score(y_true, y_pred)
 
     def predict(self, X, **kwargs):

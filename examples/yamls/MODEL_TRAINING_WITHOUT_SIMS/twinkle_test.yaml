@@ -1,7 +1,7 @@
 ---
 workflow_type: WORKFLOWS.MODEL_TRAINING_WITHOUT_SIMS.workflow.execution
 phases:
-  load_permeability:
+  load:
    type: PHASES.MODEL_TRAINING.dislib_load.load_twinkle
     arguments:
       - input_file: $parameters.input_file
@@ -42,6 +42,6 @@ parameters:
   column: 4
   blockSizeX: "(300,2)"
   blockSizeY: "(300,1)"
-  tamplate_name: "test"
+  tamplate: "test"
   Kfold_divisions: 4
 environment:
