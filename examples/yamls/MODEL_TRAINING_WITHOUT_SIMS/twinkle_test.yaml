@@ -2,7 +2,7 @@
 workflow_type: WORKFLOWS.MODEL_TRAINING_WITHOUT_SIMS.workflow.execution
 phases:
   load:
-   type: PHASES.MODEL_TRAINING.dislib_load.load_twinkle
+    type: PHASES.MODEL_TRAINING.dislib_load.load_twinkle
     arguments:
       - input_file: $parameters.input_file
       - column: $parameters.column

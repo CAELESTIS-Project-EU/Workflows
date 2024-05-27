@@ -15,7 +15,7 @@ def training(**kwargs):
     return gen_model(train_args)
 
 
-def gen_model(train_args):
+def gen_model(X,Y, kfold_division, train_args):
     kernel = get_value(train_args, "kernel")
     results_folder = get_value(train_args, "results_folder")
     gpr = GaussianProcessRegressor()
@@ -23,20 +23,10 @@ def gen_model(train_args):
         alpha = float(get_value(train_args, "alpha"))
     except:
         alpha = float("1e-10")
-    x = get_value(train_args, "x")
-    if isinstance(x, str):
-        x = np.load(x)
-    y = get_value(train_args, "y")
-    if isinstance(x, str):
-        y = np.load(y)
     params = {"kernel": kernel, "random_state": [0], "alpha": [alpha]}
     # use grid search with your training data (it might take a while, be patient)
-    searcher = GridSearchCV(gpr, params, cv=5)
-    x = ds.array(x, block_size=x.shape)
-    y = np.array(y)
-    y = y[:, np.newaxis]
-    y = ds.array(y, block_size=y.shape)
-    searcher.fit(x, y)
+    searcher = GridSearchCV(gpr, params, cv=kfold_division)
+    searcher.fit(X, Y)
     write_file(results_folder, searcher, train_args)
     save_model(results_folder, pd.DataFrame(searcher.cv_results_)[["params", "mean_test_score"]], train_args)
     return
