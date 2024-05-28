@@ -44,7 +44,7 @@ class TwinkleMyEstimator(BaseEstimator):
                 f"execution_folder: {self.execution_folder}\n")
 
     def fit(self, X, Y):
-        file_temp = os.path.join(self.execution_folder, "input" + self.template + ".csv")
+        file_temp = os.path.join(self.execution_folder, "input" + str(self.template) + ".csv")
         save_file(X._blocks, file_temp)
         twinkle_train(file_temp, self.template, self.romFile, self.gtol, self.ttol, self.terms, self.alsiter,
                       self.wflag, working_dir=self.execution_folder)
@@ -60,8 +60,8 @@ class TwinkleMyEstimator(BaseEstimator):
         folder_random = os.path.join(out, str(generated_uuid))
         os.makedirs(folder_random, exist_ok=True)
         self.execution_folder = folder_random
-        self.romFile = os.path.join(folder_random, "Results_" + self.template + ".txt")
-        self.template_evalFile = self.template + "_eval"
+        self.romFile = os.path.join(folder_random, "Results_" + str(self.template) + ".txt")
+        self.template_evalFile = str(self.template) + "_eval"
         return self
 
     def score(self, X, Y, **kwargs):
@@ -70,8 +70,8 @@ class TwinkleMyEstimator(BaseEstimator):
         return twinkle_score(y_true, y_pred)
 
     def predict(self, X, **kwargs):
-        eval_file_tmp = os.path.join(self.execution_folder, "Eval_" + self.template + ".txt")
-        out_file_tmp = os.path.join(self.execution_folder, "Prediction_" + self.template + "_eval.txt")
+        eval_file_tmp = os.path.join(self.execution_folder, "Eval_" + str(self.template) + ".txt")
+        out_file_tmp = os.path.join(self.execution_folder, "Prediction_" + str(self.template) + "_eval.txt")
         save_file(X._blocks, eval_file_tmp)
         twinkle_predict(self.romFile, eval_file_tmp, out_file_tmp, self.template_evalFile, working_dir=self.execution_folder)
         result = post_twinkle(out_file_tmp)
