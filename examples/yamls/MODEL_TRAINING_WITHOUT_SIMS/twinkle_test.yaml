@@ -1,0 +1,46 @@
+---
+workflow_type: WORKFLOWS.MODEL_TRAINING_WITHOUT_SIMS.workflow.execution
+phases:
+  load:
+    type: PHASES.MODEL_TRAINING.dislib_load.load_twinkle
+    arguments:
+      - input_file: $parameters.input_file
+      - column: $parameters.column
+      - blockSizeX: $parameters.blockSizeX
+      - blockSizeY: $parameters.blockSizeY
+  kernel_generation:
+    type: PHASES.MODEL_TRAINING.PARAMETERS.TwinkleEstimator.gen_param
+    arguments:
+      - execution_folder: $variables.execution_folder
+      - template: $parameters.template
+  model_creation:
+    type: PHASES.MODEL_TRAINING.twinkle.twinkle
+    arguments:
+      - training_params: $parameters.training_params 
+      - X: $variables.X
+      - Y: $variables.Y
+      - kernel: $variables.kernel 
+      - results_folder: $variables.results_folder
+      - Kfold_divisions: $parameters.Kfold_divisions
+outputs:
+  alya_output:
+    - path: alya_output.txt
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/test2J"
+    - overwrite : true
+inputs:
+parameters:
+  training_params:
+    terms : [2, 3]
+    npoints : [3, 4]
+    mpoints : [2, 3]
+    gtol : [1e-4]
+    ttol : [1e-5]
+    alsiter: [300]
+    wflag: [0]
+  input_file: "/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/Train_K1_1e9.csv"
+  column: 4
+  blockSizeX: "(300,2)"
+  blockSizeY: "(300,1)"
+  template: "test"
+  Kfold_divisions: 4
+environment:

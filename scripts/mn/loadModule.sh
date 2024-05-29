@@ -11,6 +11,6 @@ module load mkl/2018.4
 module load dislib/0.9.0
 module load ALYA/mpio
 module load python/3.9.10
-
+module load dislib/0.9.0
 
 export PYTHONPATH=$DEST_PATH:$PYTHONPATH
