@@ -9,7 +9,6 @@ from pycompss.api.binary import binary
 import numpy as np
 
 
-#@task(X=COLLECTION_IN, Y=COLLECTION_IN)
 def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, **kwargs):
     estimate_Twinkle = kernel
     searcher = GridSearchCV(estimate_Twinkle, training_params, cv=Kfold_divisions)
