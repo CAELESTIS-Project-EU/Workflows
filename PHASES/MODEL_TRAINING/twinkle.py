@@ -9,7 +9,6 @@ from pycompss.api.binary import binary
 import numpy as np
 
 
-@task(X=COLLECTION_IN, Y=COLLECTION_IN)
 def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, **kwargs):
     params = {}
     for key, value in training_params.items():
