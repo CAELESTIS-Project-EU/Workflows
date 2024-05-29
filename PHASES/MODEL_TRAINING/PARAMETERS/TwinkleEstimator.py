@@ -7,7 +7,7 @@ from pycompss.api.task import task
 from PHASES.MODEL_TRAINING.twinkle import twinkle_train, twinkle_score, twinkle_predict, post_twinkle
 
 
-@task(returns=1)
+#@task(returns=1)
 def gen_param(execution_folder, template, **kwargs):
     twinkle = TwinkleMyEstimator(execution_folder, template)
     return twinkle
