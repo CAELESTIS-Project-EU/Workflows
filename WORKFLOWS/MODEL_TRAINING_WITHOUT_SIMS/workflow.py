@@ -1,6 +1,5 @@
 import os
 from PHASES.utils import args_values, phase
-from pycompss.api.api import compss_wait_on
 
 def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
     results_folder = execution_folder + "/results/"
