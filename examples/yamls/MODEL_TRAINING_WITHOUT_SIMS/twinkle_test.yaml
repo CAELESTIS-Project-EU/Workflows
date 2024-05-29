@@ -41,6 +41,6 @@ parameters:
   column: 4
   blockSizeX: "(300,2)"
   blockSizeY: "(300,1)"
-  tamplate: "test"
+  template: "test"
   Kfold_divisions: 4
 environment:
