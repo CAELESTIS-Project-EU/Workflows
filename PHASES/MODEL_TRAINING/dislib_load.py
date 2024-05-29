@@ -9,7 +9,7 @@ def load_twinkle(**kwargs):
     column = kwargs.get("column")
     blockSizeX = kwargs.get("blockSizeX")
     blockSizeY = kwargs.get("blockSizeY")
-    input_file= kwargs.get("input_file")
+    input_file = kwargs.get("input_file")
     try:
         blockSizeX = eval(blockSizeX)
         blockSizeY = eval(blockSizeY)
@@ -21,7 +21,8 @@ def load_twinkle(**kwargs):
     else:
         X = ds.load_txt_file(input_file, blockSizeX, delimiter=";")[:, :column]
         Y = ds.load_txt_file(input_file, blockSizeY, delimiter=";")[:, [column]]
-        return X,Y
+        return X, Y
+
 
 @task(returns=1)
 def load(**kwargs):
@@ -38,5 +39,3 @@ def get_from_numpy(inputFileX, inputFileY):
     Y = Y[:, np.newaxis]
     Y = ds.array(Y, block_size=Y.shape)
     return X, Y
-
-

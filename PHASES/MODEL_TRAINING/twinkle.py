@@ -9,15 +9,10 @@ from pycompss.api.binary import binary
 import numpy as np
 
 
+@task(X=COLLECTION_IN, Y=COLLECTION_IN)
 def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, **kwargs):
-    params = {}
-    print(f"training_params: {training_params}")
-    for key, value in training_params.items():
-        params[key] = value
     estimate_Twinkle = kernel
-    print("HERE")
-    print(f"estimate_Twinkle: {estimate_Twinkle}")
-    searcher = GridSearchCV(estimate_Twinkle, params, cv=Kfold_divisions)
+    searcher = GridSearchCV(estimate_Twinkle, training_params, cv=Kfold_divisions)
     searcher.fit(X,Y)
     df = pd.DataFrame(searcher.cv_results_)
     file_out = os.path.join(results_folder, 'cv_results.csv')
