@@ -11,6 +11,7 @@ import numpy as np
 
 def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, **kwargs):
     params = {}
+    print(f"training_params: {training_params}")
     for key, value in training_params.items():
         params[key] = value
     estimate_Twinkle = kernel
