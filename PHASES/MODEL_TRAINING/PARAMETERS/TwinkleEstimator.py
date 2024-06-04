@@ -47,7 +47,7 @@ class TwinkleMyEstimator(BaseEstimator):
 
         max_min_file_path = os.path.join(self.results_folder, 'max_min_file.csv')
         max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
-        combined_data = np.vstack((X.collect(), max_min_data))
+        combined_data = np.concatenate((X.collect(), max_min_data), axis=0)
 
         X_combined = ds.array(combined_data, block_size=X.block_size)
 
