@@ -9,13 +9,8 @@ def load_twinkle(**kwargs):
     num_columns_y = kwargs.get("num_columns_y")
     input_file = kwargs.get("input_file")
     results_folder= kwargs.get("results_folder")
-    try:
-        blockSizeX = eval(blockSizeX)
-        blockSizeY = eval(blockSizeY)
-    except Exception as e:
-        raise ValueError(f"Error in evaluating blockSizeX or blockSizeY: {str(e)}")
 
-    if num_columns_y is None or blockSizeX is None or blockSizeY is None or input_file is None:
+    if num_columns_y is None or input_file is None or results_folder is None:
         raise ValueError("Required parameters are missing")
     else:
         return extract_outlayers_values(input_file, num_columns_y, results_folder)
