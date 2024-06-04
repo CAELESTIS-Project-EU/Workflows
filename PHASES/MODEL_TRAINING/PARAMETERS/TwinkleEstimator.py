@@ -5,7 +5,7 @@ from sklearn.base import BaseEstimator
 from pycompss.api.parameter import *
 from pycompss.api.task import task
 from PHASES.MODEL_TRAINING.twinkle import twinkle_train, twinkle_score, twinkle_predict, post_twinkle
-
+import dislib as ds
 
 def gen_param(execution_folder, template, **kwargs):
     twinkle = TwinkleMyEstimator(execution_folder, template)
@@ -43,8 +43,15 @@ class TwinkleMyEstimator(BaseEstimator):
                 f"execution_folder: {self.execution_folder}\n")
 
     def fit(self, X, Y):
+
+        max_min_file_path = os.path.join(self.execution_folder, 'max_min_file.csv')
+        max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
+        combined_data = np.vstack((X.collect(), max_min_data))
+
+        X_combined = ds.array(combined_data, block_size=X.block_size)
+
         file_temp = os.path.join(self.execution_folder, "input" + self.template + ".csv")
-        save_file(X._blocks, file_temp)
+        self.save_file(X_combined._blocks, file_temp)
         twinkle_train(file_temp, self.template, self.romFile, self.gtol, self.ttol, self.terms, self.alsiter,
                       self.wflag, working_dir=self.execution_folder)
         return

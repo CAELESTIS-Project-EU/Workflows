@@ -5,9 +5,8 @@ phases:
     type: PHASES.MODEL_TRAINING.dislib_load.load_twinkle
     arguments:
       - input_file: $parameters.input_file
-      - column: $parameters.column
-      - blockSizeX: $parameters.blockSizeX
-      - blockSizeY: $parameters.blockSizeY
+      - num_columns_y: $parameters.num_columns_y
+      - results_folder: $variables.results_folder
   kernel_generation:
     type: PHASES.MODEL_TRAINING.PARAMETERS.TwinkleEstimator.gen_param
     arguments:
@@ -38,9 +37,7 @@ parameters:
     alsiter: [300]
     wflag: [0]
   input_file: "/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/Train_K1_1e9.csv"
-  column: 4
-  blockSizeX: "(300,2)"
-  blockSizeY: "(300,1)"
+  num_columns_y: 4
   template: "test"
-  Kfold_divisions: 4
+  Kfold_divisions: 5
 environment:
