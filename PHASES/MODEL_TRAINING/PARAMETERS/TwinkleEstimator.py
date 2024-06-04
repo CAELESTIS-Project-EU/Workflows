@@ -7,13 +7,13 @@ from pycompss.api.task import task
 from PHASES.MODEL_TRAINING.twinkle import twinkle_train, twinkle_score, twinkle_predict, post_twinkle
 import dislib as ds
 
-def gen_param(execution_folder, template, **kwargs):
-    twinkle = TwinkleMyEstimator(execution_folder, template)
+def gen_param(execution_folder, template, results_folder, **kwargs):
+    twinkle = TwinkleMyEstimator(execution_folder, template, results_folder)
     return twinkle
 
 
 class TwinkleMyEstimator(BaseEstimator):
-    def __init__(self, execution_folder, template, *, param=1):
+    def __init__(self, execution_folder, template, results_folder, *, param=1):
         self.param = param
         self.mpoints = None
         self.npoints = None
@@ -27,6 +27,7 @@ class TwinkleMyEstimator(BaseEstimator):
         self.romFile = None
         self.template_evalFile = None
         self.execution_folder = execution_folder
+        self.results_folder= results_folder
 
     def __str__(self):
         return (f"param: {self.param}\n"
@@ -44,7 +45,7 @@ class TwinkleMyEstimator(BaseEstimator):
 
     def fit(self, X, Y):
 
-        max_min_file_path = os.path.join(self.execution_folder, 'max_min_file.csv')
+        max_min_file_path = os.path.join(self.results_folder, 'max_min_file.csv')
         max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
         combined_data = np.vstack((X.collect(), max_min_data))
 
