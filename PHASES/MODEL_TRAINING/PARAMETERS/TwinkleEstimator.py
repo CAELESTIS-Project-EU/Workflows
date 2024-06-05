@@ -49,12 +49,8 @@ class TwinkleMyEstimator(BaseEstimator):
         max_min_file_path = os.path.join(self.results_folder, 'max_min_file.csv')
         max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
         n_inps = len(max_min_data[0]) - self.num_columns_y
-        #Y = max_min_data[:, -self.num_columns_y:]
-        combined_data = np.concatenate((X.collect(), max_min_data[:, :n_inps]), axis=0)
-        X_combined = ds.array(combined_data, block_size=combined_data.shape)
-
         file_temp = os.path.join(self.execution_folder, "input" + self.template + ".csv")
-        save_file(X_combined._blocks, file_temp)
+        save_file(X._blocks, max_min_data[:, :n_inps], file_temp)
         twinkle_train(file_temp, self.template, self.romFile, self.gtol, self.ttol, self.terms, self.alsiter,
                       self.wflag, working_dir=self.execution_folder)
         return
@@ -74,32 +70,40 @@ class TwinkleMyEstimator(BaseEstimator):
         return self
 
     def score(self, X, Y, **kwargs):
-        y_pred = self.predict(X.collect())
-
+        y_pred = self.predict(X)
+        """
         max_min_file_path = os.path.join(self.results_folder, 'max_min_file.csv')
         max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
         combined_data = np.concatenate((Y.collect(), max_min_data[:, -self.num_columns_y:]), axis=0)
         Y_combined = ds.array(combined_data, block_size=combined_data.shape)
-
-        y_true = Y_combined._blocks
+        """
+        y_true = Y._blocks
         return twinkle_score(y_true, y_pred)
 
     def predict(self, X, **kwargs):
         eval_file_tmp = os.path.join(self.execution_folder, "Eval_" + self.template + ".txt")
         out_file_tmp = os.path.join(self.execution_folder, "Prediction_" + self.template + "_eval.txt")
 
+        """
         max_min_file_path = os.path.join(self.results_folder, 'max_min_file.csv')
         max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
         n_inps = len(max_min_data[0]) - self.num_columns_y
         combined_data = np.concatenate((X, max_min_data[:, :n_inps]), axis=0)
         X_combined = ds.array(combined_data, block_size=combined_data.shape)
-
-        save_file(X_combined._blocks, eval_file_tmp)
+        
+        
+        save_file(X._blocks, max_min_data[:, :n_inps], file_temp)
+        """
+        save_file(X._blocks, None, eval_file_tmp)
         twinkle_predict(self.romFile, eval_file_tmp, out_file_tmp, self.template_evalFile, working_dir=self.execution_folder)
         result = post_twinkle(out_file_tmp)
         return result
 
 
 @task(x=COLLECTION_IN, data_set_file=FILE_OUT)
-def save_file(x, data_set_file):
-    np.savetxt(data_set_file, np.block(x), delimiter=";")
+def save_file(x, max_min, data_set_file):
+    if max_min:
+        combined_data = np.concatenate((np.block(x), max_min), axis=0)
+    else:
+        combined_data = np.block(x)
+    np.savetxt(data_set_file, combined_data, delimiter=";")

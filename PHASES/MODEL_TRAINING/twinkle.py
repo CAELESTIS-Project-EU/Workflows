@@ -48,8 +48,8 @@ def post_twinkle(result_file):
 @task(y_blocks=COLLECTION_IN, returns=1)
 def twinkle_score(y_blocks, y_pred):
     y_true=np.block(y_blocks)
-    print(f"len(y_true): {len(y_true)}")
-    print(f"len(y_pred): {len(y_pred)}")
+    print(f"shape y_true: {y_true.shape}", flush=True)
+    print(f"shape y_pred: {y_pred.shape}", flush=True)
     if len(y_true)!=len(y_pred):
         return 0
     return r2_score(y_true, y_pred)
