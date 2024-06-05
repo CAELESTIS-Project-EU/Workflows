@@ -50,6 +50,6 @@ def twinkle_score(y_blocks, y_pred):
     y_true=np.block(y_blocks)
     print(f"len(y_true): {len(y_true)}")
     print(f"len(y_pred): {len(y_pred)}")
-    """if len(y_true)!=len(y_pred):
-        return 0"""
+    if len(y_true)!=len(y_pred):
+        return 0
     return r2_score(y_true, y_pred)
