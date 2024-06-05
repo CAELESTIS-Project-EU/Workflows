@@ -102,8 +102,8 @@ class TwinkleMyEstimator(BaseEstimator):
 
 @task(x=COLLECTION_IN, data_set_file=FILE_OUT)
 def save_file(x, max_min, data_set_file):
-    if max_min:
-        combined_data = np.concatenate((np.block(x), max_min), axis=0)
-    else:
+    if max_min is None:
         combined_data = np.block(x)
+    else:
+        combined_data = np.concatenate((np.block(x), max_min), axis=0)
     np.savetxt(data_set_file, combined_data, delimiter=";")
