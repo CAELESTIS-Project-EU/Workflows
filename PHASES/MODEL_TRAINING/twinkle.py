@@ -18,8 +18,6 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, **kw
     df.to_csv(file_out, index=False)
 
 
-
-
 @container(engine="SINGULARITY", options="-e", image="/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/twinkle.sif")
 @binary(binary="/Twinkle/runTwinkle", args="-file {{inputFile}} -out {{template_outFile}} -gtol {{gtol}} -ttol {{ttol}} -terms {{terms}} -alsiter {{alsiter}} -wflag {{wflag}}", working_dir="{{working_dir}}")
 @task(inputFile=FILE_IN, romFile=FILE_OUT)
