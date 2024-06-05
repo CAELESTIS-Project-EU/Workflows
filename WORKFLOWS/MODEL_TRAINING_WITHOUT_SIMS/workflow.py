@@ -10,6 +10,6 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     print(f"X _n_blocks: {X._n_blocks}")
     print(f"X len blocks: {len(X._blocks)}")
     print(f"X len block 0: {len(X._blocks[0])}")
-    #kernel= phase.run(phases.get("kernel_generation"), inputs, outputs, parameters, data_folder, locals())
-    #phase.run(phases.get("model_creation"), inputs, outputs, parameters, data_folder, locals(), out=kernel)
+    kernel= phase.run(phases.get("kernel_generation"), inputs, outputs, parameters, data_folder, locals())
+    phase.run(phases.get("model_creation"), inputs, outputs, parameters, data_folder, locals(), out=kernel)
     return

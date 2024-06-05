@@ -13,6 +13,7 @@ phases:
       - execution_folder: $variables.execution_folder
       - template: $parameters.template
       - results_folder: $variables.results_folder
+      - num_columns_y: $parameters.num_columns_y
   model_creation:
     type: PHASES.MODEL_TRAINING.twinkle.twinkle
     arguments:
@@ -37,7 +38,7 @@ parameters:
     ttol : [1e-5]
     alsiter: [300]
     wflag: [0]
-  input_file: "/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/Train_K1_1e9.csv"
+  input_file: "/home/bsc/bsc019518/csv_data/datos1e9mrg.csv"
   num_columns_y: 4
   template: "test"
   Kfold_divisions: 5
