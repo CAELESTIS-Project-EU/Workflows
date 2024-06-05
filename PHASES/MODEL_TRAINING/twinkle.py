@@ -25,8 +25,6 @@ def twinkle_train(inputFile, template_outFile, romFile, gtol, ttol, terms, alsit
     pass
 
 
-
-
 @container(engine="SINGULARITY", options="-e", image="/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/twinkle.sif")
 @binary(binary="/Twinkle/runTwinkle", args="-rom {{romFile}} -eval {{evalFile}} -out {{template_outFile}}", working_dir="{{working_dir}}")
 @task(romFile=FILE_IN, evalFile=FILE_IN, outFile=FILE_OUT)
@@ -41,7 +39,6 @@ def post_twinkle(result_file):
     except FileNotFoundError:
         raise Exception(f"The file {result_file} does not exist.")
     return data.to_numpy()
-
 
 
 @task(y_blocks=COLLECTION_IN, returns=1)
