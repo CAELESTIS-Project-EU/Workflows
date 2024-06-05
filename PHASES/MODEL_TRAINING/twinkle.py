@@ -46,10 +46,6 @@ def twinkle_score(y_blocks, y_pred):
     y_true=np.block(y_blocks)
     print(f"shape y_true: {y_true.shape}", flush=True)
     print(f"shape y_pred: {y_pred.shape}", flush=True)
-
-    print("ciao ciao ciao")
-    print("ciao ciao ciao")
-
     if y_true.shape!=y_pred.shape:
         return 0
     return r2_score(y_true, y_pred)
