@@ -54,7 +54,7 @@ class TwinkleMyEstimator(BaseEstimator):
         X_combined = ds.array(combined_data, block_size=combined_data.shape)
 
         file_temp = os.path.join(self.execution_folder, "input" + self.template + ".csv")
-        self.save_file(X_combined._blocks, file_temp)
+        save_file(X_combined._blocks, file_temp)
         twinkle_train(file_temp, self.template, self.romFile, self.gtol, self.ttol, self.terms, self.alsiter,
                       self.wflag, working_dir=self.execution_folder)
         return
