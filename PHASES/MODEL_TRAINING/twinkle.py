@@ -38,10 +38,10 @@ def twinkle_predict(romFile, evalFile, outFile, template_outFile, working_dir, *
 @task(result_file=FILE_IN, returns=1)
 def post_twinkle(result_file):
     try:
-        data = pd.read_csv(result_file, skiprows=1, delim_whitespace=True, names=['data', 'prediction'])
+        data = pd.read_csv(result_file, skiprows=1, delim_whitespace=True)
     except FileNotFoundError:
         raise Exception(f"The file {result_file} does not exist.")
-    return data['prediction'].to_numpy()
+    return data.to_numpy()
 
 
 
@@ -50,6 +50,6 @@ def twinkle_score(y_blocks, y_pred):
     y_true=np.block(y_blocks)
     print(f"shape y_true: {y_true.shape}", flush=True)
     print(f"shape y_pred: {y_pred.shape}", flush=True)
-    if len(y_true)!=len(y_pred):
+    if y_true.shape!=y_pred.shape:
         return 0
     return r2_score(y_true, y_pred)
