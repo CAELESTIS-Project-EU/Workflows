@@ -51,7 +51,7 @@ class TwinkleMyEstimator(BaseEstimator):
         n_inps = len(max_min_data[0]) - self.num_columns_y
         #Y = max_min_data[:, -self.num_columns_y:]
         combined_data = np.concatenate((X.collect(), max_min_data[:, :n_inps]), axis=0)
-        X_combined = ds.array(combined_data, block_size=X.block_size)
+        X_combined = ds.array(combined_data, block_size=combined_data.block_size)
 
         file_temp = os.path.join(self.execution_folder, "input" + self.template + ".csv")
         self.save_file(X_combined._blocks, file_temp)
@@ -79,7 +79,7 @@ class TwinkleMyEstimator(BaseEstimator):
         max_min_file_path = os.path.join(self.results_folder, 'max_min_file.csv')
         max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
         combined_data = np.concatenate((Y, max_min_data[:, -self.num_columns_y:]), axis=0)
-        Y_combined = ds.array(combined_data, block_size=X.block_size)
+        Y_combined = ds.array(combined_data, block_size=combined_data.block_size)
 
         y_true = Y_combined._blocks
         return twinkle_score(y_true, y_pred)
@@ -93,7 +93,7 @@ class TwinkleMyEstimator(BaseEstimator):
         n_inps = len(max_min_data[0]) - self.num_columns_y
         # Y = max_min_data[:, -self.num_columns_y:]
         combined_data = np.concatenate((X, max_min_data[:, :n_inps]), axis=0)
-        X_combined = ds.array(combined_data, block_size=X.block_size)
+        X_combined = ds.array(combined_data, block_size=combined_data.block_size)
 
         save_file(X_combined._blocks, eval_file_tmp)
         twinkle_predict(self.romFile, eval_file_tmp, out_file_tmp, self.template_evalFile, working_dir=self.execution_folder)
