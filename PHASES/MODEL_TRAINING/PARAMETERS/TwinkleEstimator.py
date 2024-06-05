@@ -74,7 +74,7 @@ class TwinkleMyEstimator(BaseEstimator):
         return self
 
     def score(self, X, Y, **kwargs):
-        y_pred = self.predict(X)
+        y_pred = self.predict(X.collect())
 
         max_min_file_path = os.path.join(self.results_folder, 'max_min_file.csv')
         max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
@@ -91,7 +91,6 @@ class TwinkleMyEstimator(BaseEstimator):
         max_min_file_path = os.path.join(self.results_folder, 'max_min_file.csv')
         max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
         n_inps = len(max_min_data[0]) - self.num_columns_y
-        # Y = max_min_data[:, -self.num_columns_y:]
         combined_data = np.concatenate((X, max_min_data[:, :n_inps]), axis=0)
         X_combined = ds.array(combined_data, block_size=combined_data.shape)
 
