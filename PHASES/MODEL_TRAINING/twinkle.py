@@ -17,7 +17,7 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
     #searcher en una lista y after to_csv para cada uno sercher en otro loop
     for i in range (len(var_results)):
         searcher = GridSearchCV(estimate_Twinkle, training_params, cv=Kfold_divisions)
-        searcher.fit(X,Y[:,i])
+        searcher.fit(X,[Y[:,i]])
         searchers.append(searcher)
 
 
