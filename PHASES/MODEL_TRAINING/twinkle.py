@@ -24,7 +24,7 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
     for i, searcher in enumerate(searchers):
         df = pd.DataFrame(searcher.cv_results_)
         #dentro de result forlder crear una carpeta che se llama con el nombre y valores de los parametros del twinkle estimator  por execution folder and result folder
-        folder=os.path.join(results_folder, var_results[i])
+        folder=os.path.join(results_folder, "Result_Case_"+var_results[i])
         if not os.path.isdir(folder):
             os.makedirs(folder)
         file_out = os.path.join(folder, "cv_results.csv")
