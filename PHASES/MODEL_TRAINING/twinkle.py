@@ -21,7 +21,7 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
         searchers.append(searcher)
 
 
-    for searcher, i in enumerate(searchers):
+    for i, searcher in enumerate(searchers):
         df = pd.DataFrame(searcher.cv_results_)
         #dentro de result forlder crear una carpeta che se llama con el nombre y valores de los parametros del twinkle estimator  por execution folder and result folder
         folder=os.path.join(results_folder, var_results[i])
