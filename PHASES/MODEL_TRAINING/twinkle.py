@@ -17,7 +17,7 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
     #searcher en una lista y after to_csv para cada uno sercher en otro loop
     for i in range (len(var_results)):
         searcher = GridSearchCV(estimate_Twinkle, training_params, cv=Kfold_divisions)
-        searcher.fit(X,Y[:,[i]])
+        searcher.fit(X,Y[:,[i]], i)
         searchers.append(searcher)
 
 
@@ -28,7 +28,7 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
         if not os.path.isdir(folder):
             os.makedirs(folder)
         file_out = os.path.join(folder, "cv_results.csv")
-        best_estimator_file=searcher.best_estimator.romFile
+        best_estimator_file=searcher.best_estimator_.romFile
         compss_wait_on_file(best_estimator_file)
         shutil.copyfile(best_estimator_file, os.path.join(folder, "rom_file.txt"))
         #searcher.best_estimator.folder_name
