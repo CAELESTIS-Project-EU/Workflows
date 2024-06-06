@@ -62,7 +62,7 @@ class TwinkleMyEstimator(BaseEstimator):
                 name_folder+="__"+str(key)+"_"+str(value)
 
         generated_uuid = uuid.uuid4()
-        self.name_folder = name_folder +str(generated_uuid)
+        self.name_folder = str(generated_uuid)+"__"+name_folder 
         out = os.path.join(self.execution_folder, "OUT")
         folder_random = os.path.join(out, self.name_folder)
         os.makedirs(folder_random, exist_ok=True)
