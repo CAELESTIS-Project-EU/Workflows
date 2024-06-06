@@ -5,7 +5,7 @@ phases:
     type: PHASES.MODEL_TRAINING.dislib_load.load_twinkle
     arguments:
       - input_file: $parameters.input_file
-      - num_columns_y: $parameters.num_columns_y
+      - var_results: $parameters.var_results
       - results_folder: $variables.results_folder
   kernel_generation:
     type: PHASES.MODEL_TRAINING.PARAMETERS.TwinkleEstimator.gen_param
@@ -13,7 +13,7 @@ phases:
       - execution_folder: $variables.execution_folder
       - template: $parameters.template
       - results_folder: $variables.results_folder
-      - num_columns_y: $parameters.num_columns_y
+      - var_results: $parameters.var_results
   model_creation:
     type: PHASES.MODEL_TRAINING.twinkle.twinkle
     arguments:
@@ -23,6 +23,7 @@ phases:
       - kernel: $variables.kernel 
       - results_folder: $variables.results_folder
       - Kfold_divisions: $parameters.Kfold_divisions
+      - var_results: $parameters.var_results
 outputs:
   alya_output:
     - path: alya_output.txt
@@ -39,8 +40,7 @@ parameters:
     alsiter: [300]
     wflag: [0]
   input_file: "/home/bsc/bsc019518/csv_data/datos1e9mrg.csv"
-  salidas: ["fvf", "",""]
-  num_columns_y: 4
+  var_results: ["fvf", "K1_1e9","K2_1e9", "K3_1e9"]
   template: "test"
   Kfold_divisions: 5
 environment:
