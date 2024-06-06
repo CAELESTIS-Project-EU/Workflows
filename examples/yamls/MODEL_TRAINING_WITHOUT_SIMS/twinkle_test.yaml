@@ -5,14 +5,15 @@ phases:
     type: PHASES.MODEL_TRAINING.dislib_load.load_twinkle
     arguments:
       - input_file: $parameters.input_file
-      - column: $parameters.column
-      - blockSizeX: $parameters.blockSizeX
-      - blockSizeY: $parameters.blockSizeY
+      - var_results: $parameters.var_results
+      - results_folder: $variables.results_folder
   kernel_generation:
     type: PHASES.MODEL_TRAINING.PARAMETERS.TwinkleEstimator.gen_param
     arguments:
       - execution_folder: $variables.execution_folder
       - template: $parameters.template
+      - results_folder: $variables.results_folder
+      - var_results: $parameters.var_results
   model_creation:
     type: PHASES.MODEL_TRAINING.twinkle.twinkle
     arguments:
@@ -22,6 +23,7 @@ phases:
       - kernel: $variables.kernel 
       - results_folder: $variables.results_folder
       - Kfold_divisions: $parameters.Kfold_divisions
+      - var_results: $parameters.var_results
 outputs:
   alya_output:
     - path: alya_output.txt
@@ -37,10 +39,8 @@ parameters:
     ttol : [1e-5]
     alsiter: [300]
     wflag: [0]
-  input_file: "/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/Train_K1_1e9.csv"
-  column: 4
-  blockSizeX: "(300,2)"
-  blockSizeY: "(300,1)"
+  input_file: "/home/bsc/bsc019518/csv_data/datos1e9mrg.csv"
+  var_results: ["fvf", "K1_1e9","K2_1e9", "K3_1e9"]
   template: "test"
-  Kfold_divisions: 4
+  Kfold_divisions: 5
 environment:

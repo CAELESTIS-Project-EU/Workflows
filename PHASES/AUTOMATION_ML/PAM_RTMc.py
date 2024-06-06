@@ -4,10 +4,13 @@ Created on Wed Jun 28 15:47:58 2023
 
 @author: SMO
 """
+import check_license
+import os
+from utils.bbesi_rtm_api import Visual_API
 
 def PAM_RTMc(**kwargs):
-    import os
-    from utils.bbesi_rtm_api import Visual_API
+
+    bool = check_license()
     import socket
     print('_____________________________________________________________________________________')
     print('Starting curing simulation')

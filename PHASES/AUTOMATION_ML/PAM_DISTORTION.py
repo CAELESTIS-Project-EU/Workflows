@@ -6,8 +6,10 @@ SMO
 import os
 import socket
 from utils.bbesi_rtm_api import Visual_API
+import check_license
+
 def PAM_DISTORTION(**kwargs):
-    
+    bool= check_license()
     # import socket
     # Variables
     # Visual will read the variables values from a txt file that is written at the end of this section
