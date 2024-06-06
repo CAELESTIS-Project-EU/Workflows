@@ -6,16 +6,33 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 from pycompss.api.container import container
 from pycompss.api.binary import binary
+from pycompss.api.api import compss_wait_on_file
 import numpy as np
+import shutil
 
 
-def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, **kwargs):
+def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_results, **kwargs):
     estimate_Twinkle = kernel
-    searcher = GridSearchCV(estimate_Twinkle, training_params, cv=Kfold_divisions)
-    searcher.fit(X,Y)
-    df = pd.DataFrame(searcher.cv_results_)
-    file_out = os.path.join(results_folder, 'cv_results.csv')
-    df.to_csv(file_out, index=False)
+    searchers=[]
+    #searcher en una lista y after to_csv para cada uno sercher en otro loop
+    for i in range (len(var_results)):
+        searcher = GridSearchCV(estimate_Twinkle, training_params, cv=Kfold_divisions)
+        searcher.fit(X,Y[:,i])
+        searchers.append(searcher)
+
+
+    for searcher, i in enumerate(searchers):
+        df = pd.DataFrame(searcher.cv_results_)
+        #dentro de result forlder crear una carpeta che se llama con el nombre y valores de los parametros del twinkle estimator  por execution folder and result folder
+        folder=os.path.join(results_folder, var_results[i])
+        if not os.path.isdir(folder):
+            os.makedirs(folder)
+        file_out = os.path.join(folder, "cv_results.csv")
+        best_estimator_file=searcher.best_estimator.romFile
+        compss_wait_on_file(best_estimator_file)
+        shutil.copyfile(best_estimator_file, os.path.join(folder, "rom_file.txt"))
+        #searcher.best_estimator.folder_name
+        df.to_csv(file_out, index=False)
 
 
 @container(engine="SINGULARITY", options="-e", image="/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/twinkle.sif")

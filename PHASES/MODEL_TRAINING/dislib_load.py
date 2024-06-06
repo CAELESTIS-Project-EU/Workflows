@@ -6,10 +6,10 @@ from pycompss.api.parameter import *
 
 
 def load_twinkle(**kwargs):
-    num_columns_y = kwargs.get("num_columns_y")
+    var_results = kwargs.get("var_results")
     input_file = kwargs.get("input_file")
     results_folder= kwargs.get("results_folder")
-
+    num_columns_y=len(var_results)
     if num_columns_y is None or input_file is None or results_folder is None:
         raise ValueError("Required parameters are missing")
     else:

@@ -39,6 +39,7 @@ parameters:
     alsiter: [300]
     wflag: [0]
   input_file: "/home/bsc/bsc019518/csv_data/datos1e9mrg.csv"
+  salidas: ["fvf", "",""]
   num_columns_y: 4
   template: "test"
   Kfold_divisions: 5

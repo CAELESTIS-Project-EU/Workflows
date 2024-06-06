@@ -7,14 +7,13 @@ from pycompss.api.task import task
 from PHASES.MODEL_TRAINING.twinkle import twinkle_train, twinkle_score, twinkle_predict, post_twinkle
 import dislib as ds
 
-def gen_param(execution_folder, template, results_folder, num_columns_y, **kwargs):
-    twinkle = TwinkleMyEstimator(execution_folder, template, results_folder, num_columns_y)
+def gen_param(execution_folder, template, results_folder, var_results, **kwargs):
+    twinkle = TwinkleMyEstimator(execution_folder, template, results_folder, var_results)
     return twinkle
 
 
 class TwinkleMyEstimator(BaseEstimator):
-    def __init__(self, execution_folder, template, results_folder, num_columns_y, *, param=1):
-        self.param = param
+    def __init__(self, execution_folder, template, results_folder, var_results):
         self.mpoints = None
         self.npoints = None
         self.gtol = None
@@ -28,11 +27,11 @@ class TwinkleMyEstimator(BaseEstimator):
         self.template_evalFile = None
         self.execution_folder = execution_folder
         self.results_folder= results_folder
-        self.num_columns_y= num_columns_y
+        self.num_columns_y= len(var_results)
+        self.name_folder=None
 
     def __str__(self):
-        return (f"param: {self.param}\n"
-                f"mpoints: {self.mpoints}\n"
+        return (f"mpoints: {self.mpoints}\n"
                 f"npoints: {self.npoints}\n"
                 f"gtol: {self.gtol}\n"
                 f"ttol: {self.ttol}\n"
@@ -56,13 +55,16 @@ class TwinkleMyEstimator(BaseEstimator):
         return
 
     def set_params(self, **kwargs):
-        # Iterate over the keyword arguments and set the attributes if they exist
+        name_folder=""
         for key, value in kwargs.items():
             if hasattr(self, key):
                 setattr(self, key, value)
+                name_folder+="__"+str(key)+"_"+str(value)
+
         generated_uuid = uuid.uuid4()
+        self.name_folder = name_folder +str(generated_uuid)
         out = os.path.join(self.execution_folder, "OUT")
-        folder_random = os.path.join(out, str(generated_uuid))
+        folder_random = os.path.join(out, self.name_folder)
         os.makedirs(folder_random, exist_ok=True)
         self.execution_folder = folder_random
         self.romFile = os.path.join(folder_random, "Results_" + self.template + ".txt")

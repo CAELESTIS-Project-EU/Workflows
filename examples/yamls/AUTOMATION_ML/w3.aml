@@ -1,0 +1,148 @@
+<CAEXFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.dke.de/CAEX" SchemaVersion="3.0" FileName="C:\Users\SMO\OneDrive - ESI Group\Documents\Work\Proyectos\CAELESTIS\02 WP_2\T2.2\ManagingAML\Testing_code\Template_v1.aml" xsi:schemaLocation="http://www.dke.de/CAEX CAEX_ClassModel_V.3.0.xsd">
+  <AdditionalInformation DocumentVersions="Recommendations"/>
+  <SourceDocumentInformation OriginName="AutomationML Editor" OriginID="916578CA-FE0D-474E-A4FC-9E1719892369" OriginVersion="6.1.7.0" LastWritingDateTime="2023-09-29T16:37:00.0282176+02:00" OriginProjectID="unspecified" OriginProjectTitle="unspecified" OriginRelease="6.1.7.0" OriginVendor="AutomationML e.V." OriginVendorURL="www.AutomationML.org"/>
+  <InstanceHierarchy Name="Workflow">
+    <Version>0</Version>
+    <InternalElement Name="Information" ID="0b28cbce-27cf-4e53-aa38-1dbf5819b4eb">
+      <Attribute Name="ID" AttributeDataType="xs:string">
+        <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">w3</Value>
+      </Attribute>
+      <Attribute Name="Date" AttributeDataType="xs:date">
+        <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">2024/02/06</Value>
+      </Attribute>
+      <Attribute Name="Sequence_type" AttributeDataType="xs:string">
+        <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">w3</Value>
+      </Attribute>
+      <InternalElement Name="Inputs" ID="d08d80f3-1427-47d5-aed7-eb2fef9f06b4"/>
+      <InternalElement Name="Outputs" ID="ba5bbe48-25e7-4d08-8d2a-fcb937aa4f8e">
+        <InternalElement Name="Filling_time"/>
+        <InternalElement Name="Filling_factor"/>
+      </InternalElement>
+      <InternalElement Name="Software" ID="aafdaa24-09ee-46d5-9510-0640aa8736b9"/>
+      <InternalElement Name="Models" ID="447d16d5-96f7-47f6-8df0-5af4b3bb4a62"/>
+    </InternalElement>
+    
+    <InternalElement Name="Workflow_definition" ID="e630d753-681c-47a6-914e-d0e077cef6ae">
+      <Attribute Name="Type" AttributeDataType="xs:string">
+        <Description>Identification from predefiend workflows</Description>
+        <Value>workflows.multiple_chain.run</Value>
+      </Attribute>
+      
+      <InternalElement Name="Variables" ID="067c3fc6-96e8-4c56-ae3b-5b2490d72e0b">
+        <Attribute Name="working_dir" AttributeDataType="xs:string"/>
+        <Attribute Name="line_number" AttributeDataType="xs:string"/>
+        <Attribute Name="doe_row" AttributeDataType="xs:string"/>
+      </InternalElement>
+      
+      <InternalElement Name="Inputs" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
+        <InternalElement Name="DoE" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
+          <Attribute Name="server" AttributeDataType="xs:string">
+            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">ftp://nas.aimen.es/x/y/doe.csv</Value>
+          </Attribute>
+          <Attribute Name="path" AttributeDataType="xs:string">
+            <Value>{variables.working_dir}/test.csv</Value>
+          </Attribute>
+        </InternalElement>
+      </InternalElement>
+      <!-- Inputs -->
+      
+      <InternalElement Name="Outputs" ID="067c3fc6-96e8-4c56-ae3b-5b2490724e0b">
+        <InternalElement Name="Filling_time" ID="">
+          <Attribute Name="path" AttributeDataType="xs:string">
+            <Value>{variables.working_dir}/Outputs/name_file.extension</Value>
+          </Attribute>
+          <Attribute Name="server" AttributeDataType="xs:string">
+            <Value>ftp://nas.aimen.es/experiment_test/Outputs</Value>
+          </Attribute>
+        </InternalElement>
+        <InternalElement Name="Filling_factor" ID="">
+          <Attribute Name="path" AttributeDataType="xs:string">
+            <Value>{variables.working_dir}/Outputs/name_file.extension</Value>
+          </Attribute>
+          <Attribute Name="server" AttributeDataType="xs:string">
+            <Value>ftp://nas.aimen.es/experiment_test/Outputs</Value>
+          </Attribute>
+        </InternalElement>
+      </InternalElement>
+      <!-- Outputs -->
+      
+      <InternalElement Name="Parameters" ID="067c3fc6-96e8-4c56-ae3b-5b2490724e0b">
+        <InternalElement Name="A_description" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
+          <Attribute Name="Param" AttributeDataType="xs:string">
+            <Value>Execution software A</Value>
+          </Attribute>
+        </InternalElement>
+        <InternalElement Name="B_description" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
+          <Attribute Name="Param" AttributeDataType="xs:string">
+            <Value>Description software B</Value>
+          </Attribute>
+        </InternalElement>
+      
+      </InternalElement>  <!-- Parameters --> 
+      
+      
+      <InternalElement Name="Phases" ID="292b2551-bdf7-44e1-9cca-ea5273cca5d3">
+        <!-- phase simulation -->
+        <InternalElement Name="Phase" ID="292b2551-bdf7-44e1-9cca-e4557ecca5d3">
+          <Attribute Name="Name" AttributeDataType="xs:string">
+            <Value>simulation</Value>
+          </Attribute>
+          <Attribute Name="Sequence" AttributeDataType="xs:string">
+            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PAM-RTMf>>PAM-RTMc>>PAMDIST</Value>
+          </Attribute>
+          
+          <InternalElement Name="PAM-RTMf">
+            <Attribute Name="Type" AttributeDataType="xs:string">
+              <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PAM-RTMf.run</Value>
+            </Attribute>
+            <InternalElement Name="Parameters">
+              <Attribute Name="values" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.doe_row}</Value>
+              </Attribute>
+              <Attribute Name="output_file" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/PAM-RTMf_{variables.line_number}.out</Value>
+              </Attribute>
+            </InternalElement>
+          </InternalElement>
+          
+          <InternalElement Name="PAM-RTMc">
+            <Attribute Name="Type" AttributeDataType="xs:string">
+              <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PAM-RTMc.run</Value>
+            </Attribute>
+            <InternalElement Name="Parameters">
+              <Attribute Name="values" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.doe_row}</Value>
+              </Attribute>
+              <Attribute Name="output_file" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/PAM-RTMc_{line_number}.out</Value>
+              </Attribute>
+              <Attribute Name="input_file" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/PAM-RTMf_{line_number}.out</Value>
+              </Attribute>
+            </InternalElement>
+          </InternalElement>
+          
+          <InternalElement Name="PAMDIST">
+            <Attribute Name="Type" AttributeDataType="xs:string">
+              <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PAMDIST.run</Value>
+            </Attribute>
+            <InternalElement Name="Parameters">
+              <Attribute Name="values" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.doe_row}</Value>
+              </Attribute>
+              <Attribute Name="output_file" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/PAMDIST_{variables.line_number}.out</Value>
+              </Attribute>
+              <Attribute Name="input_file" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/PAM-RTMc_{variables.line_number}.out</Value>
+              </Attribute>
+            </InternalElement>
+          </InternalElement>
+        </InternalElement>
+      </InternalElement>
+      <!-- phases -->
+    </InternalElement>
+    <!-- Workflow_definition -->
+  </InstanceHierarchy>
+  <!-- Workflow -->
+</CAEXFile>
