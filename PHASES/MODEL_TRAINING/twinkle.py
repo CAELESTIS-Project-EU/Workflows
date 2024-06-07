@@ -9,21 +9,22 @@ from pycompss.api.binary import binary
 from pycompss.api.api import compss_wait_on_file
 import numpy as np
 import shutil
+from sklearn import clone
 
 
 def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_results, **kwargs):
     estimate_Twinkle = kernel
     searchers=[]
-    #searcher en una lista y after to_csv para cada uno sercher en otro loop
     for i in range (len(var_results)):
-        searcher = GridSearchCV(estimate_Twinkle, training_params, cv=Kfold_divisions)
+        new_estimator=clone(estimate_Twinkle)
+        new_estimator.i=i
+        searcher = GridSearchCV(new_estimator, training_params, cv=Kfold_divisions)
         searcher.fit(X,Y[:,[i]])
         searchers.append(searcher)
 
 
     for i, searcher in enumerate(searchers):
         df = pd.DataFrame(searcher.cv_results_)
-        #dentro de result forlder crear una carpeta che se llama con el nombre y valores de los parametros del twinkle estimator  por execution folder and result folder
         folder=os.path.join(results_folder, "Result_Case_"+var_results[i])
         if not os.path.isdir(folder):
             os.makedirs(folder)
@@ -31,7 +32,6 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
         best_estimator_file=searcher.best_estimator_.romFile
         compss_wait_on_file(best_estimator_file)
         shutil.copyfile(best_estimator_file, os.path.join(folder, "rom_file.txt"))
-        #searcher.best_estimator.folder_name
         df.to_csv(file_out, index=False)
 
 

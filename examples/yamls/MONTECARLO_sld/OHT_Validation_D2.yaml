@@ -52,7 +52,7 @@ parameters:
   problem:
     num_var: 37
     ratio_norm: 0.75
-    n_samples: 4
+    n_samples: 40
     criterion: 'm'
     variables-sampler:
       - E11: {mean: 171420., cov: 1.38}

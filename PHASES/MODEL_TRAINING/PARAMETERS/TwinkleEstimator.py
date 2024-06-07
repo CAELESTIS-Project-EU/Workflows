@@ -30,6 +30,7 @@ class TwinkleMyEstimator(BaseEstimator):
         self.num_columns_y= len(var_results)
         self.name_folder=None
         self.var_results=var_results
+        self.i=None
 
     def __str__(self):
         return (f"mpoints: {self.mpoints}\n"
@@ -49,7 +50,8 @@ class TwinkleMyEstimator(BaseEstimator):
         max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
         n_inps = len(max_min_data[0]) - self.num_columns_y
         file_temp = os.path.join(self.execution_folder, "input" + self.template + ".csv")
-        save_file(X._blocks, max_min_data[:, :n_inps], file_temp)
+        column=n_inps+self.i
+        save_file_fit(X._blocks, max_min_data, Y._blocks, n_inps, self.i,  file_temp)
         twinkle_train(file_temp, self.template, self.romFile, self.gtol, self.ttol, self.terms, self.alsiter,
                       self.wflag, working_dir=self.execution_folder)
         return
@@ -96,16 +98,21 @@ class TwinkleMyEstimator(BaseEstimator):
         
         save_file(X._blocks, max_min_data[:, :n_inps], file_temp)
         """
-        save_file(X._blocks, None, eval_file_tmp)
+        save_file_predict(X._blocks, eval_file_tmp)
         twinkle_predict(self.romFile, eval_file_tmp, out_file_tmp, self.template_evalFile, working_dir=self.execution_folder)
         result = post_twinkle(out_file_tmp)
         return result
 
 
 @task(x=COLLECTION_IN, data_set_file=FILE_OUT)
-def save_file(x, max_min, data_set_file):
-    if max_min is None:
-        combined_data = np.block(x)
-    else:
-        combined_data = np.concatenate((np.block(x), max_min), axis=0)
+def save_file_predict(x, data_set_file):
+    combined_data = np.block(x)
     np.savetxt(data_set_file, combined_data, delimiter=";")
+
+
+@task(x=COLLECTION_IN, data_set_file=FILE_OUT)
+def save_file_fit(x, max_min, y, n_inps, i, data_set_file):
+    combined_y= np.concatenate((np.block(y), max_min[:, n_inps+i]), axis=0)
+    combined_data = np.concatenate((np.block(x), max_min[:, :n_inps]), axis=0)
+    combined= np.concatenate((combined_data,combined_y), axis=1)
+    np.savetxt(data_set_file, combined, delimiter=";")
