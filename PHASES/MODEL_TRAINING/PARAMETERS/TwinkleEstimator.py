@@ -43,6 +43,7 @@ class TwinkleMyEstimator(BaseEstimator):
                 f"alsiter: {self.alsiter}\n"
                 f"wflag: {self.wflag}\n"
                 f"template_evalFile: {self.template_evalFile}\n"
+                f"i: {self.i}\n"
                 f"execution_folder: {self.execution_folder}\n")
 
     def fit(self, X, Y):
@@ -50,7 +51,6 @@ class TwinkleMyEstimator(BaseEstimator):
         max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
         n_inps = len(max_min_data[0]) - self.num_columns_y
         file_temp = os.path.join(self.execution_folder, "input" + self.template + ".csv")
-        column=n_inps+self.i
         save_file_fit(X._blocks, max_min_data, Y._blocks, n_inps, self.i,  file_temp)
         twinkle_train(file_temp, self.template, self.romFile, self.gtol, self.ttol, self.terms, self.alsiter,
                       self.wflag, working_dir=self.execution_folder)
