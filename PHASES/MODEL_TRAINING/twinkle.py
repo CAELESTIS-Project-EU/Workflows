@@ -1,3 +1,4 @@
+import copy
 import os
 from dislib.model_selection import GridSearchCV
 import pandas as pd
@@ -16,7 +17,7 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
     estimate_Twinkle = kernel
     searchers=[]
     for i in range (len(var_results)):
-        new_estimator=clone(estimate_Twinkle)
+        new_estimator=copy.deepcopy(estimate_Twinkle)
         new_estimator= new_estimator.assign_i(i)
         print(f"new estimator: {new_estimator}")
         searcher = GridSearchCV(new_estimator, training_params, cv=Kfold_divisions)

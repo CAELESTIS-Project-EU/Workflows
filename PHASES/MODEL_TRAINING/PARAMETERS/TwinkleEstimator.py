@@ -115,7 +115,7 @@ def save_file_predict(x, data_set_file):
     np.savetxt(data_set_file, combined_data, delimiter=";")
 
 
-@task(x=COLLECTION_IN, data_set_file=FILE_OUT)
+@task(x=COLLECTION_IN, y=COLLECTION_IN, data_set_file=FILE_OUT)
 def save_file_fit(x, max_min, y, n_inps, i, data_set_file):
     combined_y= np.concatenate((np.block(y), max_min[:, n_inps+i]), axis=0)
     combined_data = np.concatenate((np.block(x), max_min[:, :n_inps]), axis=0)
