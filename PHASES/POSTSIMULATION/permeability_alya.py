@@ -40,7 +40,7 @@ def postProcessPermeability(**kwargs):
 
 
 @task(out=COLLECTION_IN, returns=1)
-def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angulos_tows, n_tows, n_capas, Lset, gravity, density, viscosity, n_elementos_gap, n_elementos_towsingap, **kwargs):
+def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angulos_tows, n_tows, n_capas, Lset, gravity, density, viscosity, n_elementos_gap, n_elementos_towsingap, out, **kwargs):
     num_caso=extract_number(case_name)
     archivo_x = 'x-flow/'+ case_name+ '-element.nsi.set'
     archivo_y = 'y-flow/'+ case_name+ '-element.nsi.set'
@@ -151,7 +151,7 @@ import os
 # import pandas as pd
 
 @task(out=COLLECTION_IN, returns=1)
-def JoinCases(simulation_wdir, results_folder, erase_previous = True, **kwargs):
+def JoinCases(simulation_wdir, results_folder, out, erase_previous = True, **kwargs):
     name_files = ['toRomallsets.csv']
     debug_headers = 'case;set;Lset;x;y;z;layer;h_tow;FVF_tow;FVF_set;llori;ilori;ulori;'
     gap_headers = 'gap;dgap;sgap;'
