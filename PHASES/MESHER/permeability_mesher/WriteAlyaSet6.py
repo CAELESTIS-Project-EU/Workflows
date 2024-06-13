@@ -52,7 +52,7 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
     Dom_x = np.max(nodes[:,0]) - np.min(nodes[:,0]) + Leltoxy
     Dom_y = np.max(nodes[:,1]) - np.min(nodes[:,1]) + Leltoxy
     Dom_z = np.max(nodes[:,2]) - np.min(nodes[:,2]) + Leltoz
-    caso = int(caseName.replace('Caso_',''))
+    caso = int(caseName.replace('Case_',''))
     paso_z = (Dom_z) / (n_capas)
     H_set = paso_z
     EpC = int(H_set/Leltoz)
