@@ -88,7 +88,6 @@ class TwinkleMyEstimator(BaseEstimator):
         eval_file_tmp = os.path.join(self.execution_folder, "Eval_" + self.template + ".txt")
         out_file_tmp = os.path.join(self.execution_folder, "Prediction_" + self.template + "_eval.txt")
         save_file_predict(X._blocks, eval_file_tmp)
-        print(f"save_file_predict shape eval_file_tmp: {np.block(X._blocks).shape}", flush=True)
         twinkle_predict(self.romFile, eval_file_tmp, out_file_tmp, self.template_evalFile, working_dir=self.execution_folder)
         result = post_twinkle(out_file_tmp)
         return result
