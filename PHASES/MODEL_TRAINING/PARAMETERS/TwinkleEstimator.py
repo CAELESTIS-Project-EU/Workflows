@@ -85,13 +85,12 @@ class TwinkleMyEstimator(BaseEstimator):
         return 0
 
     def predict(self, X, **kwargs):
-        """eval_file_tmp = os.path.join(self.execution_folder, "Eval_" + self.template + ".txt")
+        eval_file_tmp = os.path.join(self.execution_folder, "Eval_" + self.template + ".txt")
         out_file_tmp = os.path.join(self.execution_folder, "Prediction_" + self.template + "_eval.txt")
         save_file_predict(X._blocks, eval_file_tmp)
         twinkle_predict(self.romFile, eval_file_tmp, out_file_tmp, self.template_evalFile, working_dir=self.execution_folder)
         result = post_twinkle(out_file_tmp)
-        return result"""
-        return
+        return result
 
 
 @task(x=COLLECTION_IN, data_set_file=FILE_OUT)
