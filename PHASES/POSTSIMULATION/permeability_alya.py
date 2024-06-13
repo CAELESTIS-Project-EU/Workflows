@@ -68,7 +68,7 @@ def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angulos_tows, n_tows, 
         header = []
         last_iter_R = []
         last_iter = []
-        with open(simulation_wdir + direccion, 'r') as f:
+        with open(os.path.join(simulation_wdir, direccion), 'r') as f:
             for row in f:
                 if row != '# START\n':
                     header.append(row)
