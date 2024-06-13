@@ -79,41 +79,27 @@ class TwinkleMyEstimator(BaseEstimator):
         return self
 
     def score(self, X, Y, **kwargs):
-        y_pred = self.predict(X)
-        """
-        max_min_file_path = os.path.join(self.results_folder, 'max_min_file.csv')
-        max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
-        combined_data = np.concatenate((Y.collect(), max_min_data[:, -self.num_columns_y:]), axis=0)
-        Y_combined = ds.array(combined_data, block_size=combined_data.shape)
-        """
+        """y_pred = self.predict(X)
         y_true = Y._blocks
-        return twinkle_score(y_true, y_pred)
+        return twinkle_score(y_true, y_pred)"""
+        return None
 
     def predict(self, X, **kwargs):
+        """
         eval_file_tmp = os.path.join(self.execution_folder, "Eval_" + self.template + ".txt")
         out_file_tmp = os.path.join(self.execution_folder, "Prediction_" + self.template + "_eval.txt")
-
-        """
-        max_min_file_path = os.path.join(self.results_folder, 'max_min_file.csv')
-        max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
-        n_inps = len(max_min_data[0]) - self.num_columns_y
-        combined_data = np.concatenate((X, max_min_data[:, :n_inps]), axis=0)
-        X_combined = ds.array(combined_data, block_size=combined_data.shape)
-        
-        
-        save_file(X._blocks, max_min_data[:, :n_inps], file_temp)
-        """
         save_file_predict(X._blocks, eval_file_tmp)
         twinkle_predict(self.romFile, eval_file_tmp, out_file_tmp, self.template_evalFile, working_dir=self.execution_folder)
         result = post_twinkle(out_file_tmp)
         return result
+        """
+        return None
 
 
 @task(x=COLLECTION_IN, data_set_file=FILE_OUT)
 def save_file_predict(x, data_set_file):
     combined_data = np.block(x)
-    print(f"save_file_predict shape x: {combined_data.shape}", flush=True)
-
+    print(f"save_file_predict shape eval_file_tmp: {combined_data.shape}", flush=True)
     np.savetxt(data_set_file, combined_data, delimiter=";")
 
 
@@ -122,5 +108,5 @@ def save_file_fit(x, max_min, y, n_inps, i, data_set_file):
     combined_y= np.concatenate((np.block(y), max_min[:, [n_inps+i]]), axis=0)
     combined_data = np.concatenate((np.block(x), max_min[:, :n_inps]), axis=0)
     combined= np.append(combined_data,combined_y, axis=1)
-    print(f"save_file_fit combined: {combined.shape}", flush=True)
+    print(f"save_file_fit input_csv: {combined.shape}", flush=True)
     np.savetxt(data_set_file, combined, delimiter=";")
