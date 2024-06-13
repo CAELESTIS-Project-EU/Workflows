@@ -112,7 +112,7 @@ class TwinkleMyEstimator(BaseEstimator):
 @task(x=COLLECTION_IN, data_set_file=FILE_OUT)
 def save_file_predict(x, data_set_file):
     combined_data = np.block(x)
-    print(f"save_file_predict shape x: {combined.shape}", flush=True)
+    print(f"save_file_predict shape x: {combined_data.shape}", flush=True)
 
     np.savetxt(data_set_file, combined_data, delimiter=";")
 
