@@ -79,27 +79,30 @@ class TwinkleMyEstimator(BaseEstimator):
         return self
 
     def score(self, X, Y, **kwargs):
-        """y_pred = self.predict(X)
+        y_pred = self.predict(X)
         y_true = Y._blocks
-        return twinkle_score(y_true, y_pred)"""
+        return twinkle_score(y_true, y_pred)
         return 0
 
 
     def predict(self, X, **kwargs):
-        """eval_file_tmp = os.path.join(self.execution_folder, "Eval_" + self.template + ".txt")
+        eval_file_tmp = os.path.join(self.execution_folder, "Eval_" + self.template + ".txt")
         out_file_tmp = os.path.join(self.execution_folder, "Prediction_" + self.template + "_eval.txt")
         save_file_predict(X._blocks, eval_file_tmp)
         twinkle_predict(self.romFile, eval_file_tmp, out_file_tmp, self.template_evalFile, working_dir=self.execution_folder)
         result = post_twinkle(out_file_tmp)
-        return result"""
-        return
+        return result
+
 
 
 @task(x=COLLECTION_IN, data_set_file=FILE_OUT)
 def save_file_predict(x, data_set_file):
     combined_data = np.block(x)
-    print(f"save_file_predict shape eval_file_tmp: {combined_data.shape}", flush=True)
-    np.savetxt(data_set_file, combined_data, delimiter=";")
+    num_rows = combined_data.shape[0]
+    zeros_array = np.zeros((num_rows, 1))
+    combined= np.append(combined_data,zeros_array, axis=1)
+    print(f"save_file_predict shape eval_file_tmp: {combined.shape}", flush=True)
+    np.savetxt(data_set_file, combined, delimiter=";")
 
 
 @task(x=COLLECTION_IN, y=COLLECTION_IN, data_set_file=FILE_OUT)
