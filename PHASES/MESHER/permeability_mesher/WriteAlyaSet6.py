@@ -84,7 +84,7 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
 
     for i, layer in enumerate(tows_xyz):
         for j in range(len(layer)-1):
-            if angulos_tows[i] == 90 or (angulos_tows == 0 and tipo_fallo == 'N'):
+            if angulos_tows[i] == 90 or (angulos_tows[i] == 0 and tipo_fallo == 'N'):
                 # for i in range(len(layer)-1):
                 lineas_pro.append(np.c_[(layer[j] + layer[j+1])/2])
             elif tipo_fallo != 'N' and i == 1:
