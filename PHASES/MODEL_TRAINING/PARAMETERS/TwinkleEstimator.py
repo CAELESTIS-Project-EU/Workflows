@@ -85,12 +85,13 @@ class TwinkleMyEstimator(BaseEstimator):
         return 0
 
     def predict(self, X, **kwargs):
-        eval_file_tmp = os.path.join(self.execution_folder, "Eval_" + self.template + ".txt")
+        """eval_file_tmp = os.path.join(self.execution_folder, "Eval_" + self.template + ".txt")
         out_file_tmp = os.path.join(self.execution_folder, "Prediction_" + self.template + "_eval.txt")
         save_file_predict(X._blocks, eval_file_tmp)
         twinkle_predict(self.romFile, eval_file_tmp, out_file_tmp, self.template_evalFile, working_dir=self.execution_folder)
         result = post_twinkle(out_file_tmp)
-        return result
+        return result"""
+        return
 
 
 @task(x=COLLECTION_IN, data_set_file=FILE_OUT)
@@ -103,7 +104,9 @@ def save_file_predict(x, data_set_file):
 @task(x=COLLECTION_IN, y=COLLECTION_IN, data_set_file=FILE_OUT)
 def save_file_fit(x, max_min, y, n_inps, i, data_set_file):
     combined_y= np.concatenate((np.block(y), max_min[:, [n_inps+i]]), axis=0)
+    print(f"combined_y: {combined_y.shape}", flush=True)
     combined_data = np.concatenate((np.block(x), max_min[:, :n_inps]), axis=0)
+    print(f"combined_data: {combined_data.shape}", flush=True)
     combined= np.append(combined_data,combined_y, axis=1)
     print(f"save_file_fit input_csv: {combined.shape}", flush=True)
     np.savetxt(data_set_file, combined, delimiter=";")
