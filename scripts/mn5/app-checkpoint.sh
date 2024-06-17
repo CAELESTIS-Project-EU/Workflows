@@ -12,7 +12,6 @@ gOPTION=${11}
 tOPTION=${12}
 dOPTION=${13}
 
-module load compss/3.3
 # shellcheck disable=SC2164
 cd $EXECUTION_FOLDER
 
