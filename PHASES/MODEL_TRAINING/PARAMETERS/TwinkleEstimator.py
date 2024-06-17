@@ -100,7 +100,7 @@ def save_file_predict(x, data_set_file):
     zeros_array = np.zeros((num_rows, 1))
     combined= np.append(combined_data,zeros_array, axis=1)
     print(f"save_file_predict shape eval_file_tmp: {combined.shape}", flush=True)
-    np.savetxt(data_set_file, combined_data, delimiter=";")
+    np.savetxt(data_set_file, combined, delimiter=";")
 
 
 @task(x=COLLECTION_IN, y=COLLECTION_IN, data_set_file=FILE_OUT)
