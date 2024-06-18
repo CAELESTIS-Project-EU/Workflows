@@ -132,3 +132,4 @@ parameters:
   original_name_sim: OHT_Validation_D2
 environment:
   ALYA_PROCS: 32
+  ALYA_TIMEOUT: 7200
