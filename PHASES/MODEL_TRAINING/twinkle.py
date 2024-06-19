@@ -60,7 +60,7 @@ def twinkle_predict(romFile, evalFile, outFile, template_outFile, working_dir, *
 @task(result_file=FILE_IN, returns=1)
 def post_twinkle(result_file):
     try:
-        data = pd.read_csv(result_file, skiprows=1, delim_whitespace=True, names=['data', 'prediction'])
+        data = pd.read_csv(result_file, delim_whitespace=True, names=['data', 'prediction'])
     except FileNotFoundError:
         raise Exception(f"The file {result_file} does not exist.")
     return  data['prediction'].to_numpy()
