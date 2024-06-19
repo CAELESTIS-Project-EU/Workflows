@@ -35,10 +35,10 @@ outputs:
     - overwrite : true
 inputs:
 parameters:
-  sampler_input_file: "/home/bsc/bsc019518/MN4/bsc19518/perm_files/final_doe.txt"
+  sampler_input_file: "/home/bsc/bsc019518/MN4/bsc19518/perm_files/big_execution.txt"
   cases_permeability: ["x-flow", "y-flow", "z-flow"]
   original_name_sim: PERM_SIM
 environment:
-  ALYA_PROCS: 224
+  ALYA_PROCS: 112
   ALYA_BIN: "/gpfs/projects/cns100/alya/builds/Alya_mn5gccNastin.x"
   RVEGEN_CUS: 112
