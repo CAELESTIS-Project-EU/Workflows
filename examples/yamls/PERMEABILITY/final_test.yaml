@@ -41,4 +41,4 @@ parameters:
 environment:
   ALYA_PROCS: 224
   ALYA_BIN: "/gpfs/projects/cns100/alya/builds/Alya_mn5gccNastin.x"
-  RVEGEN_CUS: 224
+  RVEGEN_CUS: 112
