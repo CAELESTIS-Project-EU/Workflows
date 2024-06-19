@@ -51,3 +51,4 @@ parameters:
     W10maeVP: 0.1
 environment:
   ALYA_PROCS: 64
+  TWINKLE_CU: 2
