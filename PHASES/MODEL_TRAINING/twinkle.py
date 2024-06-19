@@ -18,9 +18,11 @@ twinkle_cu=int(os.environ.get("TWINKLE_CU", "2"))
 
 
 
-def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_results, **kwargs):
+def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_results, Adapted_Discretization, **kwargs):
     estimate_Twinkle = kernel
     searchers=[]
+
+    Adapted_Discretization = n
     for i in range (len(var_results)):
         training_params["i"]=[i]
         searcher = GridSearchCV(estimate_Twinkle, training_params, cv=Kfold_divisions)
@@ -42,9 +44,17 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
 
 @constraint(computing_units=twinkle_cu)
 @container(engine="SINGULARITY", options="-e", image="/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/twinkle.sif")
-@binary(binary="/Twinkle/runTwinkle", args="-file {{inputFile}} -out {{template_outFile}} -gtol {{gtol}} -ttol {{ttol}} -terms {{terms}} -alsiter {{alsiter}} -wflag {{wflag}}", working_dir="{{working_dir}}")
+@binary(binary="/Twinkle/runTwinkle", args="-file {{inputFile}} -out {{template_outFile}} -npoints {{npoints}} -gtol {{gtol}} -ttol {{ttol}} -terms {{terms}} -alsiter {{alsiter}} -wflag {{wflag}}", working_dir="{{working_dir}}")
 @task(inputFile=FILE_IN, romFile=FILE_OUT)
-def twinkle_train(inputFile, template_outFile, romFile, gtol, ttol, terms, alsiter, wflag, working_dir, **kwargs):
+def twinkle_train_npoints(inputFile, template_outFile, romFile, gtol, ttol, terms, alsiter, wflag, npoints, working_dir, **kwargs):
+    pass
+
+
+@constraint(computing_units=twinkle_cu)
+@container(engine="SINGULARITY", options="-e", image="/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/twinkle.sif")
+@binary(binary="/Twinkle/runTwinkle", args="-file {{inputFile}} -out {{template_outFile}} -mpoints {{mpoints}} -gtol {{gtol}} -ttol {{ttol}} -terms {{terms}} -alsiter {{alsiter}} -wflag {{wflag}}", working_dir="{{working_dir}}")
+@task(inputFile=FILE_IN, romFile=FILE_OUT)
+def twinkle_train_mpoints(inputFile, template_outFile, romFile, gtol, ttol, terms, alsiter, wflag, npoints, working_dir, **kwargs):
     pass
 
 

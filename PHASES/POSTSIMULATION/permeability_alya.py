@@ -10,10 +10,9 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 import numpy as np
 import math
-
+import os
 from PHASES.MESHER.permeability_mesher.PermeabilityCalc import Permeability_Calculation_sim
 from PHASES.MESHER.permeability_mesher.WriteAlyaSet4 import AdjSets
-
 
 # leemos que es cada columna al principio
 # nos quedamos la ultima iteracion
@@ -38,7 +37,7 @@ def postProcessPermeability(**kwargs):
 
 
 
-
+@on_failure(management='IGNORE')
 @task(out=COLLECTION_IN, returns=1)
 def postproCaso(simulation_wdir, case_name, w_tow, L_pro, angulos_tows, n_tows, n_capas, Lset, gravity, density, viscosity, n_elementos_gap, n_elementos_towsingap, out, **kwargs):
     num_caso=extract_number(case_name)
@@ -145,11 +144,7 @@ def extract_number(case_name):
         return None
 
 
-
-# import numpy as np
-import os
-# import pandas as pd
-
+@on_failure(management='IGNORE')
 @task(out=COLLECTION_IN, returns=1)
 def JoinCases(simulation_wdir, results_folder, out, erase_previous = True, **kwargs):
     name_files = ['toRomallsets.csv']
