@@ -8,7 +8,7 @@ phases:
       - var_results: $parameters.var_results
       - results_folder: $variables.results_folder
   kernel_generation:
-    type: PHASES.MODEL_TRAINING.PARAMETERSerror.TwinkleEstimator.gen_param
+    type: PHASES.MODEL_TRAINING.PARAMETERS.TwinkleEstimator.gen_param
     arguments:
       - execution_folder: $variables.execution_folder
       - template: $parameters.template

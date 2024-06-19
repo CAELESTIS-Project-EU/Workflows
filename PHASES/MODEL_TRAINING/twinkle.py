@@ -11,7 +11,7 @@ from pycompss.api.api import compss_wait_on_file
 import numpy as np
 import shutil
 from sklearn import clone
-from ERRORS.ROM_VerificationFit import data_analysis
+from PHASES.MODEL_TRAINING.ERRORS.ROM_VerificationFit import data_analysis
 
 
 def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_results, **kwargs):
