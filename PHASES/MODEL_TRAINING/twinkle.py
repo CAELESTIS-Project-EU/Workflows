@@ -73,6 +73,7 @@ def twinkle_score(y_blocks, y_pred, execution_folder, score_weights):
     print(f"shape y_true: {y_true.shape}", flush=True)
     print(f"shape y_pred: {y_pred.shape}", flush=True)
     if y_true.shape!=y_pred.shape:
+        print(f"DIFFERENT SHAPE  y_true:{y_true.shape}  y_pred: {y_pred.shape}")
         return 0
     report= data_analysis(y_pred, y_true, execution_folder)
     print(f"report: {report}")
