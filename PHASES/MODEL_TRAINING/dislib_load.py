@@ -63,5 +63,6 @@ def extract_outlayers_values(input_file, num_columns_y, results_folder):
 
     X = ds.array(X, block_size=X.shape)
     Y = ds.array(Y, block_size=Y.shape)
-
+    print(f"shape load X: {X}")
+    print(f"shape load Y: {Y}")
     return X, Y

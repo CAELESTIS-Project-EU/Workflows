@@ -97,9 +97,11 @@ class TwinkleMyEstimator(BaseEstimator):
 @task(x=COLLECTION_IN, data_set_file=FILE_OUT)
 def save_file_predict(x, data_set_file):
     combined_data = np.block(x)
+    print(f"shape X: {combined_data.shape}", flush=True)
     num_rows = combined_data.shape[0]
     zeros_array = np.zeros((num_rows, 1))
     combined= np.append(combined_data,zeros_array, axis=1)
+    print(f"shape X_with_zeros: {combined.shape}", flush=True)
     print(f"save_file_predict shape eval_file_tmp: {combined.shape}", flush=True)
     np.savetxt(data_set_file, combined, delimiter=";")
 
