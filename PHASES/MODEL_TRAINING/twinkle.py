@@ -10,8 +10,12 @@ from pycompss.api.binary import binary
 from pycompss.api.api import compss_wait_on_file
 import numpy as np
 import shutil
+from pycompss.api.constraint import constraint
 from sklearn import clone
 from PHASES.MODEL_TRAINING.ERRORS.ROM_VerificationFit import data_analysis
+
+twinkle_cu=int(os.environ.get("TWINKLE_CU", "2"))
+
 
 
 def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_results, **kwargs):
@@ -36,6 +40,7 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
         df.to_csv(file_out, index=False)
 
 
+@constraint(computing_units=twinkle_cu)
 @container(engine="SINGULARITY", options="-e", image="/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/twinkle.sif")
 @binary(binary="/Twinkle/runTwinkle", args="-file {{inputFile}} -out {{template_outFile}} -gtol {{gtol}} -ttol {{ttol}} -terms {{terms}} -alsiter {{alsiter}} -wflag {{wflag}}", working_dir="{{working_dir}}")
 @task(inputFile=FILE_IN, romFile=FILE_OUT)
@@ -43,6 +48,7 @@ def twinkle_train(inputFile, template_outFile, romFile, gtol, ttol, terms, alsit
     pass
 
 
+@constraint(computing_units=twinkle_cu)
 @container(engine="SINGULARITY", options="-e", image="/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/twinkle.sif")
 @binary(binary="/Twinkle/runTwinkle", args="-rom {{romFile}} -eval {{evalFile}} -out {{template_outFile}}", working_dir="{{working_dir}}")
 @task(romFile=FILE_IN, evalFile=FILE_IN, outFile=FILE_OUT)
@@ -50,6 +56,7 @@ def twinkle_predict(romFile, evalFile, outFile, template_outFile, working_dir, *
     pass
 
 
+@constraint(computing_units=twinkle_cu)
 @task(result_file=FILE_IN, returns=1)
 def post_twinkle(result_file):
     try:
@@ -59,6 +66,7 @@ def post_twinkle(result_file):
     return data.to_numpy()
 
 
+@constraint(computing_units=twinkle_cu)
 @task(y_blocks=COLLECTION_IN, returns=1)
 def twinkle_score(y_blocks, y_pred, execution_folder, score_weights):
     y_true=np.block(y_blocks)
