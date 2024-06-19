@@ -15,7 +15,8 @@ import pandas as pd
 # %% FUNCTIONS
 def data_analysis(Y_pred, Y_true, execution_folder):
     report = {}
-
+    Y_true = np.array(Y_true).ravel()
+    Y_pred = np.array(Y_pred).ravel()
     # (y-mediay)^2
     SStot = np.sum((Y_pred - np.mean(Y_pred)) ** 2)
 
