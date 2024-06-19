@@ -84,6 +84,8 @@ class TwinkleMyEstimator(BaseEstimator):
         y_true = Y._blocks
         out = os.path.join(self.execution_folder, "OUT")
         folder_random = os.path.join(out, self.name_folder)
+        print(f"FOLDER RANDOM: {folder_random}")
+        print(f"SCORE SCORE SCORE")
         return twinkle_score(y_true, y_pred, folder_random, self.score_weights)
 
     def predict(self, X, **kwargs):
