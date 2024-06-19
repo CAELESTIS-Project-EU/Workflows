@@ -30,6 +30,11 @@ from PHASES.MESHER.permeability_mesher.GenCases import Gap
 from PHASES.MESHER.permeability_mesher.FVF_variation_defects import FVF_variation
 from PHASES.MESHER.permeability_mesher.GenerateMeshOris import Mesh_and_Oris
 
+
+
+rvegen_cus=int(os.environ.get("RVEGEN_CUS", "64"))
+
+
 def permeability_from_doe(**kwargs):
     values=kwargs.get("values")
     kwargs['density'] = values['Density']
@@ -72,7 +77,7 @@ def permeability_mesher(**kwargs):
     return RVEgen2Alya(**kwargs)
 
 
-@constraint(computing_units='$RVEGEN_CUS')
+@constraint(computing_units=rvegen_cus)
 @task(returns=1)
 def RVEgen2Alya(simulation_wdir, case_name, density, viscosity, gravity, volume_fraction, tipo_fallo, factor_desplazamiento, w_tow,
                 h_tow, L_pro, n_elementos_gap, n_elementos_towsingap,

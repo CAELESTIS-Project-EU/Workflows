@@ -49,5 +49,5 @@ parameters:
     W10mae: 0.2
     WmaeVP: 0.4   
     W10maeVP: 0.1
-    W
 environment:
+  ALYA_PROCS: 64
