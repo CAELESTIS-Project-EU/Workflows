@@ -67,6 +67,7 @@ def twinkle_score(y_blocks, y_pred, execution_folder, score_weights):
     if y_true.shape!=y_pred.shape:
         return 0
     report= data_analysis(y_pred, y_true, execution_folder)
+    print("report")
     error=report['Mean_absolute_error'] * score_weights['Wmae'] +report['Mean10%ofMax_absolute_error'] * score_weights['W10mae'] + \
           report['Mean_absolute_error_ValiPoints'] * score_weights['WmaeVP'] +report['Mean10%ofMax_absolute_error_ValiPoints'] * score_weights['W10maeVP']
     return error
