@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # %% FUNCTIONS
-def data_analysis(Y_pred, Y_true, results_folder):
+def data_analysis(Y_pred, Y_true, execution_folder):
     report = {}
 
     # (y-mediay)^2
@@ -49,15 +49,14 @@ def data_analysis(Y_pred, Y_true, results_folder):
     report['%(Maximum_absolute_error)'] = PerceMaxAbsError
     report['StdDesv_absolute_error'] = np.std(error_abs)
     report['MeanDesv_absolute_error'] = np.mean(np.abs(error_abs - np.mean(error_abs)))
-
+    print(f"report: {report}")
     # Other analysis
     # report['Coeff_correlation']=np.sum((data[:,0]-np.mean(data[:,0]))*(data[:,1]-np.mean(data[:,1])))/(np.sum((data[:,0]-np.mean(data[:,0]))**2)*np.sum((data[:,1]-np.mean(data[:,1]))**2))**0.5
 
     if report is not None:
         report_df = pd.DataFrame([report])
-        if results_folder:
-            report_path = os.path.join(results_folder, f'Report.csv')
-        else:
-            report_path = f'Report.csv'
+        report_path = os.path.join(execution_folder, 'Report.csv')
         report_df.to_csv(report_path, index=False)
+        print(f"REPORT PATH: {report_path}")
+        print(f"report {report}")
     return report
