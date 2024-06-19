@@ -8,12 +8,13 @@ phases:
       - var_results: $parameters.var_results
       - results_folder: $variables.results_folder
   kernel_generation:
-    type: PHASES.MODEL_TRAINING.PARAMETERS.TwinkleEstimator.gen_param
+    type: PHASES.MODEL_TRAINING.PARAMETERSerror.TwinkleEstimator.gen_param
     arguments:
       - execution_folder: $variables.execution_folder
       - template: $parameters.template
       - results_folder: $variables.results_folder
       - var_results: $parameters.var_results
+      - score_weights: $parameters.score_weights
   model_creation:
     type: PHASES.MODEL_TRAINING.twinkle.twinkle
     arguments:
@@ -43,4 +44,10 @@ parameters:
   var_results: ["fvf", "K1_1e9","K2_1e9", "K3_1e9"]
   template: "test"
   Kfold_divisions: 5
+  score_weights:
+    Wmae: 0.25
+    W10mae: 0.2
+    WmaeVP: 0.4   
+    W10maeVP: 0.1
+    W
 environment:

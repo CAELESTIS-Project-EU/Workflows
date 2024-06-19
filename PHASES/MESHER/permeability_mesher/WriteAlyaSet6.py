@@ -13,25 +13,25 @@ def distancia_punto_recta(PuntosTow, PuntoCentroSet):
     # Obtener X1, Y1, Z1 del primer array en la lista
     puntoInicio = PuntosTow[0][:3]
     puntoFinal = PuntosTow[-1][:3]
-    
+
     # Vector dirección de la recta
     direccion = puntoFinal[:2] - puntoInicio[:2]
-    
+
     # Vector entre punto3 y punto1
     vector_punto3_punto1 = PuntoCentroSet[:2] - puntoInicio[:2]
-    
+
     # Proyección del vector_punto3_punto1 sobre la dirección de la recta
     proyeccion = np.dot(vector_punto3_punto1, direccion) / np.dot(direccion, direccion) * direccion
-    
+
     # Punto en la recta con el que estamos midiendo la distancia
     punto_en_recta = puntoInicio[:2] + proyeccion
-    
+
     # Vector perpendicular
     vector_perpendicular = vector_punto3_punto1 - proyeccion
-    
+
     # Distancia
     distancia = np.linalg.norm(vector_perpendicular)
-    
+
     # Delante o detrás de la recta
     Xnegpos = round(PuntoCentroSet[0]-punto_en_recta[0],4)
     Ynegpos = round(PuntoCentroSet[1]-punto_en_recta[1],4)
@@ -39,7 +39,7 @@ def distancia_punto_recta(PuntosTow, PuntoCentroSet):
         distancia *= -1
     if Xnegpos==0 and Ynegpos<0:
         distancia *= -1
-    
+
     return distancia
 
 def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, volume_fraction,
@@ -55,7 +55,7 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
     caso = int(caseName.replace('Case_',''))
     paso_z = (Dom_z) / (n_capas)
     H_set = paso_z
-    EpC = int(H_set/Leltoz)
+    EpC = int(np.ceil(H_set/Leltoz))
     n_sets_x = math.floor(Dom_x/LsetReal)
     paso_x = LsetReal
     n_sets_y = math.floor(Dom_y/LsetReal)
@@ -66,7 +66,7 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
     centroids3d = np.reshape(centroids,new_shape)
 
     centroids3dfvf = np.append(centroids3d, np.reshape(matriz_3dc_FVF, [np.shape(centroids3d)[0],np.shape(centroids3d)[1],np.shape(centroids3d)[2],1]),axis = -1)
-    
+
     to_write = []
     tows_xyz = []
     new_layer = []
@@ -80,7 +80,7 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
             layerz = tow[0][2]
     tows_xyz.append(new_layer)
     lineas_pro = []
-    
+
 
     for i, layer in enumerate(tows_xyz):
         for j in range(len(layer)-1):
@@ -105,14 +105,14 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
                     lineas_pro.append(np.c_[(layer[j] + layer[j+2])/2])
                 except:
                     continue
-    
+
     setlist = []
     fvftow = volume_fraction*(w_tow+L_pro)/w_tow
     eset = 0
     s_ol = ol + ol_izd + ol_drch - L_pro
-    
-    
-    
+
+
+
     for z in range(n_capas):
         z0 = (np.min(nodes[:,2]) - Leltoz/2) + z*paso_z
         z1 = z0 + H_set
@@ -120,7 +120,7 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
             y0 = (np.min(nodes[:,1]) - Leltoxy/2) + y*paso_y
             y1 = y0 + LsetReal
             for x in range(n_sets_x):
-                
+
                 # inicio = time.time()
                 elset = centroids3dfvf[x*EpS:(x+1)*EpS,y*EpS:(y+1)*EpS,z*EpC:(z+1)*EpC,:]
                 x0 = (np.min(nodes[:,0]) - Leltoxy/2) + x*paso_x
@@ -134,8 +134,8 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
                 xset = (x1 + x0)/2
                 zset = (z1 + z0)/2
                 point = np.array([xset, yset, zset])
-                
-                
+
+
                 d_gap = 999
                 d_gap1 = 999
                 flag_ol = -1 #iniciamos los valores al por defecto
@@ -145,9 +145,9 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
                 d_gap2 = 999
                 s_gap = L_pro
                 s_gap1 = L_pro
-                set_span = (LsetReal/2*((angulos_tows[z]==0)+(angulos_tows[z]==90)) + 
+                set_span = (LsetReal/2*((angulos_tows[z]==0)+(angulos_tows[z]==90)) +
                         (LsetReal*2**0.5)/2 * ((angulos_tows[z] !=0 )*(angulos_tows[z] !=90)))
-                
+
                 #loop all tows guardando menor distancia
                 #distancia al tow mas cercano es la menor distancia que salga, comparar con dmin
                 #si mayor que dmin es gap
@@ -158,27 +158,27 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
                     capa=round((pro[0][2]+H_set/2)/H_set)-1
                     if z == capa:
                         pro_distancia = np.array([npro, distancia_punto_recta(pro, point)])
-                        pros_distancias_point.append(pro_distancia)  
+                        pros_distancias_point.append(pro_distancia)
                     elif ((z-capa)%n_capas == 1) or ((z-capa)%n_capas == (n_capas-1)):
                         pro_distancia1 = np.array([npro, distancia_punto_recta(pro, point)])
-                        pros1_distancias_point.append(pro_distancia1)  
+                        pros1_distancias_point.append(pro_distancia1)
                 # Ordenar la lista por distancia
                 pros_distancias_point.sort(key=lambda x: abs(x[1]))
                 pros1_distancias_point.sort(key=lambda x: abs(x[1]))
 
-                
+
                 # Distancia al centro del gap más cercano (forma 2)
                 d_gap = pros_distancias_point[0][1]
                 d_gap1 = pros1_distancias_point[0][1]
-                
+
                 max_dis_Lpro = set_span + L_pro/2
-                
+
                 if abs(d_gap) < max_dis_Lpro:
                     flag_gap = 0
                 if  abs(d_gap1) < max_dis_Lpro:
                     flag_gap1 = 0
-                
-                
+
+
                 if tipo_fallo != 'N':
                     d_ol = distancia_punto_recta(linea_ol, point) - 2*distancia_punto_recta(linea_ol, point)*(tipo_fallo == 'G')
                     d_gap2 = distancia_punto_recta(linea_gap, point)
@@ -204,12 +204,12 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
                 normal = [0,0,-1]
                 layer0 = [1,0,0]
                 setlist.append([caso, eset, LsetReal, xset, yset, zset, z, H_set, fvftow, setfvf,] +
-                               angulos_tows + normal + layer0 + 
+                               angulos_tows + normal + layer0 +
                                [zset, flag_gap, d_gap, s_gap, flag_ol, d_ol, s_ol, flag_gap1, d_gap1, s_gap1])
-                
-            
 
-                                     
+
+
+
     totalsets = np.asarray(setlist)
     merged_sets = []
     nsetscapa = n_sets_x*n_sets_y
@@ -227,8 +227,8 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
                 setstomerge[:,-5] = setstomerge[int(len(setstomerge)/2),-5]
                 setstomerge[:,-3] = np.max(setstomerge[:,-3])
                 setstomerge[:,-2] = setstomerge[int(len(setstomerge)/2),-2]
-                
-                
+
+
                 setstomerge[:,2] = LsetReal*((2*order)+1)
                 setstomerge[:,1] = iset
                 iset += 1
@@ -240,7 +240,7 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
     with open(outputMeshPath+caseName+'.set.dat', 'w') as f:
         f.write("ELEMENTS\n")
         f.writelines(to_write)
-        f.write("END_ELEMENTS\n")  
+        f.write("END_ELEMENTS\n")
         f.write("BOUNDARIES\n")
         f.write("END_BOUNDARIES\n")
 
@@ -248,7 +248,6 @@ def writeAlyaSet6(outputMeshPath, caseName, Lset, n_capas, nodes, L_pro, Ldom, v
     fmt2 = fmt + ' %4.2f %9.5f,%9.5f,%9.5f %9.5f,%9.5f,%9.5f %9.5f %i %9.5f %9.5f %i %9.5f %9.5f %i %9.5f %9.5f'
 
     np.savetxt(outputMeshPath+'allsets.txt', merged_sets, fmt = fmt2 )
-    
-    
+
+
     return
- 

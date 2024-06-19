@@ -39,4 +39,5 @@ parameters:
   cases_permeability: ["x-flow", "y-flow", "z-flow"]
   original_name_sim: PERM_SIM
 environment:
-  ALYA_PROCS: 32
+  ALYA_PROCS: 112
+  ALYA_BIN: "/gpfs/projects/cns100/alya/builds/Alya_mn5gccNastin.x"

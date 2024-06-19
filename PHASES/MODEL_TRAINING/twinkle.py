@@ -11,6 +11,7 @@ from pycompss.api.api import compss_wait_on_file
 import numpy as np
 import shutil
 from sklearn import clone
+from ERRORS.ROM_VerificationFit import data_analysis
 
 
 def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_results, **kwargs):
@@ -59,10 +60,13 @@ def post_twinkle(result_file):
 
 
 @task(y_blocks=COLLECTION_IN, returns=1)
-def twinkle_score(y_blocks, y_pred):
+def twinkle_score(y_blocks, y_pred, execution_folder, score_weights):
     y_true=np.block(y_blocks)
     print(f"shape y_true: {y_true.shape}", flush=True)
     print(f"shape y_pred: {y_pred.shape}", flush=True)
     if y_true.shape!=y_pred.shape:
         return 0
-    return r2_score(y_true, y_pred)
+    report= data_analysis(y_pred, y_true, execution_folder)
+    error=report['Mean_absolute_error'] * score_weights['Wmae'] +report['Mean10%ofMax_absolute_error'] * score_weights['W10mae'] + \
+          report['Mean_absolute_error_ValiPoints'] * score_weights['WmaeVP'] +report['Mean10%ofMax_absolute_error_ValiPoints'] * score_weights['W10maeVP']
+    return error

@@ -7,13 +7,13 @@ from pycompss.api.task import task
 from PHASES.MODEL_TRAINING.twinkle import twinkle_train, twinkle_score, twinkle_predict, post_twinkle
 import dislib as ds
 
-def gen_param(execution_folder, template, results_folder, var_results, **kwargs):
-    twinkle = TwinkleMyEstimator(execution_folder, template, results_folder, var_results)
+def gen_param(execution_folder, template, results_folder, var_results, score_weights, **kwargs):
+    twinkle = TwinkleMyEstimator(execution_folder, template, results_folder, var_results, score_weights)
     return twinkle
 
 
 class TwinkleMyEstimator(BaseEstimator):
-    def __init__(self, execution_folder, template, results_folder, var_results):
+    def __init__(self, execution_folder, template, results_folder, var_results, score_weights):
         self.mpoints = None
         self.npoints = None
         self.gtol = None
@@ -31,6 +31,7 @@ class TwinkleMyEstimator(BaseEstimator):
         self.name_folder=None
         self.var_results=var_results
         self.i=None
+        self.score_weights= score_weights
 
     def __str__(self):
         return (f"mpoints: {self.mpoints}\n"
@@ -81,7 +82,9 @@ class TwinkleMyEstimator(BaseEstimator):
     def score(self, X, Y, **kwargs):
         y_pred = self.predict(X)
         y_true = Y._blocks
-        return twinkle_score(y_true, y_pred)
+        out = os.path.join(self.execution_folder, "OUT")
+        folder_random = os.path.join(out, self.name_folder)
+        return twinkle_score(y_true, y_pred, folder_random, self.score_weights)
 
     def predict(self, X, **kwargs):
         eval_file_tmp = os.path.join(self.execution_folder, "Eval_" + self.template + ".txt")
