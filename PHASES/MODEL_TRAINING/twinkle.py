@@ -21,8 +21,7 @@ twinkle_cu=int(os.environ.get("TWINKLE_CU", "2"))
 def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_results, Adapted_Discretization, **kwargs):
     estimate_Twinkle = kernel
     searchers=[]
-
-    Adapted_Discretization = n
+    training_params=preprocess_training_params(training_params)
     for i in range (len(var_results)):
         training_params["i"]=[i]
         searcher = GridSearchCV(estimate_Twinkle, training_params, cv=Kfold_divisions)
@@ -41,6 +40,21 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
         shutil.copyfile(best_estimator_file, os.path.join(folder, "rom_file.txt"))
         df.to_csv(file_out, index=False)
 
+
+def preprocess_training_params(params):
+    # Check the value of Adapted_Discretization
+    adapted_discretization = params.get("Adapted_Discretization")
+
+    if adapted_discretization in ['n', 'N']:
+        # Remove Adapted_Discretization and npoints
+        params.pop("Adapted_Discretization", None)
+        params.pop("mpoints", None)
+    elif adapted_discretization in ['Y', 'y']:
+        # Remove Adapted_Discretization and mpoints
+        params.pop("Adapted_Discretization", None)
+        params.pop("npoints", None)
+
+    return params
 
 @constraint(computing_units=twinkle_cu)
 @container(engine="SINGULARITY", options="-e", image="/home/bsc/bsc019518/MN4/bsc19518/Permeability/testPerm/Twinkle_DisLib/twinkle.sif")

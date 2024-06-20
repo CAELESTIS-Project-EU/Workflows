@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.base import BaseEstimator
 from pycompss.api.parameter import *
 from pycompss.api.task import task
-from PHASES.MODEL_TRAINING.twinkle import twinkle_train, twinkle_score, twinkle_predict, post_twinkle
+from PHASES.MODEL_TRAINING.twinkle import twinkle_train_npoints, twinkle_train_mpoints, twinkle_score, twinkle_predict, post_twinkle
 import dislib as ds
 
 def gen_param(execution_folder, template, results_folder, var_results, score_weights, **kwargs):
@@ -58,8 +58,13 @@ class TwinkleMyEstimator(BaseEstimator):
         n_inps = len(max_min_data[0]) - self.num_columns_y
         file_temp = os.path.join(self.execution_folder, "input" + self.template + ".csv")
         save_file_fit(X._blocks, max_min_data, Y._blocks, n_inps, self.i,  file_temp)
-        twinkle_train(file_temp, self.template, self.romFile, self.gtol, self.ttol, self.terms, self.alsiter,
-                      self.wflag, working_dir=self.execution_folder)
+        if not self.mpoints and self.npoints:
+            twinkle_train_npoints(file_temp, self.template, self.romFile, self.gtol, self.ttol, self.terms, self.alsiter,self.wflag, self.npoints, working_dir=self.execution_folder)
+        elif self.mpoints and not self.npoints:
+            twinkle_train_mpoints(file_temp, self.template, self.romFile, self.gtol, self.ttol, self.terms,
+                                  self.alsiter, self.wflag, self.npoints, working_dir=self.execution_folder)
+        else:
+            raise ValueError("ERROR MPOINTS AND NPOINTS")
         return
 
     def set_params(self, **kwargs):

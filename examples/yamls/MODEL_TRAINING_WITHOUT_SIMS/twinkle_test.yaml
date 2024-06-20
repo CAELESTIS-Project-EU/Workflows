@@ -40,6 +40,7 @@ parameters:
     ttol : [1e-5]
     alsiter: [300]
     wflag: [0]
+    Adapted_Discretization: "n"
   input_file: "/home/bsc/bsc019518/csv_data/datos1e9mrg.csv"
   var_results: ["fvf", "K1_1e9","K2_1e9", "K3_1e9"]
   template: "test"
