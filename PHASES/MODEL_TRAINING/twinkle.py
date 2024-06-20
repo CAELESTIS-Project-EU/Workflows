@@ -18,7 +18,7 @@ twinkle_cu=int(os.environ.get("TWINKLE_CU", "2"))
 
 
 
-def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_results, **kwargs):
+def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_results, execution_folder, **kwargs):
     searchers=[]
     training_params=preprocess_training_params(training_params)
     for i in range (len(var_results)):
