@@ -66,7 +66,7 @@ class TwinkleMyEstimator(BaseEstimator):
         for key, value in kwargs.items():
             if hasattr(self, key):
                 setattr(self, key, value)
-                name_folder+=+str(key)+"_"+str(value)+"__"
+                name_folder+=str(key)+"_"+str(value)+"__"
 
         generated_uuid = uuid.uuid4()
         self.name_folder = name_folder+"__"+str(generated_uuid)
