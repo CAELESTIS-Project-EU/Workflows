@@ -62,6 +62,12 @@ class TwinkleMyEstimator(BaseEstimator):
             raise ValueError("ERROR MPOINTS AND NPOINTS")
         return
 
+
+
+    def set_varialbe(self, variable):
+        self.varaible=variable
+        return
+
     def set_params(self, **kwargs):
         name_folder=self.variable+"__"
         for key, value in kwargs.items():
