@@ -69,13 +69,14 @@ class TwinkleMyEstimator(BaseEstimator):
 
     def set_params(self, **kwargs):
         name_folder=""
+        if 'i' in kwargs:
+            name_folder = "variable_"+str(kwargs['i'])+"__"
+
         for key, value in kwargs.items():
             if hasattr(self, key):
                 setattr(self, key, value)
                 if key!="i":
                     name_folder+=str(key)+"_"+str(value)+"__"
-                else:
-                    name_folder += "variable_"+str(value)+"__"
 
         generated_uuid = uuid.uuid4()
         self.name_folder = name_folder+str(generated_uuid)
