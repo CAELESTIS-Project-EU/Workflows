@@ -44,7 +44,6 @@ class TwinkleMyEstimator(BaseEstimator):
                 f"alsiter: {self.alsiter}\n"
                 f"wflag: {self.wflag}\n"
                 f"template_evalFile: {self.template_evalFile}\n"
-                f"i: {self.i}\n"
                 f"execution_folder: {self.execution_folder}\n")
 
 
@@ -72,7 +71,8 @@ class TwinkleMyEstimator(BaseEstimator):
         for key, value in kwargs.items():
             if hasattr(self, key):
                 setattr(self, key, value)
-                name_folder+="__"+str(key)+"_"+str(value)
+                if key!="i":
+                    name_folder+="__"+str(key)+"_"+str(value)
 
         generated_uuid = uuid.uuid4()
         self.name_folder = str(generated_uuid)+"__"+name_folder
