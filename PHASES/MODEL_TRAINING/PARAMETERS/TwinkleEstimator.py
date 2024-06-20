@@ -31,6 +31,7 @@ class TwinkleMyEstimator(BaseEstimator):
         self.name_folder=None
         self.var_results=var_results
         self.i=None
+        self.variable=None
         self.score_weights= score_weights
 
     def __str__(self):
@@ -66,10 +67,11 @@ class TwinkleMyEstimator(BaseEstimator):
         for key, value in kwargs.items():
             if hasattr(self, key):
                 setattr(self, key, value)
-                name_folder+=str(key)+"_"+str(value)+"__"
+                if key!="i":
+                    name_folder+=str(key)+"_"+str(value)+"__"
 
         generated_uuid = uuid.uuid4()
-        self.name_folder = name_folder+"__"+str(generated_uuid)
+        self.name_folder = name_folder
         out = os.path.join(self.execution_folder, "OUT")
         folder_random = os.path.join(out, self.name_folder)
         os.makedirs(folder_random, exist_ok=True)

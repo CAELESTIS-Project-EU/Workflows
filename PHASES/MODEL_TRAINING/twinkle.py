@@ -24,6 +24,7 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
     training_params=preprocess_training_params(training_params)
     for i in range (len(var_results)):
         training_params["i"]=[i]
+        training_params["variable"] = var_results[i]
         searcher = GridSearchCV(estimate_Twinkle, training_params, cv=Kfold_divisions)
         searcher.fit(X,Y[:,[i]])
         searchers.append(searcher)
