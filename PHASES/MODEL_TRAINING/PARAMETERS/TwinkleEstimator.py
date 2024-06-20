@@ -46,11 +46,6 @@ class TwinkleMyEstimator(BaseEstimator):
                 f"template_evalFile: {self.template_evalFile}\n"
                 f"execution_folder: {self.execution_folder}\n")
 
-
-    def assign_i(self, i):
-        self.i=i
-        return self
-
     def fit(self, X, Y):
         max_min_file_path = os.path.join(self.results_folder, "max_min_file.csv")
         max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
@@ -71,10 +66,10 @@ class TwinkleMyEstimator(BaseEstimator):
         for key, value in kwargs.items():
             if hasattr(self, key):
                 setattr(self, key, value)
-                name_folder+=str(key)+"_"+str(value)+"__"
+                name_folder+=+str(key)+"_"+str(value)+"__"
 
         generated_uuid = uuid.uuid4()
-        self.name_folder = name_folder
+        self.name_folder = name_folder+"__"+str(generated_uuid)
         out = os.path.join(self.execution_folder, "OUT")
         folder_random = os.path.join(out, self.name_folder)
         os.makedirs(folder_random, exist_ok=True)
