@@ -18,7 +18,7 @@ twinkle_cu=int(os.environ.get("TWINKLE_CU", "2"))
 
 
 
-def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_results, Adapted_Discretization, **kwargs):
+def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_results, **kwargs):
     estimate_Twinkle = kernel
     searchers=[]
     training_params=preprocess_training_params(training_params)
