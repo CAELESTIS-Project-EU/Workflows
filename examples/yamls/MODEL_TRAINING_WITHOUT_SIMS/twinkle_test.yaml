@@ -21,6 +21,7 @@ phases:
       - training_params: $parameters.training_params 
       - X: $variables.X
       - Y: $variables.Y
+      - execution_folder: $variables.execution_folder
       - kernel: $variables.kernel 
       - results_folder: $variables.results_folder
       - Kfold_divisions: $parameters.Kfold_divisions

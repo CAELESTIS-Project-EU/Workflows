@@ -39,6 +39,44 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
         shutil.copyfile(best_estimator_file, os.path.join(folder, "rom_file.txt"))
         df.to_csv(file_out, index=False)
 
+    rename_folders(execution_folder, var_results)
+
+
+def rename_folders(execution_folder, var_results):
+    """
+    Rename subdirectories in execution_folder by replacing 'variable_number'
+    with corresponding values from var_results.
+
+    Args:
+    - execution_folder (str): Path to the folder containing subdirectories to be renamed.
+    - var_results (list): List of replacement values corresponding to 'variable_number'.
+    """
+    # List all folders in the execution folder
+    folders = os.listdir(execution_folder)
+
+    # Iterate over each folder and rename accordingly
+    for folder in folders:
+        original_path = os.path.join(execution_folder, folder)
+
+        # Determine the index (number) from the folder name
+        try:
+            number_str = folder.split('__')[0].replace('variable_', '')
+            number = int(number_str)
+        except ValueError:
+            print(f"Skipping folder '{folder}' as it does not match expected pattern.")
+            continue
+
+        if 0 <= number < len(var_results):
+            new_variable = var_results[number]
+            new_folder_name = folder.replace(f"variable_{number}__", f"variable_{new_variable}__")
+
+            # Rename the folder
+            new_path = os.path.join(execution_folder, new_folder_name)
+            os.rename(original_path, new_path)
+            print(f"Renamed: {original_path} -> {new_path}")
+        else:
+            print(f"Skipping folder '{folder}' as var_results does not have enough values.")
+    return
 
 def preprocess_training_params(params):
     # Check the value of Adapted_Discretization
