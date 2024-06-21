@@ -46,6 +46,11 @@ class TwinkleMyEstimator(BaseEstimator):
                 f"template_evalFile: {self.template_evalFile}\n"
                 f"execution_folder: {self.execution_folder}\n")
 
+
+    def set_variable(self, variable):
+        self.variable = variable
+        return self
+
     def fit(self, X, Y):
         max_min_file_path = os.path.join(self.results_folder, "max_min_file.csv")
         max_min_data = np.loadtxt(max_min_file_path, delimiter=';', skiprows=1)
