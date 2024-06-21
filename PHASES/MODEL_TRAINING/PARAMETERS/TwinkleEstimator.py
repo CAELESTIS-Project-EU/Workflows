@@ -44,7 +44,13 @@ class TwinkleMyEstimator(BaseEstimator):
                 f"alsiter: {self.alsiter}\n"
                 f"wflag: {self.wflag}\n"
                 f"template_evalFile: {self.template_evalFile}\n"
-                f"execution_folder: {self.execution_folder}\n")
+                f"execution_folder: {self.execution_folder}\n"
+                f"results_folder: {self.results_folder}\n"
+                f"num_columns_y: {self.num_columns_y}\n"
+                f"name_folder: {self.name_folder}\n"
+                f"var_results: {self.var_results}\n"
+                f"i: {self.i}\n"
+                f"score_weights: {self.score_weights}\n")
 
 
     def set_variable(self, variable):
