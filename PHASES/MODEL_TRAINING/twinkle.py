@@ -7,7 +7,7 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 from pycompss.api.container import container
 from pycompss.api.binary import binary
-from pycompss.api.api import compss_wait_on_file
+from pycompss.api.api import compss_wait_on_file, compss_barrier
 import numpy as np
 import shutil
 from pycompss.api.constraint import constraint
@@ -38,7 +38,7 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
         compss_wait_on_file(best_estimator_file)
         shutil.copyfile(best_estimator_file, os.path.join(folder, "rom_file.txt"))
         df.to_csv(file_out, index=False)
-
+    compss_barrier()
     rename_folders(os.path.join(execution_folder, "OUT"), var_results)
 
 
