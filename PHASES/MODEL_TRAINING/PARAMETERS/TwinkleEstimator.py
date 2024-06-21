@@ -32,6 +32,7 @@ class TwinkleMyEstimator(BaseEstimator):
         self.var_results=var_results
         self.i=None
         self.score_weights= score_weights
+        self.variable=None
 
     def __str__(self):
         return (f"mpoints: {self.mpoints}\n"
@@ -50,6 +51,7 @@ class TwinkleMyEstimator(BaseEstimator):
                 f"name_folder: {self.name_folder}\n"
                 f"var_results: {self.var_results}\n"
                 f"i: {self.i}\n"
+                f"variable: {self.variable}\n"
                 f"score_weights: {self.score_weights}\n")
 
 
