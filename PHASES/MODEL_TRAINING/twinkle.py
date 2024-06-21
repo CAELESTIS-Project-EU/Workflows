@@ -40,8 +40,8 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
         compss_wait_on_file(best_estimator_file)
         shutil.copyfile(best_estimator_file, os.path.join(folder, "rom_file.txt"))
         df.to_csv(file_out, index=False)
-    compss_barrier()
-    rename_folders(os.path.join(execution_folder, "OUT"), var_results)
+    """compss_barrier()
+    rename_folders(os.path.join(execution_folder, "OUT"), var_results)"""
 
 
 def rename_folders(execution_folder, var_results):
