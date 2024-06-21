@@ -4,8 +4,10 @@ SMO
 """
 import os
 from utils.bbesi_rtm_api import Visual_API
-def PAM_RTMf(**kwargs):
+import check_license
 
+def PAM_RTMf(**kwargs):
+    bool = check_license()
     '''
     This function assumes that parameter names and its values are provided in kwargs
     The function check if some of the parameter names corresponds to this simulation and 

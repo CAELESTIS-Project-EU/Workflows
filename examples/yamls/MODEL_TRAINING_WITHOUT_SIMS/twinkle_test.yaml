@@ -1,0 +1,46 @@
+---
+workflow_type: WORKFLOWS.MODEL_TRAINING_WITHOUT_SIMS.workflow.execution
+phases:
+  load:
+    type: PHASES.MODEL_TRAINING.dislib_load.load_twinkle
+    arguments:
+      - input_file: $parameters.input_file
+      - var_results: $parameters.var_results
+      - results_folder: $variables.results_folder
+  kernel_generation:
+    type: PHASES.MODEL_TRAINING.PARAMETERS.TwinkleEstimator.gen_param
+    arguments:
+      - execution_folder: $variables.execution_folder
+      - template: $parameters.template
+      - results_folder: $variables.results_folder
+      - var_results: $parameters.var_results
+  model_creation:
+    type: PHASES.MODEL_TRAINING.twinkle.twinkle
+    arguments:
+      - training_params: $parameters.training_params 
+      - X: $variables.X
+      - Y: $variables.Y
+      - kernel: $variables.kernel 
+      - results_folder: $variables.results_folder
+      - Kfold_divisions: $parameters.Kfold_divisions
+      - var_results: $parameters.var_results
+outputs:
+  alya_output:
+    - path: alya_output.txt
+    - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/test2J"
+    - overwrite : true
+inputs:
+parameters:
+  training_params:
+    terms : [2, 3]
+    npoints : [3, 4]
+    mpoints : [2, 3]
+    gtol : [1e-4]
+    ttol : [1e-5]
+    alsiter: [300]
+    wflag: [0]
+  input_file: "/home/bsc/bsc019518/csv_data/datos1e9mrg.csv"
+  var_results: ["fvf", "K1_1e9","K2_1e9", "K3_1e9"]
+  template: "test"
+  Kfold_divisions: 5
+environment:

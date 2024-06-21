@@ -6,6 +6,7 @@ export ALYA_PPN=112
 module purge
 # python modules
 module load intel impi  mkl hdf5 python/3.12.1
+module load dislib/master
 module unload intel impi
 # alya modules
 module load gcc ucx/1.15.0-gcc openmpi/4.1.5-gcc
@@ -13,7 +14,6 @@ module load gcc ucx/1.15.0-gcc openmpi/4.1.5-gcc
 module load intel gmsh/4.12.2
 # COMPSs module
 module load COMPSs/3.3
-module load dislib/0.9.0
 module load singularity
 
 export COMPSS_MPIRUN_TYPE=openmpi
