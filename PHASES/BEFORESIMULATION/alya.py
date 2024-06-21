@@ -29,7 +29,7 @@ def prepare_data_coupontool(**kwargs):
 def prepare_data_rvetool(**kwargs):
     prepare_args = kwargs
     variables = vars_func(prepare_args)
-    out1 = prepare_coupontool(prepare_args, variables, **kwargs)
+    out1 = prepare_rvetool(prepare_args, variables, **kwargs)
     return out1
 
 
@@ -165,14 +165,14 @@ def prepare_coupontool(prepare_args, variables, **kwargs):
     COUPONtool.runCOUPONtool(simulation, name_sim, simulation_wdir, 'open-hole', debug=False)
     return
 
-
+@on_failure(management="CANCEL_SUCCESSORS")
 @task(returns=1)
 def prepare_rvetool(prepare_args, variables, **kwargs):
     from rvetool import RVEtool
     template = get_value(prepare_args, "template_rvetool")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     name_sim = get_value(prepare_args, "name_sim")
-    simulation = simulation_wdir + "/" + name_sim + '.py'
+    simulation = simulation_wdir + "/" + name_sim + '.yaml'   
     if not os.path.isdir(simulation_wdir):
         os.makedirs(simulation_wdir)
     with open(simulation, 'w') as f2:
