@@ -11,7 +11,7 @@ DATA_DIR=${10}
 gOPTION=${11}
 tOPTION=${12}
 dOPTION=${13}
-
+PROJECT_NAME=${14}
 # shellcheck disable=SC2164
 cd $EXECUTION_FOLDER
 
