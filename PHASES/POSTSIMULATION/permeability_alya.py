@@ -13,7 +13,7 @@ import math
 import os
 from PHASES.MESHER.permeability_mesher.PermeabilityCalc import Permeability_Calculation_sim
 from PHASES.MESHER.permeability_mesher.WriteAlyaSet4 import AdjSets
-
+from pycompss.api.on_failure import on_failure
 # leemos que es cada columna al principio
 # nos quedamos la ultima iteracion
 
