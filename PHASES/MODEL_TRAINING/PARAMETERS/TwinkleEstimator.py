@@ -83,7 +83,7 @@ class TwinkleMyEstimator(BaseEstimator):
     def set_params(self, **kwargs):
         name_folder=""
         if 'i' in kwargs:
-            name_folder = "variable_"+str(self.i)+"__"
+            name_folder = "variable_"+str(kwargs.get("i"))+"__"
 
         for key, value in kwargs.items():
             if hasattr(self, key):
