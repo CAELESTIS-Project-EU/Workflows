@@ -16,7 +16,6 @@ if alya_procs < alya_ppn:
 def simulation(case_name, simulation_wdir, **kwargs):
     return
 
-
 def run_permeability(case_name, simulation_wdir, cases_permeability, **kwargs):
     results=[]
     for case in cases_permeability:
