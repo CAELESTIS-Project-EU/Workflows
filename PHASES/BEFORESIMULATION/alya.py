@@ -60,7 +60,7 @@ def vars_func(prepare_args):
             parameters = call.get("parameters")
             args = []
             for parameter in parameters:
-                if re.search("eval\(", parameter):
+                if re.search(r"eval\(", parameter):
                     s = parameter.replace('eval(', '')
                     s = s.replace(')', '')
                     res = callEval(s, variables)
