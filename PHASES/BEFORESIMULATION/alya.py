@@ -4,7 +4,7 @@ import re
 import shutil
 from pycompss.api.task import task
 from pycompss.api.parameter import *
-
+from pycompss.api.on_failure import on_failure
 
 def prepare_data(**kwargs):
     prepare_args = kwargs
@@ -165,10 +165,9 @@ def prepare_coupontool(prepare_args, variables, **kwargs):
     COUPONtool.runCOUPONtool(simulation, name_sim, simulation_wdir, 'open-hole', debug=False)
     return
 
-@on_failure(management="CANCEL_SUCCESSORS")
-@task(returns=1)
+@task(returns=1, on_failure="CANCEL_SUCCESSORS", time_out=120 )
 def prepare_rvetool(prepare_args, variables, **kwargs):
-    from rvetool import RVEtool
+    import RVEtool
     template = get_value(prepare_args, "template_rvetool")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     name_sim = get_value(prepare_args, "name_sim")
@@ -182,10 +181,13 @@ def prepare_rvetool(prepare_args, variables, **kwargs):
                 item = variables[i]
                 for name, bound in item.items():
                     filedata = filedata.replace("%" + name + "%", str(bound))
+            filedata = filedata.replace("%JobName%", str(name_sim))
+            output_path = os.path.split(os.path.normpath(simulation_wdir))[0]
+            filedata = filedata.replace("%output_path%", output_path)
             f2.write(filedata)
             f.close()
         f2.close()
-    RVEtool.runRVEtool(simulation, name_sim, simulation_wdir, debug=False)
+    RVEtool.runRVEtool(simulation)
     return
 
 
