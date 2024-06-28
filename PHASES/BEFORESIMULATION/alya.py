@@ -19,6 +19,15 @@ def prepare_data(**kwargs):
     return out3
 
 
+def prepare_data_rve_sld(**kwargs):
+    prepare_args = kwargs
+    variables = vars_func(prepare_args)
+    print(f"prepare_args: {prepare_args}")
+    out1 = prepare_rve_sld(prepare_args, variables)
+    out3 = prepare_rve_dom(prepare_args, out=out1)
+    return out3
+
+
 def prepare_data_coupontool(**kwargs):
     prepare_args = kwargs
     variables = vars_func(prepare_args)
@@ -105,6 +114,43 @@ def prepare_sld(prepare_args, variables, **kwargs):
         f2.close()
     return
 
+@task(returns=1)
+def prepare_rve_sld(prepare_args, variables, **kwargs):
+    original_name_sim = get_value(prepare_args, "original_name_sim")
+    mesh = get_value(prepare_args, "mesh")
+    simulation_wdir = get_value(prepare_args, "simulation_wdir")
+    name_sim = get_value(prepare_args,"name_sim")
+    cases_loads = get_value(prepare_args,"cases_loads")
+    print("SIMULATION_WDIR PRINT: "+simulation_wdir)
+    if not os.path.isdir(simulation_wdir):
+        print("CREATION FOLDER START "+simulation_wdir)
+        os.makedirs(simulation_wdir)
+        print("CREATION FOLDER END "+simulation_wdir)
+    print(f"cases_loads: {str(cases_loads)}")
+    for icase in cases_loads:
+        print(f"icase: {icase}")
+        print(f"SIMULATION_WDIR: {simulation_wdir}")
+        if icase == "11":
+            template = get_value(prepare_args, "template_sld11")
+        elif icase == "22":
+            template = get_value(prepare_args, "template_sld22")
+        elif icase == "12":
+            template = get_value(prepare_args, "template_sld12")
+        os.makedirs(os.path.join(simulation_wdir,original_name_sim+'-'+icase))
+        print(f"NEW FOLDER: {str(os.path.join(simulation_wdir,original_name_sim+'-'+icase))}")
+        create_rve_env_simulations(os.path.join(mesh,original_name_sim+'-'+icase), os.path.join(simulation_wdir,original_name_sim+'-'+icase), original_name_sim+'-'+icase, original_name_sim+'-'+icase)
+        simulation = os.path.join(simulation_wdir,original_name_sim+'-'+icase, original_name_sim+'-'+icase+ ".sld.dat")
+        with open(simulation, 'w') as f2:
+            with open(template, 'r') as f:
+                filedata = f.read()
+                for i in range(len(variables)):
+                    item = variables[i]
+                    for name, bound in item.items():
+                        filedata = filedata.replace("%" + name + "%", str(bound))
+                f2.write(filedata)
+                f.close()
+            f2.close()
+    return
 
 @task(returns=1)
 def prepare_fie(prepare_args, variables, **kwargs):
@@ -131,7 +177,7 @@ def prepare_dom(prepare_args, **kwargs):
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     name_sim = get_value(prepare_args, "name_sim")
     mesh = get_value(prepare_args, "mesh")
-    simulation = simulation_wdir + "/" + name_sim + ".dom.dat"
+    simulation = os.path.join(simulation_wdir,original_name_sim+'-'+icase, original_name_sim+'-'+icase+ ".dom.dat")
     with open(simulation, 'w') as f2:
         with open(template, 'r') as f:
             filedata = f.read()
@@ -140,6 +186,35 @@ def prepare_dom(prepare_args, **kwargs):
             f2.write(filedata)
             f.close()
         f2.close()
+    return
+
+
+@task(returns=1)
+def prepare_rve_dom(prepare_args, **kwargs):
+    simulation_wdir = get_value(prepare_args, "simulation_wdir")
+    name_sim = get_value(prepare_args, "name_sim")
+    mesh = get_value(prepare_args, "mesh")
+    cases_loads = get_value(prepare_args,"cases_loads")
+    original_name_sim = get_value(prepare_args, "original_name_sim") 
+    for icase in cases_loads:
+        if icase == "11":
+            template = get_value(prepare_args, "template_dom11")
+        elif icase == "22":
+            template = get_value(prepare_args, "template_dom22")
+        elif icase == "12":
+            template = get_value(prepare_args, "template_dom12")
+
+        simulation_folder = os.path.join(simulation_wdir,original_name_sim+'-'+icase)
+        simulation = simulation_folder + "/" + original_name_sim + '-' + icase + ".dom.dat"
+
+        with open(simulation, 'w') as f2:
+            with open(template, 'r') as f:
+                filedata = f.read()
+                filedata = filedata.replace("%sim_num%", str(name_sim))
+                filedata = filedata.replace("%data_folder%", str(mesh))
+                f2.write(filedata)
+                f.close()
+            f2.close()
     return
 
 
@@ -221,6 +296,14 @@ def create_env_simulations(mesh, sim_dir, original_name, name_sim):
     copy(mesh, original_name + ".dat", sim_dir, name_sim + ".dat")
     copy(mesh, original_name + ".dom.dat", sim_dir, name_sim + ".dom.dat")
     copy(mesh, original_name + ".fie.dat", sim_dir, name_sim + ".fie.dat")
+    copy(mesh, original_name + ".post.alyadat", sim_dir, name_sim + ".post.alyadat")
+    return
+
+
+def create_rve_env_simulations(mesh, sim_dir, original_name, name_sim):
+    copy(mesh, original_name + ".ker.dat", sim_dir, name_sim + ".ker.dat")
+    copy(mesh, original_name + ".dat", sim_dir, name_sim + ".dat")
+    copy(mesh, original_name + ".dom.dat", sim_dir, name_sim + ".dom.dat")
     copy(mesh, original_name + ".post.alyadat", sim_dir, name_sim + ".post.alyadat")
     return
 
