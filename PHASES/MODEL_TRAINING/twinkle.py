@@ -25,7 +25,7 @@ def twinkle(X, Y, Kfold_divisions, training_params, kernel, results_folder, var_
         training_params["i"]=[i]
         kernel.set_variable(var_results[i])
         print(f"KERNEL: {kernel}")
-        searcher = GridSearchCV(kernel, training_params, cv=Kfold_divisions)
+        searcher = GridSearchCV(kernel, training_params, cv=Kfold_divisions, sort="min")
         searcher.fit(X,Y[:,[i]])
         searchers.append(searcher)
 
