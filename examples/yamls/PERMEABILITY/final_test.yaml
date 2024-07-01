@@ -40,6 +40,6 @@ parameters:
   original_name_sim: PERM_SIM
 environment:
   ALYA_PROCS: 112
-  ALYA_TIMEOUT: 36000
+  ALYA_TIMEOUT: 172000
   ALYA_BIN: "/gpfs/projects/cns100/alya/builds/Alya_mn5gccNastin.x"
   RVEGEN_CUS: 112

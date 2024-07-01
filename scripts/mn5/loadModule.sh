@@ -15,6 +15,7 @@ module load intel gmsh/4.12.2
 # COMPSs module
 module load COMPSs/3.3.1
 module load singularity
+module load dislib/master
 
 export COMPSS_MPIRUN_TYPE=openmpi
 
