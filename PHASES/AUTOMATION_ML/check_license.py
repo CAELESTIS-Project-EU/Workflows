@@ -5,7 +5,6 @@ from pycompss.api.binary import binary
 import subprocess
 
 
-@task(returns=1)
 def check_license():
     script = "/gpfs/projects/bsce81/check_license_server.sh"
 
