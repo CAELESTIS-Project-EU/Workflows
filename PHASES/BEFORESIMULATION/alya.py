@@ -22,7 +22,6 @@ def prepare_data(**kwargs):
 def prepare_data_rve_sld(**kwargs):
     prepare_args = kwargs
     variables = vars_func(prepare_args)
-    print(f"prepare_args: {prepare_args}")
     out1 = prepare_rve_sld(prepare_args, variables)
     out3 = prepare_rve_dom(prepare_args, out=out1)
     return out3
@@ -93,13 +92,8 @@ def prepare_sld(prepare_args, variables, **kwargs):
     mesh = get_value(prepare_args, "mesh")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     name_sim = get_value(prepare_args,"name_sim")
-    # simulation_wdir = execution_folder + "/SIMULATIONS/" + original_name + "-s" + str(i) + "/"
-    print("SIMULATION_WDIR PRINT: "+simulation_wdir)
     if not os.path.isdir(simulation_wdir):
-        print("CREATION FOLDER START "+simulation_wdir)
         os.makedirs(simulation_wdir)
-        print("CREATION FOLDER END "+simulation_wdir)
-
     create_env_simulations(mesh, simulation_wdir, original_name_sim, name_sim)
     simulation = simulation_wdir + "/" + name_sim + ".sld.dat"
     with open(simulation, 'w') as f2:
@@ -114,6 +108,7 @@ def prepare_sld(prepare_args, variables, **kwargs):
         f2.close()
     return
 
+
 @task(returns=1)
 def prepare_rve_sld(prepare_args, variables, **kwargs):
     original_name_sim = get_value(prepare_args, "original_name_sim")
@@ -121,15 +116,9 @@ def prepare_rve_sld(prepare_args, variables, **kwargs):
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     name_sim = get_value(prepare_args,"name_sim")
     cases_loads = get_value(prepare_args,"cases_loads")
-    print("SIMULATION_WDIR PRINT: "+simulation_wdir)
     if not os.path.isdir(simulation_wdir):
-        print("CREATION FOLDER START "+simulation_wdir)
         os.makedirs(simulation_wdir)
-        print("CREATION FOLDER END "+simulation_wdir)
-    print(f"cases_loads: {str(cases_loads)}")
     for icase in cases_loads:
-        print(f"icase: {icase}")
-        print(f"SIMULATION_WDIR: {simulation_wdir}")
         if icase == "11":
             template = get_value(prepare_args, "template_sld11")
         elif icase == "22":
@@ -137,7 +126,6 @@ def prepare_rve_sld(prepare_args, variables, **kwargs):
         elif icase == "12":
             template = get_value(prepare_args, "template_sld12")
         os.makedirs(os.path.join(simulation_wdir,original_name_sim+'-'+icase))
-        print(f"NEW FOLDER: {str(os.path.join(simulation_wdir,original_name_sim+'-'+icase))}")
         create_rve_env_simulations(os.path.join(mesh,original_name_sim+'-'+icase), os.path.join(simulation_wdir,original_name_sim+'-'+icase), original_name_sim+'-'+icase, original_name_sim+'-'+icase)
         simulation = os.path.join(simulation_wdir,original_name_sim+'-'+icase, original_name_sim+'-'+icase+ ".sld.dat")
         with open(simulation, 'w') as f2:
@@ -151,6 +139,7 @@ def prepare_rve_sld(prepare_args, variables, **kwargs):
                 f.close()
             f2.close()
     return
+
 
 @task(returns=1)
 def prepare_fie(prepare_args, variables, **kwargs):
@@ -240,13 +229,14 @@ def prepare_coupontool(prepare_args, variables, **kwargs):
     COUPONtool.runCOUPONtool(simulation, name_sim, simulation_wdir, 'open-hole', debug=False)
     return
 
-@task(returns=1, on_failure="CANCEL_SUCCESSORS", time_out=120 )
+
+@task(returns=1, on_failure="CANCEL_SUCCESSORS", time_out=380 )
 def prepare_rvetool(prepare_args, variables, **kwargs):
     import RVEtool
     template = get_value(prepare_args, "template_rvetool")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     name_sim = get_value(prepare_args, "name_sim")
-    simulation = simulation_wdir + "/" + name_sim + '.yaml'   
+    simulation = simulation_wdir + "/" + name_sim + '.yaml'
     if not os.path.isdir(simulation_wdir):
         os.makedirs(simulation_wdir)
     with open(simulation, 'w') as f2:
@@ -286,7 +276,6 @@ def get_names(prepare_args):
 def copy(src_dir, src_name, tgt_dir, tgt_name):
     src_file = os.path.join(src_dir, src_name)
     tgt_file = os.path.join(tgt_dir, tgt_name)
-    print("COPY "+str(src_file)+" to "+str(tgt_file))
     shutil.copyfile(src_file, tgt_file)
     return
 
