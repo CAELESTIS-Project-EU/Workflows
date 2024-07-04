@@ -26,7 +26,7 @@ def get_arguments(phase_args, inputs, outputs, parameters, data_folder, symbol_t
             if starts_with_dollar(str(value)):
                 search_params = remove_dollar_prefix(value)
                 first_part, second_part = extract_parts(search_params)
-                args.update(switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table))
+                args.update(switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table, key))
             else:
                 args.update({key: value})
     return args
@@ -41,7 +41,7 @@ def get_arguments_XML(phase_list, inputs, outputs, parameters, data_folder, symb
             if starts_with_dollar(str(value)):
                 search_params = remove_dollar_prefix(value)
                 first_part, second_part = extract_parts(search_params)
-                args.update(switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table))
+                args.update(switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table, key))
             else:
                 pattern = r'\{.*?\}'
                 # Search for the pattern in the string
@@ -58,15 +58,15 @@ def get_arguments_XML(phase_list, inputs, outputs, parameters, data_folder, symb
                     args.update({key: value})
     return {"type":typePhase, "arguments":args}
 
-def switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table):
+def switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table, key):
     if first_part == "outputs":
-        return get_outputs(second_part, outputs)
+        return get_outputs(second_part, outputs, key)
     elif first_part == "inputs":
-        return get_inputs(second_part, inputs, data_folder)
+        return get_inputs(second_part, inputs, data_folder, key)
     elif first_part == "parameters":
-        return get_param(second_part, parameters)
+        return get_param(second_part, parameters, key)
     elif first_part == "variables":
-        return add_entry(second_part, get_variable_value(second_part, symbol_table))
+        return add_entry(key, get_variable_value(second_part, symbol_table))
     else:
         raise ValueError(f"Unsupported first_part value: {first_part}")
 
@@ -140,22 +140,22 @@ def get_outputs_xml(value_in, outputs_yaml):
     return outputs_folder
 
 
-def get_param(value_in, parameters_yaml):
+def get_param(value_in, parameters_yaml, key):
     param = extract_value(parameters_yaml, value_in)
-    parameters = {value_in: param}
+    parameters = {key: param}
     return parameters
 
 
-def get_inputs(value_in, input_yaml, data_folder):
+def get_inputs(value_in, input_yaml, data_folder, key):
     input_folder = extract_value_files(input_yaml, value_in)
     input_folder = os.path.join(data_folder, input_folder) if input_folder else None
-    inputs = {value_in: input_folder}
+    inputs = {key: input_folder}
     return inputs
 
 
-def get_outputs(value_in, outputs_yaml):
+def get_outputs(value_in, outputs_yaml, key):
     outputs_folder = extract_value_files(outputs_yaml, value_in)
-    outputs= {value_in:outputs_folder}
+    outputs= {key:outputs_folder}
     return outputs
 
 
