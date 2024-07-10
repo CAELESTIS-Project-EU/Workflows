@@ -8,7 +8,8 @@ import socket
 from utils.bbesi_rtm_api import Visual_API
 import check_license
 
-def PAM_DISTORTION(**kwargs):
+@task(returns=1)
+def run(**kwargs):
     bool= check_license()
     # import socket
     # Variables

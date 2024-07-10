@@ -6,7 +6,8 @@ import os
 from utils.bbesi_rtm_api import Visual_API
 import check_license
 
-def PAM_RTMf(**kwargs):
+@task(returns=1)
+def run(**kwargs):
     bool = check_license()
     '''
     This function assumes that parameter names and its values are provided in kwargs

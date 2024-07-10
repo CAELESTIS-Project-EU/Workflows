@@ -8,7 +8,10 @@ import check_license
 import os
 from utils.bbesi_rtm_api import Visual_API
 
-def PAM_RTMc(**kwargs):
+
+
+@task(returns=1)
+def run(**kwargs):
 
     bool = check_license()
     import socket
