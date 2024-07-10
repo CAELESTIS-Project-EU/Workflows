@@ -81,7 +81,7 @@
             <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">SAMPLING</Value>
           </Attribute>
           
-          <InternalElement Name="Sampling">
+          <InternalElement Name="SAMPLING">
             <Attribute Name="Type" AttributeDataType="xs:string">
               <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.AUTOMATION_ML.SAMPLING.run</Value>
             </Attribute>
