@@ -36,33 +36,18 @@
       
       <InternalElement Name="Inputs" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
         <InternalElement Name="DoE" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
-          <Attribute Name="server" AttributeDataType="xs:string">
-            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">ftp://nas.aimen.es/x/y/doe.csv</Value>
+          <Attribute Name="source" AttributeDataType="xs:string">
+            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">/gpfs/projects/bsce81/workflow_wp4/001_Data/generatedDOEshort.csv</Value>
           </Attribute>
-          <Attribute Name="path" AttributeDataType="xs:string">
-            <Value>{variables.working_dir}/test.csv</Value>
+          <Attribute Name="destination" AttributeDataType="xs:string">
+            <Value>{working_dir}/generatedDOEshort.csv</Value>
           </Attribute>
         </InternalElement>
       </InternalElement>
       <!-- Inputs -->
       
       <InternalElement Name="Outputs" ID="067c3fc6-96e8-4c56-ae3b-5b2490724e0b">
-        <InternalElement Name="Filling_time" ID="">
-          <Attribute Name="path" AttributeDataType="xs:string">
-            <Value>{variables.working_dir}/Outputs/name_file.extension</Value>
-          </Attribute>
-          <Attribute Name="server" AttributeDataType="xs:string">
-            <Value>ftp://nas.aimen.es/experiment_test/Outputs</Value>
-          </Attribute>
-        </InternalElement>
-        <InternalElement Name="Filling_factor" ID="">
-          <Attribute Name="path" AttributeDataType="xs:string">
-            <Value>{variables.working_dir}/Outputs/name_file.extension</Value>
-          </Attribute>
-          <Attribute Name="server" AttributeDataType="xs:string">
-            <Value>ftp://nas.aimen.es/experiment_test/Outputs</Value>
-          </Attribute>
-        </InternalElement>
+        
       </InternalElement>
       <!-- Outputs -->
       
@@ -74,7 +59,12 @@
         </InternalElement>
         <InternalElement Name="inputs_folder" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
           <Attribute Name="Param" AttributeDataType="xs:string">
-            <Value>/.statelite/tmpfs/gpfs/projects/bsce81/esi/tests/2024_03_12_AMLexectest/001_Data</Value>
+            <Value>/gpfs/projects/bsce81/workflow_wp4/001_Data/</Value>
+          </Attribute>
+        </InternalElement>
+        <InternalElement Name="inputs_file" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
+          <Attribute Name="Param" AttributeDataType="xs:string">
+            <Value>/gpfs/projects/bsce81/workflow_wp4/001_Data/generatedDOEshort.csv</Value>
           </Attribute>
         </InternalElement>
       
@@ -82,6 +72,7 @@
       
       
       <InternalElement Name="Phases" ID="292b2551-bdf7-44e1-9cca-ea5273cca5d3">
+      	<!-- phase simulation -->
       	<InternalElement Name="Phase" ID="292b2551-bdf7-44e1-9cca-e4557ecca5d2">
           <Attribute Name="Name" AttributeDataType="xs:string">
             <Value>Sampling</Value>
@@ -95,16 +86,12 @@
               <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.AUTOMATION_ML.SAMPLING.run</Value>
             </Attribute>
             <InternalElement Name="Parameters">
-              <Attribute Name="values" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.doe_row}</Value>
+              <Attribute Name="inputs_file" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.inputs_file}</Value>
               </Attribute>
             </InternalElement>
           </InternalElement>
-          
-
-          
-
-        </InternalElement>
+       </InternalElement>
         
         
         <!-- phase simulation -->
@@ -121,11 +108,14 @@
               <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.AUTOMATION_ML.PAM-RTMf.run</Value>
             </Attribute>
             <InternalElement Name="Parameters">
-              <Attribute Name="values" AttributeDataType="xs:string">
+              <Attribute Name="DoE_line" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.DoE_line}</Value>
               </Attribute>
-              <Attribute Name="output_file" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/PAM-RTMf_{variables.line_number}.out</Value>
+              <Attribute Name="outputs_folder" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/RTM</Value>
+              </Attribute>
+               <Attribute Name="inputs_folder" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.inputs_folder}</Value>
               </Attribute>
               <Attribute Name="machine" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.machine}</Value>
@@ -141,14 +131,14 @@
               <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.AUTOMATION_ML.PAM_RTMc.run</Value>
             </Attribute>
             <InternalElement Name="Parameters">
-              <Attribute Name="values" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.doe_row}</Value>
+              <Attribute Name="DoE_line" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.DoE_line}</Value>
               </Attribute>
-              <Attribute Name="output_file" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/PAM-RTMc_{line_number}.out</Value>
+              <Attribute Name="outputs_folder" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/{variables.line_number}/Curing</Value>
               </Attribute>
-              <Attribute Name="input_file" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/PAM-RTMf_{line_number}.out</Value>
+               <Attribute Name="inputs_folder" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/RTM</Value>
               </Attribute>
               <Attribute Name="machine" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.machine}</Value>
@@ -156,6 +146,7 @@
               <Attribute Name="source_folder" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.execution_folder}</Value>
               </Attribute>
+            </InternalElement>
             </InternalElement>
           </InternalElement>
           
@@ -164,14 +155,14 @@
               <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.AUTOMATION_ML.PAM_DISTORTION.run</Value>
             </Attribute>
             <InternalElement Name="Parameters">
-              <Attribute Name="values" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.doe_row}</Value>
+              <Attribute Name="DoE_line" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.DoE_line}</Value>
               </Attribute>
               <Attribute Name="outputs_folder" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/PAMDIST_{variables.line_number}/RTM</Value>
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/Distortion</Value>
               </Attribute>
-              <Attribute Name="inputs_folder" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/PAM-RTMc_{variables.line_number}.out</Value>
+               <Attribute Name="inputs_folder" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/{variables.line_number}/Curing</Value>
               </Attribute>
               <Attribute Name="machine" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.machine}</Value>
@@ -179,10 +170,10 @@
               <Attribute Name="source_folder" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.execution_folder}</Value>
               </Attribute>
-            </InternalElement>
+            </InternalElement>  
           </InternalElement>
+          
         </InternalElement>
-      </InternalElement>
       <!-- phases -->
     </InternalElement>
     <!-- Workflow_definition -->

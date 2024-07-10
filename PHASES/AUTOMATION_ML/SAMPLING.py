@@ -5,8 +5,8 @@ from pycompss.api.parameter import *
 
 
 @task(returns=2)
-def run(path, **kwargs):
-    csv_file_path = os.path.normpath(path)
+def run(inputs_file, **kwargs):
+    csv_file_path = os.path.normpath(inputs_file)
     # Open the CSV file
     with open(csv_file_path, 'r') as file:
         df = pd.read_csv(csv_file_path)
