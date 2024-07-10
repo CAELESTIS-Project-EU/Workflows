@@ -78,10 +78,10 @@
             <Value>Sampling</Value>
           </Attribute>
           <Attribute Name="Sequence" AttributeDataType="xs:string">
-            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">SAMPLING</Value>
+            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">Sampling_DoE</Value>
           </Attribute>
           
-          <InternalElement Name="SAMPLING">
+          <InternalElement Name="Sampling_DoE">
             <Attribute Name="Type" AttributeDataType="xs:string">
               <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.AUTOMATION_ML.SAMPLING.run</Value>
             </Attribute>

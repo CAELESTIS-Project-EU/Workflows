@@ -2,6 +2,12 @@ import importlib
 from PHASES.utils import args_values
 
 def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
+    print(f"phase: {phase}")
+    print(f"inputs: {inputs}")
+    print(f"outputs: {outputs}")
+    print(f"parameters: {parameters}")
+    print(f"data_folder: {data_folder}")
+    print(f"local_vars: {local_vars}")
     # Assuming phase_info is a tuple (phase_function, phase_args)
     if isinstance(phase, dict):
         phase_info=args_values.get_values(phase, inputs, outputs, parameters, data_folder, local_vars)
