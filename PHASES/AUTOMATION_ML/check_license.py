@@ -5,20 +5,22 @@ from pycompss.api.binary import binary
 import subprocess
 
 
-@task(returns=1)
 def check_license():
     script = "/gpfs/projects/bsce81/check_license_server.sh"
 
     try:
-        # Execute the shell script and capture the output
-        result = subprocess.run([script], capture_output=True, text=True, check=True)
+        # Execute the shell script
+        result = subprocess.run([script], capture_output=True, text=True)
 
-        # Check if the expected output is in the script's output
-        if "License Server is already running" in result.stdout:
-            print("License Server is already running")
+        # Check the exit code of the script
+        if result.returncode == 0:
+            print("License Server is already running or started successfully.")
             return True
         else:
-            raise Exception("Unexpected output: License Server is not running")
-
+            print("License Server is not running and could not be started. Check the log file for details.")
+            print(result.stdout)
+            print(result.stderr)
+            return False
     except subprocess.CalledProcessError as e:
-        raise Exception(f"Script execution failed: {e}")
+        print(f"Script execution failed: {e}")
+        return False

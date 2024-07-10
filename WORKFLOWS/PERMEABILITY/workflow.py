@@ -18,8 +18,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     write_file(results_folder, data_set, "xFile.npy")
     y = []
     for i, values in data_set.iterrows():
-        case_name = "case_" + str(i)
-        print(f"values {values}")
+        case_name = "Case_" + str(i)
         simulation_wdir = execution_folder + "/SIMULATIONS/" + case_name
         name_sim = phase.run(phases.get("mesher"), inputs, outputs, parameters, data_folder, locals())
         sim_out = phase.run(phases.get("sim"), inputs, outputs, parameters, data_folder, locals(), out=name_sim)

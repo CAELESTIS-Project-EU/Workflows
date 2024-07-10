@@ -16,7 +16,7 @@ phases:
     arguments:
       - simulation_wdir: $variables.simulation_wdir
       - case_name: $variables.case_name
-      - cases_permeability: $parameters.cases
+      - cases_permeability: $parameters.cases_permeability
   post_process:
     type: PHASES.POSTSIMULATION.permeability_alya.postProcessPermeability
     arguments:
@@ -35,10 +35,11 @@ outputs:
     - overwrite : true
 inputs:
 parameters:
-  sampler_input_file: "/home/bsc/bsc019518/MN4/bsc19518/perm_files/small_doe_file.txt"
-  cases: ["x-flow", "y-flow", "z-flow"]
+  sampler_input_file: "/home/bsc/bsc019518/MN4/bsc19518/perm_files/big_execution.txt"
+  cases_permeability: ["x-flow", "y-flow", "z-flow"]
   original_name_sim: PERM_SIM
 environment:
-  ALYA_PROCS: 32
+  ALYA_PROCS: 112
   ALYA_TIMEOUT: 172000
   ALYA_BIN: "/gpfs/projects/cns100/alya/builds/Alya_mn5gccNastin.x"
+  RVEGEN_CUS: 112

@@ -3,14 +3,14 @@ workflow_type: WORKFLOWS.SENSITIVITY_ANALYSIS.workflow.execution
 phases:
   sampler:
     type: PHASES.SAMPLERS.morris.sampling
-    arguments: 
-      - r: 2
-      - p: 2
-      - problem: $parameters.problem
+    arguments:
+      - r: $parameters.r
+      - p: $parameters.p
+      - problem: $parameters.problema
   prepare_data:
     type: PHASES.BEFORESIMULATION.alya.prepare_data
-    arguments: 
-      - mesh: $inputs.mesh
+    arguments:
+      - mesh: $inputs.mesh_file
       - template_sld: $inputs.template_sld
       - template_dom: $inputs.template_dom
       - problem: $parameters.problem
@@ -25,24 +25,25 @@ phases:
       - simulation_wdir: $variables.simulation_wdir
   post_process:
     type: PHASES.POSTSIMULATION.alya.collect_results
-    arguments: 
+    arguments:
       - name_sim: $variables.name_sim
       - simulation_wdir: $variables.simulation_wdir
   post_process_merge:
     type: PHASES.POSTSIMULATION.alya.write_results
-    arguments: 
+    arguments:
       - y: $variables.y
       - alya_output: $outputs.alya_output
       - results_folder: $variables.results_folder
       - sample_set: $variables.sample_set
   sensitivity:
     type: PHASES.SENSITIVITY.morris.sensitivity
-    arguments: 
-      - sensitivity_report: $outputs.sesitivity_report
+    arguments:
       - y: $variables.y
-      - sample_set: $variables.sample_set
       - problemDef: $variables.problemDef
-      - filter_outputs: [mu, mu_star, sigma, mu_star_conf]
+      - sample_set: $variables.sample_set
+      - p: $parameters.p
+      - sensitivity_report: $outputs.sensitivity_report
+      - filter_outputs: $parameters.filter_outputs
       - results_folder: $variables.results_folder
 outputs:
   alya_output: 
@@ -54,7 +55,7 @@ outputs:
     - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/test2J"
     - overwrite : true
 inputs:
-  mesh: 
+  mesh_file: 
     - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/meshes/OHT_Validation_D2"
     - path: "meshes/OHT_Validation_D2"
   template_sld: 
@@ -64,7 +65,7 @@ inputs:
     - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/input/templates/OHT_Validation_D2-tem.dom.dat"
     - path: "templates/OHT_Validation_D2-tem.dom.dat"
 parameters:
-  problem:
+  problema:
     num_vars: 3
     variables-sampler:
       - XT: {mean: 2323.5, cov: 5.8}
@@ -130,5 +131,9 @@ parameters:
         parameters: [thick,E11,E22,v12,G12,YT,YC,SL,Kplas,Sp,GIIc,GIc]
         outputs: [YTOUT1T,YCOUT1T,SLOUT1T]
   original_name_sim: OHT_Validation_D2
+  p: 16
+  r: 20
+  filter_outputs: ["mu", "mu_star", "sigma", "mu_star_conf"]
 environment:
-  ALYA_PROCS: 32
+  ALYA_PROCS: 64
+  ALYA_TIMEOUT: 7200

@@ -9,17 +9,8 @@ def FVF_variation(matriz_3dc_inout, n_capas, matriz_3dc_FVF, ajus_ol):
         for y in range(len(matriz_3dc_inout[0,:,0])):
             flag_overlap = 0
             for capa in range(1,n_capas):  # La primera capa no se mira porque no puede haber overlap ahí
-                # print(capa)
-                # print(len(np.unique(matriz_3dc_inout[x,y,capa*h_capa:(capa+1)*h_capa])))
                 if len(np.unique(matriz_3dc_inout[x,y,capa*h_capa:(capa+1)*h_capa])) != 1:
-                    # Hay dos materiales (tow+tow o tow+resina)
-                    # print(capa)
-                    # print(len(np.unique(matriz_3dc_inout[x,y,capa*h_capa:(capa+1)*h_capa])))
                     flag_overlap = 1
-                # elif sum(np.unique(matriz_3dc_inout[x,y,capa*h_capa:(capa+1)*h_capa])) == 0:
-                    # Es todo matriz
-                # else:
-                    # Es todo un único tow
             if flag_overlap == 1:
                 if n_capas<=6:
                     matriz_3dc_FVF_mod[x,y,1*h_capa:]=matriz_3dc_FVF[x,y,1*h_capa:]/ajus_ol

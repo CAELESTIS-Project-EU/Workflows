@@ -125,58 +125,26 @@ def Permeability_Calculation_sim(gravity, density, viscosity, resultados):
     ])
     
     # Resolver el sistema sobredeterminado mediante mínimos cuadrados
+    scale = 1e9
+    Velocity *= scale
+    dPressure *= scale
     Permeability_tensor, _, _, _ = np.linalg.lstsq(dPressure, Velocity, rcond=None)
     Permeability_tensor = Permeability_tensor*viscosity
-    Permeability_tensor = np.array([[Permeability_tensor[0], Permeability_tensor[1], Permeability_tensor[2]],
+    Permeability_tensor_3x3 = np.array([[Permeability_tensor[0], Permeability_tensor[1], Permeability_tensor[2]],
                                     [Permeability_tensor[1], Permeability_tensor[3], Permeability_tensor[4]],
                                     [Permeability_tensor[2], Permeability_tensor[4], Permeability_tensor[5]]])
+    Permeability_tensor_3x3 *= scale
     
     # Calcula los valores propios y los vectores propios
-    eigenvalues, eigenvectors = np.linalg.eig(Permeability_tensor)
+    eigenvalues, eigenvectors = np.linalg.eig(Permeability_tensor_3x3)
     # Ordena los valores propios de mayor a menor
     sorted_indices = np.argsort(eigenvalues)[::-1]
     eigenvalues = eigenvalues[sorted_indices]
+    eigenvalues /= scale
     eigenvectors = eigenvectors[:, sorted_indices]
+    eigenvectors /= scale
         
-    # Redondear los vectores
-    # eigenvectors = np.round(eigenvectors, decimals=3)
     
-    return eigenvalues, eigenvectors[:,0], eigenvectors[:,1]
+    return eigenvalues, eigenvectors[:,0], eigenvectors[:,1], Permeability_tensor
 
-# gravity = 5000
-# density = 1100
-# viscosity = 0.035
-# #leemos que es cada columna al principio
-# #nos quedamos la ultima iteracion
-# Vx_mean = np.zeros(3)
-# Vy_mean = np.zeros(3)
-# Vz_mean = np.zeros(3)
-# Px_mean = np.zeros(3)
-# Py_mean = np.zeros(3)
-# Pz_mean = np.zeros(3)
-# # X-flow
-# Vx_mean[0] = 0.60236264E-002
-# Vy_mean[0] = -0.28205709E-016
-# Vz_mean[0] = 0.87155417E-017
-# # Y-flow
-# Vx_mean[1] = 0.22429932E-015    
-# Vy_mean[1] = 0.69376015E-005
-# Vz_mean[1] = 0.28266732E-008
-# # Z-flow
-# Vx_mean[2] = -0.14624513E-017   
-# Vy_mean[2] = -0.11148615E-009
-# Vz_mean[2] = 0.70144314E-005
 
-# # X-flow
-# Px_mean[0] = 0
-# Py_mean[0] = 0
-# Pz_mean[0] = 0
-# # Y-flow
-# Px_mean[1] = 0
-# Py_mean[1] = 0
-# Pz_mean[1] = 0
-# # Z-flow
-# Px_mean[2] = 0
-# Py_mean[2] = 0
-# Pz_mean[2] = 0
-        

@@ -19,7 +19,7 @@ def writeJobLauncher(path, fileName, queue, numCPUs):
     stream.write(f'#SBATCH --ntasks={numCPUs:g}\n')
     stream.write('#SBATCH --cpus-per-task=1\n')
     stream.write('#SBATCH --ntasks-per-node=16\n')
-    stream.write('#SBATCH --time=12:00:00\n')
+    stream.write('#SBATCH --time=08:00:00\n')
     stream.write('##\n')
     stream.write('## Load modules for the executable\n')
     stream.write('##\n')
