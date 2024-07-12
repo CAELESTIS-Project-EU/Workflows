@@ -37,7 +37,7 @@ def get_arguments_XML(phase_list, inputs, outputs, parameters, data_folder, symb
         args = {}
         typePhase=phase_args.get("Type")
         parameters=phase_args.get("parameters")
-        for key, value in arguments.items():
+        for key, value in parameters.items():
             if starts_with_dollar(str(value)):
                 search_params = remove_dollar_prefix(value)
                 first_part, second_part = extract_parts(search_params)
