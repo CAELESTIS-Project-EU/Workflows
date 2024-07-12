@@ -32,38 +32,33 @@ def get_arguments(phase_args, inputs, outputs, parameters, data_folder, symbol_t
     return args
 
 
-def get_arguments_XML(phase_list, inputs, outputs, parameters, data_folder, symbol_table):
+def get_arguments_XML(phase_list, inputs, outputs, params, data_folder, symbol_table):
     for phase_args in phase_list:
         args = {}
-        typePhase=phase_args.get("Type")
-        parameters=phase_args.get("parameters")
-        for key, value in parameters.items():
+        typePhase = phase_args.get("Type")
+        phase_parameters = phase_args.get("parameters")
+
+        for key, value in phase_parameters.items():
             if starts_with_dollar(str(value)):
                 search_params = remove_dollar_prefix(value)
                 first_part, second_part = extract_parts(search_params)
-                args.update(switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table, key))
+                args.update(
+                    switch_values(first_part, second_part, inputs, outputs, params, data_folder, symbol_table, key))
             else:
                 pattern = r'\{.*?\}'
-                # Search for the pattern in the string
-                print(f"value: {value}")
                 matches = re.findall(pattern, str(value))
-                print(f"matches 1: {matches}")
+
                 if matches:
-                    matches = re.findall(r'\{([^}]*)\}', str(value))
-                    print(f"matches 2: {matches}")
                     for matchA in matches:
-                        print(f"matchA: {matchA}")
                         first_part, second_part = extract_parts(matchA)
-                        print(f"first_part: {first_part}")
-                        print(f"second_part: {second_part}")
-                        output=switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table, key)
-                        print(f"OUTPUT {output}")
-                        value=value.format(matchA = output)
-                        print(f"value {value}")
+                        output = switch_values(first_part, second_part, inputs, outputs, params, data_folder,
+                                               symbol_table, key)
+                        value = value.replace("{" + matchA + "}", output)  # Replace directly
                     args.update({key: value})
                 else:
                     args.update({key: value})
-    return {"type":typePhase, "parameters":args}
+
+        return {"type": typePhase, "parameters": args}
 
 def switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table, key):
     if first_part == "outputs":
