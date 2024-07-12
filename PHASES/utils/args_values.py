@@ -50,10 +50,9 @@ def get_arguments_XML(phase_list, inputs, outputs, parameters, data_folder, symb
                     matches = re.findall(r'\{([^}]*)\}', str(value))
                     for matchA in matches:
                         first_part, second_part = extract_parts(matchA)
-                        output=switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table)
+                        output=switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table, key)
                         value=value.format(matchA = output)
                     args.update({key: value})
-                    print("ARGS:",str(args))
                 else:
                     args.update({key: value})
     return {"type":typePhase, "arguments":args}
