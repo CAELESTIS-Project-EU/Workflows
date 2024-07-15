@@ -37,7 +37,6 @@ def get_arguments_XML(phase_list, inputs, outputs, params, data_folder, symbol_t
         args = {}
         typePhase = phase_args.get("Type")
         phase_parameters = phase_args.get("parameters")
-
         for key, value in phase_parameters.items():
             if starts_with_dollar(str(value)):
                 search_params = remove_dollar_prefix(value)
