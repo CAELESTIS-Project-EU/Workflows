@@ -10,6 +10,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
     check_license_run=check_license.check_license()
+    df = compss_wait_on(df)
     if check_license_run:
         a = 0
         for index, row in df.iterrows():
