@@ -45,26 +45,20 @@ def get_arguments_XML(phase_list, inputs, outputs, params, data_folder, symbol_t
             else:
                 pattern = r'\{(.*?)\}'
                 matches = re.findall(pattern, str(value))
-                print(f"matches: {matches}")
                 if matches:
                     if len(matches) == 1:
-                        print(f"matches len1: {matches}")
                         matchA = matches[0].strip("{}")
                         first_part, second_part = extract_parts(matchA)
                         switch_result = switch_values(first_part, second_part, inputs, outputs, params, data_folder,
                                                       symbol_table, key)
                         value = switch_result.get(key)  # Extract the value associated with the key
-                        print(f"key: {key}, value: {value}")
                     else:
-                        print(f"matches len > 1: {matches}")
                         for matchA in matches:
-                            print(f"matchA len > 1: {matchA}")
                             matchA = matchA.strip("{}")
                             first_part, second_part = extract_parts(matchA)
                             switch_result = switch_values(first_part, second_part, inputs, outputs, params, data_folder, symbol_table, key)
                             output = switch_result.get(key)  # Extract the value associated with the key
                             value = value.replace("{" + matchA + "}", str(output))  # Replace directly
-                            print(f"key: {key}, value: {value}")
                     args.update({key: value})
                 else:
                     args.update({key: value})
