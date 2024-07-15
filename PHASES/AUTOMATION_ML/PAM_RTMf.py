@@ -3,10 +3,12 @@ ESI Group
 SMO
 """
 import os
-from utils.bbesi_rtm_api import Visual_API
+from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 
-@task(returns=1)
-def run(**kwargs):
+@task(DoE_line=COLLECTION_IN,returns=1)
+def run(DoE_line,**kwargs):
     '''
     This function assumes that parameter names and its values are provided in kwargs
     The function check if some of the parameter names corresponds to this simulation and 

@@ -5,12 +5,12 @@ SMO
 """
 import os
 import socket
-from utils.bbesi_rtm_api import Visual_API
-import check_license
+from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 
-@task(returns=1)
+@task(DoE_line=COLLECTION_IN,returns=1)
 def run(**kwargs):
-    bool= check_license()
     # import socket
     # Variables
     # Visual will read the variables values from a txt file that is written at the end of this section

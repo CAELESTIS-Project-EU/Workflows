@@ -4,16 +4,14 @@ Created on Wed Jun 28 15:47:58 2023
 
 @author: SMO
 """
-import check_license
 import os
-from utils.bbesi_rtm_api import Visual_API
+from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 
 
-
-@task(returns=1)
+@task(DoE_line=COLLECTION_IN,returns=1)
 def run(**kwargs):
-
-    bool = check_license()
     import socket
     print('_____________________________________________________________________________________')
     print('Starting curing simulation')
