@@ -11,7 +11,7 @@ from pycompss.api.parameter import *
 
 
 @task(DoE_line=COLLECTION_IN,returns=1)
-def run(DoE_line,RTM_base_name, Curing_base_name, **kwargs):
+def run(RTM_base_name, Curing_base_name, **kwargs):
     import socket
     print('_____________________________________________________________________________________')
     print('Starting curing simulation')

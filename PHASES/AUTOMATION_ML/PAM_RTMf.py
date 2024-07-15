@@ -8,7 +8,7 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 
 @task(DoE_line=COLLECTION_IN,returns=1)
-def run(DoE_line, RTM_base_name, **kwargs):
+def run(RTM_base_name, **kwargs):
     '''
     This function assumes that parameter names and its values are provided in kwargs
     The function check if some of the parameter names corresponds to this simulation and 
