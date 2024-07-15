@@ -9,7 +9,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
-    check_license_run=check_license()
+    check_license_run=check_license.check_license()
     if check_license_run:
         a = 0
         for index, row in df.iterrows():
