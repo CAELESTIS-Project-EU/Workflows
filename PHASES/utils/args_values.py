@@ -31,7 +31,6 @@ def get_arguments(phase_args, inputs, outputs, parameters, data_folder, symbol_t
                 args.update({key: value})
     return args
 
-
 def get_arguments_XML(phase_list, inputs, outputs, params, data_folder, symbol_table):
     for phase_args in phase_list:
         args = {}
@@ -41,27 +40,29 @@ def get_arguments_XML(phase_list, inputs, outputs, params, data_folder, symbol_t
             if starts_with_dollar(str(value)):
                 search_params = remove_dollar_prefix(value)
                 first_part, second_part = extract_parts(search_params)
-                args.update(
-                    switch_values(first_part, second_part, inputs, outputs, params, data_folder, symbol_table, key))
+                switch_result = switch_values(first_part, second_part, inputs, outputs, params, data_folder, symbol_table, key)
+                args.update(switch_result)
             else:
-                pattern = r'\{.*?\}'
+                pattern = r'\{(.*?)\}'
                 matches = re.findall(pattern, str(value))
                 print(f"matches: {matches}")
                 if matches:
                     for matchA in matches:
                         print(f"matchA: {matchA}")
                         first_part, second_part = extract_parts(matchA)
-                        output = switch_values(first_part, second_part, inputs, outputs, params, data_folder,
-                                               symbol_table, key)
+                        switch_result = switch_values(first_part, second_part, inputs, outputs, params, data_folder, symbol_table, key)
+                        output = switch_result.get(key)  # Extract the value associated with the key
                         print(f"output: {output}")
-                        print(f"value 1:{value}")
+                        print(f"value 1: {value}")
                         value = value.replace("{" + matchA + "}", output)  # Replace directly
-                        print(f"value 2:{value}")
+                        print(f"value 2: {value}")
                     args.update({key: value})
                 else:
                     args.update({key: value})
 
         return {"type": typePhase, "parameters": args}
+
+
 
 def switch_values(first_part, second_part, inputs, outputs, parameters, data_folder, symbol_table, key):
     if first_part == "outputs":
