@@ -98,6 +98,7 @@ def run(RTM_base_name, **kwargs):
 
     # Modified values
     if "DoE_line" in kwargs:
+        print(f"DoE_line: { kwargs['DoE_line']}")
         if 'Injection_pressure' in kwargs['DoE_line']:
             MacroRTMList.append('07_RTMApplyPressure.py')
             VariablesDict['Injection_pressure'] = kwargs['DoE_line']['Injection_pressure']
