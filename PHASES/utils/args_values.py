@@ -98,6 +98,7 @@ def get_variable_value(variable_name, symbol_table):
 
 def extract_parts(input_string):
     # Splitting the string by periods
+    input_string = input_string.strip("{}")
     parts = input_string.split('.')
     # Checking if there are at least two parts
     if len(parts) >= 2:
