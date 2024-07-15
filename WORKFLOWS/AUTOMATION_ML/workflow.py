@@ -19,8 +19,6 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
             line_number = 'line' + str(a)
             DoE_line = dict(zip(DoE_names, row))
             phase.run(phases.get("Simulation"), inputs, outputs, parameters, data_folder, locals())
-        print(a)
-        print('Workflow finished')
     else:
         print("LICENSE IS NOT RUNNING!")
     return

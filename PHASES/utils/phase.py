@@ -29,7 +29,7 @@ def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
                 values.append(getattr(module, function_call)(**phase_args, **kwargs))
             return values
     except Exception as e:
-        print(f"[ ERROR ]: An exception occurred: {e}")
+        raise ValueError(f"An exception occurred: {e}")
 
 def split_string_at_last_dot(input_string):
     last_dot_index = input_string.rfind('.')
@@ -38,4 +38,4 @@ def split_string_at_last_dot(input_string):
         last_part = input_string[last_dot_index + 1:]
         return first_part, last_part
     else:
-        raise ValueError
+        raise ValueError(f"An exception occurred: split_string_at_last_dot")
