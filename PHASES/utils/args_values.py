@@ -46,11 +46,19 @@ def get_arguments_XML(phase_list, inputs, outputs, params, data_folder, symbol_t
                 pattern = r'\{(.*?)\}'
                 matches = re.findall(pattern, str(value))
                 if matches:
-                    for matchA in matches:
+                    if len(matches) == 1:
+                        matchA = matches[0].strip("{}")
                         first_part, second_part = extract_parts(matchA)
-                        switch_result = switch_values(first_part, second_part, inputs, outputs, params, data_folder, symbol_table, key)
-                        output = switch_result.get(key)  # Extract the value associated with the key
-                        value = value.replace("{" + matchA + "}", output)  # Replace directly
+                        switch_result = switch_values(first_part, second_part, inputs, outputs, params, data_folder,
+                                                      symbol_table, key)
+                        value = switch_result.get(key)  # Extract the value associated with the key
+                    else:
+                        for matchA in matches:
+                            matchA = matchA.strip("{}")
+                            first_part, second_part = extract_parts(matchA)
+                            switch_result = switch_values(first_part, second_part, inputs, outputs, params, data_folder, symbol_table, key)
+                            output = switch_result.get(key)  # Extract the value associated with the key
+                            value = value.replace("{" + matchA + "}", output)  # Replace directly
                     args.update({key: value})
                 else:
                     args.update({key: value})
@@ -93,7 +101,6 @@ def get_variable_value(variable_name, symbol_table):
 
 def extract_parts(input_string):
     # Splitting the string by periods
-    input_string = input_string.strip("{}")
     parts = input_string.split('.')
     # Checking if there are at least two parts
     if len(parts) >= 2:
