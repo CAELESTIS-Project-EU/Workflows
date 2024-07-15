@@ -11,6 +11,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         os.makedirs(results_folder)
     check_license_run=check_license.check_license()
     df = compss_wait_on(df)
+    DoE_names = compss_wait_on(DoE_names)
     if check_license_run:
         a = 0
         for index, row in df.iterrows():
