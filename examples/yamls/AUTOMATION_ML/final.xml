@@ -69,12 +69,22 @@
         </InternalElement>
         <InternalElement Name="source_folder" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
           <Attribute Name="Param" AttributeDataType="xs:string">
-            <Value>/gpfs/projects/bsce81/workflow_wp4/001_Data/input/</Value>
+            <Value>/home/bsc/bsc019518/MN4/bsc19518/Permeability/</Value>
           </Attribute>
         </InternalElement>
         <InternalElement Name="RTM_base_name" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
           <Attribute Name="Param" AttributeDataType="xs:string">
-            <Value>CAELESTIS</Value>
+            <Value>Lk_RTM_40</Value>
+          </Attribute>
+        </InternalElement>
+        <InternalElement Name="Curing_base_name" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
+          <Attribute Name="Param" AttributeDataType="xs:string">
+            <Value>Lk_Curing</Value>
+          </Attribute>
+        </InternalElement>
+        <InternalElement Name="Distortion_Base_Name" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
+          <Attribute Name="Param" AttributeDataType="xs:string">
+            <Value>Lk_Distortion_40</Value>
           </Attribute>
         </InternalElement>
       
@@ -159,6 +169,9 @@
               <Attribute Name="source_folder" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.source_folder}</Value>
               </Attribute>
+              <Attribute Name="Curing_base_name" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.Curing_base_name}</Value>
+              </Attribute>
               <Attribute Name="RTM_base_name" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.RTM_base_name}</Value>
               </Attribute>
@@ -185,13 +198,17 @@
               <Attribute Name="source_folder" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.source_folder}</Value>
               </Attribute>
-              <Attribute Name="RTM_base_name" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.RTM_base_name}</Value>
+              <Attribute Name="Distortion_Base_Name" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.Distortion_Base_Name}</Value>
+              </Attribute>
+              <Attribute Name="Curing_base_name" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.Curing_base_name}</Value>
               </Attribute>
             </InternalElement>  
           </InternalElement>
           
         </InternalElement>
+      </InternalElement>
       <!-- phases -->
     </InternalElement>
     <!-- Workflow_definition -->

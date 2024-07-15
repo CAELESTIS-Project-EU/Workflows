@@ -10,7 +10,7 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 
 @task(DoE_line=COLLECTION_IN,returns=1)
-def run(**kwargs):
+def run(DoE_line, Curing_base_name, Distortion_Base_Name, **kwargs):
     # import socket
     # Variables
     # Visual will read the variables values from a txt file that is written at the end of this section
@@ -31,8 +31,8 @@ def run(**kwargs):
     else:
         print('no outputs file provided!!!')
 
-    Distortion_Base_Name = 'Lk_Distortion_40'
-    Curing_base_name = 'Lk_Curing'
+    #Distortion_Base_Name = 'Lk_Distortion_40'
+    #Curing_base_name = 'Lk_Curing'
     
     if "machine" in kwargs:
         machine = kwargs["machine"]

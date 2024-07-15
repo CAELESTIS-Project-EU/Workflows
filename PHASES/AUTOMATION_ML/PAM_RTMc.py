@@ -11,15 +11,15 @@ from pycompss.api.parameter import *
 
 
 @task(DoE_line=COLLECTION_IN,returns=1)
-def run(**kwargs):
+def run(DoE_line,RTM_base_name, Curing_base_name, **kwargs):
     import socket
     print('_____________________________________________________________________________________')
     print('Starting curing simulation')
     
     
     #%% Variables
-    Curing_base_name = 'Lk_Curing'
-    RTM_base_name = 'Lk_RTM_40'
+    #Curing_base_name = 'Lk_Curing'
+    #RTM_base_name = 'Lk_RTM_40'
     
     #Visual will read the variables values from a txt file that is written at the end of this section
     if "source_folder" in kwargs:
