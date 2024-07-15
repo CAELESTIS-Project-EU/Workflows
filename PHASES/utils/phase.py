@@ -23,6 +23,8 @@ def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
                 phase_function = phase_info.get("type")
                 phase_args = phase_info.get("arguments")
                 print(f"type: {phase_function}, phase_args: {phase_args}")
+                if "DoE_line" in phase_args:
+                    print(f"DoE_line: {phase_args['DoE_line']}")
                 #phase_args =args_values.get_values(phase_info, inputs, outputs, parameters, data_folder, local_vars)
                 module_call, function_call = split_string_at_last_dot(phase_function)
                 module = importlib.import_module(module_call)
