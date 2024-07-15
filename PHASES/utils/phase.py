@@ -2,13 +2,6 @@ import importlib
 from PHASES.utils import args_values
 
 def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
-    print(f"phase: {phase}")
-    print(f"inputs: {inputs}")
-    print(f"outputs: {outputs}")
-    print(f"parameters: {parameters}")
-    print(f"data_folder: {data_folder}")
-    print(f"local_vars: {local_vars}")
-    # Assuming phase_info is a tuple (phase_function, phase_args)
     try:
         if isinstance(phase, dict):
             phase_info=args_values.get_values(phase, inputs, outputs, parameters, data_folder, local_vars)
@@ -29,6 +22,7 @@ def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
                 phase_info = args_values.get_values([p], inputs, outputs, parameters, data_folder, local_vars)
                 phase_function = phase_info.get("type")
                 phase_args = phase_info.get("arguments")
+                print(f"phase_args: {phase_args}")
                 #phase_args =args_values.get_values(phase_info, inputs, outputs, parameters, data_folder, local_vars)
                 module_call, function_call = split_string_at_last_dot(phase_function)
                 module = importlib.import_module(module_call)
