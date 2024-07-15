@@ -47,13 +47,17 @@ def get_arguments_XML(phase_list, inputs, outputs, params, data_folder, symbol_t
             else:
                 pattern = r'\{.*?\}'
                 matches = re.findall(pattern, str(value))
-
+                print(f"matches: {matches}")
                 if matches:
                     for matchA in matches:
+                        print(f"matchA: {matchA}")
                         first_part, second_part = extract_parts(matchA)
                         output = switch_values(first_part, second_part, inputs, outputs, params, data_folder,
                                                symbol_table, key)
+                        print(f"output: {output}")
+                        print(f"value 1:{value}")
                         value = value.replace("{" + matchA + "}", output)  # Replace directly
+                        print(f"value 2:{value}")
                     args.update({key: value})
                 else:
                     args.update({key: value})
