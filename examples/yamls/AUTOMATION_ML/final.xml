@@ -100,12 +100,12 @@
             <Value>Simulation</Value>
           </Attribute>
           <Attribute Name="Sequence" AttributeDataType="xs:string">
-            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PAM-RTMf>>PAM-RTMc>>PAMDIST</Value>
+            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PAM_RTMf>>PAM_RTMc>>PAMDIST</Value>
           </Attribute>
           
-          <InternalElement Name="PAM-RTMf">
+          <InternalElement Name="PAM_RTMf">
             <Attribute Name="Type" AttributeDataType="xs:string">
-              <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.AUTOMATION_ML.PAM-RTMf.run</Value>
+              <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.AUTOMATION_ML.PAM_RTMf.run</Value>
             </Attribute>
             <InternalElement Name="Parameters">
               <Attribute Name="DoE_line" AttributeDataType="xs:string">
@@ -126,7 +126,7 @@
             </InternalElement>
           </InternalElement>
           
-          <InternalElement Name="PAM-RTMc">
+          <InternalElement Name="PAM_RTMc">
             <Attribute Name="Type" AttributeDataType="xs:string">
               <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.AUTOMATION_ML.PAM_RTMc.run</Value>
             </Attribute>
