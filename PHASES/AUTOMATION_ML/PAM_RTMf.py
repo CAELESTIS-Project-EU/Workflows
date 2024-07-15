@@ -8,7 +8,7 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 
 @task(DoE_line=COLLECTION_IN,returns=1)
-def run(DoE_line,**kwargs):
+def run(DoE_line, RTM_base_name, **kwargs):
     '''
     This function assumes that parameter names and its values are provided in kwargs
     The function check if some of the parameter names corresponds to this simulation and 
@@ -20,7 +20,7 @@ def run(DoE_line,**kwargs):
     # for item in kwargs:
     #     print(item)
 
-    RTM_base_name = 'Lk_RTM_40'
+    #RTM_base_name = 'Lk_RTM_40'
     RTM_lperm_file = RTM_base_name + '_modif.lperm'
     #Visual will read the variables values from a txt file that is written at the end of this section
     if "source_folder" in kwargs:
