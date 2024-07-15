@@ -16,7 +16,7 @@ def run(RTM_base_name, Curing_base_name, **kwargs):
     print('_____________________________________________________________________________________')
     print('Starting curing simulation')
     
-    
+    print(f"kwargs: {kwargs}")
     #%% Variables
     #Curing_base_name = 'Lk_Curing'
     #RTM_base_name = 'Lk_RTM_40'
