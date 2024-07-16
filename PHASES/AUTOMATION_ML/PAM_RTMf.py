@@ -20,12 +20,12 @@ def run(RTM_base_name,inputs_folder, outputs_folder, source_folder, **kwargs):
 
     # for item in kwargs:
     #     print(item)
-    
+
     # RTM_base_name = 'Lk_RTM_40'
     RTM_lperm_file = RTM_base_name + '_modif.lperm'
     # Visual will read the variables values from a txt file that is written at the end of this section
-    if "source_folder" in kwargs:
-        source_folder_folder = kwargs["source_folder"]
+    if source_folder:
+        source_folder_folder =source_folder
 
     if inputs_folder:
         input_files_folder = inputs_folder
