@@ -101,10 +101,10 @@ def run(RTM_base_name, **kwargs):
         print(f"DoE_line: { kwargs['DoE_line']}")
         if 'Injection_pressure' in kwargs['DoE_line']:
             MacroRTMList.append('07_RTMApplyPressure.py')
-            VariablesDict['Injection_pressure'] = kwargs['DoE_line'].get('Injection_pressure')
+            VariablesDict['Injection_pressure'] = kwargs['DoE_line']['Injection_pressure']
         if 'Injection_temperature' in kwargs['DoE_line']:
             MacroRTMList.append('07_RTMApplyTemperature.py')
-            VariablesDict['Injection_temperature'] = kwargs['DoE_line'].get('Injection_temperature')
+            VariablesDict['Injection_temperature'] = kwargs['DoE_line']['Injection_temperature']
 
     RTM_parameters_list = ['Injection_pressure', 'Injection_temperature', 'Injection flow_rate']
 
