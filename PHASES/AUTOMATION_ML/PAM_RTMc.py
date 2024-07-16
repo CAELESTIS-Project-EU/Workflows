@@ -10,7 +10,7 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 
 
-@task(DoE_line=COLLECTION_IN,returns=1)
+@task(DoE_line=INOUT, returns=1)
 def run(RTM_base_name, Curing_base_name, **kwargs):
     import socket
     print('_____________________________________________________________________________________')

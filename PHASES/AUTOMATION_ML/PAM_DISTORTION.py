@@ -9,7 +9,7 @@ from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 
-@task(DoE_line=COLLECTION_IN,returns=1)
+@task(DoE_line=INOUT,returns=1)
 def run(Curing_base_name, Distortion_Base_Name, **kwargs):
     # import socket
     # Variables
