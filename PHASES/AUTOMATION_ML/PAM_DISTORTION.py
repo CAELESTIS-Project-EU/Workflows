@@ -151,5 +151,5 @@ def run(Curing_base_name, Distortion_Base_Name, **kwargs):
     # solve
     Distortionmodel.solveStep(runInBackground=False)
 
-    return
+    return "PAM_DISTORSION finished"
 

@@ -145,4 +145,4 @@ def run(RTM_base_name, **kwargs):
     # Run    
     RTMmodel.solveStep(runInBackground=False)
 
-    return
+    return "PAM_RTMf finished"

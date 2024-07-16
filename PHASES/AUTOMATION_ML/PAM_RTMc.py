@@ -136,4 +136,4 @@ def run(RTM_base_name, Curing_base_name, **kwargs):
     
     Curingmodel.solveStep(runInBackground=False)
 
-    return
+    return "PAM_RTMc finished"
