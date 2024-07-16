@@ -17,7 +17,7 @@ def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
             module = importlib.import_module(module_call)
             return getattr(module, function_call)(**phase_args, **kwargs)
         else:
-            values = []
+            values=None
             for p in phase:
                 phase_info = args_values.get_values([p], inputs, outputs, parameters, data_folder, local_vars)
                 phase_function = phase_info.get("type")
@@ -27,7 +27,7 @@ def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
                     print(f"DoE_line: {phase_args['DoE_line']}")
                 module_call, function_call = split_string_at_last_dot(phase_function)
                 module = importlib.import_module(module_call)
-                values.append(getattr(module, function_call)(**phase_args, **kwargs))
+                values=getattr(module, function_call)(**phase_args, **kwargs, out=values)
             return values
     except Exception as e:
         raise ValueError(f"An exception occurred: {e}")

@@ -7,7 +7,7 @@ from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 
-@task(DoE_line=INOUT, returns=1)
+@task(returns=1)
 def run(RTM_base_name, **kwargs):
     '''
     This function assumes that parameter names and its values are provided in kwargs
