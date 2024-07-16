@@ -16,6 +16,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         print("CHECK LICENSE DONE")
         a = 0
         for index, row in df.iterrows():
+            a += 1
             line_number = 'line' + str(a)
             DoE_line = dict(zip(DoE_names, row))
             phase.run(phases.get("Simulation"), inputs, outputs, parameters, data_folder, locals())

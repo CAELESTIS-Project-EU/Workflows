@@ -23,11 +23,9 @@ def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
                 phase_function = phase_info.get("type")
                 phase_args = phase_info.get("arguments")
                 print(f"type: {phase_function}, phase_args: {phase_args}")
-                if "DoE_line" in phase_args:
-                    print(f"DoE_line: {phase_args['DoE_line']}")
                 module_call, function_call = split_string_at_last_dot(phase_function)
                 module = importlib.import_module(module_call)
-                values=getattr(module, function_call)(**phase_args, **kwargs, out=values)
+                values=getattr(module, function_call)(**phase_args, **kwargs)
                 print(str(values))
             return values
     except Exception as e:

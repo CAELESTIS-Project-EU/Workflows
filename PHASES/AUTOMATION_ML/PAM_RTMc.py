@@ -10,8 +10,8 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 
 
-@task(returns=1)
-def run(RTM_base_name, Curing_base_name, **kwargs):
+@task(outputs_folder=DIRECTORY_OUT, inputs_folder=DIRECTORY_IN, returns=1)
+def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, **kwargs):
     import socket
     print('_____________________________________________________________________________________')
     print('Starting curing simulation')
@@ -25,12 +25,12 @@ def run(RTM_base_name, Curing_base_name, **kwargs):
     if "source_folder" in kwargs:
         source_folder_folder = kwargs["source_folder"]
         
-    if "inputs_folder" in kwargs:
-        input_files_folder = kwargs["inputs_folder"]
+    if inputs_folder:
+        input_files_folder = inputs_folder
         #print('inputs folder is : ', input_files_folder)
 
-    if "outputs_folder" in kwargs:
-        outputs_files_folder = kwargs["outputs_folder"]
+    if outputs_folder:
+        outputs_files_folder =outputs_folder
         if not os.path.exists(outputs_files_folder):
             os.makedirs(outputs_files_folder)
     
@@ -50,8 +50,8 @@ def run(RTM_base_name, Curing_base_name, **kwargs):
         RTMsolverVEPath = r'/nisprod/ppghome/ppg/dist/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
     elif machine == 'HPCBSC':
         display = 0
-        RTMSolverPath = r'/gpfs/projects/bsce81/esi/pamrtm/2022.5/Linux_x86_64_2.36/bin/pamcmxdmp.sh'
-        RTMsolverVEPath = r'/gpfs/projects/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
+        RTMSolverPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/pamrtm/2022.5/Linux_x86_64_2.36/bin/pamcmxdmp.sh'
+        RTMsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
 
     # Fixed variables
     SourceDirectory = source_folder_folder
