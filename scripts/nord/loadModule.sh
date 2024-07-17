@@ -14,7 +14,7 @@ module load boost/1.78.0
 module load ALYA/mpio
 module load dislib/master
 module load python/3.9.10
-module load compss/3.3.1
+module load COMPSs/3.3.1
 
 export PYTHONPATH=$DEST_PATH:$PYTHONPATH
 
