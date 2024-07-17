@@ -158,7 +158,7 @@
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.DoE_line}</Value>
               </Attribute>
               <Attribute Name="outputs_folder" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/{variables.line_number}/Curing</Value>
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/Curing</Value>
               </Attribute>
                <Attribute Name="inputs_folder" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/RTM</Value>
