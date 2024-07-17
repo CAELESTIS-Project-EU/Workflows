@@ -16,7 +16,7 @@ PROJECT_NAME=${14}
 cd $EXECUTION_FOLDER
 
 # Construct the enqueue_compss command based on user options
-enqueue_compss_cmd="enqueue_compss --keep_workingdir --worker_working_dir=$PWD --project_name=$PROJECT_NAME --job_execution_dir=$EXECUTION_FOLDER --log_dir=$EXECUTION_FOLDER --qos=$QOS --exec_time=$EXEC_TIME --pythonpath=$PYTHONPATH --num_nodes=$NUM_NODES --worker_in_master_cpus=16"
+enqueue_compss_cmd="enqueue_compss --worker_working_dir=$PWD --project_name=$PROJECT_NAME --job_execution_dir=$EXECUTION_FOLDER --log_dir=$EXECUTION_FOLDER --qos=$QOS --exec_time=$EXEC_TIME --pythonpath=$PYTHONPATH --num_nodes=$NUM_NODES --worker_in_master_cpus=16 --keep_workingdir"
 
 # Add -g option if specified
 if [ "$gOPTION" = "true" ]; then
