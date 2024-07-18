@@ -55,7 +55,7 @@ def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, **kwargs
 
     # Fixed variables
     SourceDirectory = source_folder_folder
-    VariablesTxtPath = os.path.abspath(os.path.join(SourceDirectory, 'VariablesList.txt'))
+    VariablesTxtPath = os.path.abspath(os.path.join(os.getcwd(), 'VariablesList.txt'))
     RTMVdbName = RTM_base_name + '.vdb'
     VdbRTMFilePath = os.path.abspath(os.path.join(outputs_files_folder, RTMVdbName))
     CuringVdbName = Curing_base_name + '.vdb'

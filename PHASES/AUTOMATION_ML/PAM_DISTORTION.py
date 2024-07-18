@@ -65,7 +65,7 @@ def run(Curing_base_name, Distortion_Base_Name, inputs_folder, outputs_folder, *
 
     # Fixed variables
     SourceDirectory = source_folder_folder
-    VariablesTxtPath = os.path.join(SourceDirectory, 'VariablesList.txt')
+    VariablesTxtPath = os.path.join(os.getcwd(), 'VariablesList.txt')
     CuringVdbName = Curing_base_name + '.vdb'
     DistortionVdbName = Distortion_Base_Name + '.vdb'
     DistortionPcName = Distortion_Base_Name + '.pc'
