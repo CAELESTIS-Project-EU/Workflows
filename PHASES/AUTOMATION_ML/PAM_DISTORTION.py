@@ -78,9 +78,9 @@ def run(Curing_base_name, Distortion_Base_Name, inputs_folder, outputs_folder, s
     CuringCATGENerfName = Curing_base_name + '_CATGEN.erfh5'
     CuringCATGENerfPath = os.path.join(Curingbasefolder, CuringCATGENerfName)
     SourceVdbDistortionFilePath = os.path.join(SourceDirectory, DistortionVdbName)
-    sourcePcDistortionFilePath = os.path.join(SourceDirectory, DistortionPcName)
-    sourceIncDistortionFilePath = os.path.join(SourceDirectory, DistortionIncName)
-    sourceOriDistortionFilePath = os.path.join(SourceDirectory, DistortionOriName)
+    #sourcePcDistortionFilePath = os.path.join(SourceDirectory, DistortionPcName)
+    #sourceIncDistortionFilePath = os.path.join(SourceDirectory, DistortionIncName)
+    #sourceOriDistortionFilePath = os.path.join(SourceDirectory, DistortionOriName)
 
     VdbDistortionFilePath = os.path.join(Distortionbasefolder, DistortionVdbName)
     PcDistortionFilePath = os.path.join(Distortionbasefolder, DistortionPcName)

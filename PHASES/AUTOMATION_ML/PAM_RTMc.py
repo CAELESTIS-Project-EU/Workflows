@@ -30,9 +30,14 @@ def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, source_f
         #print('inputs folder is : ', input_files_folder)
 
     if outputs_folder:
-        outputs_files_folder =outputs_folder
+        outputs_files_folder = outputs_folder
         if not os.path.exists(outputs_files_folder):
             os.makedirs(outputs_files_folder)
+            print("Folder '{}' created.".format(outputs_files_folder))
+        else:
+            print("Folder '{}' already exists.".format(outputs_files_folder))
+    else:
+        print('no outputs file provided!!!')
     
     if "machine" in kwargs:
         machine = kwargs["machine"]
