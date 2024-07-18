@@ -10,8 +10,8 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 
 
-@task(outputs_folder=DIRECTORY_OUT, inputs_folder=DIRECTORY_IN, returns=1)
-def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, **kwargs):
+@task(inputs_folder=DIRECTORY_IN, outputs_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, returns=1)
+def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, source_folder, **kwargs):
     import socket
     print('_____________________________________________________________________________________')
     print('Starting curing simulation')
@@ -22,8 +22,8 @@ def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, **kwargs
     #RTM_base_name = 'Lk_RTM_40'
     
     #Visual will read the variables values from a txt file that is written at the end of this section
-    if "source_folder" in kwargs:
-        source_folder_folder = kwargs["source_folder"]
+    if source_folder:
+        source_folder_folder = source_folder
         
     if inputs_folder:
         input_files_folder = inputs_folder

@@ -9,15 +9,15 @@ from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 
-@task(outputs_folder=DIRECTORY_OUT, inputs_folder=DIRECTORY_IN,returns=1)
-def run(Curing_base_name, Distortion_Base_Name, inputs_folder, outputs_folder, **kwargs):
+@task(inputs_folder=DIRECTORY_IN, outputs_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, returns=1)
+def run(Curing_base_name, Distortion_Base_Name, inputs_folder, outputs_folder, source_folder, **kwargs):
     # import socket
     # Variables
     # Visual will read the variables values from a txt file that is written at the end of this section
     print('_____________________________________________________________________________________')
     print('Starting distortion simulation')
-    if "source_folder" in kwargs:
-        source_folder_folder = kwargs["source_folder"]
+    if source_folder:
+        source_folder_folder = source_folder
         
     if inputs_folder:
         input_files_folder =inputs_folder
