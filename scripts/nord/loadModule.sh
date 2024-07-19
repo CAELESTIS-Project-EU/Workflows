@@ -5,6 +5,14 @@ export ALYA_PPN=16
 export RVEGEN_CUS=16
 export gmshBinFile=/gpfs/projects/bsce81/gmsh/gmsh-4.11.1-Linux64/bin/gmsh
 export gmsh2alya=/gpfs/projects/bsc19/CAELESTIS/alya/builds/gmsh2alya.pl
+PAMHOME=/gpfs/projects/bsce81/MN4/bsce81/esi
+PAMENV=$PAMHOME/env-`uname`
+export PAMHOME PAMENV
+if [ -r $PAMENV/psi.Baenv ]; then
+    . $PAMENV/psi.Baenv
+fi
+
+
 module purge
 module load intel/2021.4.0
 module load mkl/2021.4

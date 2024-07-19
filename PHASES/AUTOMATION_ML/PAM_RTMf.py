@@ -3,12 +3,13 @@ ESI Group
 SMO
 """
 import os
-from utils.bbesi_rtm_api import Visual_API
-import check_license
+from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 
-@task(returns=1)
-def run(**kwargs):
-    bool = check_license()
+
+@task(inputs_folder=DIRECTORY_IN, outputs_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, returns=1)
+def run(RTM_base_name,inputs_folder, outputs_folder, source_folder, **kwargs):
     '''
     This function assumes that parameter names and its values are provided in kwargs
     The function check if some of the parameter names corresponds to this simulation and 
@@ -20,17 +21,17 @@ def run(**kwargs):
     # for item in kwargs:
     #     print(item)
 
-    RTM_base_name = 'Lk_RTM_40'
+    # RTM_base_name = 'Lk_RTM_40'
     RTM_lperm_file = RTM_base_name + '_modif.lperm'
-    #Visual will read the variables values from a txt file that is written at the end of this section
-    if "source_folder" in kwargs:
-        source_folder_folder = kwargs["source_folder"]
-        
-    if "inputs_folder" in kwargs:
-        input_files_folder = kwargs["inputs_folder"]
+    # Visual will read the variables values from a txt file that is written at the end of this section
+    if source_folder:
+        source_folder_folder =source_folder
 
-    if "outputs_folder" in kwargs:
-        outputs_files_folder = kwargs["outputs_folder"]
+    if inputs_folder:
+        input_files_folder = inputs_folder
+
+    if outputs_folder:
+        outputs_files_folder = outputs_folder
         if not os.path.exists(outputs_files_folder):
             os.makedirs(outputs_files_folder)
             print("Folder '{}' created.".format(outputs_files_folder))
@@ -45,13 +46,13 @@ def run(**kwargs):
     if "machine" in kwargs:
         machine = kwargs["machine"]
     display = 0
-    
-    #paths
+
+    # paths
     if machine == 'BORLAP020':
         RTMSolverPath = r'C:\Program Files\ESI Group\PAM-COMPOSITES\2022.5\RTMSolver\bin\pamcmxdmp.bat'
         if display == 1:
             RTMsolverVEPath = r'C:\Program Files\ESI Group\Visual-Environment\18.0\Windows-x64\VisualEnvironment.bat'
-        else :
+        else:
             RTMsolverVEPath = r'C:\Program Files\ESI Group\Visual-Environment\18.0\Windows-x64\VEBatch.bat'
     elif machine == 'bruclu':
         display = 0
@@ -59,20 +60,20 @@ def run(**kwargs):
         RTMsolverVEPath = r'/nisprod/ppghome/ppg/dist/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
     elif machine == 'HPCBSC':
         display = 0
-        RTMSolverPath = r'/gpfs/projects/bsce81/esi/pamrtm/2022.5/Linux_x86_64_2.36/bin/pamcmxdmp.sh'
-        RTMsolverVEPath = r'/gpfs/projects/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
+        RTMSolverPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/pamrtm/2022.5/Linux_x86_64_2.36/bin/pamcmxdmp.sh'
+        RTMsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
 
     # Fixed variables
     SourceDirectory = source_folder_folder
-    VariablesTxtPath = os.path.abspath(os.path.join(SourceDirectory, 'VariablesList.txt'))
-    RTMVdbName = RTM_base_name + '.vdb'   
+    VariablesTxtPath = os.path.abspath(os.path.join(os.getcwd(), 'VariablesList.txt'))
+    RTMVdbName = RTM_base_name + '.vdb'
     SourceVdbRTMFilePath = os.path.abspath(os.path.join(SourceDirectory, RTMVdbName))
     VdbRTMFilePath = os.path.abspath(os.path.join(outputs_files_folder, RTMVdbName))
     lpermfile = os.path.abspath(os.path.join(SourceDirectory, RTM_lperm_file))
 
-    MacroRTMList=[]
+    MacroRTMList = []
 
-    #Copy files to destination folder
+    # Copy files to destination folder
     import shutil
     print(100 * '-')
     print('Copying to folder {}'.format(outputs_files_folder))
@@ -110,8 +111,8 @@ def run(**kwargs):
     MacroRTMList.append('08_RTMWriteSolverInput.py')
 
     # PAM-RTM uses its own python instance. A txt file is used to send it the required information
-    #notes:
-        #variables txt file must be in the same folder as the scripts
+    # notes:
+    # variables txt file must be in the same folder as the scripts
     f = open(os.path.join(VariablesTxtPath), "w+")
     for elem in VariablesDict:
         f.write(str(elem) + "= " + str(VariablesDict[elem]) + "\n")
@@ -136,12 +137,11 @@ def run(**kwargs):
     RTMmodel.fp = 1  # Floating point precision (1: SP , 2: DP , note IMPLICIT requires DP)
     RTMmodel.nt = 2  # Number of threads
     RTMmodel.mp = 1  # 1 (default): SMP parallel mode; 2: DMP parallel mode
-    
-  
+
     # Execute macros
     for elem in MacroRTMList:
         RTMmodel.LaunchMacro(elem)
     # Run    
     RTMmodel.solveStep(runInBackground=False)
 
-    return
+    return "PAM_RTMf finished"

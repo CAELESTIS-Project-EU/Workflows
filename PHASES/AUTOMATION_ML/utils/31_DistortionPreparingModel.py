@@ -9,7 +9,9 @@
 #	Product				:  	Visual-Environment 18.5
 #	Date				:  	Fri Mar 31 16:36:46 2023
 #-------------------------------------------------------------------------------
-null='' 
+import os
+
+null=''
 from VgPoint3 import *
 from VgPoint2 import *
 from VgMatrix import *

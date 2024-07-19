@@ -4,37 +4,40 @@ Created on Wed Jun 28 15:47:58 2023
 
 @author: SMO
 """
-import check_license
 import os
-from utils.bbesi_rtm_api import Visual_API
+from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 
 
-
-@task(returns=1)
-def run(**kwargs):
-
-    bool = check_license()
+@task(inputs_folder=DIRECTORY_IN, outputs_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, returns=1)
+def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, source_folder, **kwargs):
     import socket
     print('_____________________________________________________________________________________')
     print('Starting curing simulation')
     
-    
+    print(f"kwargs: {kwargs}")
     #%% Variables
-    Curing_base_name = 'Lk_Curing'
-    RTM_base_name = 'Lk_RTM_40'
+    #Curing_base_name = 'Lk_Curing'
+    #RTM_base_name = 'Lk_RTM_40'
     
     #Visual will read the variables values from a txt file that is written at the end of this section
-    if "source_folder" in kwargs:
-        source_folder_folder = kwargs["source_folder"]
+    if source_folder:
+        source_folder_folder = source_folder
         
-    if "inputs_folder" in kwargs:
-        input_files_folder = kwargs["inputs_folder"]
+    if inputs_folder:
+        input_files_folder = inputs_folder
         #print('inputs folder is : ', input_files_folder)
 
-    if "outputs_folder" in kwargs:
-        outputs_files_folder = kwargs["outputs_folder"]
+    if outputs_folder:
+        outputs_files_folder = outputs_folder
         if not os.path.exists(outputs_files_folder):
             os.makedirs(outputs_files_folder)
+            print("Folder '{}' created.".format(outputs_files_folder))
+        else:
+            print("Folder '{}' already exists.".format(outputs_files_folder))
+    else:
+        print('no outputs file provided!!!')
     
     if "machine" in kwargs:
         machine = kwargs["machine"]
@@ -52,12 +55,12 @@ def run(**kwargs):
         RTMsolverVEPath = r'/nisprod/ppghome/ppg/dist/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
     elif machine == 'HPCBSC':
         display = 0
-        RTMSolverPath = r'/gpfs/projects/bsce81/esi/pamrtm/2022.5/Linux_x86_64_2.36/bin/pamcmxdmp.sh'
-        RTMsolverVEPath = r'/gpfs/projects/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
+        RTMSolverPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/pamrtm/2022.5/Linux_x86_64_2.36/bin/pamcmxdmp.sh'
+        RTMsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
 
     # Fixed variables
     SourceDirectory = source_folder_folder
-    VariablesTxtPath = os.path.abspath(os.path.join(SourceDirectory, 'VariablesList.txt'))
+    VariablesTxtPath = os.path.abspath(os.path.join(os.getcwd(), 'VariablesList.txt'))
     RTMVdbName = RTM_base_name + '.vdb'
     VdbRTMFilePath = os.path.abspath(os.path.join(outputs_files_folder, RTMVdbName))
     CuringVdbName = Curing_base_name + '.vdb'
@@ -138,4 +141,4 @@ def run(**kwargs):
     
     Curingmodel.solveStep(runInBackground=False)
 
-    return
+    return "PAM_RTMc finished"

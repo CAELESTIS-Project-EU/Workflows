@@ -86,6 +86,7 @@ class Visual_API():
                     print("Error Output:", e.output)
                     # e.stderr contains the standard error (if any)
                     print("Standard Error:", e.stderr)
+
             
             elif machine == 'bruclu':
                 linesToWrite = self.solverPath + " " + self.inputFile + " -mpidir=/nisprod/ppghome/ppg/dist/intelmpi/2018.3/Linux_x86_64/intel64/bin -mpi impi-2018.3 -np 1  > " + self.outputFile +  ' 2>&1'
@@ -94,11 +95,18 @@ class Visual_API():
                 subprocess.call(linesToWrite, shell=True)
                 
             elif machine == 'HPCBSC':
-                linesToWrite = self.solverPath + " " + self.inputFile + " -mpidir=/.statelite/tmpfs/gpfs/projects/bsce81/esi/intelmpi/2019.11/Linux_x86_64/intel64/bin -mpi impi-2019.11 -np 1  > " + self.outputFile +  ' 2>&1'
-                #print("DISTORTION launch command : ")
-                #print(linesToWrite)          
-                subprocess.call(linesToWrite, shell=True)
-            
+                try:
+                    linesToWrite = self.solverPath + " " + self.inputFile + " -mpidir=/gpfs/projects/bsce81/MN4/bsce81/esi/intelmpi/2019.11/Linux_x86_64/intel64/bin -mpi impi-2019.11 -np 1  > " + self.outputFile +  ' 2>&1'
+                    #print("DISTORTION launch command : ")
+                    #print(linesToWrite)
+                    subprocess.call(linesToWrite, shell=True)
+                except subprocess.CalledProcessError as e:
+                    print("Error while running {}: {}".format(linesToWrite, str(e)))
+                    # If the command failed, e.output contains the standard output (if any)
+                    print("Error Output:", e.output)
+                    # e.stderr contains the standard error (if any)
+                    print("Standard Error:", e.stderr)
+                    raise Exception(f"Execution failed: {e}")
             os.chdir(current_dir)
             
             return True
