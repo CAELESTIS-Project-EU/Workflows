@@ -16,7 +16,7 @@ def load_twinkle(**kwargs):
         return extract_outlayers_values(input_file, num_columns_y, results_folder)
 
 
-@task(returns=1)
+@task(returns=2)
 def load(**kwargs):
     inputFileX = kwargs.get("inputFileX")
     inputFileY = kwargs.get("inputFileY")

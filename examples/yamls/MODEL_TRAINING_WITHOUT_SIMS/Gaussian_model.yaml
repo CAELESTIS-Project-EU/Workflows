@@ -1,6 +1,11 @@
 ---
 workflow_type: WORKFLOWS.MODEL_TRAINING_WITHOUT_SIMS.workflow.execution
 phases:
+  load: 
+    type: PHASES.MODEL_TRAINING.dislib_load.load
+    arguments:
+      - inputFileX: $parameters.x
+      - inputFileY: $parameters.y
   kernel_generation:
     type: PHASES.MODEL_TRAINING.PARAMETERS.ConstantKernel.gen_param
     arguments:
@@ -15,8 +20,8 @@ phases:
       - model_output: $outputs.model_output 
       - model_dump: $outputs.model_dump
       - alpha: $parameters.alpha
-      - x: $inputs.x
-      - y: $inputs.y
+      - x: $variables.x
+      - y: $variables.y
       - results_folder: $variables.results_folder
 outputs:
   model_output: 
@@ -28,8 +33,8 @@ outputs:
     - server: "ftp://nas.aimen.es/P_CAELESTIS_SHARE/outputs/ModelTraining"
     - overwrite : true
 parameters:
-  x: "/home/bsc19/bsc19518/modelInput/xFile.npy"
-  y: "/home/bsc19/bsc19518/modelInput/yFile.npy"
+  inputFileX: "/path/xFile.npy"
+  inputFileY: "/path/yFile.npy"
   alpha: 1e-8
   sigma_0_bounds:  [min : 1, max : 10]
   constant_value: 0.1
