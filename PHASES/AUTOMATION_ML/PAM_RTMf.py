@@ -5,9 +5,10 @@ SMO
 import os
 from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
 from pycompss.api.task import task
+from pycompss.api.constraint import constraint
 from pycompss.api.parameter import *
 
-
+@constraint(computing_units=16)
 @task(inputs_folder=DIRECTORY_IN, outputs_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, returns=1)
 def run(RTM_base_name,inputs_folder, outputs_folder, source_folder, **kwargs):
     '''
@@ -137,7 +138,7 @@ def run(RTM_base_name,inputs_folder, outputs_folder, source_folder, **kwargs):
     RTMmodel.fp = 1  # Floating point precision (1: SP , 2: DP , note IMPLICIT requires DP)
     RTMmodel.nt = 2  # Number of threads
     RTMmodel.mp = 1  # 1 (default): SMP parallel mode; 2: DMP parallel mode
-
+    RTMmodel.np = 16 # Number of processes
     # Execute macros
     for elem in MacroRTMList:
         RTMmodel.LaunchMacro(elem)
