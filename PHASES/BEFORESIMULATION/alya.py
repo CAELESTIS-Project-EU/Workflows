@@ -8,7 +8,7 @@ from pycompss.api.on_failure import on_failure
 from pycompss.api.constraint import constraint
 
 gen_timeout=int(os.environ.get("GEN_TIMEOUT","3600"))
-gen_cores=int(os.environ.get("GEN_CORES"),"1")
+gen_cores=int(os.environ.get("GEN_CORES","1"))
 
 def prepare_data(**kwargs):
     prepare_args = kwargs
