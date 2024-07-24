@@ -9,8 +9,10 @@ from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 from pycompss.api.constraint import constraint
+from pycompss.api.multinode import multinode
 
 @constraint(computing_units=16)
+@multinode(computing_nodes=1)
 @task(inputs_folder=DIRECTORY_IN, outputs_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, returns=1)
 def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, source_folder, **kwargs):
     import socket
