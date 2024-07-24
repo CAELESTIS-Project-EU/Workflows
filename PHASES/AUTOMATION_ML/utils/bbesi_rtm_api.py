@@ -49,7 +49,7 @@ class Visual_API():
                 if self.machine == 'BORLAP020':
                     cmd += '"' + OUTPUT_PATH + '" -np 4'
                 else:
-                    cmd += '"' + OUTPUT_PATH + '" -np ' + self.np
+                    cmd += '"' + OUTPUT_PATH + '" -np ' + str(self.np)
             
                 
                 subprocess.call(cmd, shell=True)
@@ -96,7 +96,7 @@ class Visual_API():
                 
             elif machine == 'HPCBSC':
                 try:
-                    linesToWrite = self.solverPath + " " + self.inputFile + " -mpidir=/gpfs/projects/bsce81/MN4/bsce81/esi/intelmpi/2019.11/Linux_x86_64/intel64/bin -mpi impi-2019.11 -np " + self.np + " > " + self.outputFile +  ' 2>&1'
+                    linesToWrite = self.solverPath + " " + self.inputFile + " -mpidir=/gpfs/projects/bsce81/MN4/bsce81/esi/intelmpi/2019.11/Linux_x86_64/intel64/bin -mpi impi-2019.11 -np " + str(self.np) + " > " + self.outputFile +  ' 2>&1'
                     #print("DISTORTION launch command : ")
                     #print(linesToWrite)
                     subprocess.call(linesToWrite, shell=True)
