@@ -18,6 +18,9 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         for index, row in df.iterrows():
             a += 1
             line_number = 'line' + str(a)
+            row_folder = os.path.join(results_folder, line_number)
+            if not os.path.isdir(row_folder):
+                os.makedirs(row_folder)
             DoE_line = dict(zip(DoE_names, row))
             phase.run(phases.get("Simulation"), inputs, outputs, parameters, data_folder, locals())
     else:
