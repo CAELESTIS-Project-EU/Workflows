@@ -53,6 +53,7 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
         vsPath = 'gcc'
         RTMSolverPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/pamrtm/2022.5/Linux_x86_64_2.36/bin/pamcmxdmp.sh'
         RTMsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
+
     elif machine == 'JVNYDS':
         vsPath = r'C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/Build/vcvarsall.bat'
         RTMSolverPath = r'C:/Program Files/ESI Group/PAM-COMPOSITES/2022.0/RTMSolver\bin/pamcmxdmp.bat'
@@ -152,6 +153,7 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
     RTMmodel.nt = 2  # Number of threads
     RTMmodel.mp = 1  # 1 (default): SMP parallel mode; 2: DMP parallel mode
     RTMmodel.np = int(np) # Number of processes
+    RTMmodel.mpidir = None
     # Execute macros
     for elem in MacroRTMList:
         RTMmodel.LaunchMacro(elem)

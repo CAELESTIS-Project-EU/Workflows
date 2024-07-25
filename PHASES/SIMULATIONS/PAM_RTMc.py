@@ -20,7 +20,7 @@ import shutil
 #@constraint(computing_units="PAM_NP")
 @constraint(computing_units=16)
 @multinode(computing_nodes=1)
-@task(input_files_folder=DIRECTORY_IN, outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, inputs_macros_folder= DIRECTORY_IN, returns=1)
+@task(input_files_folder=DIRECTORY_IN, outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder= DIRECTORY_IN, returns=1)
 def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
     print('_____________________________________________________________________________________')
     print('Starting curing simulation')
@@ -176,6 +176,7 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
     Curingmodel.nt = 2 # Number of threads
     Curingmodel.mp = 1 # 1 (default): SMP parallel mode; 2: DMP parallel mode
     Curingmodel.np = int(np) 
+    Curingmodel.mpidir = None
 
     # JEA: Strange I think it is not necessary
     #Scriptsfolder = os.getcwd()
