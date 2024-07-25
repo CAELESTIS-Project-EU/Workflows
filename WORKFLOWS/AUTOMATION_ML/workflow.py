@@ -7,7 +7,7 @@ PAM_NP = 1
 
 def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
     global PAM_NP
-    if "PAM_NP" in parameters
+    if "PAM_NP" in parameters:
         PAM_NP=int(parameters["PAM_NP"])
         print("Setting PAM NP to " + str(PAM_NP))             
     df, DoE_names= phase.run(phases.get("Sampling"), inputs, outputs, parameters, data_folder, locals())
