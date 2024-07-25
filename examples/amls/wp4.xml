@@ -57,9 +57,9 @@
             <Value>HPCBSC</Value>
           </Attribute>
         </InternalElement>
-        <InternalElement Name="inputs_folder" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
+        <InternalElement Name="macros_folder" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
           <Attribute Name="Param" AttributeDataType="xs:string">
-            <Value>/gpfs/projects/bsce81/workflow_wp4/001_Data/input</Value>
+            <Value>/gpfs/projects/bsce81/workflow_wp4/src_esi</Value>
           </Attribute>
         </InternalElement>
         <InternalElement Name="inputs_file" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
@@ -134,8 +134,8 @@
               <Attribute Name="outputs_files_folder" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/RTM/</Value>
               </Attribute>
-               <Attribute Name="input_files_folder" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.inputs_folder}</Value>
+              <Attribute Name="src_macros_folder" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.macros_folder}</Value>
               </Attribute>
               <Attribute Name="machine" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.machine}</Value>
@@ -181,6 +181,9 @@
               <Attribute Name="np" AttributeDataType="xs:int">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="int">16</Value>
               </Attribute>
+              <Attribute Name="src_macros_folder" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.macros_folder}</Value>
+              </Attribute>
             </InternalElement>
           </InternalElement>
           
@@ -212,6 +215,9 @@
               </Attribute>
               <Attribute Name="np" AttributeDataType="xs:int">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="int">16</Value>
+              </Attribute>
+              <Attribute Name="src_macros_folder" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.macros_folder}</Value>
               </Attribute>
             </InternalElement>  
           </InternalElement>
