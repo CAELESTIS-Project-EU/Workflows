@@ -10,7 +10,7 @@ from pycompss.api.parameter import *
 from pycompss.api.multinode import multinode
 import shutil
 
-@constraint(computing_units="{{np}}")
+@constraint(computing_units="PAM_NP")
 @multinode(computing_nodes=1)
 @task(outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder=DIRECTORY_IN, returns=1)
 def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
@@ -150,7 +150,7 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
     RTMmodel.fp = 1  # Floating point precision (1: SP , 2: DP , note IMPLICIT requires DP)
     RTMmodel.nt = 2  # Number of threads
     RTMmodel.mp = 1  # 1 (default): SMP parallel mode; 2: DMP parallel mode
-    RTMmodel.np = np # Number of processes
+    RTMmodel.np = int(np) # Number of processes
     # Execute macros
     for elem in MacroRTMList:
         RTMmodel.LaunchMacro(elem)

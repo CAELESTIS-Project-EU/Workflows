@@ -17,7 +17,7 @@ from PHASES.ESI.utils.write_file_ori import write_settemperature
 import shutil
 
 
-@constraint(computing_units=16)
+@constraint(computing_units="PAM_NP")
 @multinode(computing_nodes=1)
 @task(input_files_folder=DIRECTORY_IN, outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, inputs_macros_folder= DIRECTORY_IN, returns=1)
 def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
@@ -174,7 +174,7 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
     Curingmodel.fp = 1 # Floating point precision (1: SP , 2: DP , note IMPLICIT requires DP)
     Curingmodel.nt = 2 # Number of threads
     Curingmodel.mp = 1 # 1 (default): SMP parallel mode; 2: DMP parallel mode
-    Curingmodel.np = np 
+    Curingmodel.np = int(np) 
 
     # JEA: Strange I think it is not necessary
     #Scriptsfolder = os.getcwd()

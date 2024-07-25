@@ -12,7 +12,7 @@ from pycompss.api.parameter import *
 from pycompss.api.constraint import constraint
 from pycompss.api.multinode import multinode
 
-@constraint(computing_units="{{np}}")
+@constraint(computing_units="PAM_NP")
 @multinode(computing_nodes=1)
 @task(input_files_folder=DIRECTORY_IN, outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder=DIRECTORY_IN, returns=1)
 def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np **kwargs):
@@ -151,7 +151,7 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     Distortionmodel.fp = 1 # Floating point precision (1: SP , 2: DP , note IMPLICIT requires DP)
     Distortionmodel.nt = 2 # Number of threads
     Distortionmodel.mp = 1 # 1 (default): SMP parallel mode; 2: DMP parallel mode
-    Distortionmodel.np = np
+    Distortionmodel.np = int(np)
     # #Execute macros
     for elem in MacroDistortionList:
           Distortionmodel.LaunchMacro(elem)
