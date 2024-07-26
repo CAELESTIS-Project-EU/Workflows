@@ -99,7 +99,7 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     VariablesDict = {}
     MacroDistortionList = []
 
-     if 'Orientation' in DoE_line:
+    if 'Orientation' in DoE_line:
         if str(DoE_line['Orientation']) != '-1':
             VariablesDict['Orientation'] = DoE_line['Orientation']
     #%% Start running the DoE
