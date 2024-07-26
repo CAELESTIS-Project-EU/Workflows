@@ -162,6 +162,7 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
     Curingmodel.FileName = Curing_base_name
     Curingmodel.solverPath = RTMSolverPath
     Curingmodel.solverVEPath = RTMsolverVEPath
+    Curingmodel.vsPath = vsPath
     Curingmodel.basefolder = Curingbasefolder
     Curingmodel.inputFile = VdbCuringFilePath
     Curingmodel.SourceFilesPath = SourceDirectory

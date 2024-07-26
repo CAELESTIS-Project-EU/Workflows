@@ -140,6 +140,7 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
     RTMmodel.SourceFilesPath = SourceDirectory
     RTMmodel.solverPath = RTMSolverPath
     RTMmodel.solverVEPath = RTMsolverVEPath
+    RTMmodel.vsPath = vsPath
     RTMmodel.basefolder = outputs_files_folder
     RTMmodel.RTMbasefolder = outputs_files_folder
     RTMmodel.inputFile = VdbRTMFilePath
