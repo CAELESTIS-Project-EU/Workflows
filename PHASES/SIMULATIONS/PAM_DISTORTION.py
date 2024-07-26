@@ -154,7 +154,7 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     Distortionmodel.nt = 2 # Number of threads
     Distortionmodel.mp = 1 # 1 (default): SMP parallel mode; 2: DMP parallel mode
     Distortionmodel.np = int(np)
-    Distorsionmodel.mpidir = None
+    Distortionmodel.mpidir = None
     # #Execute macros
     for elem in MacroDistortionList:
           Distortionmodel.LaunchMacro(elem)
