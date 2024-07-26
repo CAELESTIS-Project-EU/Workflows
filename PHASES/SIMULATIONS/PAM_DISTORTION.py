@@ -99,7 +99,9 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     VariablesDict = {}
     MacroDistortionList = []
 
-    
+     if 'Orientation' in DoE_line:
+        if str(DoE_line['Orientation']) != '-1':
+            VariablesDict['Orientation'] = DoE_line['Orientation']
     #%% Start running the DoE
     #write for macros
     VariablesDict = {}
@@ -125,7 +127,6 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
             ori_file_path = os.path.join(mod_files_folder, '37_DISTMApplyOrientation.py')
             write_ori_dist(ori_file_path)
             MacroDistortionList.append(ori_file_path)
-            VariablesDict['Orientation'] = DoE_line['Orientation']
 
     MacroDistortionList.append(src_macros_folder + '/' + '37_DistortionSimulationParameters.py')
 
