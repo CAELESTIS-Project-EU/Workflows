@@ -99,14 +99,6 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     VariablesDict = {}
     MacroDistortionList = []
 
-    if 'Orientation' in DoE_line:
-        if str(DoE_line['Orientation']) != '-1':
-            ori_file_path = os.path.join(mod_files_folder, '37_DISTMApplyOrientation.py')
-            write_ori_dist(ori_file_path)
-            MacroDistortionList.append(ori_file_path)
-            VariablesDict['Orientation'] = DoE_line['Orientation']
-
-    MacroDistortionList.append(src_macros_folder + '/' + '37_DistortionSimulationParameters.py')
     
     #%% Start running the DoE
     #write for macros
@@ -127,6 +119,15 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     for elem in VariablesDict:
         f.write(str(elem) + "= " + str(VariablesDict[elem]) + "\n")
     f.close()
+
+    if 'Orientation' in DoE_line:
+        if str(DoE_line['Orientation']) != '-1':
+            ori_file_path = os.path.join(mod_files_folder, '37_DISTMApplyOrientation.py')
+            write_ori_dist(ori_file_path)
+            MacroDistortionList.append(ori_file_path)
+            VariablesDict['Orientation'] = DoE_line['Orientation']
+
+    MacroDistortionList.append(src_macros_folder + '/' + '37_DistortionSimulationParameters.py')
 
     #Application initialization
     Distortionmodel = Visual_API()
@@ -166,11 +167,11 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     if tools == True:
         MacroUnmoldingList = []
         MacroUnmoldingList.append(os.path.join(src_macros_folder,'66_Distortion_unmolding.py'))
-        MacroUnmoldingList.append(os.path.join(src_macros_folder,'38_DistortionRun.py')
+        MacroUnmoldingList.append(os.path.join(src_macros_folder,'38_DistortionRun.py'))
         for elem in MacroUnmoldingList:
-          Distortionmodel.LaunchMacro(elem)
+            Distortionmodel.LaunchMacro(elem)
 
-    # solve
+        # solve
         Distortionmodel.solveStep(runInBackground=False)
 
     return "PAM_DISTORSION finished"
