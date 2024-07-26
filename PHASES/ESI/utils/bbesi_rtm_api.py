@@ -74,7 +74,7 @@ class Visual_API():
             cmd += '"' + r'{}'.format(self.inputFile) + '"'
             if (self.mpidir):
                 cmd += ' -mpidir ' + str(self.mpidir)
-             cmd += r" > "
+            cmd += r" > "
             cmd += '"' + OUTPUT_PATH + '" -np ' + str(self.np)
             
             try:
