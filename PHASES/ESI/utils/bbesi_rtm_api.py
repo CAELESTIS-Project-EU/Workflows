@@ -44,7 +44,7 @@ class Visual_API():
             cmd = ''
             cmd += '"' + self.solverPath + '"'
             cmd += ' -rtm -userf -compiler ' + '"'
-             cmd +=  self.vsPath + '"'
+            cmd +=  self.vsPath + '"'
             cmd += ' -rtm -skippre -prefix '
             cmd += '"' + r'{}'.format(self.inputFile) + '"'
             if (self.mpidir):
