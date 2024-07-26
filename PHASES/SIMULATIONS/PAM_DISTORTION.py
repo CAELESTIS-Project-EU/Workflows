@@ -104,7 +104,6 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
             VariablesDict['Orientation'] = DoE_line['Orientation']
     #%% Start running the DoE
     #write for macros
-    VariablesDict = {}
     VariablesDict['VdbCuringFilePath'] = VdbCuringFilePath
     VariablesDict['VdbDistortionFilePath'] = VdbDistortionFilePath
     VariablesDict['SourceFilesPath'] = SourceDirectory
