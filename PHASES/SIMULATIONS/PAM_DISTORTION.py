@@ -162,6 +162,16 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     
     # solve
     Distortionmodel.solveStep(runInBackground=False)
+    tools = False
+    if tools == True:
+        MacroUnmoldingList = []
+        MacroUnmoldingList.append(os.path.join(src_macros_folder,'66_Distortion_unmolding.py'))
+        MacroUnmoldingList.append(os.path.join(src_macros_folder,'38_DistortionRun.py')
+        for elem in MacroUnmoldingList:
+          Distortionmodel.LaunchMacro(elem)
+
+    # solve
+        Distortionmodel.solveStep(runInBackground=False)
 
     return "PAM_DISTORSION finished"
 
