@@ -59,7 +59,7 @@
         </InternalElement>
         <InternalElement Name="macros_folder" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
           <Attribute Name="Param" AttributeDataType="xs:string">
-            <Value>/gpfs/projects/bsce81/workflow_wp4/src_esi</Value>
+            <Value>/gpfs/projects/bsce81/workflow_wp4/esi_src</Value>
           </Attribute>
         </InternalElement>
         <InternalElement Name="inputs_file" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
