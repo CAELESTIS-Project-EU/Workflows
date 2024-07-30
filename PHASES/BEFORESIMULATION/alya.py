@@ -41,7 +41,7 @@ def prepare_data_coupontool(**kwargs):
 def prepare_data_rvetool(**kwargs):
     prepare_args = kwargs
     variables = vars_func(prepare_args)
-    out1 = prepare_rvetool(prepare_args, variables, **kwargs)
+    out1 = prepare_rvetool(prepare_args, variables)
     return out1
 
 
@@ -236,7 +236,7 @@ def prepare_coupontool(prepare_args, variables, **kwargs):
 
 @constraint(computing_units=gen_cores)
 @task(returns=1, on_failure="CANCEL_SUCCESSORS", time_out=gen_timeout )
-def prepare_rvetool(prepare_args, variables, **kwargs):
+def prepare_rvetool(prepare_args, variables):
     import RVEtool
     template = get_value(prepare_args, "template_rvetool")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
