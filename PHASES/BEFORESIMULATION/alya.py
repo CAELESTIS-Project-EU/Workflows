@@ -149,8 +149,9 @@ def prepare_rve_sld(prepare_args, variables, **kwargs):
 def prepare_fie(prepare_args, variables, **kwargs):
     template = get_value(prepare_args, "template_fie")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
+    original_name_sim = get_value(prepare_args, "original_name_sim")
     name_sim = get_value(prepare_args, "name_sim")
-    simulation = simulation_wdir + "/" + name_sim + ".fie.dat"
+    simulation = os.path.join(simulation_wdir, name_sim + ".fie.dat")
     with open(simulation, 'w') as f2:
         with open(template, 'r') as f:
             filedata = f.read()
@@ -168,9 +169,10 @@ def prepare_fie(prepare_args, variables, **kwargs):
 def prepare_dom(prepare_args, **kwargs):
     template = get_value(prepare_args, "template_dom")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
+    original_name_sim = get_value(prepare_args, "original_name_sim")
     name_sim = get_value(prepare_args, "name_sim")
     mesh = get_value(prepare_args, "mesh")
-    simulation = os.path.join(simulation_wdir,original_name_sim+'-'+icase, original_name_sim+'-'+icase+ ".dom.dat")
+    simulation = os.path.join(simulation_wdir, name_sim + ".dom.dat")
     with open(simulation, 'w') as f2:
         with open(template, 'r') as f:
             filedata = f.read()
@@ -185,10 +187,10 @@ def prepare_dom(prepare_args, **kwargs):
 @task(returns=1)
 def prepare_rve_dom(prepare_args, **kwargs):
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
+    original_name_sim = get_value(prepare_args, "original_name_sim")
     name_sim = get_value(prepare_args, "name_sim")
     mesh = get_value(prepare_args, "mesh")
     cases_loads = get_value(prepare_args,"cases_loads")
-    original_name_sim = get_value(prepare_args, "original_name_sim") 
     for icase in cases_loads:
         if icase == "11":
             template = get_value(prepare_args, "template_dom11")
@@ -196,10 +198,8 @@ def prepare_rve_dom(prepare_args, **kwargs):
             template = get_value(prepare_args, "template_dom22")
         elif icase == "12":
             template = get_value(prepare_args, "template_dom12")
-
         simulation_folder = os.path.join(simulation_wdir,original_name_sim+'-'+icase)
         simulation = simulation_folder + "/" + original_name_sim + '-' + icase + ".dom.dat"
-
         with open(simulation, 'w') as f2:
             with open(template, 'r') as f:
                 filedata = f.read()
@@ -232,7 +232,6 @@ def prepare_coupontool(prepare_args, variables, **kwargs):
         f2.close()
     COUPONtool.runCOUPONtool(simulation, name_sim, simulation_wdir, 'open-hole', debug=False)
     return
-
 
 @constraint(computing_units=gen_cores)
 @task(returns=1, on_failure="CANCEL_SUCCESSORS", time_out=gen_timeout )
