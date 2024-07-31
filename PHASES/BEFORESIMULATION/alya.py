@@ -34,7 +34,7 @@ def prepare_data_rve_sld(**kwargs):
 def prepare_data_coupontool(**kwargs):
     prepare_args = kwargs
     variables = vars_func(prepare_args)
-    out1 = prepare_coupontool(prepare_args, variables, **kwargs)
+    out1 = prepare_coupontool(prepare_args, variables)
     return out1
 
 
@@ -211,8 +211,9 @@ def prepare_rve_dom(prepare_args, **kwargs):
     return
 
 
-@task(returns=1)
-def prepare_coupontool(prepare_args, variables, **kwargs):
+@constraint(computing_units=gen_cores)
+@task(returns=1, on_failure="CANCEL_SUCCESSORS", time_out=gen_timeout )
+def prepare_coupontool(prepare_args, variables):
     from coupontool import COUPONtool
     template = get_value(prepare_args, "template_coupontool")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
