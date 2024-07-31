@@ -37,10 +37,10 @@
       <InternalElement Name="Inputs" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
         <InternalElement Name="DoE" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
           <Attribute Name="source" AttributeDataType="xs:string">
-            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">/gpfs/projects/bsce81/workflow_wp4/001_Data/generatedDOEshort.csv</Value>
+            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">/gpfs/projects/bsce81/wp4_generatedDOE_Only2Cases.csv</Value>
           </Attribute>
           <Attribute Name="destination" AttributeDataType="xs:string">
-            <Value>{working_dir}/generatedDOEshort.csv</Value>
+            <Value>{working_dir}/wp4_generatedDOE_Only2Cases.csv</Value>
           </Attribute>
         </InternalElement>
       </InternalElement>
@@ -64,7 +64,7 @@
         </InternalElement>
         <InternalElement Name="inputs_file" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
           <Attribute Name="Param" AttributeDataType="xs:string">
-		        <Value>/gpfs/projects/bsce81/workflow_wp4/001_Data/generatedDOE.csv</Value>
+		        <Value>/gpfs/projects/bsce81/wp4_generatedDOE_Only2Cases.csv</Value>
           </Attribute>
         </InternalElement>
         <InternalElement Name="source_folder" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
@@ -228,6 +228,64 @@
           </InternalElement>
           
         </InternalElement>
+        <InternalElement Name="Phase" ID="292b2551-bdf7-44e1-9cca-e4557ecca5d2">
+          <Attribute Name="Name" AttributeDataType="xs:string">
+            <Value>PostProcess</Value>
+          </Attribute>
+          <Attribute Name="Sequence" AttributeDataType="xs:string">
+            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PostProcess</Value>
+          </Attribute>
+          
+          <InternalElement Name="PostProcess">
+            <Attribute Name="Type" AttributeDataType="xs:string">
+              <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.POSTSIMULATION.pam_distorsion_postprocess.run</Value>
+            </Attribute>
+            <InternalElement Name="Parameters">
+              <Attribute Name="line" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.line_number}</Value>
+              </Attribute>
+              <Attribute Name="step" AttributeDataType="xs:int">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="int">-1</Value>
+              </Attribute>
+              <Attribute Name="rtm_folder" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/RTM/</Value>
+              </Attribute>
+              <Attribute Name="curing_folder" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/Curing/</Value>
+              </Attribute>
+              <Attribute Name="distorsion_folder" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/Distorsion/</Value>
+              </Attribute>
+              <Attribute Name="in_file_rtm" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">CAELESTIS_RESULT.erfh5</Value>
+              </Attribute>
+              <Attribute Name="in_file_dis" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">CAELESTISD-STAGE2_RESULT.erfh5</Value>
+              </Attribute>
+              <Attribute Name="path_out" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/Results_light/</Value>
+              </Attribute>
+              <Attribute Name="file_IN1" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">CAELESTISD-STAGE1_RESULT.erfh5</Value>
+              </Attribute>
+              <Attribute Name="file_IN2" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">CAELESTISD-STAGE2_RESULT.erfh5</Value>
+              </Attribute>
+              <Attribute Name="prefix" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">Dist</Value>
+              </Attribute>
+              <Attribute Name="file_OUT1" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">Step1.erfh5"</Value>
+              </Attribute>
+              <Attribute Name="file_OUT2" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">Step2.erfh5</Value>
+              </Attribute>
+              <Attribute Name="clean" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">True</Value>
+              </Attribute>
+            </InternalElement>
+          </InternalElement>
+       </InternalElement>
       </InternalElement>
       <!-- phases -->
     </InternalElement>
