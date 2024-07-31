@@ -97,7 +97,7 @@
       
       
       <InternalElement Name="Phases" ID="292b2551-bdf7-44e1-9cca-ea5273cca5d3">
-      	<!-- phase simulation -->
+      	<!-- phase sampling -->
       	<InternalElement Name="Phase" ID="292b2551-bdf7-44e1-9cca-e4557ecca5d2">
           <Attribute Name="Name" AttributeDataType="xs:string">
             <Value>Sampling</Value>
@@ -228,6 +228,7 @@
           </InternalElement>
           
         </InternalElement>
+        <!-- phase postprocess -->
         <InternalElement Name="Phase" ID="292b2551-bdf7-44e1-9cca-e4557ecca5d2">
           <Attribute Name="Name" AttributeDataType="xs:string">
             <Value>PostProcess</Value>
@@ -254,7 +255,7 @@
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/Curing/</Value>
               </Attribute>
               <Attribute Name="distorsion_folder" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/Distorsion/</Value>
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/Distortion/</Value>
               </Attribute>
               <Attribute Name="in_file_rtm" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">CAELESTIS_RESULT.erfh5</Value>
@@ -285,7 +286,7 @@
               </Attribute>
             </InternalElement>
           </InternalElement>
-       </InternalElement>
+        </InternalElement>
       </InternalElement>
       <!-- phases -->
     </InternalElement>

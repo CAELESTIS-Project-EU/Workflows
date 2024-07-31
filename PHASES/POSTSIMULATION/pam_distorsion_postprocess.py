@@ -17,7 +17,7 @@ def run(line, step, rtm_folder, curing_folder, distorsion_folder, in_file_rtm, i
     
     
 
-@task(rtm_folder = DIRECTORY_IN, distorsion_folder = DIRECTORY_IN)
+@task(distorsion_folder = DIRECTORY_IN)
 def save_RTM_res(line,distorsion_folder,file_IN1,file_IN2,path_out,prefix,file_OUT1,file_OUT2): #(shutil, os)
     if not os.path.exists(path_out): 
         os.makedirs(path_out)
