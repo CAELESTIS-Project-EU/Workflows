@@ -21,12 +21,13 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     # Variables
     # Visual will read the variables values from a txt file that is written at the end of this section
     if 'tools' in kwargs:
+        
         tools = bool(kwargs['tools'])
     else:
         tools = True
         
     print('_____________________________________________________________________________________')
-    print('Starting distortion simulation')
+    print('Starting distortion simulation (', tools,')')
         
 
     if not os.path.exists(outputs_files_folder):
@@ -168,7 +169,8 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     
     # solve
     Distortionmodel.solveStep(runInBackground=False)
-    if tools == True:
+    tools=False
+    if tools:
         MacroUnmoldingList = []
         MacroUnmoldingList.append(os.path.join(src_macros_folder,'66_Distortion_unmolding.py'))
         MacroUnmoldingList.append(os.path.join(src_macros_folder,'38_DistortionRun.py'))
