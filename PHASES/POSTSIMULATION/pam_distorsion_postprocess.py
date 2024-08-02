@@ -33,6 +33,7 @@ def save_RTM_res(line,distorsion_folder,file_IN1,file_IN2,path_out,prefix,file_O
 
 @task(rtm_folder = DIRECTORY_IN, distorsion_folder = DIRECTORY_IN)
 def reduce_erfh5(line,step,rtm_folder,in_file_rtm,distorsion_folder,in_file_dis, path_out):
+    step = int(step)
     if not os.path.exists(path_out): 
         os.makedirs(path_out)
     #VOID

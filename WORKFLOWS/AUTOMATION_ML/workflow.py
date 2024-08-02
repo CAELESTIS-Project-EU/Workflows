@@ -28,7 +28,8 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
                 os.makedirs(row_folder)
             DoE_line = dict(zip(DoE_names, row))
             phase.run(phases.get("Simulation"), inputs, outputs, parameters, data_folder, locals())
-            phase.run(phases.get("PostProcess"), inputs, outputs, parameters, data_folder, locals())
+            if "PostProcess" in phases:
+                phase.run(phases.get("PostProcess"), inputs, outputs, parameters, data_folder, locals())
 
     else:
         print("LICENSE IS NOT RUNNING!")
