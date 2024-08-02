@@ -176,7 +176,6 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     
     # solve
     Distortionmodel.solveStep(runInBackground=False)
-    tools=False
     if tools:
         MacroUnmoldingList = []
         MacroUnmoldingList.append(os.path.join(src_macros_folder,'66_Distortion_unmolding.py'))
