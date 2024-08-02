@@ -21,9 +21,16 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     # Variables
     # Visual will read the variables values from a txt file that is written at the end of this section
     if 'tools' in kwargs:
+        if tools.lower() in ('y', 'yes', 't', 'true', 'on', '1'):
+            tools = True
+        elif tools.lower() in ('n', 'no', 'f', 'false', 'off', '0'):
+            tools = False
+        else:
+            print("Incorrect tools values. Setting to True")
+            tools = True
         
-        tools = bool(kwargs['tools'])
     else:
+        print("Tools not in kwargs. Setting to True")
         tools = True
         
     print('_____________________________________________________________________________________')

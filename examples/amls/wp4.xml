@@ -225,7 +225,7 @@
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.macros_folder}</Value>
               </Attribute>
               <Attribute Name="tools" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">False</Value>
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">True</Value>
               </Attribute>
             </InternalElement>  
           </InternalElement>
