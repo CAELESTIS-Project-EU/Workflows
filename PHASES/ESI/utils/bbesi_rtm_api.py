@@ -53,7 +53,7 @@ class Visual_API():
             cmd += '"' + OUTPUT_PATH + '" -np ' + str(self.np)
             
             try:
-                subprocess.call(cmd, shell=True)
+                ret_code = subprocess.call(cmd, shell=True)
             except subprocess.CalledProcessError as e:
                 print("Error while running {}: {}".format(linesToWrite, str(e)))
                 # If the command failed, e.output contains the standard output (if any)
@@ -78,7 +78,9 @@ class Visual_API():
             cmd += '"' + OUTPUT_PATH + '" -np ' + str(self.np)
             
             try:
-                subprocess.call(cmd, shell=True)
+                ret_code = subprocess.call(cmd, shell=True)
+                if ret_code != 0:
+                        raise Exception("Solver return exit code" + str(ret_code))
             except subprocess.CalledProcessError as e:
                 print("Error while running {}: {}".format(linesToWrite, str(e)))
                 # If the command failed, e.output contains the standard output (if any)
@@ -130,7 +132,9 @@ class Visual_API():
                     linesToWrite = self.solverPath + " " + self.inputFile + mpi_flags + "-np " + str(self.np) + " > " + self.outputFile +  ' 2>&1'
                     print("DISTORTION launch command : ")
                     print(linesToWrite)
-                    subprocess.call(linesToWrite, shell=True)
+                    ret_code = subprocess.call(linesToWrite, shell=True)
+                    if ret_code != 0:
+                        raise Exception("Solver return exit code" + str(ret_code))
                 except subprocess.CalledProcessError as e:
                     print("Error while running {}: {}".format(linesToWrite, str(e)))
                     # If the command failed, e.output contains the standard output (if any)

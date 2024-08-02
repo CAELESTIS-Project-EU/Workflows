@@ -219,7 +219,7 @@
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.Curing_base_name}</Value>
               </Attribute>
               <Attribute Name="np" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.PAM_NP}</Value>
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">1</Value>
               </Attribute>
               <Attribute Name="src_macros_folder" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.macros_folder}</Value>
@@ -229,7 +229,6 @@
               </Attribute>
             </InternalElement>  
           </InternalElement>
-          
         </InternalElement>
         <!-- phase postprocess -->
         <InternalElement Name="Phase" ID="292b2551-bdf7-44e1-9cca-e4557ecca5d2">
