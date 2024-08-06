@@ -4,6 +4,7 @@ Created on Thu Mar 30 14:31:21 2023
 
 @author: SMO
 """
+import os
 
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-

@@ -54,17 +54,37 @@
       <InternalElement Name="Parameters" ID="067c3fc6-96e8-4c56-ae3b-5b2490724e0b">
         <InternalElement Name="machine" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
           <Attribute Name="Param" AttributeDataType="xs:string">
-            <Value>HPCBSCs</Value>
+            <Value>HPCBSC</Value>
           </Attribute>
         </InternalElement>
         <InternalElement Name="inputs_folder" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
           <Attribute Name="Param" AttributeDataType="xs:string">
-            <Value>/gpfs/projects/bsce81/workflow_wp4/001_Data/</Value>
+            <Value>/gpfs/projects/bsce81/MN4/bsce81/esi/tests/2024_03_12_1proc/001_Data/</Value>
           </Attribute>
         </InternalElement>
         <InternalElement Name="inputs_file" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
           <Attribute Name="Param" AttributeDataType="xs:string">
-            <Value>/gpfs/projects/bsce81/workflow_wp4/001_Data/generatedDOEshort.csv</Value>
+		  <Value>/gpfs/projects/bsce81/MN4/bsce81/esi/tests/2024_03_12_1proc/001_Data/generatedDOEshort.csv</Value>
+          </Attribute>
+        </InternalElement>
+        <InternalElement Name="source_folder" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
+          <Attribute Name="Param" AttributeDataType="xs:string">
+            <Value>/gpfs/projects/bsce81/MN4/bsce81/esi/tests/2024_03_12_1proc/001_Data/</Value>
+          </Attribute>
+        </InternalElement>
+        <InternalElement Name="RTM_base_name" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
+          <Attribute Name="Param" AttributeDataType="xs:string">
+            <Value>Lk_RTM_40</Value>
+          </Attribute>
+        </InternalElement>
+        <InternalElement Name="Curing_base_name" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
+          <Attribute Name="Param" AttributeDataType="xs:string">
+            <Value>Lk_Curing</Value>
+          </Attribute>
+        </InternalElement>
+        <InternalElement Name="Distortion_Base_Name" ID="067c3fc6-96e8-4c56-ae3b-5b2490734e0b">
+          <Attribute Name="Param" AttributeDataType="xs:string">
+            <Value>Lk_Distortion_40</Value>
           </Attribute>
         </InternalElement>
       
@@ -78,10 +98,10 @@
             <Value>Sampling</Value>
           </Attribute>
           <Attribute Name="Sequence" AttributeDataType="xs:string">
-            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">SAMPLING</Value>
+            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">Sampling_DoE</Value>
           </Attribute>
           
-          <InternalElement Name="SAMPLING">
+          <InternalElement Name="Sampling_DoE">
             <Attribute Name="Type" AttributeDataType="xs:string">
               <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.AUTOMATION_ML.SAMPLING.run</Value>
             </Attribute>
@@ -100,19 +120,19 @@
             <Value>Simulation</Value>
           </Attribute>
           <Attribute Name="Sequence" AttributeDataType="xs:string">
-            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PAM-RTMf>>PAM-RTMc>>PAMDIST</Value>
+            <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PAM_RTMf>>PAM_RTMc>>PAMDIST</Value>
           </Attribute>
           
-          <InternalElement Name="PAM-RTMf">
+          <InternalElement Name="PAM_RTMf">
             <Attribute Name="Type" AttributeDataType="xs:string">
-              <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.AUTOMATION_ML.PAM-RTMf.run</Value>
+              <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.AUTOMATION_ML.PAM_RTMf.run</Value>
             </Attribute>
             <InternalElement Name="Parameters">
               <Attribute Name="DoE_line" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.DoE_line}</Value>
               </Attribute>
               <Attribute Name="outputs_folder" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/RTM</Value>
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/RTM/</Value>
               </Attribute>
                <Attribute Name="inputs_folder" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.inputs_folder}</Value>
@@ -121,12 +141,15 @@
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.machine}</Value>
               </Attribute>
               <Attribute Name="source_folder" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.execution_folder}</Value>
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.source_folder}</Value>
+              </Attribute>
+              <Attribute Name="RTM_base_name" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.RTM_base_name}</Value>
               </Attribute>
             </InternalElement>
           </InternalElement>
           
-          <InternalElement Name="PAM-RTMc">
+          <InternalElement Name="PAM_RTMc">
             <Attribute Name="Type" AttributeDataType="xs:string">
               <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">PHASES.AUTOMATION_ML.PAM_RTMc.run</Value>
             </Attribute>
@@ -135,18 +158,23 @@
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.DoE_line}</Value>
               </Attribute>
               <Attribute Name="outputs_folder" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/{variables.line_number}/Curing</Value>
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/Curing/</Value>
               </Attribute>
                <Attribute Name="inputs_folder" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/RTM</Value>
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/RTM/</Value>
               </Attribute>
               <Attribute Name="machine" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.machine}</Value>
               </Attribute>
               <Attribute Name="source_folder" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.execution_folder}</Value>
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.source_folder}</Value>
               </Attribute>
-            </InternalElement>
+              <Attribute Name="Curing_base_name" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.Curing_base_name}</Value>
+              </Attribute>
+              <Attribute Name="RTM_base_name" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.RTM_base_name}</Value>
+              </Attribute>
             </InternalElement>
           </InternalElement>
           
@@ -159,21 +187,28 @@
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.DoE_line}</Value>
               </Attribute>
               <Attribute Name="outputs_folder" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/Distortion</Value>
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/Distortion/</Value>
               </Attribute>
                <Attribute Name="inputs_folder" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.result_folder}/{variables.line_number}/Curing</Value>
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.results_folder}/{variables.line_number}/Curing/</Value>
               </Attribute>
               <Attribute Name="machine" AttributeDataType="xs:string">
                 <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.machine}</Value>
               </Attribute>
               <Attribute Name="source_folder" AttributeDataType="xs:string">
-                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{variables.execution_folder}</Value>
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.source_folder}</Value>
+              </Attribute>
+              <Attribute Name="Distortion_Base_Name" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.Distortion_Base_Name}</Value>
+              </Attribute>
+              <Attribute Name="Curing_base_name" AttributeDataType="xs:string">
+                <Value xmlns:py="http://codespeak.net/lxml/objectify/pytype" py:pytype="str">{parameters.Curing_base_name}</Value>
               </Attribute>
             </InternalElement>  
           </InternalElement>
           
         </InternalElement>
+      </InternalElement>
       <!-- phases -->
     </InternalElement>
     <!-- Workflow_definition -->

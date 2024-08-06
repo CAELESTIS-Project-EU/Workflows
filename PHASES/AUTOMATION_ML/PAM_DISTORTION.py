@@ -5,24 +5,24 @@ SMO
 """
 import os
 import socket
-from utils.bbesi_rtm_api import Visual_API
-import check_license
+from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
+from pycompss.api.task import task
+from pycompss.api.parameter import *
 
-@task(returns=1)
-def run(**kwargs):
-    bool= check_license()
+@task(inputs_folder=DIRECTORY_IN, outputs_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, returns=1)
+def run(Curing_base_name, Distortion_Base_Name, inputs_folder, outputs_folder, source_folder, **kwargs):
     # import socket
     # Variables
     # Visual will read the variables values from a txt file that is written at the end of this section
     print('_____________________________________________________________________________________')
     print('Starting distortion simulation')
-    if "source_folder" in kwargs:
-        source_folder_folder = kwargs["source_folder"]
+    if source_folder:
+        source_folder_folder = source_folder
         
-    if "inputs_folder" in kwargs:
-        input_files_folder = kwargs["inputs_folder"]
-    if "outputs_folder" in kwargs:
-        outputs_files_folder = kwargs["outputs_folder"]
+    if inputs_folder:
+        input_files_folder =inputs_folder
+    if outputs_folder:
+        outputs_files_folder =outputs_folder
         if not os.path.exists(outputs_files_folder):
             os.makedirs(outputs_files_folder)
             print("Folder '{}' created.".format(outputs_files_folder))
@@ -31,8 +31,8 @@ def run(**kwargs):
     else:
         print('no outputs file provided!!!')
 
-    Distortion_Base_Name = 'Lk_Distortion_40'
-    Curing_base_name = 'Lk_Curing'
+    #Distortion_Base_Name = 'Lk_Distortion_40'
+    #Curing_base_name = 'Lk_Curing'
     
     if "machine" in kwargs:
         machine = kwargs["machine"]
@@ -58,14 +58,14 @@ def run(**kwargs):
         DistortionsolverWinTailPath = r"C:\Program Files\ESI Group\PAM-COMPOSITES\2022.5\Solver\bin\WinTail.exe"
     elif machine == 'HPCBSC':
         display = 0
-        DistortionSolverFolderPath = r'/gpfs/projects/bsce81/esi/pamdistortion/2022.5/Linux_x86_64/bin'
-        DistortionSolverFilePath = r'/gpfs/projects/bsce81/esi/pamdistortion/2022.5/Linux_x86_64/bin/pamdistortion'
-        DistortionsolverVEPath = r'/gpfs/projects/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
+        DistortionSolverFolderPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/pamdistortion/2022.5/Linux_x86_64/bin'
+        DistortionSolverFilePath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/pamdistortion/2022.5/Linux_x86_64/bin/pamdistortion'
+        DistortionsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
         DistortionsolverWinTailPath = r"C:\Program Files\ESI Group\PAM-COMPOSITES\2022.5\Solver\bin\WinTail.exe"
 
     # Fixed variables
     SourceDirectory = source_folder_folder
-    VariablesTxtPath = os.path.join(SourceDirectory, 'VariablesList.txt')
+    VariablesTxtPath = os.path.join(os.getcwd(), 'VariablesList.txt')
     CuringVdbName = Curing_base_name + '.vdb'
     DistortionVdbName = Distortion_Base_Name + '.vdb'
     DistortionPcName = Distortion_Base_Name + '.pc'
@@ -151,5 +151,5 @@ def run(**kwargs):
     # solve
     Distortionmodel.solveStep(runInBackground=False)
 
-    return
+    return "PAM_DISTORSION finished"
 
