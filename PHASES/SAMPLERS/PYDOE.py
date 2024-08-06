@@ -1,5 +1,5 @@
 from pyDOE import *
-from scipy.stats.distributions import norm, uniform, weibull_min, lognorm
+from scipy.stats.distributions import norm, uniform, weibull_min, lognorm, loguniform
 import numpy as np
 import importlib
 import re
@@ -51,34 +51,53 @@ def sampling(problem, **kwargs):
 
 @task(returns=1)
 def sampling_distribution(problem, **kwargs):
-    """sampler_args=kwargs.get("args")
-    problem= get_value(sampler_args, "problem")"""
-    
+    """Sampling by user distribution
+    Distribution type | Arguments 
+    --------------------------------------
+    norm:               mean,  sigma | cov
+    lognorm:            mean,  sigma | cov
+    uniform:            lower, upper
+    loguniform:         lower, upper
+    weibull:            alpha, beta
+    --------------------------------------
+    """
     variables = problem.get("variables-sampler")
     n_samples = int(problem.get("n_samples"))
     num_var = int(problem.get("num_var"))
     
-    covs = []
-    means = []
-    sigmas = []
-    alphas = []
-    betas = [] 
+    lower_bounds, upper_bounds = [], []
+    means, sigmas, covs = [], [], []
+    alphas, betas = [], []
     typeDistr = []
     for item in variables:
         for key, value in item.items():
             distr = value.get('distr')
-            mean = float(value.get("mean"))
-            sigma = float(value.get('sigma'))
-            cov = float(value.get('cov'))
-            alpha = float(value.get('alpha'))
-            beta = float(value.get('beta'))
+            if distr=='uniform' or distr=='loguniform':
+                lower, upper = float(value.get("lower")), float(value.get("upper"))
+                mean, sigma, cov, alpha, beta = 0., 0., 0., 0., 0.
+            elif distr=='norm' or distr=='lognorm':
+                mean = float(value.get("mean"))
+                try:
+                    sigma = float(value.get('sigma'))
+                    cov = sigma / mean * 100.
+                    lower, upper, alpha, beta = 0., 0., 0., 0.
+                except:
+                    cov = float(value.get('cov'))
+                    sigma = (mean * cov)/100. 
+                    lower, upper, alpha, beta = 0., 0., 0., 0.
+            elif distr=='weibull':
+                alpha, beta = float(value.get('alpha')), float(value.get('beta'))
+                mean, sigma, cov, lower, upper = 0., 0., 0., 0., 0.
+
             typeDistr.append(distr)
             means.append(mean)
             covs.append(cov)
             sigmas.append(sigma)
             alphas.append(alpha)
             betas.append(beta)
-            
+            lower_bounds.append(lower)
+            upper_bounds.append(upper)
+
     lhs_sample = lhs(num_var, n_samples, criterion="maximin")
     
     samples_final = np.zeros((n_samples, num_var))
@@ -87,9 +106,9 @@ def sampling_distribution(problem, **kwargs):
         if typeDistr[i] == 'norm':
             samples_final[:, i] = norm(loc=means[i], scale=sigmas[i]).ppf(lhs_sample[:, i])
         elif typeDistr[i] == 'uniform':
-            lower_bound = means[i] - means[i]*covs[i]/100.
-            upper_bound = means[i] + means[i]*covs[i]/100.
-            samples_final[:, i] = uniform(loc=lower_bound, scale=(upper_bound - lower_bound)).ppf(lhs_sample[:, i])
+            samples_final[:, i] = uniform(loc=lower_bounds[i], scale=(upper_bounds[i] - lower_bounds[i])).ppf(lhs_sample[:, i])
+        elif typeDistr[i] == 'loguniform':
+            samples_final[:, i] = loguniform(a=lower_bounds[i], b=upper_bounds[i]).ppf(lhs_sample[:, i])
         elif typeDistr[i] == 'weibull': 
             samples_final[:, i] = weibull_min(betas[i], scale=alphas[i], loc=0).ppf(lhs_sample[:, i])
         elif typeDistr[i] == 'lognorm':

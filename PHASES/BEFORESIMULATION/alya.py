@@ -5,6 +5,10 @@ import shutil
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 from pycompss.api.on_failure import on_failure
+from pycompss.api.constraint import constraint
+
+gen_timeout=int(os.environ.get("GEN_TIMEOUT","3600"))
+gen_cores=int(os.environ.get("GEN_CORES","1"))
 
 def prepare_data(**kwargs):
     prepare_args = kwargs
@@ -30,14 +34,14 @@ def prepare_data_rve_sld(**kwargs):
 def prepare_data_coupontool(**kwargs):
     prepare_args = kwargs
     variables = vars_func(prepare_args)
-    out1 = prepare_coupontool(prepare_args, variables, **kwargs)
+    out1 = prepare_coupontool(prepare_args, variables)
     return out1
 
 
 def prepare_data_rvetool(**kwargs):
     prepare_args = kwargs
     variables = vars_func(prepare_args)
-    out1 = prepare_rvetool(prepare_args, variables, **kwargs)
+    out1 = prepare_rvetool(prepare_args, variables)
     return out1
 
 
@@ -145,8 +149,9 @@ def prepare_rve_sld(prepare_args, variables, **kwargs):
 def prepare_fie(prepare_args, variables, **kwargs):
     template = get_value(prepare_args, "template_fie")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
+    original_name_sim = get_value(prepare_args, "original_name_sim")
     name_sim = get_value(prepare_args, "name_sim")
-    simulation = simulation_wdir + "/" + name_sim + ".fie.dat"
+    simulation = os.path.join(simulation_wdir, name_sim + ".fie.dat")
     with open(simulation, 'w') as f2:
         with open(template, 'r') as f:
             filedata = f.read()
@@ -164,9 +169,10 @@ def prepare_fie(prepare_args, variables, **kwargs):
 def prepare_dom(prepare_args, **kwargs):
     template = get_value(prepare_args, "template_dom")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
+    original_name_sim = get_value(prepare_args, "original_name_sim")
     name_sim = get_value(prepare_args, "name_sim")
     mesh = get_value(prepare_args, "mesh")
-    simulation = os.path.join(simulation_wdir,original_name_sim+'-'+icase, original_name_sim+'-'+icase+ ".dom.dat")
+    simulation = os.path.join(simulation_wdir, name_sim + ".dom.dat")
     with open(simulation, 'w') as f2:
         with open(template, 'r') as f:
             filedata = f.read()
@@ -181,10 +187,10 @@ def prepare_dom(prepare_args, **kwargs):
 @task(returns=1)
 def prepare_rve_dom(prepare_args, **kwargs):
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
+    original_name_sim = get_value(prepare_args, "original_name_sim")
     name_sim = get_value(prepare_args, "name_sim")
     mesh = get_value(prepare_args, "mesh")
     cases_loads = get_value(prepare_args,"cases_loads")
-    original_name_sim = get_value(prepare_args, "original_name_sim") 
     for icase in cases_loads:
         if icase == "11":
             template = get_value(prepare_args, "template_dom11")
@@ -192,10 +198,8 @@ def prepare_rve_dom(prepare_args, **kwargs):
             template = get_value(prepare_args, "template_dom22")
         elif icase == "12":
             template = get_value(prepare_args, "template_dom12")
-
         simulation_folder = os.path.join(simulation_wdir,original_name_sim+'-'+icase)
         simulation = simulation_folder + "/" + original_name_sim + '-' + icase + ".dom.dat"
-
         with open(simulation, 'w') as f2:
             with open(template, 'r') as f:
                 filedata = f.read()
@@ -207,8 +211,9 @@ def prepare_rve_dom(prepare_args, **kwargs):
     return
 
 
-@task(returns=1)
-def prepare_coupontool(prepare_args, variables, **kwargs):
+@constraint(computing_units=gen_cores)
+@task(returns=1, on_failure="CANCEL_SUCCESSORS", time_out=gen_timeout )
+def prepare_coupontool(prepare_args, variables):
     from coupontool import COUPONtool
     template = get_value(prepare_args, "template_coupontool")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
@@ -229,9 +234,9 @@ def prepare_coupontool(prepare_args, variables, **kwargs):
     COUPONtool.runCOUPONtool(simulation, name_sim, simulation_wdir, 'open-hole', debug=False)
     return
 
-
-@task(returns=1, on_failure="CANCEL_SUCCESSORS", time_out=380 )
-def prepare_rvetool(prepare_args, variables, **kwargs):
+@constraint(computing_units=gen_cores)
+@task(returns=1, on_failure="CANCEL_SUCCESSORS", time_out=gen_timeout )
+def prepare_rvetool(prepare_args, variables):
     import RVEtool
     template = get_value(prepare_args, "template_rvetool")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
