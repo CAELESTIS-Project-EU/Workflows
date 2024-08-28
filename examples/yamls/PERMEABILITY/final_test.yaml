@@ -35,7 +35,7 @@ outputs:
     - overwrite : true
 inputs:
 parameters:
-  sampler_input_file: "/home/bsc/bsc019518/MN4/bsc19518/perm_files/big_execution.txt"
+  sampler_input_file: "/gpfs/projects/bsce81/results_permeability/doe.txt"
   cases_permeability: ["x-flow", "y-flow", "z-flow"]
   original_name_sim: PERM_SIM
 environment:
