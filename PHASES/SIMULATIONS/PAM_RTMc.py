@@ -5,46 +5,41 @@ Created on Wed Jun 28 15:47:58 2023
 @author: SMO
 """
 import os
-from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
+from PHASES.ESI.utils.bbesi_rtm_api import Visual_API
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 from pycompss.api.constraint import constraint
 from pycompss.api.multinode import multinode
+from PHASES.ESI.utils.lecture_erf import extract_num_step_filling
+from PHASES.ESI.utils.write_file_ori import write_mapping
+from PHASES.ESI.utils.write_file_ori import write_settemperature
 
+import shutil
+
+
+#@constraint(computing_units="PAM_NP")
 @constraint(computing_units=16)
 @multinode(computing_nodes=1)
-@task(inputs_folder=DIRECTORY_IN, outputs_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, returns=1)
-def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, source_folder, **kwargs):
-    import socket
+@task(input_files_folder=DIRECTORY_IN, outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder= DIRECTORY_IN, returns=1)
+def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
     print('_____________________________________________________________________________________')
     print('Starting curing simulation')
     
-    print(f"kwargs: {kwargs}")
-    #%% Variables
-    #Curing_base_name = 'Lk_Curing'
-    #RTM_base_name = 'Lk_RTM_40'
-    
     #Visual will read the variables values from a txt file that is written at the end of this section
-    if source_folder:
-        source_folder_folder = source_folder
         
-    if inputs_folder:
-        input_files_folder = inputs_folder
-        #print('inputs folder is : ', input_files_folder)
 
-    if outputs_folder:
-        outputs_files_folder = outputs_folder
-        if not os.path.exists(outputs_files_folder):
-            os.makedirs(outputs_files_folder)
-            print("Folder '{}' created.".format(outputs_files_folder))
-        else:
-            print("Folder '{}' already exists.".format(outputs_files_folder))
+    if not os.path.exists(outputs_files_folder):
+        os.makedirs(outputs_files_folder)
+        print("Folder '{}' created.".format(outputs_files_folder))
     else:
-        print('no outputs file provided!!!')
+        print("Folder '{}' already exists.".format(outputs_files_folder))
+
+
     
-    if "machine" in kwargs:
-        machine = kwargs["machine"]
-    display = 0
+    mod_files_folder = os.path.join(outputs_files_folder, "mod_macros")
+    os.makedirs(mod_files_folder)
+    
+    display = 1
     #paths
     if machine == 'BORLAP020':
         RTMSolverPath = r'C:\Program Files\ESI Group\PAM-COMPOSITES\2022.5\RTMSolver\bin\pamcmxdmp.bat'
@@ -58,11 +53,26 @@ def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, source_f
         RTMsolverVEPath = r'/nisprod/ppghome/ppg/dist/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
     elif machine == 'HPCBSC':
         display = 0
+        vsPath = 'gcc'
         RTMSolverPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/pamrtm/2022.5/Linux_x86_64_2.36/bin/pamcmxdmp.sh'
         RTMsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
+    elif machine == 'JVNYDS':
+        vsPath = r'C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/Build/vcvarsall.bat'
+        RTMSolverPath = r'C:/Program Files/ESI Group/PAM-COMPOSITES/2022.0/RTMSolver\bin/pamcmxdmp.bat'
+        if display == 1:
+            RTMsolverVEPath = r'C:/Program Files/ESI Group/Visual-Environment/18.0/Windows-x64/VisualEnvironment.bat'
+        else :
+            RTMsolverVEPath = r'C:/Program Files/ESI Group/Visual-Environment/18.0/Windows-x64/VEBatch.bat'
+    elif machine == 'JVNCFT':
+        vsPath = r'C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/Build/vcvarsall.bat'
+        RTMSolverPath = r'C:/Program Files/ESI Group/PAM-COMPOSITES/2022.0/RTMSolver\bin/pamcmxdmp.bat'
+        if display == 1:
+            RTMsolverVEPath = r'C:/Program Files/ESI Group/Visual-Environment/18.0/Windows-x64/VisualEnvironment.bat'
+        else :
+            RTMsolverVEPath = r'C:/Program Files/ESI Group/Visual-Environment/18.0/Windows-x64/VEBatch.bat'
 
     # Fixed variables
-    SourceDirectory = source_folder_folder
+    SourceDirectory = source_folder
     VariablesTxtPath = os.path.abspath(os.path.join(os.getcwd(), 'VariablesList.txt'))
     RTMVdbName = RTM_base_name + '.vdb'
     VdbRTMFilePath = os.path.abspath(os.path.join(outputs_files_folder, RTMVdbName))
@@ -73,13 +83,42 @@ def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, source_f
     
     VdbCuringFilePath = os.path.join(outputs_files_folder, CuringVdbName)
     RTMunfFile = RTM_base_name + 'g.unf'
+    RTMerfh5File = RTM_base_name + '_RESULT.erfh5'
     RTMunfFilesPath = os.path.join(RTMbasefolder, RTMunfFile)
+    RTMerfh5FilePath = os.path.join(RTMbasefolder, RTMerfh5File)
+
     CuringCATGENerfName = Curing_base_name + '_CATGEN.erfh5'
     CuringCATGENerfPath = os.path.join(Curingbasefolder, CuringCATGENerfName)
 
-    MacroCuringList = ['22_CuringMappingTempFillFactCureDegree.py',
-                       '23_CuringSetTemperature.py',
-                       '24_CuringWriteSolverInput.py']
+    resin_kinetics_init_path = os.path.join(SourceDirectory, Curing_base_name + '_resinkinetics.c')
+    resin_kinetics_copy_path = os.path.join(outputs_files_folder, Curing_base_name + '_resinkinetics.c')
+    pc_file_init_path = os.path.join(SourceDirectory, Curing_base_name + '.pc')
+    pc_file_copy_path = os.path.join(outputs_files_folder, Curing_base_name + '.pc')
+
+
+    if 'Mold_temperature' in DoE_line:
+        if str(DoE_line['Mold_temperature']) != '-1':
+            temp_mold_curing = DoE_line['Mold_temperature']
+        else:
+            temp_mold_curing = 'N/A'
+
+    shutil.copy(resin_kinetics_init_path, resin_kinetics_copy_path)
+    shutil.copy(pc_file_init_path, pc_file_copy_path)
+    
+    nb_step_filling = extract_num_step_filling(RTMerfh5FilePath)
+    mapping_file_path = os.path.join(mod_files_folder, '22_CuringMappingTempFillFactCureDegree.py')
+    write_mapping(mapping_file_path, nb_step_filling-2)
+
+    temperature_file_path = os.path.join(source_folder, 'Temperature.txt')
+    curing_set_temp_file_path = os.path.join(mod_files_folder, '23_CuringSetTemperature.py')
+    write_settemperature(curing_set_temp_file_path, temperature_file_path,temp_mold_curing)
+
+    MacroCuringList = [os.path.join(src_macros_folder, '21_SetCuringStrategy.py'),
+                       mapping_file_path,
+                       curing_set_temp_file_path,
+                       os.path.join(src_macros_folder, '24_CuringWriteSolverInput.py')]
+
+
     
     # Internal info
     VariablesDict = {}
@@ -90,9 +129,9 @@ def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, source_f
     VariablesDict['RTMunfFilePath'] = RTMunfFilesPath
     VariablesDict['CuringCATGENerfPath'] = CuringCATGENerfPath
     VariablesDict['outputs_files_folder'] = outputs_files_folder
+    VariablesDict['vsPath'] = vsPath
 
     #Copy files to destination folder
-    import shutil
     try:
         shutil.copy(SourceVdbCuringFilePath, outputs_files_folder)
         #print('File ' + SourceVdbCuringFilePath + ' copied to ' + outputs_files_folder)
@@ -106,10 +145,10 @@ def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, source_f
     Curing_parameters_list = ['Curing_cycle']
     
     # Modified values
-    if "DoE_line" in kwargs:
-        if 'Curing_cycle' in kwargs['DoE_line']:
-            MacroCuringList.append('23_CuringSetTemperature.py')
-            VariablesDict['Curing_cycle'] = kwargs['DoE_line']['Curing_cycle']
+   
+    if 'Curing_cycle' in DoE_line:
+            MacroCuringList.append(os.path.join(src_macros_folder,'23_CuringSetTemperature.py'))
+            VariablesDict['Curing_cycle'] = DoE_line['Curing_cycle']
 
     # PAM-RTM uses its own python instance. A txt file is used to send it the required information
     f = open(os.path.join(VariablesTxtPath), "w+")
@@ -117,17 +156,18 @@ def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, source_f
         f.write(str(elem) + "= " + str(VariablesDict[elem]) + "\n")
     f.close()
 
-#%% Curing
+    # Curing
     # Application initialization
     Curingmodel = Visual_API()
     Curingmodel.FileName = Curing_base_name
     Curingmodel.solverPath = RTMSolverPath
     Curingmodel.solverVEPath = RTMsolverVEPath
+    Curingmodel.vsPath = vsPath
     Curingmodel.basefolder = Curingbasefolder
     Curingmodel.inputFile = VdbCuringFilePath
     Curingmodel.SourceFilesPath = SourceDirectory
     Curingmodel.VariablesTxtPath = VariablesTxtPath
-    Curingmodel.simtype = 'RTM'
+    Curingmodel.simtype = 'CURING' #'RTM'
     Curingmodel.machine = machine
     OutputfileName = Curing_base_name + '.out'
     Curingmodel.machine = 'CLUSTER'
@@ -136,7 +176,14 @@ def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, source_f
     Curingmodel.fp = 1 # Floating point precision (1: SP , 2: DP , note IMPLICIT requires DP)
     Curingmodel.nt = 2 # Number of threads
     Curingmodel.mp = 1 # 1 (default): SMP parallel mode; 2: DMP parallel mode
-    Curingmodel.np = 16 
+    Curingmodel.np = int(np) 
+    Curingmodel.mpidir = None
+
+    # JEA: Strange I think it is not necessary
+    #Scriptsfolder = os.getcwd()
+    #file_path =os.path.join(VariablesTxtPath)
+    #shutil.copy(file_path, os.path.join(Scriptsfolder,'VariablesList.txt'))
+
     #Execute macros
     for elem in MacroCuringList:
         Curingmodel.LaunchMacro(elem)

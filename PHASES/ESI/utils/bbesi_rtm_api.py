@@ -38,23 +38,58 @@ class Visual_API():
         #This code uses the terminal to launch the simulation
         if self.simtype=='RTM':
 
-                print("RTM SOLVER")
-                #print("modified np to the end")
+            print("RTM SOLVER")
+            #print("modified np to the end")
                 
-                cmd = ''
-                cmd += '"' + self.solverPath + '"'
-                cmd += ' -rtm -skippre -prefix '
-                cmd += '"' + r'{}'.format(self.inputFile) + '"'
-                cmd += r" > "
-                if self.machine == 'BORLAP020':
-                    cmd += '"' + OUTPUT_PATH + '" -np 4'
-                else:
-                    cmd += '"' + OUTPUT_PATH + '" -np ' + str(self.np)
+            cmd = ''
+            cmd += '"' + self.solverPath + '"'
+            cmd += ' -rtm -userf -compiler ' + '"'
+            cmd +=  self.vsPath + '"'
+            cmd += ' -rtm -skippre -prefix '
+            cmd += '"' + r'{}'.format(self.inputFile) + '"'
+            if (self.mpidir):
+                cmd += ' -mpidir ' + str(self.mpidir)
+            cmd += r" > "
+            cmd += '"' + OUTPUT_PATH + '" -np ' + str(self.np)
             
+            try:
+                ret_code = subprocess.call(cmd, shell=True)
+            except subprocess.CalledProcessError as e:
+                print("Error while running {}: {}".format(linesToWrite, str(e)))
+                # If the command failed, e.output contains the standard output (if any)
+                print("Error Output:", e.output)
+                # e.stderr contains the standard error (if any)
+                print("Standard Error:", e.stderr)
+                raise Exception(f"Execution failed: {e}")
+            print("RTM FILLING SOLVER OK")
+
+        if self.simtype=='CURING':
+            print("RTM CURING SOLVER")
+            #print("modified np to the end")
+            cmd = ''
+            cmd += '"' + self.solverPath + '"'
+            cmd += ' -rtm -userf -compiler ' + '"'
+            cmd +=  self.vsPath + '"'
+            cmd += ' -rtm -skippre -prefix '
+            cmd += '"' + r'{}'.format(self.inputFile) + '"'
+            if (self.mpidir):
+                cmd += ' -mpidir ' + str(self.mpidir)
+            cmd += r" > "
+            cmd += '"' + OUTPUT_PATH + '" -np ' + str(self.np)
+            
+            try:
+                ret_code = subprocess.call(cmd, shell=True)
+                if ret_code != 0:
+                        raise Exception("Solver return exit code" + str(ret_code))
+            except subprocess.CalledProcessError as e:
+                print("Error while running {}: {}".format(linesToWrite, str(e)))
+                # If the command failed, e.output contains the standard output (if any)
+                print("Error Output:", e.output)
+                # e.stderr contains the standard error (if any)
+                print("Standard Error:", e.stderr)
+                raise Exception(f"Execution failed: {e}")
+            print("RTM CURING SOLVER OK")
                 
-                subprocess.call(cmd, shell=True)
-            
-        
         if self.simtype=='DISTORTION':
             print("DISTORTION SOLVER")
 
@@ -86,20 +121,20 @@ class Visual_API():
                     print("Error Output:", e.output)
                     # e.stderr contains the standard error (if any)
                     print("Standard Error:", e.stderr)
-
-            
-            elif machine == 'bruclu':
-                linesToWrite = self.solverPath + " " + self.inputFile + " -mpidir=/nisprod/ppghome/ppg/dist/intelmpi/2018.3/Linux_x86_64/intel64/bin -mpi impi-2018.3 -np 1  > " + self.outputFile +  ' 2>&1'
-                #print("DISTORTION launch command : ")
-                #print(linesToWrite) 
-                subprocess.call(linesToWrite, shell=True)
-                
-            elif machine == 'HPCBSC':
+            else:
                 try:
-                    linesToWrite = self.solverPath + " " + self.inputFile + " -mpidir=/gpfs/projects/bsce81/MN4/bsce81/esi/intelmpi/2019.11/Linux_x86_64/intel64/bin -mpi impi-2019.11 -np " + str(self.np) + " > " + self.outputFile +  ' 2>&1'
-                    #print("DISTORTION launch command : ")
-                    #print(linesToWrite)
-                    subprocess.call(linesToWrite, shell=True)
+                    
+                    if self.mpidir:
+                        mpi_flags = " -mpidir=" + self.mpidir + " "
+                    else:
+                        mpi_flags = ""
+
+                    linesToWrite = self.solverPath + " " + self.inputFile + mpi_flags + "-np " + str(self.np) + " > " + self.outputFile +  ' 2>&1'
+                    print("DISTORTION launch command : ")
+                    print(linesToWrite)
+                    ret_code = subprocess.call(linesToWrite, shell=True)
+                    if ret_code != 0:
+                        raise Exception("Solver return exit code" + str(ret_code))
                 except subprocess.CalledProcessError as e:
                     print("Error while running {}: {}".format(linesToWrite, str(e)))
                     # If the command failed, e.output contains the standard output (if any)
