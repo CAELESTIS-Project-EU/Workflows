@@ -185,6 +185,55 @@ def prepare_dom(prepare_args, **kwargs):
 
 
 @task(returns=1)
+def USECASE_convert_and_surrogate(prepare_args, **kwargs):
+    ########################## USECASE convert #####################
+    from coupontool import USECASEconvert
+    input_files_folder = get_value(prepare_args, "input_files_folder")
+    output_files_folder = get_value(prepare_args, "output_files_folder")
+    lperm_path = get_value(prepare_args, "lperm_path")
+    inp_path = get_value(prepare_args, "inp_path")
+    template_path = get_value(prepare_args, "template_COUPONtool")
+    mechanical_base_name = get_value(prepare_args, "Mechanical_Base_Name")
+
+    # Look for the proper .lperm and .inp files ({case_number}.lperm, {case_number}.inp)
+    case_number = int(get_value(prepare_args, "index")) + 1
+    # index of the loop executed in execution.py (workflow) + 1 (case1, case2 ...)
+    lperm_file_path = None
+    files = os.listdir(lperm_path)
+    for file in files:
+        if file.endswith(str(case_number) + '.lperm'):
+            lperm_file_path = os.path.join(input_files_folder, file)
+
+    inp_file_path = None
+    files = os.listdir(inp_path)
+    for file in files:
+        if file.endswith(str(case_number) + '.inp'):
+            inp_file_path = os.path.join(input_files_folder, file)
+            
+    # Modify the template
+    execution_folder = get_value(prepare_args, "execution_folder")
+    modified_template_path = os.path.join(execution_folder, "templates",
+                                          "inputs_USECASE_convert.yaml")
+    if not os.path.isdir(modified_template_path):
+        os.makedirs(modified_template_path)
+    with open(modified_template_path, 'w') as f2:
+        with open(template_path, 'r') as f:
+            filedata = f.read()
+            filedata = filedata.replace("%lperm_file_path%", str(lperm_file_path))
+            filedata = filedata.replace("%inp_file_path%", str(inp_file_path))
+            filedata = filedata.replace("%output_path%", str(output_files_folder))
+            filedata = filedata.replace("%JobName%", str(mechanical_base_name))
+            f2.write(filedata)
+            f.close()
+        f2.close()
+
+    USECASEconvert.runUSECASEconvert(modified_template_path)
+
+    ########################## SURROGATE #######################
+    return
+
+
+@task(returns=1)
 def prepare_rve_dom(prepare_args, **kwargs):
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     original_name_sim = get_value(prepare_args, "original_name_sim")
