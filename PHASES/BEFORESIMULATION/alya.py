@@ -185,7 +185,7 @@ def prepare_dom(prepare_args, **kwargs):
 
 
 @task(returns=1)
-def USECASE_convert_and_surrogate(prepare_args, **kwargs):
+def USECASEconvert_and_surrogate(prepare_args, **kwargs):
     ########################## USECASE convert #####################
     from coupontool import USECASEconvert
     input_files_folder = get_value(prepare_args, "input_files_folder")
@@ -209,7 +209,7 @@ def USECASE_convert_and_surrogate(prepare_args, **kwargs):
     for file in files:
         if file.endswith(str(case_number) + '.inp'):
             inp_file_path = os.path.join(input_files_folder, file)
-            
+
     # Modify the template
     execution_folder = get_value(prepare_args, "execution_folder")
     modified_template_path = os.path.join(execution_folder, "templates",

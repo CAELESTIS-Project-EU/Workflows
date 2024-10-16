@@ -1,0 +1,70 @@
+{'workflow_type': 'WORKFLOWS.AUTOMATION_ML.workflow.execution', 
+ 'phases': {'Sampling': [{'Type': 'PHASES.SAMPLERS.CSV.run', 
+                          'parameters': {
+                                  'inputs_file': '{parameters.inputs_file}'}}],
+            'Simulation': [{'Type': 'PHASES.SIMULATIONS.PAM_RTMf.run', 
+                            'parameters': {
+                                    'DoE_line': '{variables.DoE_line}', 
+                                    'outputs_files_folder': '{variables.results_folder}/{variables.line_number}/RTM/',
+                                    'src_macros_folder': '{parameters.macros_folder}', 
+                                    'machine': '{parameters.machine}', 
+                                    'source_folder': '{parameters.source_folder}', 
+                                    'RTM_base_name': '{parameters.RTM_base_name}', 
+                                    'np': '{parameters.PAM_NP}'
+                                    }
+                            }, 
+                            {'Type': 'PHASES.SIMULATIONS.PAM_RTMc.run', 
+                             'parameters': {
+                                    'DoE_line': '{variables.DoE_line}', 
+                                    'outputs_files_folder': '{variables.results_folder}/{variables.line_number}/Curing/', 
+                                    'input_files_folder': '{variables.results_folder}/{variables.line_number}/RTM/', 
+                                    'machine': '{parameters.machine}', 
+                                    'source_folder': '{parameters.source_folder}', 
+                                    'Curing_base_name': '{parameters.Curing_base_name}', 
+                                    'RTM_base_name': '{parameters.RTM_base_name}', 
+                                    'np': '{parameters.PAM_NP}', 
+                                    'src_macros_folder': '{parameters.macros_folder}'
+                                     }
+                            },
+                            {'Type': 'PHASES.SIMULATIONS.PAM_DISTORTION.run', 
+                             'parameters': {
+                                     'DoE_line': '{variables.DoE_line}', 
+                                     'outputs_files_folder': '{variables.results_folder}/{variables.line_number}/Distortion/', 
+                                     'input_files_folder': '{variables.results_folder}/{variables.line_number}/Curing/', 
+                                     'machine': '{parameters.machine}', 'source_folder': '{parameters.source_folder}', 
+                                     'Distortion_Base_Name': '{parameters.Distortion_Base_Name}', 
+                                     'Curing_base_name': '{parameters.Curing_base_name}', 
+                                     'np': '1', 
+                                     'src_macros_folder': '{parameters.macros_folder}', 
+                                     'tools': 'True'
+                                     }
+                           }],
+              'Prepare Data': [{'Type': 'PHASES.BEFORESIMULATION.alya.USECASEconvert_and_surrogate',
+                             'parameters': {
+                                     'input_files_folder': '{variables.results_folder}/{variables.line_number}/Distortion/',
+                                     'output_files_folder': '{variables.results_folder}/{variables.line_number}/Mechanical/',
+                                     'Mechanical_Base_Name': '{parameters.Mechanical_Base_Name}',
+                                     'template_COUPONtool': '{parameters.template_COUPONtool}',
+                                     'lperm_path': '{parameters.lperm_path}',
+                                     'inp_path': '{parameters.inp_path}'
+                                     }
+                           }] 
+              }, 
+ 'outputs': {}, 
+ 'inputs': {}, 
+ 'parameters': {
+         'machine': 'HPCBSC', 
+         'macros_folder': '/gpfs/projects/bsce81/workflow_wp4/esi_src', 
+         'inputs_file': 'gpfs/projects/bsce81/workflow_POC1_debug/001_Data/input/generatedDOEshort.csv',
+         'source_folder': '/gpfs/projects/bsce81/workflow_POC1_debug/001_Data/input',
+         'lperm_path': '/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/COUPONtool/examples',
+         'inp_path': '/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/COUPONtool/examples',
+         'RTM_base_name': 'CAELESTIS', 
+         'Curing_base_name': 'CAELESTIS', 
+         'Distortion_Base_Name': 'CAELESTISD',
+         'Mechanical_Base_Name': 'CAELESTISM',
+         'PAM_NP': '16',
+         'template_COUPONtool':'/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/Workflows/examples/MANUFACTURING_AND_MECHANICAL/inputs/template_inputs_USECASEconvert.yaml'
+ }
+
+}
