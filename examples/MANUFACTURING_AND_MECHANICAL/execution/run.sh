@@ -8,7 +8,7 @@ if [ "$#" -ne 4 ]; then
 fi
 
 
-YAML=/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/yamls/$1
+YAML=/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/install_dir/Workflows/examples/MANUFACTURING_AND_MECHANICAL/yamls/$1
 EXEC_NAME=$2
 NUM_NODES=$3
 EXEC_TIME=$4
@@ -16,7 +16,7 @@ EXECUTION_FOLDER=/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/executions/${EXEC_NAME}/
 mkdir -p $EXECUTION_FOLDER/results/
 QOS=debug
 PROJECT=bsce81
-INSTALL_DIR=/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/
+INSTALL_DIR=/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/install_dir
 DATA_DIR=/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/data/
 
 PAMHOME=/gpfs/projects/bsce81/MN4/bsce81/esi

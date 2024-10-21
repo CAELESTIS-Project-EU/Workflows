@@ -57,14 +57,14 @@
          'macros_folder': '/gpfs/projects/bsce81/workflow_wp4/esi_src', 
          'inputs_file': '/gpfs/projects/bsce81/workflow_POC1_debug/001_Data/input/generatedDOEshort.csv',
          'source_folder': '/gpfs/projects/bsce81/workflow_POC1_debug/001_Data/input',
-         'lperm_path': '/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/COUPONtool/examples',
-         'inp_path': '/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/COUPONtool/examples',
+         'lperm_path': '/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/install_dir/COUPONtool/examples',
+         'inp_path': '/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/install_dir/COUPONtool/examples',
          'RTM_base_name': 'CAELESTIS', 
          'Curing_base_name': 'CAELESTIS', 
          'Distortion_Base_Name': 'CAELESTISD',
          'Mechanical_Base_Name': 'CAELESTISM',
          'PAM_NP': '16',
-         'template_COUPONtool':'/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/Workflows/examples/MANUFACTURING_AND_MECHANICAL/inputs/template_inputs_USECASEconvert.yaml'
+         'template_COUPONtool':'/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/install_dir/Workflows/examples/MANUFACTURING_AND_MECHANICAL/inputs/template_inputs_USECASEconvert.yaml'
  }
 
 }
