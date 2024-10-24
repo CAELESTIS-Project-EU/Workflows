@@ -55,7 +55,7 @@
  'parameters': {
          'machine': 'HPCBSC', 
          'macros_folder': '/gpfs/projects/bsce81/workflow_wp4/esi_src', 
-         'inputs_file': '/gpfs/projects/bsce81/workflow_POC1_debug/001_Data/input/generatedDOEshort.csv',
+         'inputs_file': '/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/data/generatedDOEshort.csv',
          'source_folder': '/gpfs/projects/bsce81/workflow_POC1_debug/001_Data/input',
          'lperm_path': '/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/install_dir/COUPONtool/examples',
          'inp_path': '/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/install_dir/COUPONtool/examples',

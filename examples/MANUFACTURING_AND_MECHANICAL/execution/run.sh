@@ -16,7 +16,7 @@ EXECUTION_FOLDER=/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/executions/${EXEC_NAME}/
 mkdir -p $EXECUTION_FOLDER/results/
 QOS=debug
 PROJECT=bsce81
-INSTALL_DIR=/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/install_dir
+INSTALL_DIR=/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/install_dir/Workflows/
 DATA_DIR=/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/data/
 
 PAMHOME=/gpfs/projects/bsce81/MN4/bsce81/esi

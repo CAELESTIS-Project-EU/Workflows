@@ -195,39 +195,66 @@ def USECASEconvert_and_surrogate(prepare_args, **kwargs):
     template_path = get_value(prepare_args, "template_COUPONtool")
     mechanical_base_name = get_value(prepare_args, "Mechanical_Base_Name")
 
+    print(f"Input files folder: {input_files_folder}")
+    print(f"Output files folder: {output_files_folder}")
+    print(f"lperm path: {lperm_path}, inp path: {inp_path}")
+    print(f"Template path: {template_path}")
+    print(f"Mechanical Base Name: {mechanical_base_name}")
+
     # Look for the proper .lperm and .inp files ({case_number}.lperm, {case_number}.inp)
     case_number = int(get_value(prepare_args, "index")) + 1
-    # index of the loop executed in execution.py (workflow) + 1 (case1, case2 ...)
+    print(f"Case number (index+1): {case_number}")
+
+    # Finding .lperm file
     lperm_file_path = None
     files = os.listdir(lperm_path)
+    print(f"Files in lperm path: {files}")
     for file in files:
         if file.endswith(str(case_number) + '.lperm'):
             lperm_file_path = os.path.join(input_files_folder, file)
+            print(f"Found lperm file: {lperm_file_path}")
+            break
+    else:
+        print("No matching .lperm file found")
 
+    # Finding .inp file
     inp_file_path = None
     files = os.listdir(inp_path)
+    print(f"Files in inp path: {files}")
     for file in files:
         if file.endswith(str(case_number) + '.inp'):
             inp_file_path = os.path.join(input_files_folder, file)
+            print(f"Found inp file: {inp_file_path}")
+            break
+    else:
+        print("No matching .inp file found")
 
     # Modify the template
     execution_folder = get_value(prepare_args, "execution_folder")
     modified_template_path = os.path.join(execution_folder, "templates",
                                           "inputs_USECASE_convert.yaml")
+    print(f"Modified template path: {modified_template_path}")
+
     if not os.path.isdir(modified_template_path):
         os.makedirs(modified_template_path)
+        print(f"Created directory: {modified_template_path}")
+
     with open(modified_template_path, 'w') as f2:
         with open(template_path, 'r') as f:
             filedata = f.read()
-            filedata = filedata.replace("%lperm_file_path%", str(lperm_file_path))
+            filedata = filedata.replace("%lperm_file_path%",
+                                        str(lperm_file_path))
             filedata = filedata.replace("%inp_file_path%", str(inp_file_path))
-            filedata = filedata.replace("%output_path%", str(output_files_folder))
+            filedata = filedata.replace("%output_path%",
+                                        str(output_files_folder))
             filedata = filedata.replace("%JobName%", str(mechanical_base_name))
             f2.write(filedata)
+            print("Modified template content written")
             f.close()
         f2.close()
 
     USECASEconvert.runUSECASEconvert(modified_template_path)
+    print("USECASEconvert executed")
 
     ########################## SURROGATE #######################
     return
