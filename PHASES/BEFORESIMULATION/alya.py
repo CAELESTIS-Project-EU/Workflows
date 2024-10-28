@@ -195,49 +195,49 @@ def USECASEconvert_and_surrogate(prepare_args, **kwargs):
     template_path = get_value(prepare_args, "template_COUPONtool")
     mechanical_base_name = get_value(prepare_args, "Mechanical_Base_Name")
 
-    print(f"Input files folder: {input_files_folder}")
-    print(f"Output files folder: {output_files_folder}")
-    print(f"lperm path: {lperm_path}, inp path: {inp_path}")
-    print(f"Template path: {template_path}")
-    print(f"Mechanical Base Name: {mechanical_base_name}")
+    print(f"Input files folder: {input_files_folder}", flush=True)
+    print(f"Output files folder: {output_files_folder}", flush=True)
+    print(f"lperm path: {lperm_path}, inp path: {inp_path}", flush=True)
+    print(f"Template path: {template_path}", flush=True)
+    print(f"Mechanical Base Name: {mechanical_base_name}", flush=True)
 
     # Look for the proper .lperm and .inp files ({case_number}.lperm, {case_number}.inp)
     case_number = int(get_value(prepare_args, "index")) + 1
-    print(f"Case number (index+1): {case_number}")
+    print(f"Case number (index+1): {case_number}", flush=True)
 
     # Finding .lperm file
     lperm_file_path = None
     files = os.listdir(lperm_path)
-    print(f"Files in lperm path: {files}")
+    print(f"Files in lperm path: {files}", flush=True)
     for file in files:
         if file.endswith(str(case_number) + '.lperm'):
             lperm_file_path = os.path.join(input_files_folder, file)
-            print(f"Found lperm file: {lperm_file_path}")
+            print(f"Found lperm file: {lperm_file_path}", flush=True)
             break
     else:
-        print("No matching .lperm file found")
+        print("No matching .lperm file found", flush=True)
 
     # Finding .inp file
     inp_file_path = None
     files = os.listdir(inp_path)
-    print(f"Files in inp path: {files}")
+    print(f"Files in inp path: {files}", flush=True)
     for file in files:
         if file.endswith(str(case_number) + '.inp'):
             inp_file_path = os.path.join(input_files_folder, file)
-            print(f"Found inp file: {inp_file_path}")
+            print(f"Found inp file: {inp_file_path}", flush=True)
             break
     else:
-        print("No matching .inp file found")
+        print("No matching .inp file found", flush=True)
 
     # Modify the template
     execution_folder = get_value(prepare_args, "execution_folder")
     modified_template_path = os.path.join(execution_folder, "templates",
                                           "inputs_USECASE_convert.yaml")
-    print(f"Modified template path: {modified_template_path}")
+    print(f"Modified template path: {modified_template_path}", flush=True)
 
     if not os.path.isdir(modified_template_path):
         os.makedirs(modified_template_path)
-        print(f"Created directory: {modified_template_path}")
+        print(f"Created directory: {modified_template_path}", flush=True)
 
     with open(modified_template_path, 'w') as f2:
         with open(template_path, 'r') as f:
@@ -249,12 +249,13 @@ def USECASEconvert_and_surrogate(prepare_args, **kwargs):
                                         str(output_files_folder))
             filedata = filedata.replace("%JobName%", str(mechanical_base_name))
             f2.write(filedata)
-            print("Modified template content written")
+            print(f"Modified template content written in path {modified_template_path}", flush=True)
+            print(filedata, flush=True)
             f.close()
         f2.close()
 
     USECASEconvert.runUSECASEconvert(modified_template_path)
-    print("USECASEconvert executed")
+    print("USECASEconvert executed", flush=True)
 
     ########################## SURROGATE #######################
     return

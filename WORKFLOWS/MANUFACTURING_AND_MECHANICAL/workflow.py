@@ -15,7 +15,8 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
-    check_license_run=check_license.check_license()
+    #check_license_run=check_license.check_license()
+    check_license_run = True
     df = compss_wait_on(df)
     DoE_names = compss_wait_on(DoE_names)
     if check_license_run:
