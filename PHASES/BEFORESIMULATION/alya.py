@@ -184,7 +184,6 @@ def prepare_dom(prepare_args, **kwargs):
     return
 
 
-@task(returns=1)
 def USECASEconvert_and_surrogate(prepare_args, **kwargs):
     ########################## USECASE convert #####################
     from coupontool import USECASEconvert
