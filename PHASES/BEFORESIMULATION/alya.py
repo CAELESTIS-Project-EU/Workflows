@@ -184,7 +184,7 @@ def prepare_dom(prepare_args, **kwargs):
     return
 
 
-def USECASEconvert_and_surrogate(prepare_args, **kwargs):
+def USECASEconvert_and_surrogate(**prepare_args, **kwargs):
     ########################## USECASE convert #####################
     from coupontool import USECASEconvert
     input_files_folder = get_value(prepare_args, "input_files_folder")
