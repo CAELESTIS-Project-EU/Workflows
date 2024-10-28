@@ -1,4 +1,4 @@
-{'workflow_type': 'WORKFLOWS.AUTOMATION_ML.workflow.execution', 
+{'workflow_type': 'WORKFLOWS.MANUFACTURING_AND_MECHANICAL.workflow.execution', 
  'phases': {'Sampling': [{'Type': 'PHASES.SAMPLERS.CSV.run', 
                           'parameters': {
                                   'inputs_file': '{parameters.inputs_file}'}}],
