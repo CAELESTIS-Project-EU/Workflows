@@ -39,8 +39,8 @@
                                      'tools': 'True'
                                      }
                            }],
-              'Prepare Data': [{'Type': 'PHASES.BEFORESIMULATION.alya.USECASEconvert_and_surrogate',
-                             'parameters': {
+            'Prepare Data': [{'Type': 'PHASES.BEFORESIMULATION.alya.USECASEconvert_and_surrogate',
+                              'parameters': {
                                      'input_files_folder': '{variables.results_folder}/{variables.line_number}/Distortion/',
                                      'output_files_folder': '{variables.results_folder}/{variables.line_number}/Mechanical/',
                                      'Mechanical_Base_Name': '{parameters.Mechanical_Base_Name}',

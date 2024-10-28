@@ -29,7 +29,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
             if not os.path.isdir(row_folder):
                 os.makedirs(row_folder)
             DoE_line = dict(zip(DoE_names, row))
-            #phase.run(phases.get("Simulation"), inputs, outputs, parameters, data_folder, locals())
+            phase.run(phases.get("Simulation"), inputs, outputs, parameters, data_folder, locals())
             print("------------------------", index, flush=True)
             print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&6", flush=True)
             print(phases.get("Prepare Data"), flush=True)
