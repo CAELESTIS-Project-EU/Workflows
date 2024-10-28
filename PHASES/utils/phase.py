@@ -21,7 +21,10 @@ def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
             print("22222222222222222222callinggggggggggggggggggg", module_call,
                   flush=True)
             print("--------------------------", flush=True)
+            print("moduleee:", module, flush=True)
+            print("function_call:", function_call, flush=True)
             print("phase argssssssssssss:", phase_args, flush=True)
+            print("kwargssssssssssssss:", kwargs)
             return getattr(module, function_call)(**phase_args, **kwargs)
         else:
             values="Start"
