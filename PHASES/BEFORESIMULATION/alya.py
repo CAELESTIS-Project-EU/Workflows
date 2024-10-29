@@ -231,8 +231,8 @@ def USECASEconvert_and_surrogate(**prepare_args):
         print("No matching .inp file found", flush=True)
 
     # Modify the template
-    execution_folder = get_value(prepare_args, "execution_folder")
-    modified_template_path = os.path.join(execution_folder, "templates",
+    row_folder = get_value(prepare_args, "row_folder")
+    modified_template_path = os.path.join(row_folder, "templates",
                                           "inputs_USECASE_convert.yaml")
     print(f"Modified template path: {modified_template_path}", flush=True)
 
