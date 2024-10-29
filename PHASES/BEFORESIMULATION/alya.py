@@ -251,12 +251,12 @@ def USECASEconvert_and_surrogate(**prepare_args):
                                         str(output_files_folder))
             filedata = filedata.replace("%JobName%", str(mechanical_base_name))
             f2.write(filedata)
-            print(f"Modified template content written in path {modified_template_path}", flush=True)
+            print(f"Modified template content written in path {modified_template_file}", flush=True)
             print(filedata, flush=True)
             f.close()
         f2.close()
 
-    USECASEconvert.runUSECASEconvert(modified_template_path)
+    USECASEconvert.runUSECASEconvert(modified_template_file)
     print("USECASEconvert executed", flush=True)
 
     ########################## SURROGATE #######################
