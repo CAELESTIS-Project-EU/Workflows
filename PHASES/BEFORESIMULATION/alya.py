@@ -232,15 +232,16 @@ def USECASEconvert_and_surrogate(**prepare_args):
 
     # Modify the template
     row_folder = get_value(prepare_args, "row_folder")
-    modified_template_path = os.path.join(row_folder, "templates",
-                                          "inputs_USECASE_convert.yaml")
+    modified_template_path = os.path.join(row_folder, "templates")
     print(f"Modified template path: {modified_template_path}", flush=True)
 
     if not os.path.isdir(modified_template_path):
         os.makedirs(modified_template_path)
         print(f"Created directory: {modified_template_path}", flush=True)
 
-    with open(modified_template_path, 'w') as f2:
+    modified_template_file = os.path.join(modified_template_path,
+                                          "inputs_USECASE_convert.yaml")
+    with open(modified_template_file, 'w') as f2:
         with open(template_path, 'r') as f:
             filedata = f.read()
             filedata = filedata.replace("%lperm_file_path%",
