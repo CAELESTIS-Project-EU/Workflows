@@ -186,14 +186,16 @@ def prepare_dom(prepare_args, **kwargs):
 
 def USECASEconvert_and_surrogate(**prepare_args):
     ########################## USECASE convert #####################
-    from coupontool import USECASEconvert
+    import USECASEconvert
     input_files_folder = get_value(prepare_args, "input_files_folder")
     output_files_folder = get_value(prepare_args, "output_files_folder")
     lperm_path = get_value(prepare_args, "lperm_path")
     inp_path = get_value(prepare_args, "inp_path")
     template_path = get_value(prepare_args, "template_COUPONtool")
     mechanical_base_name = get_value(prepare_args, "Mechanical_Base_Name")
-
+    print()
+    print("prepareeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+    print(prepare_args)
     print(f"Input files folder: {input_files_folder}", flush=True)
     print(f"Output files folder: {output_files_folder}", flush=True)
     print(f"lperm path: {lperm_path}, inp path: {inp_path}", flush=True)

@@ -38,7 +38,7 @@ module load intel gmsh/4.12.2
 
 export COMPSS_MPIRUN_TYPE=ompi
 
-export PYTHONPATH=$INSTALL_DIR:$PYTHONPATH
+export PYTHONPATH=${INSTALL_DIR}/../COUPONtool:$INSTALL_DIR:$PYTHONPATH
 
 # shellcheck disable=SC2164
 cd $EXECUTION_FOLDER
