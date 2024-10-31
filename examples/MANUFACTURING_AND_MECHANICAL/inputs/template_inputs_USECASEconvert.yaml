@@ -81,6 +81,7 @@ Material:
 
 OGV_features:
   Layup:
+    tply: 0.2
     ori: [ 45, 135, 0, 0, 90, 0, 135, 0, 0, 90, 45, 0, 0, 135, 0, 45, 0, 0, 90, 45, 45, 90, 0, 0, 45, 0, 135, 0, 0, 45, 90, 0, 0, 135, 0, 90, 0, 0, 135, 45 ]
     loc: [ 'OUT', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN',  'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN',  'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN',  'INN', 'INN', 'INN', 'INN', 'OUT' ]
     clu: [ 1,   1, 2, 2,  1, 1,   1, 2, 2,  1,  1, 2, 2,   1, 1,  1, 2, 2,  1,  2,  2,  1, 2, 2,  1, 1,   1, 2, 2,  1,  1, 2, 2,   1, 1,  1, 2, 2,   1,  1 ]
