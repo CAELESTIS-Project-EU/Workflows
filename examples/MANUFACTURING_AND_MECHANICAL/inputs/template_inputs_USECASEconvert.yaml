@@ -92,11 +92,13 @@ OGV_features:
 
     
 OGV_solver:
-  debug: True
+  debug: False
   nlgeom: True
   ms: 1.0
   # Step-0: Initializations
   t0: 0.0
   # Step-1:
-  totalTime: 1.0e-3
-  prescribedDisplacement: 0.1
+  tf: 1.0e-3
+  ux:  0.0
+  uy:  -5.0
+  uz:  0.0
