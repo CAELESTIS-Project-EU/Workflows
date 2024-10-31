@@ -211,24 +211,26 @@ def USECASEconvert_and_surrogate(**prepare_args):
     files = os.listdir(lperm_path)
     print(f"Files in lperm path: {files}", flush=True)
     for file in files:
-        if file.endswith(str(case_number) + '.lperm'):
-            lperm_file_path = os.path.join(input_files_folder, file)
+        if file == f"{str(mechanical_base_name)}-s{str(case_number)}.lperm":
+            lperm_file_path = os.path.join(lperm_path, file)
             print(f"Found lperm file: {lperm_file_path}", flush=True)
             break
     else:
         print("No matching .lperm file found", flush=True)
+        return
 
     # Finding .inp file
     inp_file_path = None
     files = os.listdir(inp_path)
     print(f"Files in inp path: {files}", flush=True)
     for file in files:
-        if file.endswith(str(case_number) + '.inp'):
-            inp_file_path = os.path.join(input_files_folder, file)
+        if file == f"{str(mechanical_base_name)}-s{str(case_number)}.inp":
+            inp_file_path = os.path.join(inp_path, file)
             print(f"Found inp file: {inp_file_path}", flush=True)
             break
     else:
         print("No matching .inp file found", flush=True)
+        return
 
     # Modify the template
     row_folder = get_value(prepare_args, "row_folder")
