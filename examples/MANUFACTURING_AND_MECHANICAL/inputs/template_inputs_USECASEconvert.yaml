@@ -81,14 +81,14 @@ Material:
 
 OGV_features:
   Layup:
-    tply: 0.001
-    ori: [45]
-    loc: ['OUT']
-    clu: [   1]
+    ori: [ 45, 135, 0, 0, 90, 0, 135, 0, 0, 90, 45, 0, 0, 135, 0, 45, 0, 0, 90, 45, 45, 90, 0, 0, 45, 0, 135, 0, 0, 45, 90, 0, 0, 135, 0, 90, 0, 0, 135, 45 ]
+    loc: [ 'OUT', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN',  'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN',  'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN', 'INN',  'INN', 'INN', 'INN', 'INN', 'OUT' ]
+    clu: [ 1,   1, 2, 2,  1, 1,   1, 2, 2,  1,  1, 2, 2,   1, 1,  1, 2, 2,  1,  2,  2,  1, 2, 2,  1, 1,   1, 2, 2,  1,  1, 2, 2,   1, 1,  1, 2, 2,   1,  1 ]
   Other:
     kfl_coh: False
   Mesh:
     le: 0.25
+
     
 OGV_solver:
   debug: True
