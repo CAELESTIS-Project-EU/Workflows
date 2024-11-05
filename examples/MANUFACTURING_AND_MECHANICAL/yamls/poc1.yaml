@@ -46,7 +46,8 @@
                                      'Mechanical_Base_Name': '{parameters.Mechanical_Base_Name}',
                                      'template_COUPONtool': '{parameters.template_COUPONtool}',
                                      'lperm_path': '{parameters.lperm_path}',
-                                     'inp_path': '{parameters.inp_path}'
+                                     'inp_path': '{parameters.inp_path}',
+                                     'voids_path': '{parameters.voids_path}'
                                      }
                            }] 
               }, 
@@ -59,6 +60,7 @@
          'source_folder': '/gpfs/projects/bsce81/workflow_POC1_debug/001_Data/input',
          'lperm_path': '/gpfs/scratch/bsce81/doe-ogv-2samples',
          'inp_path': '/gpfs/scratch/bsce81/doe-ogv-2samples',
+         'voids_path': '/gpfs/scratch/bsce81/doe-ogv-2samples',
          'RTM_base_name': 'CAELESTIS', 
          'Curing_base_name': 'CAELESTIS', 
          'Distortion_Base_Name': 'CAELESTISD',

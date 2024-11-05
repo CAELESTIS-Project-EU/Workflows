@@ -191,6 +191,7 @@ def USECASEconvert_and_surrogate(**prepare_args):
     output_files_folder = get_value(prepare_args, "output_files_folder")
     lperm_path = get_value(prepare_args, "lperm_path")
     inp_path = get_value(prepare_args, "inp_path")
+    voids_path = get_value(prepare_args, "voids_path")
     template_path = get_value(prepare_args, "template_COUPONtool")
     mechanical_base_name = get_value(prepare_args, "Mechanical_Base_Name")
     print()
@@ -232,9 +233,22 @@ def USECASEconvert_and_surrogate(**prepare_args):
         print("No matching .inp file found", flush=True)
         return
 
+    # Finding .voids.txt file
+    voids_file_path = None
+    files = os.listdir(voids_path)
+    print(f"Files in voids path: {files}", flush=True)
+    for file in files:
+        if file == f"{str(mechanical_base_name)}-s{str(case_number)}.voids.txt":
+            voids_file_path = os.path.join(voids_path, file)
+            print(f"Found voids file: {voids_file_path}", flush=True)
+            break
+    else:
+        print("No matching .voids.txt file found", flush=True)
+        return
+
     # Modify the template
     row_folder = get_value(prepare_args, "row_folder")
-    modified_template_path = os.path.join(row_folder, "templates")
+    modified_template_path = os.path.join(row_folder, "config")
     print(f"Modified template path: {modified_template_path}", flush=True)
 
     if not os.path.isdir(modified_template_path):
@@ -249,6 +263,7 @@ def USECASEconvert_and_surrogate(**prepare_args):
             filedata = filedata.replace("%lperm_file_path%",
                                         str(lperm_file_path))
             filedata = filedata.replace("%inp_file_path%", str(inp_file_path))
+            filedata = filedata.replace("%voids_file_path%", str(voids_file_path))
             filedata = filedata.replace("%output_path%",
                                         str(output_files_folder))
             filedata = filedata.replace("%JobName%", str(mechanical_base_name))

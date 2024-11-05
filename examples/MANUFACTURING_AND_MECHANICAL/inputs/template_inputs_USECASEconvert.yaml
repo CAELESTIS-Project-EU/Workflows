@@ -7,7 +7,8 @@ General:
   
   JobName: '%JobName%'
   lperm_file_path: "%lperm_file_path%"
-  inp_file_path: "%inp_file_path%"  
+  inp_file_path: "%inp_file_path%"
+  voids_file_path: "%voids_file_path%"
   output_path: '%output_path%'
   Machine: 'MareNostrum5'
   Cores: 112
