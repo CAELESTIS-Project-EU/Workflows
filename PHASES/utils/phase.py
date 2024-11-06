@@ -8,9 +8,6 @@ def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
             phase_function, phase_args = phase_info
             module_call, function_call = split_string_at_last_dot(phase_function)
             module = importlib.import_module(module_call)
-            print("11111111111111111callinggggggggggggggggggg", module_call, flush=True)
-            print("--------------------------", flush=True)
-            print("phase argssssssssssss:", phase_args, flush=True)
             return getattr(module, function_call)(**phase_args, **kwargs)
         elif isinstance(phase, list) and len(phase)==1:
             phase_info = args_values.get_values(phase, inputs, outputs, parameters, data_folder, local_vars)
@@ -18,13 +15,6 @@ def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
             phase_args = phase_info.get("arguments")
             module_call, function_call = split_string_at_last_dot(phase_function)
             module = importlib.import_module(module_call)
-            print("22222222222222222222callinggggggggggggggggggg", module_call,
-                  flush=True)
-            print("--------------------------", flush=True)
-            print("moduleee:", module, flush=True)
-            print("function_call:", function_call, flush=True)
-            print("phase argssssssssssss:", phase_args, flush=True)
-            print("kwargssssssssssssss:", kwargs)
             return getattr(module, function_call)(**phase_args, **kwargs)
         else:
             values="Start"
@@ -32,15 +22,9 @@ def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
                 phase_info = args_values.get_values([p], inputs, outputs, parameters, data_folder, local_vars)
                 phase_function = phase_info.get("type")
                 phase_args = phase_info.get("arguments")
-                print(f"type: {phase_function}, phase_args: {phase_args}")
                 module_call, function_call = split_string_at_last_dot(phase_function)
                 module = importlib.import_module(module_call)
-                print("33333333333333callinggggggggggggggggggg",
-                      module_call, flush=True)
-                print("--------------------------", flush=True)
-                print("phase argssssssssssss:", phase_args, flush=True)
-                values=getattr(module, function_call)(**phase_args, **kwargs)
-                print(str(values))
+                values = getattr(module, function_call)(**phase_args, **kwargs)
             return values
     except Exception as e:
         raise ValueError(f"An exception occurred: {e}")
