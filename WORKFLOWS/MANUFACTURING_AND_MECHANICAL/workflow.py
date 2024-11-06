@@ -32,6 +32,8 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
             phase.run(phases.get("Simulation"), inputs, outputs, parameters, data_folder, locals())
             phase.run(phases.get("Prepare Data"), inputs, outputs, parameters,
                       data_folder, locals(), index=index, row_folder=row_folder)
+            phase.run(phases.get("Simulation2"), inputs, outputs, parameters,
+                      data_folder, locals())
             if "PostProcess" in phases:
                 phase.run(phases.get("PostProcess"), inputs, outputs, parameters, data_folder, locals())
 

@@ -21,10 +21,16 @@ DATA_DIR=/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/data/
 
 PAMHOME=/gpfs/projects/bsce81/MN4/bsce81/esi
 PAMENV=$PAMHOME/env-`uname`
+
 export PAMHOME PAMENV
 if [ -r $PAMENV/psi.Baenv ]; then
     . $PAMENV/psi.Baenv
 fi
+
+export ALYA_BIN=/gpfs/projects/bsce81/alya/builds/Alya_mn5gcc.x
+export ALYA_PROCS=2
+export ALYA_PPN=2
+export ALYA_TIMEOUT=3600
 
 module purge
 # python and COMPSs modules

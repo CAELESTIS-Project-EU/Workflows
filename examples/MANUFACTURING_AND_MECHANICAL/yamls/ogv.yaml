@@ -1,8 +1,8 @@
 {'workflow_type': 'WORKFLOWS.MANUFACTURING_AND_MECHANICAL.workflow.execution', 
- 'phases': {'Sampling': [{'Type': 'PHASES.SAMPLERS.CSV.run', 
+ 'phases': {'Sampling': [{'Type': 'PHASES.SAMPLERS.CSV.run',
                           'parameters': {
                                   'inputs_file': '{parameters.inputs_file}'}}],
-            'Simulation': [{'Type': 'PHASES.SIMULATIONS.PAM_RTMf.run', 
+            'Simulation': [{'Type': 'PHASES.SIMULATIONS.PAM_RTMf.run',
                             'parameters': {
                                     'DoE_line': '{variables.DoE_line}', 
                                     'outputs_files_folder': '{variables.results_folder}/{variables.line_number}/RTM/',
@@ -49,7 +49,13 @@
                                      'inp_path': '{parameters.inp_path}',
                                      'voids_path': '{parameters.voids_path}'
                                      }
-                           }] 
+                           }],
+            'Simulation2': [ { 'Type': 'PHASES.SIMULATIONS.alya.simulation',
+                                'parameters': {
+                                  'simulation_wdir': '{variables.results_folder}/{variables.line_number}/Mechanical/{parameters.Mechanical_Base_Name}/',
+                                  'name_sim': '{parameters.Mechanical_Base_Name}'
+                                }
+            } ],
               }, 
  'outputs': {}, 
  'inputs': {}, 
