@@ -184,6 +184,7 @@ def prepare_dom(prepare_args, **kwargs):
     return
 
 
+@task(returns=1)
 def USECASEconvert_and_surrogate(**prepare_args):
     ########################## USECASE convert #####################
     import USECASEconvert
@@ -194,21 +195,11 @@ def USECASEconvert_and_surrogate(**prepare_args):
     voids_path = get_value(prepare_args, "voids_path")
     template_path = get_value(prepare_args, "template_COUPONtool")
     mechanical_base_name = get_value(prepare_args, "Mechanical_Base_Name")
-    print()
-    print("prepareeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
-    print(prepare_args)
-    print(f"Input files folder: {input_files_folder}", flush=True)
-    print(f"Output files folder: {output_files_folder}", flush=True)
-    print(f"lperm path: {lperm_path}, inp path: {inp_path}", flush=True)
-    print(f"Template path: {template_path}", flush=True)
-    print(f"Mechanical Base Name: {mechanical_base_name}", flush=True)
 
     # Look for the proper .lperm and .inp files ({case_number}.lperm, {case_number}.inp)
     case_number = int(get_value(prepare_args, "index")) + 1
-    print(f"Case number (index+1): {case_number}", flush=True)
 
     # Finding .lperm file
-    lperm_file_path = None
     files = os.listdir(lperm_path)
     print(f"Files in lperm path: {files}", flush=True)
     for file in files:
@@ -221,7 +212,6 @@ def USECASEconvert_and_surrogate(**prepare_args):
         return
 
     # Finding .inp file
-    inp_file_path = None
     files = os.listdir(inp_path)
     print(f"Files in inp path: {files}", flush=True)
     for file in files:
@@ -234,7 +224,6 @@ def USECASEconvert_and_surrogate(**prepare_args):
         return
 
     # Finding .voids.txt file
-    voids_file_path = None
     files = os.listdir(voids_path)
     print(f"Files in voids path: {files}", flush=True)
     for file in files:
