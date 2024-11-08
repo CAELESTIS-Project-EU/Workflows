@@ -8,6 +8,8 @@ def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
             phase_function, phase_args = phase_info
             module_call, function_call = split_string_at_last_dot(phase_function)
             module = importlib.import_module(module_call)
+            print("phase: ", phase)
+            print("args:", phase_args)
             return getattr(module, function_call)(**phase_args, **kwargs)
         elif isinstance(phase, list) and len(phase)==1:
             phase_info = args_values.get_values(phase, inputs, outputs, parameters, data_folder, local_vars)
@@ -15,6 +17,8 @@ def run(phase, inputs, outputs, parameters, data_folder, local_vars, **kwargs):
             phase_args = phase_info.get("arguments")
             module_call, function_call = split_string_at_last_dot(phase_function)
             module = importlib.import_module(module_call)
+            print("phase: ", phase)
+            print("args:", phase_args)
             return getattr(module, function_call)(**phase_args, **kwargs)
         else:
             values="Start"
