@@ -52,7 +52,7 @@
                            }],
             'Simulation2': [ { 'Type': 'PHASES.SIMULATIONS.alya.simulation',
                                 'parameters': {
-                                  'simulation_wdir': '{variables.results_folder}/{variables.line_number}/Mechanical/{parameters.Mechanical_Base_Name}/',
+                                  'simulation_wdir': '{variables.simulation_wdir}/{parameters.Mechanical_Base_Name}/}',
                                   'name_sim': '{parameters.Mechanical_Base_Name}'
                                 }
             } ],

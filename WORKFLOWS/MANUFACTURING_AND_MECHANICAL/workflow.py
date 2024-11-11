@@ -8,6 +8,7 @@ PAM_NP = 1
 
 def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
     global PAM_NP
+    import time
     if "PAM_NP" in parameters:
         PAM_NP=int(parameters["PAM_NP"])
         print("Setting PAM NP to " + str(PAM_NP))
@@ -25,13 +26,15 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         for index, row in df.iterrows():
             a += 1
             line_number = 'line' + str(a)
-            row_folder = os.path.join(results_folder, line_number)
-            if not os.path.isdir(row_folder):
-                os.makedirs(row_folder)
+            simulation_wdir = os.path.join(execution_folder, "SIMULATIONS", line_number)
+            if not os.path.isdir(simulation_wdir):
+                os.makedirs(simulation_wdir)
             DoE_line = dict(zip(DoE_names, row))
             phase.run(phases.get("Simulation"), inputs, outputs, parameters, data_folder, locals())
+            t1 = time.time()
             phase.run(phases.get("Prepare Data"), inputs, outputs, parameters,
-                      data_folder, locals(), index=index, row_folder=row_folder)
+                      data_folder, locals(), index=index, row_folder=simulation_wdir)
+            print ("TIMEEEEEEEEEE:", time.time() - t1)
             phase.run(phases.get("Simulation2"), inputs, outputs, parameters,
                       data_folder, locals())
             if "PostProcess" in phases:

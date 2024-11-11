@@ -15,5 +15,3 @@ if alya_procs < alya_ppn:
 @task(returns=1, time_out=alya_timeout)
 def simulation(name_sim, simulation_wdir, **kwargs):
     return
-
-
