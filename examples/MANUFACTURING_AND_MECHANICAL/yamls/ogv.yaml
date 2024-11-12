@@ -1,7 +1,8 @@
 {'workflow_type': 'WORKFLOWS.MANUFACTURING_AND_MECHANICAL.workflow.execution', 
  'phases': {'Sampling': [{'Type': 'PHASES.SAMPLERS.CSV.run',
                           'parameters': {
-                                  'inputs_file': '{parameters.inputs_file}'}}],
+                                  'inputs_file': '{parameters.inputs_file}'}
+            }],
             'Simulation': [{'Type': 'PHASES.SIMULATIONS.PAM_RTMf.run',
                             'parameters': {
                                     'DoE_line': '{variables.DoE_line}', 
@@ -37,8 +38,8 @@
                                      'np': '1', 
                                      'src_macros_folder': '{parameters.macros_folder}', 
                                      'tools': 'True'
-                                     }
-                           }],
+                             }
+            }],
             'Prepare Data': [{'Type': 'PHASES.BEFORESIMULATION.alya.USECASEconvert_and_surrogate',
                               'parameters': {
                                      'input_files_folder': '{variables.simulation_wdir}/Distortion/',
@@ -50,14 +51,20 @@
                                      'inp_path': '{parameters.inp_path}',
                                      'voids_path': '{parameters.voids_path}'
                                      }
-                           }],
-            'Simulation2': [ { 'Type': 'PHASES.SIMULATIONS.alya.simulation',
-                                'parameters': {
-                                  'simulation_wdir': '{variables.simulation_wdir}/{variables.line_number}/Mechanical/{parameters.Mechanical_Base_Name}',
-                                  'name_sim': '{parameters.Mechanical_Base_Name}'
-                                }
-            } ],
-              }, 
+            }],
+            'Simulation2': [{'Type': 'PHASES.SIMULATIONS.alya.simulation',
+                              'parameters': {
+                                'simulation_wdir': '{variables.simulation_wdir}/{variables.line_number}/Mechanical/{parameters.Mechanical_Base_Name}',
+                                'name_sim': '{parameters.Mechanical_Base_Name}'
+                              }
+            }],
+            'PostProcess2': [{'Type': 'PHASES.POSTSIMULATION.alya.collect_results',
+                              'parameters':{
+                                'simulation_wdir': '{variables.simulation_wdir}/{variables.line_number}/Mechanical/{parameters.Mechanical_Base_Name}',
+                                'name_sim': '{parameters.Mechanical_Base_Name}'
+                              }
+            }]
+  },
  'outputs': {}, 
  'inputs': {}, 
  'parameters': {
