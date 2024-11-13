@@ -28,8 +28,8 @@ if [ -r $PAMENV/psi.Baenv ]; then
 fi
 
 export ALYA_BIN=/gpfs/projects/bsce81/alya/builds/Alya_mn5gcc.x
-export ALYA_PROCS=3
-export ALYA_PPN=3
+export ALYA_PROCS=112
+export ALYA_PPN=112
 export ALYA_TIMEOUT=3600
 
 module purge

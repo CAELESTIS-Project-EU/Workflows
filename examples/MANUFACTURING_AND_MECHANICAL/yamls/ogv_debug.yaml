@@ -80,7 +80,7 @@
          'Distortion_Base_Name': 'CAELESTISD',
          'Mechanical_Base_Name': 'ogv',
          'PAM_NP': '16',
-         'template_COUPONtool':'/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/install_dir/Workflows/examples/MANUFACTURING_AND_MECHANICAL/inputs/template_inputs_USECASEconvert.yaml'
+         'template_COUPONtool':'/gpfs/scratch/bsce81/BSC_FULL_WORKFLOW/install_dir/Workflows/examples/MANUFACTURING_AND_MECHANICAL/inputs/template_inputs_USECASEconvert_debug.yaml'
  }
 
 }
