@@ -6,7 +6,7 @@
             'Simulation': [{'Type': 'PHASES.SIMULATIONS.PAM_RTMf.run',
                             'parameters': {
                                     'DoE_line': '{variables.DoE_line}', 
-                                    'outputs_files_folder': '{variables.simulation_wdir}/{variables.line_number}/RTM/',
+                                    'outputs_files_folder': '{variables.results_dir}/{variables.line_number}/RTM/',
                                     'src_macros_folder': '{parameters.macros_folder}', 
                                     'machine': '{parameters.machine}', 
                                     'source_folder': '{parameters.source_folder}', 
@@ -17,8 +17,8 @@
                             {'Type': 'PHASES.SIMULATIONS.PAM_RTMc.run', 
                              'parameters': {
                                     'DoE_line': '{variables.DoE_line}', 
-                                    'outputs_files_folder': '{variables.simulation_wdir}/{variables.line_number}/Curing/',
-                                    'input_files_folder': '{variables.simulation_wdir}/{variables.line_number}/RTM/',
+                                    'outputs_files_folder': '{variables.results_dir}/{variables.line_number}/Curing/',
+                                    'input_files_folder': '{variables.results_dir}/{variables.line_number}/RTM/',
                                     'machine': '{parameters.machine}', 
                                     'source_folder': '{parameters.source_folder}', 
                                     'Curing_base_name': '{parameters.Curing_base_name}', 
@@ -30,8 +30,8 @@
                             {'Type': 'PHASES.SIMULATIONS.PAM_DISTORTION.run', 
                              'parameters': {
                                      'DoE_line': '{variables.DoE_line}', 
-                                     'outputs_files_folder': '{variables.simulation_wdir}/{variables.line_number}/Distortion/',
-                                     'input_files_folder': '{variables.simulation_wdir}/{variables.line_number}/Curing/',
+                                     'outputs_files_folder': '{variables.results_dir}/{variables.line_number}/Distortion/',
+                                     'input_files_folder': '{variables.results_dir}/{variables.line_number}/Curing/',
                                      'machine': '{parameters.machine}', 'source_folder': '{parameters.source_folder}', 
                                      'Distortion_Base_Name': '{parameters.Distortion_Base_Name}', 
                                      'Curing_base_name': '{parameters.Curing_base_name}', 
@@ -42,7 +42,7 @@
             }],
             'Prepare Data': [{'Type': 'PHASES.BEFORESIMULATION.alya.USECASEconvert_and_surrogate',
                               'parameters': {
-                                     'input_files_folder': '{variables.simulation_wdir}/Distortion/',
+                                     'input_files_folder': '{variables.results_dir}/{variables.line_number}/Distortion/',
                                      'output_files_folder': '{variables.simulation_wdir}/{variables.line_number}/Mechanical/',
                                      'row_folder':'{variables.simulation_wdir}/{variables.line_number}',
                                      'Mechanical_Base_Name': '{parameters.Mechanical_Base_Name}',
