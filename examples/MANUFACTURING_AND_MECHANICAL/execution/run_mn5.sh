@@ -48,7 +48,7 @@ export PYTHONPATH=${INSTALL_DIR}/../COUPONtool:$INSTALL_DIR:$PYTHONPATH
 
 # shellcheck disable=SC2164
 cd $EXECUTION_FOLDER
-enqueue_compss -d --project_name=$PROJECT --output_profile=$EXECUTION_FOLDER/time --keep_workingdir --log_dir=$EXECUTION_FOLDER --worker_working_dir=$PWD --scheduler=es.bsc.compss.scheduler.orderstrict.fifo.FifoTS --job_execution_dir=$EXECUTION_FOLDER --qos=$QOS --exec_time=$EXEC_TIME --pythonpath=$PYTHONPATH --num_nodes=$NUM_NODES --worker_in_master_cpus=112 $INSTALL_DIR/WORKFLOWS/api.py $YAML $EXECUTION_FOLDER $DATA_DIR
+enqueue_compss -g -d --project_name=$PROJECT --output_profile=$EXECUTION_FOLDER/time --keep_workingdir --log_dir=$EXECUTION_FOLDER --worker_working_dir=$PWD --scheduler=es.bsc.compss.scheduler.orderstrict.fifo.FifoTS --job_execution_dir=$EXECUTION_FOLDER --qos=$QOS --exec_time=$EXEC_TIME --pythonpath=$PYTHONPATH --num_nodes=$NUM_NODES --worker_in_master_cpus=112 $INSTALL_DIR/WORKFLOWS/api.py $YAML $EXECUTION_FOLDER $DATA_DIR
 
 echo DONE!
 
