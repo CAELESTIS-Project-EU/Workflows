@@ -101,7 +101,7 @@ OGV_features:
   Other:
     kfl_coh: False
   Mesh:
-    le: 0.4
+    le: 4.04
 
     
 OGV_solver:
