@@ -4,7 +4,7 @@
 ###############################################################################
 
 General:
-
+  
   JobName: '%JobName%'
   lperm_file_path: "%lperm_file_path%"
   inp_file_path: "%inp_file_path%"
@@ -41,11 +41,11 @@ Material:
     E22: 7.7333e+3
     E22c: 9.0127e+3
     nu12: 0.3315
-    nu23: 0.48
+    nu23: 0.48           
     G12: 4.2766e+3
   Strength:
     XT: 2212.8537
-    YT: 39.0546
+    YT: 39.0546   
     XC: 1109.6601
     YC: 172.9384
     SL: 97.4529
@@ -54,14 +54,14 @@ Material:
   Energies:
     GXT: 186.8022
     GXC: 114.3213
-    GXCL: 100000.0
-    GYT: 0.8028
-    GSL: 1.3815
+    GXCL: 100000.0 
+    GYT: 0.8028  
+    GSL: 1.3815 
   Hygrothermal:
     a11: 1.59e-7 # Assumed
     a22: 2.88e-5 # Assumed
     dT: 0.0      # Assumed
-    b11: 0.0     # Assumed
+    b11: 0.0     # Assumed   
     b22: 0.5     # Assumed
   Other:
     rho: 1.6e-9
@@ -76,7 +76,7 @@ Material:
     Splas: 75.3   # Assumed
   Cohesive:
     rhoc: 1.6e-9
-    GIc: 0.8028
+    GIc: 0.8028 
     GIIc: 1.3815
     G25c: 0.86440
     G50c: 0.82081
@@ -87,7 +87,7 @@ Material:
     Kp: 1.0e+5
     mu: 0.0
     nce: 3
-
+    
 ###############################################################################
 # Features and Alya solver parameters
 ###############################################################################
@@ -103,7 +103,7 @@ OGV_features:
   Mesh:
     le: 0.4
 
-
+    
 OGV_solver:
   debug: True
   nlgeom: True
