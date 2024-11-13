@@ -195,7 +195,7 @@ def USECASEconvert_and_surrogate(**prepare_args):
     voids_path = get_value(prepare_args, "voids_path")
     template_path = get_value(prepare_args, "template_COUPONtool")
     mechanical_base_name = get_value(prepare_args, "Mechanical_Base_Name")
-    DoE_line = get_value(prepare_args,"DoE_line")
+    DoE_line = prepare_args.get("DoE_line", None)
 
     # Look for the proper .lperm and .inp files ({case_number}.lperm, {case_number}.inp)
     case_number = int(get_value(prepare_args, "index")) + 1
