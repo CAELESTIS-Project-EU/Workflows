@@ -242,7 +242,7 @@ def USECASEconvert_and_surrogate(**prepare_args):
         orientation = DoE_line.get('Orientation', None)
         split = orientation.split("&")
         for s in split:
-            ori.append(s.split("#")[1])
+            ori.append(float(s.split("#")[1]))
 
     # Modify the template
     row_folder = get_value(prepare_args, "row_folder")
