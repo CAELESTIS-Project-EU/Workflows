@@ -49,7 +49,8 @@
                                      'template_COUPONtool': '{parameters.template_COUPONtool}',
                                      'lperm_path': '{parameters.lperm_path}',
                                      'inp_path': '{parameters.inp_path}',
-                                     'voids_path': '{parameters.voids_path}'
+                                     'voids_path': '{parameters.voids_path}',
+                                     'DoE_line': '{variables.DoE_line}'
                                      }
             }],
             'Simulation2': [{'Type': 'PHASES.SIMULATIONS.alya.simulation',

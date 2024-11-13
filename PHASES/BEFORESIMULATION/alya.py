@@ -195,6 +195,7 @@ def USECASEconvert_and_surrogate(**prepare_args):
     voids_path = get_value(prepare_args, "voids_path")
     template_path = get_value(prepare_args, "template_COUPONtool")
     mechanical_base_name = get_value(prepare_args, "Mechanical_Base_Name")
+    DoE_line = get_value(prepare_args,"DoE_line")
 
     # Look for the proper .lperm and .inp files ({case_number}.lperm, {case_number}.inp)
     case_number = int(get_value(prepare_args, "index")) + 1
@@ -235,6 +236,14 @@ def USECASEconvert_and_surrogate(**prepare_args):
         print("No matching .voids.txt file found", flush=True)
         return
 
+    # get ori from DoE
+    ori = []
+    if DoE_line and 'Orientation' in DoE_line:
+        orientation = DoE_line.get('Orientation', None)
+        split = orientation.split("&")
+        for s in split:
+            ori.append(s.split("#")[1])
+
     # Modify the template
     row_folder = get_value(prepare_args, "row_folder")
     modified_template_path = os.path.join(row_folder, "config")
@@ -256,6 +265,8 @@ def USECASEconvert_and_surrogate(**prepare_args):
             filedata = filedata.replace("%output_path%",
                                         str(output_files_folder))
             filedata = filedata.replace("%JobName%", str(mechanical_base_name))
+            if len(ori) > 0:
+                filedata = filedata.replace("%ori%", str(ori))
             f2.write(filedata)
             print(f"Modified template content written in path {modified_template_file}", flush=True)
             print(filedata, flush=True)
