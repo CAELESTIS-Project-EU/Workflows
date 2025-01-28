@@ -1,5 +1,5 @@
 DEST_PATH="$1"
-export ALYA_BIN=/gpfs/projects/cns100/alya/builds/Alya_mn5g.x
+export ALYA_BIN=/gpfs/projects/bsce81/alya/builds/Alya_mn5gcc.x
 export ALYA_PROCS=112
 export ALYA_PPN=112
 
@@ -20,4 +20,4 @@ module load dislib/master
 export COMPSS_MPIRUN_TYPE=openmpi
 
 
-export PYTHONPATH=$DEST_PATH:/gpfs/projects/cns100/pips/python3.12/site-packages/:$INSTALL_DIR:$PYTHONPATH:/gpfs/projects/cns100/tests/install_workflow_coupontool/
+export PYTHONPATH=$DEST_PATH:/gpfs/projects/bsce81/pips/python3.12/site-packages/:$INSTALL_DIR:$PYTHONPATH

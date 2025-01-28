@@ -4,46 +4,49 @@ ESI Group
 SMO
 """
 import os
-import socket
+import shutil
 from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
+from PHASES.ESI.utils.write_file_ori import write_ori_dist
 from pycompss.api.task import task
 from pycompss.api.parameter import *
 from pycompss.api.constraint import constraint
 from pycompss.api.multinode import multinode
 
+#@constraint(computing_units="PAM_NP")
 @constraint(computing_units=16)
 @multinode(computing_nodes=1)
-@task(inputs_folder=DIRECTORY_IN, outputs_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, returns=1)
-def run(Curing_base_name, Distortion_Base_Name, inputs_folder, outputs_folder, source_folder, **kwargs):
+@task(input_files_folder=DIRECTORY_IN, outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder=DIRECTORY_IN, returns=1)
+def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
     # import socket
     # Variables
     # Visual will read the variables values from a txt file that is written at the end of this section
-    print('_____________________________________________________________________________________')
-    print('Starting distortion simulation')
-    if source_folder:
-        source_folder_folder = source_folder
-        
-    if inputs_folder:
-        input_files_folder =inputs_folder
-    if outputs_folder:
-        outputs_files_folder =outputs_folder
-        if not os.path.exists(outputs_files_folder):
-            os.makedirs(outputs_files_folder)
-            print("Folder '{}' created.".format(outputs_files_folder))
+    if 'tools' in kwargs:
+        tools = kwargs['tools']
+        if tools.lower() in ('y', 'yes', 't', 'true', 'on', '1'):
+            tools = True
+        elif tools.lower() in ('n', 'no', 'f', 'false', 'off', '0'):
+            tools = False
         else:
-            print("Folder '{}' already exists.".format(outputs_files_folder))
-    else:
-        print('no outputs file provided!!!')
-
-    #Distortion_Base_Name = 'Lk_Distortion_40'
-    #Curing_base_name = 'Lk_Curing'
-    
-    if "machine" in kwargs:
-        machine = kwargs["machine"]
+            print("Incorrect tools values. Setting to True")
+            tools = True
         
-    if "gaps" in kwargs:
-        gaps = kwargs["gaps"]
-            
+    else:
+        print("Tools not in kwargs. Setting to True")
+        tools = True
+        
+    print('_____________________________________________________________________________________')
+    print('Starting distortion simulation (', tools,')')
+        
+
+    if not os.path.exists(outputs_files_folder):
+        os.makedirs(outputs_files_folder)
+        print("Folder '{}' created.".format(outputs_files_folder))
+    else:
+        print("Folder '{}' already exists.".format(outputs_files_folder))
+
+    mod_files_folder = os.path.join(outputs_files_folder, "mod_macros")
+    os.makedirs(mod_files_folder)
+           
     display = 0
     # paths
     if machine == 'BORLAP020':
@@ -66,9 +69,25 @@ def run(Curing_base_name, Distortion_Base_Name, inputs_folder, outputs_folder, s
         DistortionSolverFilePath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/pamdistortion/2022.5/Linux_x86_64/bin/pamdistortion'
         DistortionsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
         DistortionsolverWinTailPath = r"C:\Program Files\ESI Group\PAM-COMPOSITES\2022.5\Solver\bin\WinTail.exe"
+    elif machine == 'JVNYDS':
+        DistortionSolverFolderPath = r'C:\Program Files\ESI Group\PAM-COMPOSITES\2022.0\Solver\bin'
+        DistortionSolverFilePath = r'C:\Program Files\ESI Group\PAM-COMPOSITES\2022.0\Solver\bin\pamdistortion.bat'
+        if display == 1:
+            DistortionsolverVEPath = r'C:\Program Files\ESI Group\Visual-Environment\18.0\Windows-x64\VisualEnvironment.bat'
+        else:
+            DistortionsolverVEPath = r'C:\Program Files\ESI Group\Visual-Environment\18.0\Windows-x64\VEBatch.bat'
+        DistortionsolverWinTailPath = r"C:\Program Files\ESI Group\PAM-COMPOSITES\2022.0\Solver\bin\WinTail.exe"
+    elif machine == 'JVNCFT':
+        DistortionSolverFolderPath = r'C:\Program Files\ESI Group\PAM-COMPOSITES\2022.0\Solver\bin'
+        DistortionSolverFilePath = r'C:\Program Files\ESI Group\PAM-COMPOSITES\2022.0\Solver\bin\pamdistortion.bat'
+        if display == 1:
+            DistortionsolverVEPath = r'C:\Program Files\ESI Group\Visual-Environment\18.0\Windows-x64\VisualEnvironment.bat'
+        else:
+            DistortionsolverVEPath = r'C:\Program Files\ESI Group\Visual-Environment\18.0\Windows-x64\VEBatch.bat'
+        DistortionsolverWinTailPath = r"C:\Program Files\ESI Group\PAM-COMPOSITES\2022.0\Solver\bin\WinTail.exe"
 
     # Fixed variables
-    SourceDirectory = source_folder_folder
+    SourceDirectory = source_folder
     VariablesTxtPath = os.path.join(os.getcwd(), 'VariablesList.txt')
     CuringVdbName = Curing_base_name + '.vdb'
     DistortionVdbName = Distortion_Base_Name + '.vdb'
@@ -89,21 +108,16 @@ def run(Curing_base_name, Distortion_Base_Name, inputs_folder, outputs_folder, s
     VdbDistortionFilePath = os.path.join(Distortionbasefolder, DistortionVdbName)
     PcDistortionFilePath = os.path.join(Distortionbasefolder, DistortionPcName)
 
-    import shutil
     shutil.copy(SourceVdbDistortionFilePath, outputs_files_folder)
 
-    MacroDistortionList = [#'31_DistortionPreparingModel.py',
-                          #'32_DistortionResinParameters.py',
-                         #'33_DistortionFiberParameters.py',
-                         #'34_DistortionComputePly.py',
-                         #'35_DistortionCharacterizeLaminate.py',
-                         '36_DistortionProcessConditions.py',
-                         '37_DistortionSimulationParameters.py'
-                         ]
-    
+    VariablesDict = {}
+    MacroDistortionList = []
+
+    if 'Orientation' in DoE_line:
+        if str(DoE_line['Orientation']) != '-1':
+            VariablesDict['Orientation'] = DoE_line['Orientation']
     #%% Start running the DoE
     #write for macros
-    VariablesDict = {}
     VariablesDict['VdbCuringFilePath'] = VdbCuringFilePath
     VariablesDict['VdbDistortionFilePath'] = VdbDistortionFilePath
     VariablesDict['SourceFilesPath'] = SourceDirectory
@@ -121,6 +135,14 @@ def run(Curing_base_name, Distortion_Base_Name, inputs_folder, outputs_folder, s
         f.write(str(elem) + "= " + str(VariablesDict[elem]) + "\n")
     f.close()
 
+    if 'Orientation' in DoE_line:
+        if str(DoE_line['Orientation']) != '-1':
+            ori_file_path = os.path.join(mod_files_folder, '37_DISTMApplyOrientation.py')
+            write_ori_dist(ori_file_path)
+            MacroDistortionList.append(ori_file_path)
+
+    MacroDistortionList.append(src_macros_folder + '/' + '37_DistortionSimulationParameters.py')
+
     #Application initialization
     Distortionmodel = Visual_API()
     Distortionmodel.FileName = Distortion_Base_Name
@@ -131,7 +153,7 @@ def run(Curing_base_name, Distortion_Base_Name, inputs_folder, outputs_folder, s
     Distortionmodel.SourceFilesPath = SourceDirectory
     Distortionmodel.VariablesTxtPath = VariablesTxtPath
 
-    if machine == 'BORLAP020':
+    if machine == 'BORLAP020'or machine == 'JVNYDS' or machine == 'JVNCFT':
         BatFileName = Distortion_Base_Name + '.bat'
     else:
         BatFileName = Distortion_Base_Name + '.sh'
@@ -145,15 +167,25 @@ def run(Curing_base_name, Distortion_Base_Name, inputs_folder, outputs_folder, s
     Distortionmodel.fp = 1 # Floating point precision (1: SP , 2: DP , note IMPLICIT requires DP)
     Distortionmodel.nt = 2 # Number of threads
     Distortionmodel.mp = 1 # 1 (default): SMP parallel mode; 2: DMP parallel mode
-    Distortionmodel.np = 16
+    Distortionmodel.np = int(np)
+    Distortionmodel.mpidir = None
     # #Execute macros
     for elem in MacroDistortionList:
           Distortionmodel.LaunchMacro(elem)
     
-    Distortionmodel.LaunchMacro('38_DistortionRun.py')
+    Distortionmodel.LaunchMacro(os.path.join(src_macros_folder,'38_DistortionRun.py'))
     
     # solve
     Distortionmodel.solveStep(runInBackground=False)
+    if tools:
+        MacroUnmoldingList = []
+        MacroUnmoldingList.append(os.path.join(src_macros_folder,'66_Distortion_unmolding.py'))
+        MacroUnmoldingList.append(os.path.join(src_macros_folder,'38_DistortionRun.py'))
+        for elem in MacroUnmoldingList:
+            Distortionmodel.LaunchMacro(elem)
+
+        # solve
+        Distortionmodel.solveStep(runInBackground=False)
 
     return "PAM_DISTORSION finished"
 

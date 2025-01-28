@@ -3,16 +3,18 @@ ESI Group
 SMO
 """
 import os
-from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
+from PHASES.ESI.utils.bbesi_rtm_api import Visual_API
 from pycompss.api.task import task
 from pycompss.api.constraint import constraint
 from pycompss.api.parameter import *
 from pycompss.api.multinode import multinode
+import shutil
 
+#@constraint(computing_units="PAM_NP")
 @constraint(computing_units=16)
 @multinode(computing_nodes=1)
-@task(inputs_folder=DIRECTORY_IN, outputs_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, returns=1)
-def run(RTM_base_name,inputs_folder, outputs_folder, source_folder, **kwargs):
+@task(outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder=DIRECTORY_IN, returns=1)
+def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
     '''
     This function assumes that parameter names and its values are provided in kwargs
     The function check if some of the parameter names corresponds to this simulation and 
@@ -27,28 +29,13 @@ def run(RTM_base_name,inputs_folder, outputs_folder, source_folder, **kwargs):
     # RTM_base_name = 'Lk_RTM_40'
     RTM_lperm_file = RTM_base_name + '_modif.lperm'
     # Visual will read the variables values from a txt file that is written at the end of this section
-    if source_folder:
-        source_folder_folder =source_folder
 
-    if inputs_folder:
-        input_files_folder = inputs_folder
 
-    if outputs_folder:
-        outputs_files_folder = outputs_folder
-        if not os.path.exists(outputs_files_folder):
-            os.makedirs(outputs_files_folder)
-            print("Folder '{}' created.".format(outputs_files_folder))
-        else:
-            print("Folder '{}' already exists.".format(outputs_files_folder))
+    if not os.path.exists(outputs_files_folder):
+        os.makedirs(outputs_files_folder)
+        print("Folder '{}' created.".format(outputs_files_folder))
     else:
-        print('no outputs file provided!!!')
-
-    if "gaps" in kwargs:
-        gaps = kwargs["gaps"]
-
-    if "machine" in kwargs:
-        machine = kwargs["machine"]
-    display = 0
+        print("Folder '{}' already exists.".format(outputs_files_folder))
 
     # paths
     if machine == 'BORLAP020':
@@ -63,16 +50,33 @@ def run(RTM_base_name,inputs_folder, outputs_folder, source_folder, **kwargs):
         RTMsolverVEPath = r'/nisprod/ppghome/ppg/dist/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
     elif machine == 'HPCBSC':
         display = 0
+        vsPath = 'gcc'
         RTMSolverPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/pamrtm/2022.5/Linux_x86_64_2.36/bin/pamcmxdmp.sh'
         RTMsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
 
+    elif machine == 'JVNYDS':
+        vsPath = r'C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/Build/vcvarsall.bat'
+        RTMSolverPath = r'C:/Program Files/ESI Group/PAM-COMPOSITES/2022.0/RTMSolver\bin/pamcmxdmp.bat'
+        if display == 1:
+            RTMsolverVEPath = r'C:/Program Files/ESI Group/Visual-Environment/18.0/Windows-x64/VisualEnvironment.bat'
+        else :
+            RTMsolverVEPath = r'C:/Program Files/ESI Group/Visual-Environment/18.0/Windows-x64/VEBatch.bat'
+    elif machine == 'JVNCFT':
+        RTMSolverPath = r'C:/Program Files/ESI Group/PAM-COMPOSITES/2022.0/RTMSolver\bin/pamcmxdmp.bat'
+        if display == 1:
+            RTMsolverVEPath = r'C:/Program Files/ESI Group/Visual-Environment/18.0/Windows-x64/VisualEnvironment.bat'
+        else :
+            RTMsolverVEPath = r'C:/Program Files/ESI Group/Visual-Environment/18.0/Windows-x64/VEBatch.bat'
+
     # Fixed variables
-    SourceDirectory = source_folder_folder
+    SourceDirectory = source_folder
     VariablesTxtPath = os.path.abspath(os.path.join(os.getcwd(), 'VariablesList.txt'))
     RTMVdbName = RTM_base_name + '.vdb'
     SourceVdbRTMFilePath = os.path.abspath(os.path.join(SourceDirectory, RTMVdbName))
     VdbRTMFilePath = os.path.abspath(os.path.join(outputs_files_folder, RTMVdbName))
     lpermfile = os.path.abspath(os.path.join(SourceDirectory, RTM_lperm_file))
+    resin_kinetics_init_path = os.path.join(SourceDirectory, RTM_base_name + '_resinkinetics.c')
+    resin_kinetics_copy_path = os.path.join(outputs_files_folder, RTM_base_name + '_resinkinetics.c')
 
     MacroRTMList = []
 
@@ -82,14 +86,17 @@ def run(RTM_base_name,inputs_folder, outputs_folder, source_folder, **kwargs):
     print('Copying to folder {}'.format(outputs_files_folder))
     print(100 * '-')
     shutil.copy(SourceVdbRTMFilePath, outputs_files_folder)
+    shutil.copy(resin_kinetics_init_path, resin_kinetics_copy_path)
 
     # Internal info
     VariablesDict = {}
+
     VariablesDict['VdbRTMFilePath'] = VdbRTMFilePath
     VariablesDict['RTMsolverVEPath'] = RTMsolverVEPath
     VariablesDict['RTMSolverPath'] = RTMSolverPath
     VariablesDict['outputs_files_folder'] = outputs_files_folder
     VariablesDict['lpermfile'] = lpermfile
+    VariablesDict['vsPath'] = vsPath
 
     # Default values
     VariablesDict['K11'] = 1e-9
@@ -101,17 +108,22 @@ def run(RTM_base_name,inputs_folder, outputs_folder, source_folder, **kwargs):
     VariablesDict['Injection_temperature'] = 280
 
     # Modified values
-    if "DoE_line" in kwargs:
-        if 'Injection_pressure' in kwargs['DoE_line']:
-            MacroRTMList.append('07_RTMApplyPressure.py')
-            VariablesDict['Injection_pressure'] = kwargs['DoE_line']['Injection_pressure']
-        if 'Injection_temperature' in kwargs['DoE_line']:
-            MacroRTMList.append('07_RTMApplyTemperature.py')
-            VariablesDict['Injection_temperature'] = kwargs['DoE_line']['Injection_temperature']
+    if 'Injection_pressure' in DoE_line:
+        if str(DoE_line['Injection_pressure']) != '-1':
+            MacroRTMList.append(os.path.join(src_macros_folder, '07_RTMApplyPressure.py'))
+            VariablesDict['Injection_pressure'] = DoE_line['Injection_pressure']
+    if 'Injection_temperature' in DoE_line:
+        if str(DoE_line['Injection_temperature']) != '-1':
+            MacroRTMList.append(os.path.join(src_macros_folder,'07_RTMApplyTemperature.py'))
+            VariablesDict['Injection_temperature'] = DoE_line['Injection_temperature']
+    if 'Orientation' in DoE_line:
+            if str(DoE_line['Orientation']) != '-1':
+                MacroRTMList.append(os.path.join(src_macros_folder,'07_RTMApplyOrientation.py'))
+                VariablesDict['Orientation'] = DoE_line['Orientation']
 
-    RTM_parameters_list = ['Injection_pressure', 'Injection_temperature', 'Injection flow_rate']
+    #RTM_parameters_list = ['Injection_pressure', 'Injection_temperature', 'Injection flow_rate']
 
-    MacroRTMList.append('08_RTMWriteSolverInput.py')
+    MacroRTMList.append(os.path.join(src_macros_folder,'08_RTMWriteSolverInput.py'))
 
     # PAM-RTM uses its own python instance. A txt file is used to send it the required information
     # notes:
@@ -128,6 +140,7 @@ def run(RTM_base_name,inputs_folder, outputs_folder, source_folder, **kwargs):
     RTMmodel.SourceFilesPath = SourceDirectory
     RTMmodel.solverPath = RTMSolverPath
     RTMmodel.solverVEPath = RTMsolverVEPath
+    RTMmodel.vsPath = vsPath
     RTMmodel.basefolder = outputs_files_folder
     RTMmodel.RTMbasefolder = outputs_files_folder
     RTMmodel.inputFile = VdbRTMFilePath
@@ -140,7 +153,8 @@ def run(RTM_base_name,inputs_folder, outputs_folder, source_folder, **kwargs):
     RTMmodel.fp = 1  # Floating point precision (1: SP , 2: DP , note IMPLICIT requires DP)
     RTMmodel.nt = 2  # Number of threads
     RTMmodel.mp = 1  # 1 (default): SMP parallel mode; 2: DMP parallel mode
-    RTMmodel.np = 16 # Number of processes
+    RTMmodel.np = int(np) # Number of processes
+    RTMmodel.mpidir = None
     # Execute macros
     for elem in MacroRTMList:
         RTMmodel.LaunchMacro(elem)
