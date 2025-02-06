@@ -109,11 +109,11 @@ def my_phase_function(files, **kwargs):
     return compss_wait_on(accum)
 ```
 
-### Creating the workflow description
+## Creating the workflow description
 
 The examples/yamls folder contains descriptions of the workflows. This folder includes examples defined in both AutomationML and YAML formats. The AutomationML format is recommended for Industry 4.0 and is the format supported at HTP and HPC levels. The YAML format is easier to integrate with Python due to its direct mapping to Python data structures. YAML was used for the initial implementations of the HPC simulation service, maintaining support for this format in the HPC part; however, it is not supported at the HTP level. From the perspective of workflow execution descriptions, both formats contain equivalent information. YAML is more human-readable due to its lower verbosity, and therefore, the examples in this document are provided in YAML format.
 
-## Workflow Description Example
+### Workflow Description Example
 
 A workflow description follows the YAML structure below and it contains the following sections, specified as key-value pairs.
 - `workflow_type`: the template selected for the workflow, in the format `WORKFLOWS.<NEW_WORKFLOW_NAME>.<my_new_workflow>.<my_new_workflow_function>`.
