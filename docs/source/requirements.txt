@@ -1,4 +1,4 @@
 sphinx
 sphinx-gallery
+scipy
 matplotlib
-scipy-sphinx-theme
