@@ -18,7 +18,6 @@ extensions = [
     'sphinx.ext.linkcode',
     'sphinx.ext.napoleon',
     'sphinx.ext.autosummary',
-    'myst_parser',  # Enables Markdown support
     'sphinx_gallery.gen_gallery',
     'matplotlib.sphinxext.plot_directive',
 ]
@@ -30,7 +29,7 @@ napoleon_use_ivar = True
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Caelestis-Eu Simulations Service'
+project = 'Caelestis-Eu Workflows'
 copyright = '2025, Caelestis'
 author = 'Barcelona Supercomputing Center (BSC)'
 
