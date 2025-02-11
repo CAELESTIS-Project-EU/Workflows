@@ -29,7 +29,7 @@ napoleon_use_ivar = True
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Caelestis-Eu Simulations Service'
+project = 'Caelestis-Eu Workflows'
 copyright = '2025, Caelestis'
 author = 'Barcelona Supercomputing Center (BSC)'
 
