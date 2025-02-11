@@ -114,9 +114,9 @@ Implementing the phase
 
 Two main phase types are supported:
 
-Single-task phases: Involve a single computation.
+- Single-task phases: Involve a single computation.
 
-Subworkflow phases: Contain smaller algorithms that can execute multiple parallel computations.
+- Subworkflow phases: Contain smaller algorithms that can execute multiple parallel computations.
 
 Single-task phase example
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -197,6 +197,7 @@ Workflow Description Example
    ALYA_PROCS: 112
 
 Pushing the workflow
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Once the developer has implemented the workflow, it can be pushed to the git repository with the following command.
 
