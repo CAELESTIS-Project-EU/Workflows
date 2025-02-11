@@ -18,7 +18,6 @@ extensions = [
     'sphinx.ext.linkcode',
     'sphinx.ext.napoleon',
     'sphinx.ext.autosummary',
-    'myst_parser',  # Enables Markdown support
     'sphinx_gallery.gen_gallery',
     'matplotlib.sphinxext.plot_directive',
 ]
