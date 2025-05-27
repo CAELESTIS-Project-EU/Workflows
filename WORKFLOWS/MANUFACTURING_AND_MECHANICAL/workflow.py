@@ -1,12 +1,10 @@
+import os
 import numpy as np
 from PHASES.utils import phase
 from pycompss.api.api import compss_wait_on
 from pycompss.api.task import task
 from pycompss.api.parameter import *
-import os
-
 from pycompss.api.api import compss_wait_on
-from PHASES.utils import phase
 from PHASES.AUTOMATION_ML import check_license
 PAM_NP = 1
 
@@ -17,12 +15,12 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     if "PAM_NP" in parameters:
         PAM_NP=int(parameters["PAM_NP"])
         print("Setting PAM NP to " + str(PAM_NP))
-    df, DoE_names= phase.run(phases.get("Sampling"), inputs, outputs, parameters, data_folder, locals())
+    df, DoE_names = phase.run(phases.get("Sampling"), inputs, outputs, parameters, data_folder, locals())
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
-    #check_license_run=check_license.check_license()
-    check_license_run = True
+    check_license_run=check_license.check_license()
+    check_license_run = compss_wait_on(check_license_run) 
     df = compss_wait_on(df)
     DoE_names = compss_wait_on(DoE_names)
     if check_license_run:
@@ -32,26 +30,23 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         for index, row in df.iterrows():
             a += 1
             line_number = 'line' + str(a)
-            simulation_wdir = os.path.join(execution_folder, "SIMULATIONS")
-            if not os.path.isdir(simulation_wdir):
-                os.makedirs(simulation_wdir)
-            DoE_line = dict(zip(DoE_names, row))
-
-            """
-            sim_out = phase.run(phases.get("Simulation"), inputs, outputs, parameters, data_folder, locals())
             
-            if "PostProcess" in phases:
-                phase.run(phases.get("PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=sim_out)
-            """
+            os.makedirs(os.path.join(results_folder, line_number), exist_ok=True)
+            DoE_line = dict(zip(DoE_names, row))
+            print("DoE_line: ", DoE_line)
 
-            prepare_out = phase.run(phases.get("Prepare Data"), inputs, outputs, parameters,
-                      data_folder, locals(), index=index) #out=sim_out
-            alya_out = phase.run(phases.get("Simulation2"), inputs, outputs, parameters,
-                      data_folder, locals(), out=prepare_out)
+            sim_out = phase.run(phases.get("PAM-COMPOSITE_Simulations"), inputs, outputs, parameters, data_folder, locals())
+            
+            if "PAM-COMPOSITE_PostProcess" in phases:
+                phase.run(phases.get("PAM-COMPOSITE_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=sim_out)
 
-            if "PostProcess2" in phases:
-                new_y = phase.run(phases.get("PostProcess2"), inputs, outputs, parameters, data_folder, locals(), out=alya_out)
-                y.append(new_y)
+            prepare_out = phase.run(phases.get("Prepare Data"), inputs, outputs, parameters, data_folder, locals(), index=index, out=sim_out)
+
+            alya_out = phase.run(phases.get("ALYA_Simulation"), inputs, outputs, parameters, data_folder, locals(), out=prepare_out)
+            
+            if "ALYA_PostProcess" in phases:
+                new_y = phase.run(phases.get("ALYA_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=alya_out)
+                y.append(new_y) 
 
         write_file(results_folder, y, "yFile.npy")
     else:
