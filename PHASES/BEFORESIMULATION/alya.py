@@ -1,5 +1,7 @@
 import importlib
+import sys
 import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import re
 import shutil
 from pycompss.api.task import task
@@ -194,9 +196,9 @@ def USECASEconvert_and_surrogate(**prepare_args):
     inp_path = get_value(prepare_args, "inp_path")
     voids_path = get_value(prepare_args, "voids_path")
     template_path = get_value(prepare_args, "template_COUPONtool")
-    mechanical_base_name = get_value(prepare_args, "Mechanical_Base_Name")
-    DoE_line = prepare_args.get("DoE_line", None)
-
+    mechanical_base_name = get_value(prepare_args, "Mechanical_Base_Name") #ogv or poc1
+    DoE_line = get_value(prepare_args, "DoE_line") # check this line
+    print(f"DoE line: {DoE_line}", flush=True)
     # Look for the proper .lperm and .inp files ({case_number}.lperm, {case_number}.inp)
     case_number = int(get_value(prepare_args, "index")) + 1
 
@@ -243,6 +245,9 @@ def USECASEconvert_and_surrogate(**prepare_args):
         split = orientation.split("&")
         for s in split:
             ori.append(float(s.split("#")[1]))
+        print(f"Orientation found: {ori}", flush=True)
+    else: 
+        print("No orientation found in DoE line", flush=True)
 
     # Modify the template
     row_folder = get_value(prepare_args, "row_folder")
@@ -253,18 +258,26 @@ def USECASEconvert_and_surrogate(**prepare_args):
         os.makedirs(modified_template_path)
         print(f"Created directory: {modified_template_path}", flush=True)
 
-    modified_template_file = os.path.join(modified_template_path,
-                                          "inputs_USECASE_convert.yaml")
+    modified_template_file = os.path.join(modified_template_path, "inputs_USECASE_convert.yaml")
+
+    if mechanical_base_name == "ogv":
+        geometry_value = "OGV"
+    elif mechanical_base_name == "poc1":
+        geometry_value = "POC1"
+    elif mechanical_base_name == "poc2":
+        geometry_value = "POC2"
+    else:
+        geometry_value = mechanical_base_name
+
     with open(modified_template_file, 'w') as f2:
         with open(template_path, 'r') as f:
             filedata = f.read()
-            filedata = filedata.replace("%lperm_file_path%",
-                                        str(lperm_file_path))
+            filedata = filedata.replace("%lperm_file_path%", str(lperm_file_path))
             filedata = filedata.replace("%inp_file_path%", str(inp_file_path))
             filedata = filedata.replace("%voids_file_path%", str(voids_file_path))
-            filedata = filedata.replace("%output_path%",
-                                        str(output_files_folder))
+            filedata = filedata.replace("%output_path%", str(output_files_folder))
             filedata = filedata.replace("%JobName%", str(mechanical_base_name))
+            filedata = filedata.replace("%Geometry%", geometry_value)
             if len(ori) > 0:
                 filedata = filedata.replace("%ori%", str(ori))
             f2.write(filedata)

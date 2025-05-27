@@ -1,26 +1,43 @@
 from pycompss.api.task import task
-from pycompss.api.parameter import *
-from pycompss.api.container import container
-from pycompss.api.binary import binary
 import subprocess
+import time
+from datetime import datetime
 
+@task()
+def check_license(max_retries=3, retry_delay=30):
 
-def check_license():
-    script = "/gpfs/projects/bsce81/check_license_server.sh"
-
-    try:
-        # Execute the shell script
-        result = subprocess.run([script], capture_output=True, text=True)
-
-        # Check the exit code of the script
-        if result.returncode == 0:
-            print("License Server is already running or started successfully.")
-            return True
-        else:
-            print("License Server is not running and could not be started. Check the log file for details.")
-            print(result.stdout)
+    script = "/gpfs/projects/bsce81/check_license_server_new.sh"
+    
+    for attempt in range(max_retries):
+        try:
+            print(f"{datetime.now()} - License check attempt {attempt + 1}/{max_retries}")
+            result = subprocess.run(
+                [script],
+                capture_output=True,
+                text=True,
+                check=True,
+                timeout=120  # Add timeout to prevent hanging
+            )
+            
+            if result.returncode == 0:
+                print(f"{datetime.now()} - License verified successfully")
+                print(result.stdout)
+                return True
+                
+            print(f"{datetime.now()} - License check failed (attempt {attempt + 1}):")
             print(result.stderr)
-            return False
-    except subprocess.CalledProcessError as e:
-        print(f"Script execution failed: {e}")
-        return False
+            
+        except subprocess.TimeoutExpired:
+            print(f"{datetime.now()} - License check timed out (attempt {attempt + 1})")
+            
+        except subprocess.CalledProcessError as e:
+            print(f"{datetime.now()} - License check failed (attempt {attempt + 1}):")
+            print(f"Exit code: {e.returncode}")
+            print(f"Error output: {e.stderr}")
+        
+        if attempt < max_retries - 1:
+            print(f"{datetime.now()} - Waiting {retry_delay} seconds before retry...")
+            time.sleep(retry_delay)
+    
+    print(f"{datetime.now()} - Maximum retries reached. License server unavailable.")
+    return False

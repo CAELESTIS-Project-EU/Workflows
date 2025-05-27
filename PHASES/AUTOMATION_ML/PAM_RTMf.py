@@ -146,5 +146,9 @@ def run(RTM_base_name,inputs_folder, outputs_folder, source_folder, **kwargs):
         RTMmodel.LaunchMacro(elem)
     # Run    
     RTMmodel.solveStep(runInBackground=False)
-
-    return "PAM_RTMf finished"
+    if RTMmodel.isSolved():
+        print("PAM-RTM simulation completed successfully.")
+        return "PAM_RTMf finished"
+    else:
+        print("ERROR: PAM-RTM simulation failed or did not complete.")
+        return "PAM_RTMf failed" 

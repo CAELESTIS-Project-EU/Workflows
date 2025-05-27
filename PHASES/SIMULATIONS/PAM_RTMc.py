@@ -17,8 +17,9 @@ from PHASES.ESI.utils.write_file_ori import write_settemperature
 import shutil
 
 
-#@constraint(computing_units="PAM_NP")
-@constraint(computing_units=16)
+
+@constraint(computing_units=os.environ.get("PAM_NP", "1"))
+#@constraint(computing_units=48)
 @multinode(computing_nodes=1)
 @task(input_files_folder=DIRECTORY_IN, outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder= DIRECTORY_IN, returns=1)
 def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
@@ -37,7 +38,7 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
 
     
     mod_files_folder = os.path.join(outputs_files_folder, "mod_macros")
-    os.makedirs(mod_files_folder)
+    os.makedirs(mod_files_folder, exist_ok=True)
     
     display = 1
     #paths
@@ -86,7 +87,8 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
     RTMerfh5File = RTM_base_name + '_RESULT.erfh5'
     RTMunfFilesPath = os.path.join(RTMbasefolder, RTMunfFile)
     RTMerfh5FilePath = os.path.join(RTMbasefolder, RTMerfh5File)
-
+    if not os.path.exists(RTMerfh5FilePath):
+        raise FileNotFoundError(f"RTM result file not found at: {RTMerfh5FilePath}")
     CuringCATGENerfName = Curing_base_name + '_CATGEN.erfh5'
     CuringCATGENerfPath = os.path.join(Curingbasefolder, CuringCATGENerfName)
 
@@ -105,7 +107,10 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
     shutil.copy(resin_kinetics_init_path, resin_kinetics_copy_path)
     shutil.copy(pc_file_init_path, pc_file_copy_path)
     
-    nb_step_filling = extract_num_step_filling(RTMerfh5FilePath)
+    try:
+        nb_step_filling = extract_num_step_filling(RTMerfh5FilePath)
+    except Exception as e:
+        raise RuntimeError(f"Failed to read simulation results: {str(e)}")
     mapping_file_path = os.path.join(mod_files_folder, '22_CuringMappingTempFillFactCureDegree.py')
     write_mapping(mapping_file_path, nb_step_filling-2)
 
