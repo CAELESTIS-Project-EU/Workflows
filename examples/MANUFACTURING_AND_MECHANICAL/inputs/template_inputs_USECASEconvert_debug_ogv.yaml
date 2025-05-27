@@ -9,11 +9,12 @@ General:
   lperm_file_path: "%lperm_file_path%"
   inp_file_path: "%inp_file_path%"
   voids_file_path: "%voids_file_path%"
+  Geometry: "%Geometry%" 
   output_path: '%output_path%'
-  Machine: 'MareNostrum5'
-  Cores: 112
-  QoS: 'gp_debug'
-  Account: 'bsc21'
+  Machine: 'Nord4'
+  Cores: 48
+  QoS: 'debug'
+  Account: 'bsc19'
   Execution_timeHH: '02'
   Project: 'CAELESTIS'
 
@@ -100,6 +101,7 @@ OGV_features:
     clu: [ 1,   1, 2, 2,  1, 1,   1, 2, 2,  1,  1, 2, 2,   1, 1,  1, 2, 2,  1,  2,  2,  1, 2, 2,  1, 1,   1, 2, 2,  1,  1, 2, 2,   1, 1,  1, 2, 2,   1,  1 ]
   Other:
     kfl_coh: False
+    kfl_ori: 'uniform'
   Mesh:
     le: 4.04
 
@@ -108,6 +110,7 @@ OGV_solver:
   debug: True
   nlgeom: True
   ms: 1.0
+  mesh_div_level: 0
   # Step-0: Initializations
   t0: 0.0
   # Step-1:
