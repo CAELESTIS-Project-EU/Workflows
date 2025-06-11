@@ -3,7 +3,7 @@
                           'parameters': {
                                   'inputs_file': '{parameters.inputs_file}'}
             }],
-            'Simulation': [{'Type': 'PHASES.SIMULATIONS.PAM_RTMf.run',
+            'PAM-COMPOSITE_Simulations': [{'Type': 'PHASES.SIMULATIONS.PAM_RTMf.run',
                             'parameters': {
                                     'DoE_line': '{variables.DoE_line}',
                                     'outputs_files_folder': '{variables.results_folder}/{variables.line_number}/RTM/',
@@ -32,7 +32,8 @@
                                      'DoE_line': '{variables.DoE_line}',
                                      'outputs_files_folder': '{variables.results_folder}/{variables.line_number}/Distortion/',
                                      'input_files_folder': '{variables.results_folder}/{variables.line_number}/Curing/',
-                                     'machine': '{parameters.machine}', 'source_folder': '{parameters.source_folder}',
+                                     'machine': '{parameters.machine}', 
+                                     'source_folder': '{parameters.source_folder}',
                                      'Distortion_Base_Name': '{parameters.Distortion_Base_Name}',
                                      'Curing_base_name': '{parameters.Curing_base_name}',
                                      'np': '{parameters.PAM_NP}',
@@ -40,11 +41,29 @@
                                      'tools': 'True'
                              }
             }],
+            'PAM-COMPOSITE_PostProcess': [{'Type': 'PHASES.POSTSIMULATION.pam_distorsion_postprocess.run', 
+                              'parameters': {
+                                      'line': '{variables.line_number}', 
+                                      'step': '-1', 
+                                      'rtm_folder': '{variables.results_folder}/{variables.line_number}/RTM/', 
+                                      'curing_folder': '{variables.results_folder}/{variables.line_number}/Curing/', 
+                                      'distorsion_folder': '{variables.results_folder}/{variables.line_number}/Distortion/', 
+                                      'in_file_rtm': 'CAELESTIS_RESULT.erfh5', 
+                                      'in_file_dis': 'CAELESTISD-STAGE2_RESULT.erfh5', 
+                                      'path_out': '{variables.results_folder}/Results_light/', 
+                                      'file_IN1': 'CAELESTISD-STAGE1_RESULT.erfh5', 
+                                      'file_IN2': 'CAELESTISD-STAGE2_RESULT.erfh5', 
+                                      'prefix': 'Dist', 
+                                      'file_OUT1': 'Step1.erfh5"', 
+                                      'file_OUT2': 'Step2.erfh5', 
+                                      'clean': 'True'
+                                      }
+           }],
             'Prepare Data': [{'Type': 'PHASES.BEFORESIMULATION.alya.USECASEconvert_and_surrogate',
                               'parameters': {
                                      'input_files_folder': '{variables.results_folder}/{variables.line_number}/Distortion/',
-                                     'output_files_folder': '{variables.simulation_wdir}/{variables.line_number}/Mechanical/',
-                                     'row_folder':'{variables.simulation_wdir}/{variables.line_number}',
+                                     'output_files_folder': '{variables.results_folder}/{variables.line_number}/Mechanical/',
+                                     'row_folder':'{variables.results_folder}/{variables.line_number}',
                                      'Mechanical_Base_Name': '{parameters.Mechanical_Base_Name}',
                                      'template_COUPONtool': '{parameters.template_COUPONtool}',
                                      'lperm_path': '{parameters.lperm_path}',
@@ -53,15 +72,15 @@
                                      'DoE_line': '{variables.DoE_line}'
                                      }
             }],
-            'Simulation2': [{'Type': 'PHASES.SIMULATIONS.alya.simulation',
+            'ALYA_Simulation': [{'Type': 'PHASES.SIMULATIONS.alya.simulation',
                               'parameters': {
-                                'simulation_wdir': '{variables.simulation_wdir}/{variables.line_number}/Mechanical/{parameters.Mechanical_Base_Name}',
+                                'simulation_wdir': '{variables.results_folder}/{variables.line_number}/Mechanical/{parameters.Mechanical_Base_Name}',
                                 'name_sim': '{parameters.Mechanical_Base_Name}'
                               }
             }],
-            'PostProcess2': [{'Type': 'PHASES.POSTSIMULATION.alya.collect_results',
+            'ALYA_PostProcess': [{'Type': 'PHASES.POSTSIMULATION.alya.collect_results',
                               'parameters':{
-                                'simulation_wdir': '{variables.simulation_wdir}/{variables.line_number}/Mechanical/{parameters.Mechanical_Base_Name}',
+                                'simulation_wdir': '{variables.results_folder}/{variables.line_number}/Mechanical/{parameters.Mechanical_Base_Name}',
                                 'name_sim': '{parameters.Mechanical_Base_Name}'
                               }
             }]
