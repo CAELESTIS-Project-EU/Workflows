@@ -19,6 +19,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
+    machine = os.environ.get("MACHINE", "NORD4")
     check_license_run=check_license.check_license()
     check_license_run = compss_wait_on(check_license_run) 
     df = compss_wait_on(df)
@@ -36,7 +37,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
             print("DoE_line: ", DoE_line)
 
             sim_out = phase.run(phases.get("PAM-COMPOSITE_Simulations"), inputs, outputs, parameters, data_folder, locals())
-            
+            sim_out = compss_wait_on(sim_out)
             if "PAM-COMPOSITE_PostProcess" in phases:
                 phase.run(phases.get("PAM-COMPOSITE_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=sim_out)
 
