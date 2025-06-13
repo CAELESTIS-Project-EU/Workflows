@@ -1,4 +1,4 @@
-# Usage: run.sh <yaml_file> <execution_name> <num_nodes> <exec_time>
+# Usage: ./run.sh ogv.yaml test_ogv 2 120
 
 
 if [ "$#" -ne 4 ]; then

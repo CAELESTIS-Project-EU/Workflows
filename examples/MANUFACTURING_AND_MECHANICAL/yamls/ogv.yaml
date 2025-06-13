@@ -50,11 +50,11 @@
                                       'distorsion_folder': '{variables.results_folder}/{variables.line_number}/Distortion/', 
                                       'in_file_rtm': 'CAELESTIS_RESULT.erfh5', 
                                       'in_file_dis': 'CAELESTISD-STAGE2_RESULT.erfh5', 
-                                      'path_out': '{variables.results_folder}/Results_light/', 
+                                      'path_out': '{variables.results_folder}/{variables.line_number}/RTM/', 
                                       'file_IN1': 'CAELESTISD-STAGE1_RESULT.erfh5', 
                                       'file_IN2': 'CAELESTISD-STAGE2_RESULT.erfh5', 
                                       'prefix': 'Dist', 
-                                      'file_OUT1': 'Step1.erfh5"', 
+                                      'file_OUT1': 'Step1.erfh5', 
                                       'file_OUT2': 'Step2.erfh5', 
                                       'clean': 'True'
                                       }
