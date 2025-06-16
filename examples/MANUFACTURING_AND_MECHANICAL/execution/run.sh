@@ -30,11 +30,10 @@ fi
 
 export ALYA_BIN=/gpfs/projects/bsce81/alya/builds/Alya_no4i.x # Path to Alya binary
 
-#Define the number of processes for Alya and PAM
-export PAM_NP=48 
-export ALYA_NP=48  
-export ALYA_PPN=48 
-export ALYA_TIMEOUT=3600 
+export PAM_NP=48 # Number of processes for PAM
+export ALYA_NP=48  # Number of processes for Alya
+export ALYA_PPN=48 # Number of processes per node for Alya
+export ALYA_TIMEOUT=3600 # Timeout for Alya in seconds
 
 module purge
 module load intel/2018.4
