@@ -11,7 +11,6 @@
                                     'machine': '{parameters.machine}',
                                     'source_folder': '{parameters.source_folder}',
                                     'RTM_base_name': '{parameters.RTM_base_name}',
-                                    'np': '{parameters.PAM_NP}'
                                     }
                             },
                             {'Type': 'PHASES.SIMULATIONS.PAM_RTMc.run',
@@ -23,7 +22,6 @@
                                     'source_folder': '{parameters.source_folder}',
                                     'Curing_base_name': '{parameters.Curing_base_name}',
                                     'RTM_base_name': '{parameters.RTM_base_name}',
-                                    'np': '{parameters.PAM_NP}',
                                     'src_macros_folder': '{parameters.macros_folder}'
                                      }
                             },
@@ -36,7 +34,6 @@
                                      'source_folder': '{parameters.source_folder}',
                                      'Distortion_Base_Name': '{parameters.Distortion_Base_Name}',
                                      'Curing_base_name': '{parameters.Curing_base_name}',
-                                     'np': '1',
                                      'src_macros_folder': '{parameters.macros_folder}',
                                      'tools': 'True'
                              }
@@ -99,7 +96,6 @@
          'Curing_base_name': 'CAELESTIS',
          'Distortion_Base_Name': 'CAELESTISD',
          'Mechanical_Base_Name': 'ogv',
-         'PAM_NP': '48',
          'template_COUPONtool':'/gpfs/scratch/bsce81/alessio/Workflows/examples/MANUFACTURING_AND_MECHANICAL/inputs/template_inputs_USECASEconvert_debug_ogv.yaml'
  }
 

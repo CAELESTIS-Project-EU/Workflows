@@ -11,13 +11,12 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 from pycompss.api.constraint import constraint
 from pycompss.api.multinode import multinode
+pam_np = int(os.environ.get("PAM_NP", "48"))
 
-
-@constraint(computing_units=os.environ.get("PAM_NP", "1"))
-#@constraint(computing_units=48)
+@constraint(computing_units=pam_np)
 @multinode(computing_nodes=1)
 @task(input_files_folder=DIRECTORY_IN, outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder=DIRECTORY_IN, returns=1)
-def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
+def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, **kwargs):
     # import socket
     # Variables
     # Visual will read the variables values from a txt file that is written at the end of this section
@@ -168,7 +167,7 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     Distortionmodel.fp = 1 # Floating point precision (1: SP , 2: DP , note IMPLICIT requires DP)
     Distortionmodel.nt = 2 # Number of threads
     Distortionmodel.mp = 1 # 1 (default): SMP parallel mode; 2: DMP parallel mode
-    Distortionmodel.np = int(np)
+    Distortionmodel.np = pam_np
     Distortionmodel.mpidir = None
     # #Execute macros
     for elem in MacroDistortionList:

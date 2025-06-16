@@ -9,12 +9,12 @@ from pycompss.api.constraint import constraint
 from pycompss.api.parameter import *
 from pycompss.api.multinode import multinode
 import shutil
+pam_np = int(os.environ.get("PAM_NP", "48"))
 
-
-@constraint(computing_units=os.environ.get("PAM_NP", "1"))
+@constraint(computing_units=pam_np)
 @multinode(computing_nodes=1)
 @task(outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder=DIRECTORY_IN, returns=1)
-def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
+def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, **kwargs):
     '''
     This function assumes that parameter names and its values are provided in kwargs
     The function check if some of the parameter names corresponds to this simulation and 
@@ -157,7 +157,7 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
     RTMmodel.fp = 1  # Floating point precision (1: SP , 2: DP , note IMPLICIT requires DP)
     RTMmodel.nt = 2  # Number of threads
     RTMmodel.mp = 1  # 1 (default): SMP parallel mode; 2: DMP parallel mode
-    RTMmodel.np = int(np) # Number of processes
+    RTMmodel.np = pam_np # Number of processes
     RTMmodel.mpidir = None
     # Execute macros
     for elem in MacroRTMList:

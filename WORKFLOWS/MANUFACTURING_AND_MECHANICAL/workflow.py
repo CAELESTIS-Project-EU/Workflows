@@ -6,24 +6,22 @@ from pycompss.api.task import task
 from pycompss.api.parameter import *
 from pycompss.api.api import compss_wait_on
 from PHASES.AUTOMATION_ML import check_license
-PAM_NP = 1
 
 
 def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
-    global PAM_NP
-    import time
-    if "PAM_NP" in parameters:
-        PAM_NP=int(parameters["PAM_NP"])
-        print("Setting PAM NP to " + str(PAM_NP))
+    
     df, DoE_names = phase.run(phases.get("Sampling"), inputs, outputs, parameters, data_folder, locals())
+
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
-    machine = os.environ.get("MACHINE", "NORD4")
-    check_license_run=check_license.check_license()
+
+    check_license_run = check_license.check_license()
     check_license_run = compss_wait_on(check_license_run) 
-    df = compss_wait_on(df)
-    DoE_names = compss_wait_on(DoE_names)
+
+    df = compss_wait_on(df) # maybe not needed, try to remove it
+    DoE_names = compss_wait_on(DoE_names) # maybe not needed, try to remove it
+    
     if check_license_run:
         print("CHECK LICENSE DONE")
         a = 0
@@ -37,7 +35,8 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
             print("DoE_line: ", DoE_line)
 
             sim_out = phase.run(phases.get("PAM-COMPOSITE_Simulations"), inputs, outputs, parameters, data_folder, locals())
-            sim_out = compss_wait_on(sim_out)
+            sim_out = compss_wait_on(sim_out) # maybe not needed, try to remove it
+
             if "PAM-COMPOSITE_PostProcess" in phases:
                 phase.run(phases.get("PAM-COMPOSITE_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=sim_out)
 

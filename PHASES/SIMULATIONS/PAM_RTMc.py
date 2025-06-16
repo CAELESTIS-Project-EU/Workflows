@@ -13,16 +13,14 @@ from pycompss.api.multinode import multinode
 from PHASES.ESI.utils.lecture_erf import extract_num_step_filling
 from PHASES.ESI.utils.write_file_ori import write_mapping
 from PHASES.ESI.utils.write_file_ori import write_settemperature
-
 import shutil
 
+pam_np = int(os.environ.get("PAM_NP", "48"))
 
-
-@constraint(computing_units=os.environ.get("PAM_NP", "1"))
-#@constraint(computing_units=48)
+@constraint(computing_units=pam_np)
 @multinode(computing_nodes=1)
 @task(input_files_folder=DIRECTORY_IN, outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder= DIRECTORY_IN, returns=1)
-def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
+def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, **kwargs):
     print('_____________________________________________________________________________________')
     print('Starting curing simulation')
     
@@ -181,7 +179,7 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
     Curingmodel.fp = 1 # Floating point precision (1: SP , 2: DP , note IMPLICIT requires DP)
     Curingmodel.nt = 2 # Number of threads
     Curingmodel.mp = 1 # 1 (default): SMP parallel mode; 2: DMP parallel mode
-    Curingmodel.np = int(np) 
+    Curingmodel.np = pam_np
     Curingmodel.mpidir = None
 
     # JEA: Strange I think it is not necessary
