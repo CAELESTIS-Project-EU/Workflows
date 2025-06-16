@@ -19,7 +19,7 @@
                                     'outputs_files_folder': '{variables.results_folder}/{variables.line_number}/Curing/',
                                     'input_files_folder': '{variables.results_folder}/{variables.line_number}/RTM/',
                                     'machine': '{parameters.machine}',
-                                    'source_folder': '{parameters.source_folder}',
+                                    'surce_folder': '{parameters.source_folder}',
                                     'Curing_base_name': '{parameters.Curing_base_name}',
                                     'RTM_base_name': '{parameters.RTM_base_name}',
                                     'src_macros_folder': '{parameters.macros_folder}'
