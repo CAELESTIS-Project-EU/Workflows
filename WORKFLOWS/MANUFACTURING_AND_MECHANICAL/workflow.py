@@ -17,7 +17,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         os.makedirs(results_folder)
 
     check_license_run = check_license.check_license()
-    check_license_run = compss_wait_on(check_license_run) 
+    check_license_run = compss_wait_on(check_license_run) # This is needed to ensure the license check is completed before proceeding (don't remove it)
 
     df = compss_wait_on(df) # maybe not needed, try to remove it
     DoE_names = compss_wait_on(DoE_names) # maybe not needed, try to remove it
