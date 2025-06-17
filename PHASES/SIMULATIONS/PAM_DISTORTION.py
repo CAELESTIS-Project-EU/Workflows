@@ -35,7 +35,7 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
         tools = True
         
     print('_____________________________________________________________________________________')
-    print('Starting distortion simulation (', tools,')')
+    print('Starting distortion simulation (', tools,'), PAM_NP value: ', pam_np)
         
 
     if not os.path.exists(outputs_files_folder):
@@ -167,7 +167,7 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     Distortionmodel.fp = 1 # Floating point precision (1: SP , 2: DP , note IMPLICIT requires DP)
     Distortionmodel.nt = 2 # Number of threads
     Distortionmodel.mp = 1 # 1 (default): SMP parallel mode; 2: DMP parallel mode
-    Distortionmodel.np = pam_np
+    Distortionmodel.np = 1
     Distortionmodel.mpidir = None
     # #Execute macros
     for elem in MacroDistortionList:
@@ -187,5 +187,5 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
         # solve
         Distortionmodel.solveStep(runInBackground=False)
 
-    return "PAM_DISTORSION finished", outputs_files_folder
+    return "PAM_DISTORSION finished"
 

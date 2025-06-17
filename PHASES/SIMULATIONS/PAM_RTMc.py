@@ -22,7 +22,7 @@ pam_np = int(os.environ.get("PAM_NP", "48"))
 @task(input_files_folder=DIRECTORY_IN, outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder= DIRECTORY_IN, returns=1)
 def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, **kwargs):
     print('_____________________________________________________________________________________')
-    print('Starting curing simulation')
+    print('Starting curing simulation, PAM_NP value: ', pam_np)
     
     #Visual will read the variables values from a txt file that is written at the end of this section
         

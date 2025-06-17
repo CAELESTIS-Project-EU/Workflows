@@ -21,7 +21,7 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
     modifies the default value. Then, it launches the simulation
     '''
     print('_____________________________________________________________________________________')
-    print('Starting filling simulation')
+    print('Starting filling simulation, PAM_NP value: ', pam_np)
     print("DoE_line: ", DoE_line)
     # for item in kwargs:
     #     print(item)
