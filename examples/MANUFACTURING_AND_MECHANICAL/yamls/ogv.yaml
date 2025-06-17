@@ -60,7 +60,7 @@
                               'parameters': {
                                      'input_files_folder': '{variables.results_folder}/{variables.line_number}/Distortion/',
                                      'output_files_folder': '{variables.results_folder}/{variables.line_number}/Mechanical/',
-                                     'row_folder':'{variables.results_folder}/{variables.line_number}',
+                                     'row_folder':'{variables.results_folder}/{variables.line_number}/',
                                      'Mechanical_Base_Name': '{parameters.Mechanical_Base_Name}',
                                      'template_COUPONtool': '{parameters.template_COUPONtool}',
                                      'lperm_path': '{parameters.lperm_path}',
