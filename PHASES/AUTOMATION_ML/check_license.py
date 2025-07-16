@@ -1,9 +1,7 @@
-from pycompss.api.task import task
 import subprocess
 import time
 from datetime import datetime
 
-@task()
 def check_license(max_retries=3, retry_delay=30):
 
     script = "/gpfs/projects/bsce81/check_license_server_new.sh"

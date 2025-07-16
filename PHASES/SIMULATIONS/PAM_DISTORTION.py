@@ -12,9 +12,8 @@ from pycompss.api.parameter import *
 from pycompss.api.constraint import constraint
 from pycompss.api.multinode import multinode
 
-
-@constraint(computing_units=os.environ.get("PAM_NP", "1"))
-#@constraint(computing_units=48)
+#@constraint(computing_units="PAM_NP")
+@constraint(computing_units=48)
 @multinode(computing_nodes=1)
 @task(input_files_folder=DIRECTORY_IN, outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder=DIRECTORY_IN, returns=1)
 def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
@@ -188,5 +187,5 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
         # solve
         Distortionmodel.solveStep(runInBackground=False)
 
-    return "PAM_DISTORSION finished", outputs_files_folder
+    return "PAM_DISTORSION finished"
 

@@ -198,7 +198,6 @@ def USECASEconvert_and_surrogate(**prepare_args):
     template_path = get_value(prepare_args, "template_COUPONtool")
     mechanical_base_name = get_value(prepare_args, "Mechanical_Base_Name") #ogv or poc1
     DoE_line = get_value(prepare_args, "DoE_line") # check this line
-    print(f"DoE line: {DoE_line}", flush=True)
     # Look for the proper .lperm and .inp files ({case_number}.lperm, {case_number}.inp)
     case_number = int(get_value(prepare_args, "index")) + 1
 

@@ -4,9 +4,9 @@ from pycompss.api.parameter import *
 from pycompss.api.on_failure import on_failure
 import os
 
-alya_procs=int(os.environ.get("ALYA_PROCS", "2"))
+alya_procs=int(os.environ.get("ALYA_PROCS", "48"))
 alya_timeout=int(os.environ.get("ALYA_TIMEOUT", "3600"))
-alya_ppn=int(os.environ.get("ALYA_PPN", "2"))
+alya_ppn=int(os.environ.get("ALYA_PPN", "48"))
 alya_timeout=int(os.environ.get("ALYA_TIMEOUT", "3600"))
 if alya_procs < alya_ppn:
     alya_ppn=alya_procs

@@ -10,8 +10,8 @@ from pycompss.api.parameter import *
 from pycompss.api.multinode import multinode
 import shutil
 
-
-@constraint(computing_units=os.environ.get("PAM_NP", "1"))
+#@constraint(computing_units="PAM_NP")
+@constraint(computing_units=48)
 @multinode(computing_nodes=1)
 @task(outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder=DIRECTORY_IN, returns=1)
 def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
@@ -22,14 +22,12 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
     '''
     print('_____________________________________________________________________________________')
     print('Starting filling simulation')
-    print("DoE_line: ", DoE_line)
+
     # for item in kwargs:
     #     print(item)
 
     # RTM_base_name = 'Lk_RTM_40'
-    RTM_lperm_file = RTM_base_name + '.lperm'
-    print("RTM_lperm_file: ", RTM_lperm_file)
-
+    RTM_lperm_file = RTM_base_name + '_modif.lperm'
     # Visual will read the variables values from a txt file that is written at the end of this section
 
 
@@ -71,14 +69,12 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
             RTMsolverVEPath = r'C:/Program Files/ESI Group/Visual-Environment/18.0/Windows-x64/VEBatch.bat'
 
     # Fixed variables
-    SourceDirectory = source_folder # source_folder is /gpfs/projects/bsce81/workflow_POC1_debug/001_Data/input
+    SourceDirectory = source_folder
     VariablesTxtPath = os.path.abspath(os.path.join(os.getcwd(), 'VariablesList.txt'))
     RTMVdbName = RTM_base_name + '.vdb'
     SourceVdbRTMFilePath = os.path.abspath(os.path.join(SourceDirectory, RTMVdbName))
     VdbRTMFilePath = os.path.abspath(os.path.join(outputs_files_folder, RTMVdbName))
     lpermfile = os.path.abspath(os.path.join(SourceDirectory, RTM_lperm_file))
-    #if not os.path.exists(lpermfile):
-     #   raise FileNotFoundError(f"{lpermfile} not found")
     resin_kinetics_init_path = os.path.join(SourceDirectory, RTM_base_name + '_resinkinetics.c')
     resin_kinetics_copy_path = os.path.join(outputs_files_folder, RTM_base_name + '_resinkinetics.c')
 
@@ -128,7 +124,7 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
     #RTM_parameters_list = ['Injection_pressure', 'Injection_temperature', 'Injection flow_rate']
 
     MacroRTMList.append(os.path.join(src_macros_folder,'08_RTMWriteSolverInput.py'))
-    print(MacroRTMList)
+
     # PAM-RTM uses its own python instance. A txt file is used to send it the required information
     # notes:
     # variables txt file must be in the same folder as the scripts
