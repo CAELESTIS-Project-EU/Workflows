@@ -29,7 +29,7 @@ if [ -r $PAMENV/psi.Baenv ]; then
 fi
 
 export ALYA_BIN=/gpfs/projects/bsce81/alya/builds/Alya_no4i.x
-export ALYA_PROCS=24
+export ALYA_PROCS=48
 export ALYA_PPN=48
 export ALYA_TIMEOUT=3600
 

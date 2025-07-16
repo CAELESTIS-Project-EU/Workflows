@@ -14,29 +14,20 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
     import time
     if "PAM_NP" in parameters:
         PAM_NP=int(parameters["PAM_NP"])
-        print("Setting PAM NP to " + str(PAM_NP))
     #
     # Sampling and results folder
     #
-    df, DoE_names = phase.run(phases.get("Sampling"), inputs, outputs, parameters, data_folder, locals())
+    sample_set, DoE_names = phase.run(phases.get("Sampling"), inputs, outputs, parameters, data_folder, locals())
+    sample_set = compss_wait_on(sample_set)
+    DoE_names = compss_wait_on(DoE_names)
     results_folder = execution_folder + "/results/"
     if not os.path.isdir(results_folder):
         os.makedirs(results_folder)
-    df = compss_wait_on(df)
-    DoE_names = compss_wait_on(DoE_names)
-    #
     # Check license
-    # 
     check_license_run = check_license.check_license()
     if check_license_run:
-        print("CHECK LICENSE DONE")
-        a = 0
-        #
-        # DoE
-        # 
-        for index, row in df.iterrows():
-            a += 1
-            line_number = 'line' + str(a)
+        for index, row in sample_set.iterrows():
+            line_number = 'line' + str(index+1)
             row_folder = os.path.join(results_folder, line_number)
             if not os.path.isdir(row_folder):
                 os.makedirs(row_folder)
@@ -48,9 +39,7 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
             # 
             # Postprocess PAM-COMPOSITES simulations
             #
-            if "PAM-COMPOSITE_PostProcess" in phases:
-                phase.run(phases.get("PAM-COMPOSITE_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=sim_out)
+            phase.run(phases.get("PAM-COMPOSITE_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=sim_out)
     else:
         print("LICENSE IS NOT RUNNING!")
     return
-
