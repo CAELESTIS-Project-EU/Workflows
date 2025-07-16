@@ -2,7 +2,7 @@ import os
 
 from pycompss.api.api import compss_wait_on
 from PHASES.utils import phase
-from PHASES.AUTOMATION_ML import check_license
+from PHASES.utils import check_license
 PAM_NP = 1
 
 def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
