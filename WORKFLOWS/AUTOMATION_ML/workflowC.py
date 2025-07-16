@@ -40,30 +40,23 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
             DoE_line = dict(zip(DoE_names, row))
             #
             # PAM-COMPOSITES simulations
-            # 
-            if "PAM-COMPOSITE_Simulations" in phases:
-            	sim_out = phase.run(phases.get("PAM-COMPOSITE_Simulations"), inputs, outputs, parameters, data_folder, locals())
-            # 
+            #
+            sim_out = phase.run(phases.get("PAM-COMPOSITE_Simulations"), inputs, outputs, parameters, data_folder, locals())
+            #
             # Postprocess PAM-COMPOSITES simulations
             #
-            if "PAM-COMPOSITE_PostProcess" in phases:
-                #sim_out = compss_wait_on(sim_out)
-                phase.run(phases.get("PAM-COMPOSITE_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=sim_out)
+            phase.run(phases.get("PAM-COMPOSITE_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=sim_out)
             #
             # ALYA simulation
             #
-            if "ALYA_Simulation" in phases:
-                prepare_out = phase.run(phases.get("Prepare Data"), inputs, outputs, parameters, data_folder, locals(), index=index)#, out=sim_out)
-                #prepare_out = compss_wait_on(prepare_out)
-                alya_out = phase.run(phases.get("ALYA_Simulation"), inputs, outputs, parameters, data_folder, locals(), out=prepare_out)
+            prepare_out = phase.run(phases.get("Prepare Data"), inputs, outputs, parameters, data_folder, locals(), index=index)#, out=sim_out)
+            alya_out = phase.run(phases.get("ALYA_Simulation"), inputs, outputs, parameters, data_folder, locals(), out=prepare_out)
             #
             # Postprocess ALYA simulation
-            # 
-            if "ALYA_PostProcess" in phases:
-                #alya_out = compss_wait_on(alya_out)
-                new_y = phase.run(phases.get("ALYA_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=alya_out)
-                y.append(new_y) 
-        compss_wait_on(y) 
+            #
+            new_y = phase.run(phases.get("ALYA_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=alya_out)
+            y.append(new_y)
+        phase.run(phases.get("ALYA_PostProcessMerge"), inputs, outputs, parameters, data_folder, locals())
         write_file(results_folder, y, "yFile.npy")
     else:
         print("LICENSE IS NOT RUNNING!")

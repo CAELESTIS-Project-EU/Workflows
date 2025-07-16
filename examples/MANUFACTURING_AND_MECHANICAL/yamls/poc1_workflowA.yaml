@@ -41,7 +41,7 @@ phases:
     - Type: PHASES.POSTSIMULATION.pam_distorsion_postprocess.run
       parameters:
         line: "{variables.line_number}"
-        step: "-1"
+        step: "1"
         rtm_folder: "{variables.results_folder}/{variables.line_number}/RTM/"
         curing_folder: "{variables.results_folder}/{variables.line_number}/Curing/"
         distorsion_folder: "{variables.results_folder}/{variables.line_number}/Distortion/"
@@ -62,6 +62,7 @@ parameters:
   inputs_file: /gpfs/scratch/bsce81/doe-poc1-11samples/generatedDOEtwolines.csv
   source_folder: /gpfs/scratch/bsce81/doe-poc1-11samples/process_manufacturing
   lperm_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical
+  inp_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical
   voids_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical
   template_COUPONtool: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical/template/template_inputs_USECASEconvert_poc1.yaml
   RTM_base_name: CAELESTIS

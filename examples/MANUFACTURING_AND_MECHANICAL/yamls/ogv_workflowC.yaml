@@ -84,6 +84,7 @@ parameters:
   inputs_file: /gpfs/scratch/bsce81/doe-ogv-14samples/generatedDOEtwolines.csv
   source_folder: /gpfs/scratch/bsce81/doe-ogv-14samples/process_manufacturing
   lperm_path: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical
+  inp_path: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical
   voids_path: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical
   template_COUPONtool: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical/template/template_inputs_USECASEconvert_ogv.yaml
   RTM_base_name: CAELESTIS

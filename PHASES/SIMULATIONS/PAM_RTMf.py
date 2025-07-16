@@ -10,7 +10,6 @@ from pycompss.api.parameter import *
 from pycompss.api.multinode import multinode
 import shutil
 
-#@constraint(computing_units="PAM_NP")
 @constraint(computing_units=48)
 @multinode(computing_nodes=1)
 @task(outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder=DIRECTORY_IN, returns=1)

@@ -11,11 +11,11 @@ def run(line, step, rtm_folder, curing_folder, distorsion_folder, in_file_rtm, i
     #
     # Save results from PAM-RTM simulation
     #
-    # save_RTM_res(line,rtm_folder,file_IN1,file_IN2,path_out,prefix,file_OUT1,file_OUT2)
+    #save_RTM_res(line,rtm_folder,file_IN1,file_IN2,path_out,prefix,file_OUT1,file_OUT2)
     #
     # Reduce size of PAM-DISTORTION simulation
     #
-    # reduce_erfh5(line,step,rtm_folder,in_file_rtm,distorsion_folder,in_file_dis,path_out)
+    reduce_erfh5(line,step,rtm_folder,in_file_rtm,distorsion_folder,in_file_dis,path_out)
     #
     # Clean folders
     #
@@ -23,7 +23,6 @@ def run(line, step, rtm_folder, curing_folder, distorsion_folder, in_file_rtm, i
     #    compss_delete_file(rtm_folder)
     #    compss_delete_file(curing_folder)
     #    compss_delete_file(distorsion_folder)
-    print('Gerard') 
     
 
 @task(rtm_folder = DIRECTORY_IN)
@@ -51,7 +50,7 @@ def reduce_erfh5(line,step,rtm_folder,in_file_rtm,distorsion_folder,in_file_dis,
     void = np.array(f["post/singlestate/"+name_state[step]+"/entityresults/NODE/MACRO_VOIDS/ZONE1_set0/erfblock/res"])
     np.savetxt(path_out+"void"+str(line)+".txt",void)
     #DISP
-    f = h5py.File(os.path.join(distorsion_folder,in_file_dis), 'r')
-    name_state = list(f['post/singlestate/'])
-    disp = np.array(f["post/singlestate/"+name_state[step]+"/entityresults/NODE/Translational_Displacement/ZONE1_set1/erfblock/res"])
+    #f = h5py.File(os.path.join(distorsion_folder,in_file_dis), 'r')
+    #name_state = list(f['post/singlestate/'])
+    #disp = np.array(f["post/singlestate/"+name_state[step]+"/entityresults/NODE/Translational_Displacement/ZONE1_set1/erfblock/res"])
     np.savetxt(path_out+"disp"+str(line)+".csv",disp)

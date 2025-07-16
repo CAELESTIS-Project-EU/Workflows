@@ -2,19 +2,12 @@ import os
 import numpy as np
 
 from PHASES.utils import phase
-from PHASES.utils import check_license
 
 from pycompss.api.api import compss_wait_on
 from pycompss.api.task import task
 from pycompss.api.parameter import *
-PAM_NP = 24
 
 def execution(execution_folder, data_folder, phases, inputs, outputs, parameters):
-    global PAM_NP
-    import time
-    if "PAM_NP" in parameters:
-        PAM_NP=int(parameters["PAM_NP"])
-        print("Setting PAM NP to " + str(PAM_NP))
     #
     # Sampling and results folder
     #
@@ -41,12 +34,12 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         alya_out = phase.run(phases.get("ALYA_Simulation"), inputs, outputs, parameters, data_folder, locals(), out=prepare_out)
         #
         # Postprocess ALYA simulation
-        # 
-        if "ALYA_PostProcess" in phases:
-           new_y = phase.run(phases.get("ALYA_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=alya_out)
-           y.append(new_y) 
-     compss_wait_on(y) 
-     write_file(results_folder, y, "yFile.npy")
+        #
+        new_y = phase.run(phases.get("ALYA_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=alya_out)
+        y.append(new_y)
+    phase.run(phases.get("ALYA_PostProcessMerge"), inputs, outputs, parameters, data_folder, locals())
+    write_file(results_folder, y, "yFile.npy")
+    return
 
 
 @task(elements=COLLECTION_IN)
