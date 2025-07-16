@@ -1,4 +1,4 @@
-workflow_type: WORKFLOWS.AUTOMATION_ML.workflow.execution
+workflow_type: WORKFLOWS.AUTOMATION_ML.workflowC.execution
 phases:
   Sampling:
     - Type: PHASES.SAMPLERS.CSV.run
@@ -81,12 +81,11 @@ inputs: {}
 parameters:
   machine: HPCBSC
   macros_folder: /gpfs/projects/bsce81/workflow_POC1_debug_bsc/esi_src
-  inputs_file: /gpfs/projects/bsce81/workflow_POC1_debug_bsc/001_Data/generatedDOEtwolines.csv
-  source_folder: /gpfs/projects/bsce81/workflow_POC1_debug_bsc/001_Data/input
-  lperm_path: /gpfs/scratch/bsce81/doe-poc1-11samples
-  voids_path: /gpfs/scratch/bsce81/doe-poc1-11samples
-  inp_path: /gpfs/scratch/bsce81/doe-poc1-11samples
-  template_COUPONtool: /gpfs/scratch/bsc21/bsc021946/CAELESTIS/full-workflow/Workflows/examples/MANUFACTURING_AND_MECHANICAL/inputs/template_inputs_USECASEconvert_poc1.yaml
+  inputs_file: /gpfs/scratch/bsce81/doe-poc1-11samples/generatedDOEtwolines.csv
+  source_folder: /gpfs/scratch/bsce81/doe-poc1-11samples/process_manufacturing
+  lperm_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical
+  voids_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical
+  template_COUPONtool: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical/template/template_inputs_USECASEconvert_poc1.yaml
   RTM_base_name: CAELESTIS
   Curing_base_name: CAELESTIS
   Distortion_Base_Name: CAELESTISD

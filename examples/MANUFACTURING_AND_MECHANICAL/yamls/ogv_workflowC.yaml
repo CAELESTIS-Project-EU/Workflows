@@ -1,4 +1,4 @@
-workflow_type: WORKFLOWS.AUTOMATION_ML.workflowA.execution
+workflow_type: WORKFLOWS.AUTOMATION_ML.workflowC.execution
 phases:
   Sampling:
     - Type: PHASES.SAMPLERS.CSV.run
@@ -54,18 +54,40 @@ phases:
         file_OUT1: "Step1.erfh5"
         file_OUT2: "Step2.erfh5"
         clean: "False"
+  Prepare Data:
+    - Type: PHASES.BEFORESIMULATION.alya.USECASEconvert_and_surrogate
+      parameters:
+        input_files_folder: "{variables.results_folder}/{variables.line_number}/Distortion/"
+        output_files_folder: "{variables.simulation_wdir}/{variables.line_number}/Mechanical/"
+        row_folder: "{variables.simulation_wdir}/{variables.line_number}/"
+        Mechanical_Base_Name: "{parameters.Mechanical_Base_Name}"
+        template_COUPONtool: "{parameters.template_COUPONtool}"
+        lperm_path: "{parameters.lperm_path}"
+        inp_path: "{parameters.inp_path}"
+        voids_path: "{parameters.voids_path}"
+        DoE_line: "{variables.DoE_line}"
+  ALYA_Simulation:
+    - Type: PHASES.SIMULATIONS.alya.simulation
+      parameters:
+        simulation_wdir: "{variables.simulation_wdir}/{variables.line_number}/Mechanical/{parameters.Mechanical_Base_Name}"
+        name_sim: "{parameters.Mechanical_Base_Name}"
+  ALYA_PostProcess:
+    - Type: PHASES.POSTSIMULATION.alya.collect_results
+      parameters:
+        simulation_wdir: "{variables.simulation_wdir}/{variables.line_number}/Mechanical/{parameters.Mechanical_Base_Name}"
+        name_sim: "{parameters.Mechanical_Base_Name}"
 outputs: {}
 inputs: {}
 parameters:
   machine: HPCBSC
   macros_folder: /gpfs/projects/bsce81/workflow_POC1_debug_bsc/esi_src
-  inputs_file: /gpfs/scratch/bsce81/doe-poc1-11samples/generatedDOEtwolines.csv
-  source_folder: /gpfs/scratch/bsce81/doe-poc1-11samples/process_manufacturing
-  lperm_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical
-  voids_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical
-  template_COUPONtool: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical/template/template_inputs_USECASEconvert_poc1.yaml
+  inputs_file: /gpfs/scratch/bsce81/doe-ogv-14samples/generatedDOEtwolines.csv
+  source_folder: /gpfs/scratch/bsce81/doe-ogv-14samples/process_manufacturing
+  lperm_path: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical
+  voids_path: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical
+  template_COUPONtool: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical/template/template_inputs_USECASEconvert_ogv.yaml
   RTM_base_name: CAELESTIS
   Curing_base_name: CAELESTIS
   Distortion_Base_Name: CAELESTISD
-  Mechanical_Base_Name: poc1
+  Mechanical_Base_Name: ogv
   PAM_NP: "24"

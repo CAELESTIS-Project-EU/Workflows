@@ -31,13 +31,13 @@ inputs: {}
 parameters:
   machine: HPCBSC
   macros_folder: /gpfs/projects/bsce81/workflow_POC1_debug_bsc/esi_src
-  inputs_file: /gpfs/scratch/bsce81/doe-poc1-11samples/generatedDOEtwolines.csv
-  source_folder: /gpfs/scratch/bsce81/doe-poc1-11samples/process_manufacturing
-  lperm_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical
-  voids_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical
-  template_COUPONtool: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical/template/template_inputs_USECASEconvert_poc1.yaml
+  inputs_file: /gpfs/scratch/bsce81/doe-ogv-14samples/generatedDOEtwolines.csv
+  source_folder: /gpfs/scratch/bsce81/doe-ogv-14samples/process_manufacturing
+  lperm_path: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical
+  voids_path: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical
+  template_COUPONtool: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical/template/template_inputs_USECASEconvert_ogv.yaml
   RTM_base_name: CAELESTIS
   Curing_base_name: CAELESTIS
   Distortion_Base_Name: CAELESTISD
-  Mechanical_Base_Name: poc1
+  Mechanical_Base_Name: ogv
   PAM_NP: "24"
