@@ -41,7 +41,7 @@ phases:
     - Type: PHASES.POSTSIMULATION.pam_distorsion_postprocess.run
       parameters:
         line: "{variables.line_number}"
-        step: "-1"
+        step: "1"
         rtm_folder: "{variables.results_folder}/{variables.line_number}/RTM/"
         curing_folder: "{variables.results_folder}/{variables.line_number}/Curing/"
         distorsion_folder: "{variables.results_folder}/{variables.line_number}/Distortion/"
@@ -53,7 +53,6 @@ phases:
         prefix: "Dist"
         file_OUT1: "Step1.erfh5"
         file_OUT2: "Step2.erfh5"
-        clean: "False"
   Prepare Data:
     - Type: PHASES.BEFORESIMULATION.alya.USECASEconvert_and_surrogate
       parameters:
@@ -91,14 +90,14 @@ outputs:
 parameters:
   machine: HPCBSC
   macros_folder: /gpfs/projects/bsce81/workflow_POC1_debug_bsc/esi_src
-  inputs_file: /gpfs/scratch/bsce81/doe-ogv-14samples/generatedDOEtwolines.csv
+  inputs_file: /gpfs/scratch/bsce81/doe-ogv-14samples/generatedDOE.csv
   source_folder: /gpfs/scratch/bsce81/doe-ogv-14samples/process_manufacturing
   lperm_path: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical
   inp_path: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical
   voids_path: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical
-  template_COUPONtool: /gpfs/scratch/bsce81/doe-ogv-14samples/template/template_inputs_USECASEconvert_ogv.yaml
+  template_COUPONtool: /gpfs/scratch/bsce81/doe-ogv-14samples/template/template_inputs_USECASEconvert_ogv_radia_pos.yaml
   RTM_base_name: CAELESTIS
   Curing_base_name: CAELESTIS
   Distortion_Base_Name: CAELESTISD
   Mechanical_Base_Name: ogv
-  PAM_NP: "24"
+  PAM_NP: 48

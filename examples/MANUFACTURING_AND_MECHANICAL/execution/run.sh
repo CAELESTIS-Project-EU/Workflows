@@ -15,7 +15,7 @@ EXEC_TIME=$4
 
 EXECUTION_FOLDER=/gpfs/scratch/bsc21/bsc021946/CAELESTIS/full-workflow/Workflows/examples/MANUFACTURING_AND_MECHANICAL/execution/${EXEC_NAME}/
 mkdir -p $EXECUTION_FOLDER/results/
-QOS=debug
+QOS=bsc_case
 PROJECT=bsc21
 INSTALL_DIR=/gpfs/scratch/bsc21/bsc021946/CAELESTIS/full-workflow/Workflows/
 DATA_DIR=/gpfs/scratch/bsc21/bsc021946/CAELESTIS/full-workflow/data/
@@ -47,7 +47,7 @@ export PYTHONPATH=$INSTALL_DIR:$PYTHONPATH
 
 # shellcheck disable=SC2164
 cd $EXECUTION_FOLDER
-enqueue_compss -d --project_name=$PROJECT --network=ethernet --output_profile=$EXECUTION_FOLDER/time --keep_workingdir --log_dir=$EXECUTION_FOLDER --worker_working_dir=$PWD --scheduler=es.bsc.compss.scheduler.orderstrict.fifo.FifoTS --job_execution_dir=$EXECUTION_FOLDER --qos=$QOS --exec_time=$EXEC_TIME --pythonpath=$PYTHONPATH --num_nodes=$NUM_NODES --worker_in_master_cpus=48 $INSTALL_DIR/WORKFLOWS/api.py $YAML $EXECUTION_FOLDER $DATA_DIR
+enqueue_compss --project_name=$PROJECT --network=ethernet --output_profile=$EXECUTION_FOLDER/time --keep_workingdir --log_dir=$EXECUTION_FOLDER --worker_working_dir=$PWD --scheduler=es.bsc.compss.scheduler.orderstrict.fifo.FifoTS --job_execution_dir=$EXECUTION_FOLDER --qos=$QOS --exec_time=$EXEC_TIME --pythonpath=$PYTHONPATH --num_nodes=$NUM_NODES --worker_in_master_cpus=48 $INSTALL_DIR/WORKFLOWS/api.py $YAML $EXECUTION_FOLDER $DATA_DIR
 
 echo DONE!
 

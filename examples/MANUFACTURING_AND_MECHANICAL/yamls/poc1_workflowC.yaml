@@ -91,7 +91,7 @@ outputs:
 parameters:
   machine: HPCBSC
   macros_folder: /gpfs/projects/bsce81/workflow_POC1_debug_bsc/esi_src
-  inputs_file: /gpfs/scratch/bsce81/doe-poc1-11samples/generatedDOEtwolines.csv
+  inputs_file: /gpfs/scratch/bsce81/doe-poc1-11samples/generatedDOEshort.csv
   source_folder: /gpfs/scratch/bsce81/doe-poc1-11samples/process_manufacturing
   lperm_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical
   inp_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical

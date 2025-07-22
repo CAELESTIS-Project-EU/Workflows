@@ -11,7 +11,7 @@ def run(line, step, rtm_folder, curing_folder, distorsion_folder, in_file_rtm, i
     #
     # Save results from PAM-RTM simulation
     #
-    save_RTM_res(line,rtm_folder,file_IN1,file_IN2,path_out,prefix,file_OUT1,file_OUT2)
+    #save_RTM_res(line,rtm_folder,file_IN1,file_IN2,path_out,prefix,file_OUT1,file_OUT2)
     #
     # Create void and disp files
     #
@@ -28,9 +28,9 @@ def save_RTM_res(line,rtm_folder,file_IN1,file_IN2,path_out,prefix,file_OUT1,fil
     dest_file = os.path.join(path_out,prefix +str(line)+file_OUT1)
     shutil.copy(src_file, dest_file)
     #COPY 2
-    #src_file = os.path.join(rtm_folder,file_IN2)
-    #dest_file = os.path.join(path_out,prefix +str(line)+file_OUT2)
-    #shutil.copy(src_file, dest_file)
+    src_file = os.path.join(rtm_folder,file_IN2)
+    dest_file = os.path.join(path_out,prefix +str(line)+file_OUT2)
+    shutil.copy(src_file, dest_file)
     return
 
 
