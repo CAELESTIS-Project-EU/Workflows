@@ -186,7 +186,9 @@ def prepare_dom(prepare_args, **kwargs):
     return
 
 
-@task(returns=1)
+##@task(returns=1)
+@constraint(computing_units=gen_cores)
+@task(returns=1, on_failure="CANCEL_SUCCESSORS", time_out=gen_timeout )
 def USECASEconvert_and_surrogate(**prepare_args):
     ########################## USECASE convert #####################
     import USECASEconvert
@@ -195,19 +197,22 @@ def USECASEconvert_and_surrogate(**prepare_args):
     lperm_path = get_value(prepare_args, "lperm_path")
     inp_path = get_value(prepare_args, "inp_path")
     voids_path = get_value(prepare_args, "voids_path")
+    #if not os.path.isdir(voids_path):
+    #    os.makedirs(voids_path)
     template_path = get_value(prepare_args, "template_COUPONtool")
     mechanical_base_name = get_value(prepare_args, "Mechanical_Base_Name") #ogv or poc1
+    line = get_value(prepare_args, "line")
     DoE_line = get_value(prepare_args, "DoE_line") # check this line
     # Look for the proper .lperm and .inp files ({case_number}.lperm, {case_number}.inp)
-    case_number = int(get_value(prepare_args, "index")) + 1
-
+    case_number = line[4:]
+    #case_number = int(get_value(prepare_args, "index")) + 1
     # Finding .lperm file
     files = os.listdir(lperm_path)
-    print(f"Files in lperm path: {files}", flush=True)
+    #print(f"Files in lperm path: {files}", flush=True)
     for file in files:
         if file == f"{str(mechanical_base_name)}-s{str(case_number)}.lperm":
             lperm_file_path = os.path.join(lperm_path, file)
-            print(f"Found lperm file: {lperm_file_path}", flush=True)
+            #print(f"Found lperm file: {lperm_file_path}", flush=True)
             break
     else:
         print("No matching .lperm file found", flush=True)
@@ -215,27 +220,31 @@ def USECASEconvert_and_surrogate(**prepare_args):
 
     # Finding .inp file
     files = os.listdir(inp_path)
-    print(f"Files in inp path: {files}", flush=True)
+    #print(f"Files in inp path: {files}", flush=True)
     for file in files:
         if file == f"{str(mechanical_base_name)}-s{str(case_number)}.inp":
             inp_file_path = os.path.join(inp_path, file)
-            print(f"Found inp file: {inp_file_path}", flush=True)
+            #print(f"Found inp file: {inp_file_path}", flush=True)
             break
     else:
         print("No matching .inp file found", flush=True)
         return
 
-    # Finding .voids.txt file
+    # Finding voids.txt file
     files = os.listdir(voids_path)
-    print(f"Files in voids path: {files}", flush=True)
+    #print(f"Files in voids path: {files}", flush=True)
     for file in files:
-        if file == f"{str(mechanical_base_name)}-s{str(case_number)}.voids.txt":
-            voids_file_path = os.path.join(voids_path, file)
-            print(f"Found voids file: {voids_file_path}", flush=True)
+        full_path = os.path.join(voids_path, file)
+        # Skip if it's a folder
+        if not os.path.isfile(full_path):
+            continue
+        if file == f"voids-s{str(case_number)}.txt":
+            voids_file_path = full_path
+            #print(f"Found voids file: {voids_file_path}", flush=True)
             break
-    else:
-        print("No matching .voids.txt file found", flush=True)
-        return
+    #else:
+        #print("No matching voids.txt file found", flush=True)
+        #return
 
     # get ori from DoE
     ori = []
@@ -244,18 +253,18 @@ def USECASEconvert_and_surrogate(**prepare_args):
         split = orientation.split("&")
         for s in split:
             ori.append(float(s.split("#")[1]))
-        print(f"Orientation found: {ori}", flush=True)
+        #print(f"Orientation found: {ori}", flush=True)
     else: 
         print("No orientation found in DoE line", flush=True)
 
     # Modify the template
     row_folder = get_value(prepare_args, "row_folder")
     modified_template_path = os.path.join(row_folder, "config")
-    print(f"Modified template path: {modified_template_path}", flush=True)
+    #print(f"Modified template path: {modified_template_path}", flush=True)
 
     if not os.path.isdir(modified_template_path):
         os.makedirs(modified_template_path)
-        print(f"Created directory: {modified_template_path}", flush=True)
+        #print(f"Created directory: {modified_template_path}", flush=True)
 
     modified_template_file = os.path.join(modified_template_path, "inputs_USECASE_convert.yaml")
 
@@ -280,8 +289,8 @@ def USECASEconvert_and_surrogate(**prepare_args):
             if len(ori) > 0:
                 filedata = filedata.replace("%ori%", str(ori))
             f2.write(filedata)
-            print(f"Modified template content written in path {modified_template_file}", flush=True)
-            print(filedata, flush=True)
+            #print(f"Modified template content written in path {modified_template_file}", flush=True)
+            #print(filedata, flush=True)
             f.close()
         f2.close()
 

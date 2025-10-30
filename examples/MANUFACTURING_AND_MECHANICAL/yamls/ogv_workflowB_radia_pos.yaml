@@ -4,9 +4,10 @@ phases:
     - Type: PHASES.SAMPLERS.CSV.run
       parameters:
         inputs_file: "{parameters.inputs_file}"
-  Prepare Data:
+  Prepare_Data:
     - Type: PHASES.BEFORESIMULATION.alya.USECASEconvert_and_surrogate
       parameters:
+        line: "{variables.line_number}"
         DoE_line: "{variables.DoE_line}"
         input_files_folder: "{variables.results_folder}/{variables.line_number}/Distortion/"
         output_files_folder: "{variables.simulation_wdir}/{variables.line_number}/Mechanical/"
@@ -40,7 +41,7 @@ outputs:
     - overwrite: True
 parameters:
   machine: HPCBSC
-  macros_folder: /gpfs/projects/bsce81/workflow_POC1_debug_bsc/esi_src
+  macros_folder: /gpfs/scratch/bsce81/doe-ogv-14samples/esi_src
   inputs_file: /gpfs/scratch/bsce81/doe-ogv-14samples/generatedDOE.csv
   source_folder: /gpfs/scratch/bsce81/doe-ogv-14samples/process_manufacturing
   lperm_path: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical

@@ -23,24 +23,22 @@ import shutil
 @task(input_files_folder=DIRECTORY_IN, outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder= DIRECTORY_IN, returns=1)
 def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
     print('_____________________________________________________________________________________')
-    print('Starting curing simulation')
+    print('Starting Curing simulation')
     
-    #Visual will read the variables values from a txt file that is written at the end of this section
+    # Visual will read the variables values from a txt file that is written at the end of this section
         
-
     if not os.path.exists(outputs_files_folder):
         os.makedirs(outputs_files_folder)
-        print("Folder '{}' created.".format(outputs_files_folder))
-    else:
-        print("Folder '{}' already exists.".format(outputs_files_folder))
+        #print("Folder '{}' created.".format(outputs_files_folder))
+    #else:
+        #print("Folder '{}' already exists.".format(outputs_files_folder))
 
-
-    
+    # Folder for ESI macros
     mod_files_folder = os.path.join(outputs_files_folder, "mod_macros")
     os.makedirs(mod_files_folder)
     
+    # Machines
     display = 1
-    #paths
     if machine == 'BORLAP020':
         RTMSolverPath = r'C:\Program Files\ESI Group\PAM-COMPOSITES\2022.5\RTMSolver\bin\pamcmxdmp.bat'
         if display == 1:
@@ -54,8 +52,8 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
     elif machine == 'HPCBSC':
         display = 0
         vsPath = 'gcc'
-        RTMSolverPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/pamrtm/2022.5/Linux_x86_64_2.36/bin/pamcmxdmp.sh'
-        RTMsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
+        RTMSolverPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi_25/pamrtm/2022.5/Linux_x86_64_2.36/bin/pamcmxdmp.sh'
+        RTMsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi_25/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
     elif machine == 'JVNYDS':
         vsPath = r'C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/Build/vcvarsall.bat'
         RTMSolverPath = r'C:/Program Files/ESI Group/PAM-COMPOSITES/2022.0/RTMSolver\bin/pamcmxdmp.bat'
@@ -94,7 +92,8 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
     resin_kinetics_copy_path = os.path.join(outputs_files_folder, Curing_base_name + '_resinkinetics.c')
     pc_file_init_path = os.path.join(SourceDirectory, Curing_base_name + '.pc')
     pc_file_copy_path = os.path.join(outputs_files_folder, Curing_base_name + '.pc')
-
+    shutil.copy(resin_kinetics_init_path, resin_kinetics_copy_path)
+    shutil.copy(pc_file_init_path, pc_file_copy_path) # Not used
 
     if 'Mold_temperature' in DoE_line:
         if str(DoE_line['Mold_temperature']) != '-1':
@@ -102,9 +101,6 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
         else:
             temp_mold_curing = 'N/A'
 
-    shutil.copy(resin_kinetics_init_path, resin_kinetics_copy_path)
-    shutil.copy(pc_file_init_path, pc_file_copy_path)
-    
     nb_step_filling = extract_num_step_filling(RTMerfh5FilePath)
     mapping_file_path = os.path.join(mod_files_folder, '22_CuringMappingTempFillFactCureDegree.py')
     write_mapping(mapping_file_path, nb_step_filling-2)
@@ -118,8 +114,6 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
                        curing_set_temp_file_path,
                        os.path.join(src_macros_folder, '24_CuringWriteSolverInput.py')]
 
-
-    
     # Internal info
     VariablesDict = {}
     VariablesDict['VdbRTMFilePath'] = VdbRTMFilePath
@@ -131,12 +125,12 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
     VariablesDict['outputs_files_folder'] = outputs_files_folder
     VariablesDict['vsPath'] = vsPath
 
-    #Copy files to destination folder
+    # Copy files to destination folder
     try:
         shutil.copy(SourceVdbCuringFilePath, outputs_files_folder)
         #print('File ' + SourceVdbCuringFilePath + ' copied to ' + outputs_files_folder)
     except:
-        print('Vdb Curing file path is not at:')
+        print('ERROR in PAM-CURE: Vdb Curing file path is not at:')
         print('     ', SourceVdbCuringFilePath)
     # Default values
     VariablesDict['Viscosity'] = 0.2
@@ -145,7 +139,6 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
     Curing_parameters_list = ['Curing_cycle']
     
     # Modified values
-   
     if 'Curing_cycle' in DoE_line:
             MacroCuringList.append(os.path.join(src_macros_folder,'23_CuringSetTemperature.py'))
             VariablesDict['Curing_cycle'] = DoE_line['Curing_cycle']
@@ -184,11 +177,11 @@ def run(RTM_base_name, Curing_base_name, input_files_folder, outputs_files_folde
     #file_path =os.path.join(VariablesTxtPath)
     #shutil.copy(file_path, os.path.join(Scriptsfolder,'VariablesList.txt'))
 
-    #Execute macros
+    # Execute macros
     for elem in MacroCuringList:
         Curingmodel.LaunchMacro(elem)
-    #solve
     
+    # Solve 
     Curingmodel.solveStep(runInBackground=False)
 
     return "PAM_RTMc finished"

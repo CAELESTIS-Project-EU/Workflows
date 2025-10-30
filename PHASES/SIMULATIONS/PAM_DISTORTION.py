@@ -21,27 +21,27 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     # Visual will read the variables values from a txt file that is written at the end of this section
     if 'tools' in kwargs:
         tools = kwargs['tools']
-        if tools.lower() in ('y', 'yes', 't', 'true', 'on', '1'):
-            tools = True
-        elif tools.lower() in ('n', 'no', 'f', 'false', 'off', '0'):
-            tools = False
-        else:
-            print("Incorrect tools values. Setting to True")
-            tools = True
-        
+    #    if tools.lower() in ('y', 'yes', 't', 'true', 'on', '1'):
+    #        tools = True
+    #    elif tools.lower() in ('n', 'no', 'f', 'false', 'off', '0'):
+    #        tools = False
+    #    else:
+    #        print("Incorrect tools values. Setting to True")
+    #        tools = True
+    #    
     else:
-        print("Tools not in kwargs. Setting to True")
-        tools = True
+        print("Tools not in kwargs")
+        tools = False
         
     print('_____________________________________________________________________________________')
-    print('Starting distortion simulation (', tools,')')
+    print('Starting Distortion Simulation (', tools,')')
         
 
     if not os.path.exists(outputs_files_folder):
         os.makedirs(outputs_files_folder)
-        print("Folder '{}' created.".format(outputs_files_folder))
-    else:
-        print("Folder '{}' already exists.".format(outputs_files_folder))
+        #print("Folder '{}' created.".format(outputs_files_folder))
+    #else:
+        #print("Folder '{}' already exists.".format(outputs_files_folder))
 
     mod_files_folder = os.path.join(outputs_files_folder, "mod_macros")
     os.makedirs(mod_files_folder)
@@ -64,9 +64,9 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
         DistortionsolverWinTailPath = r"C:\Program Files\ESI Group\PAM-COMPOSITES\2022.5\Solver\bin\WinTail.exe"
     elif machine == 'HPCBSC':
         display = 0
-        DistortionSolverFolderPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/pamdistortion/2022.5/Linux_x86_64/bin'
-        DistortionSolverFilePath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/pamdistortion/2022.5/Linux_x86_64/bin/pamdistortion'
-        DistortionsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
+        DistortionSolverFolderPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi_25/pamdistortion/2022.5/Linux_x86_64/bin'
+        DistortionSolverFilePath = r'/gpfs/projects/bsce81/MN4/bsce81/esi_25/pamdistortion/2022.5/Linux_x86_64/bin/pamdistortion'
+        DistortionsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi_25/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
         DistortionsolverWinTailPath = r"C:\Program Files\ESI Group\PAM-COMPOSITES\2022.5\Solver\bin\WinTail.exe"
     elif machine == 'JVNYDS':
         DistortionSolverFolderPath = r'C:\Program Files\ESI Group\PAM-COMPOSITES\2022.0\Solver\bin'
@@ -168,23 +168,24 @@ def run(Curing_base_name, Distortion_Base_Name, input_files_folder, outputs_file
     Distortionmodel.mp = 1 # 1 (default): SMP parallel mode; 2: DMP parallel mode
     Distortionmodel.np = int(np)
     Distortionmodel.mpidir = None
-    # #Execute macros
+    # Execute macros
     for elem in MacroDistortionList:
           Distortionmodel.LaunchMacro(elem)
-    
     Distortionmodel.LaunchMacro(os.path.join(src_macros_folder,'38_DistortionRun.py'))
     
-    # solve
+    # Solve first step: Distortion
     Distortionmodel.solveStep(runInBackground=False)
-    if tools:
-        MacroUnmoldingList = []
-        MacroUnmoldingList.append(os.path.join(src_macros_folder,'66_Distortion_unmolding.py'))
-        MacroUnmoldingList.append(os.path.join(src_macros_folder,'38_DistortionRun.py'))
-        for elem in MacroUnmoldingList:
-            Distortionmodel.LaunchMacro(elem)
 
-        # solve
-        Distortionmodel.solveStep(runInBackground=False)
+    # Solve second step: Unmolding
+   # if tools:
+   #     MacroUnmoldingList = []
+   #     MacroUnmoldingList.append(os.path.join(src_macros_folder,'66_Distortion_unmolding.py'))
+   #     MacroUnmoldingList.append(os.path.join(src_macros_folder,'38_DistortionRun.py'))
+   #     for elem in MacroUnmoldingList:
+   #         Distortionmodel.LaunchMacro(elem)
+    
+   #     # Solve
+   #     Distortionmodel.solveStep(runInBackground=False)
 
     return "PAM_DISTORSION finished"
 

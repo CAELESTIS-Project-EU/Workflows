@@ -57,9 +57,9 @@ outputs: {}
 inputs: {}
 parameters:
   machine: HPCBSC
-  macros_folder: /gpfs/scratch/bsce81/doe-poc1-11samples/esi_src
-  inputs_file: /gpfs/scratch/bsce81/doe-poc1-11samples/generatedDOEtwolines.csv
-  source_folder: /gpfs/scratch/bsce81/doe-poc1-11samples/process_manufacturing
+  macros_folder: /gpfs/scratch/bsce81/doe-ogv-400samples/esi_src
+  inputs_file: /gpfs/scratch/bsce81/doe-ogv-400samples/generatedDOE.csv
+  source_folder: /gpfs/scratch/bsce81/doe-ogv-400samples/process_manufacturing
   RTM_base_name: CAELESTIS
   Curing_base_name: CAELESTIS
   Distortion_Base_Name: CAELESTISD

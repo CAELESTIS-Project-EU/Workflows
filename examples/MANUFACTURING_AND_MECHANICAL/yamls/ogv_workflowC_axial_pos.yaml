@@ -41,21 +41,23 @@ phases:
     - Type: PHASES.POSTSIMULATION.pam_distorsion_postprocess.run
       parameters:
         line: "{variables.line_number}"
-        step: "1"
+        step: "-1"
         rtm_folder: "{variables.results_folder}/{variables.line_number}/RTM/"
         curing_folder: "{variables.results_folder}/{variables.line_number}/Curing/"
         distorsion_folder: "{variables.results_folder}/{variables.line_number}/Distortion/"
         in_file_rtm: "CAELESTIS_RESULT.erfh5"
         in_file_dis: "CAELESTISD-STAGE2_RESULT.erfh5"
-        path_out: "{variables.results_folder}/Results_light/"
+        path_out: "{variables.results_folder}"
         file_IN1: "CAELESTISD-STAGE1_RESULT.erfh5"
         file_IN2: "CAELESTISD-STAGE2_RESULT.erfh5"
         prefix: "Dist"
         file_OUT1: "Step1.erfh5"
         file_OUT2: "Step2.erfh5"
-  Prepare Data:
+  Prepare_Data:
     - Type: PHASES.BEFORESIMULATION.alya.USECASEconvert_and_surrogate
       parameters:
+        line: "{variables.line_number}"
+        DoE_line: "{variables.DoE_line}"
         input_files_folder: "{variables.results_folder}/{variables.line_number}/Distortion/"
         output_files_folder: "{variables.simulation_wdir}/{variables.line_number}/Mechanical/"
         row_folder: "{variables.simulation_wdir}/{variables.line_number}/"
@@ -64,7 +66,6 @@ phases:
         lperm_path: "{parameters.lperm_path}"
         inp_path: "{parameters.inp_path}"
         voids_path: "{parameters.voids_path}"
-        DoE_line: "{variables.DoE_line}"
   ALYA_Simulation:
     - Type: PHASES.SIMULATIONS.alya.simulation
       parameters:
@@ -89,7 +90,7 @@ outputs:
     - overwrite: True
 parameters:
   machine: HPCBSC
-  macros_folder: /gpfs/projects/bsce81/workflow_POC1_debug_bsc/esi_src
+  macros_folder: /gpfs/scratch/bsce81/doe-ogv-14samples/esi_src
   inputs_file: /gpfs/scratch/bsce81/doe-ogv-14samples/generatedDOE.csv
   source_folder: /gpfs/scratch/bsce81/doe-ogv-14samples/process_manufacturing
   lperm_path: /gpfs/scratch/bsce81/doe-ogv-14samples/mechanical

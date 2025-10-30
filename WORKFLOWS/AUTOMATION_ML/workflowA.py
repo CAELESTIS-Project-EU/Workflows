@@ -39,7 +39,9 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
             # 
             # Postprocess PAM-COMPOSITES simulations
             #
-            phase.run(phases.get("PAM-COMPOSITE_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=sim_out)
+            if "PAM-COMPOSITE_PostProcess" in phases:
+                phase.run(phases.get("PAM-COMPOSITE_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=sim_out)
     else:
-        print("LICENSE IS NOT RUNNING!")
+        print("ERROR: PAM-COMPOSITES LICENSE IS NOT RUNNING!")
+
     return

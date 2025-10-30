@@ -41,20 +41,19 @@ phases:
     - Type: PHASES.POSTSIMULATION.pam_distorsion_postprocess.run
       parameters:
         line: "{variables.line_number}"
-        step: "1"
+        step: "-1"
         rtm_folder: "{variables.results_folder}/{variables.line_number}/RTM/"
         curing_folder: "{variables.results_folder}/{variables.line_number}/Curing/"
         distorsion_folder: "{variables.results_folder}/{variables.line_number}/Distortion/"
         in_file_rtm: "CAELESTIS_RESULT.erfh5"
         in_file_dis: "CAELESTISD-STAGE2_RESULT.erfh5"
-        path_out: "{variables.results_folder}/Results_light/"
+        path_out: "{variables.results_folder}/"
         file_IN1: "CAELESTISD-STAGE1_RESULT.erfh5"
         file_IN2: "CAELESTISD-STAGE2_RESULT.erfh5"
         prefix: "Dist"
         file_OUT1: "Step1.erfh5"
         file_OUT2: "Step2.erfh5"
-        clean: "False"
-  Prepare Data:
+  Prepare_Data:
     - Type: PHASES.BEFORESIMULATION.alya.USECASEconvert_and_surrogate
       parameters:
         DoE_line: "{variables.DoE_line}"
@@ -65,7 +64,7 @@ phases:
         template_COUPONtool: "{parameters.template_COUPONtool}"
         lperm_path: "{parameters.lperm_path}"
         inp_path: "{parameters.inp_path}"
-        voids_path: "{parameters.voids_path}"
+        voids_path: "{variables.results_folder}/results/"
   ALYA_Simulation:
     - Type: PHASES.SIMULATIONS.alya.simulation
       parameters:
@@ -90,12 +89,11 @@ outputs:
     - overwrite: True
 parameters:
   machine: HPCBSC
-  macros_folder: /gpfs/projects/bsce81/workflow_POC1_debug_bsc/esi_src
-  inputs_file: /gpfs/scratch/bsce81/doe-poc1-11samples/generatedDOEshort.csv
+  macros_folder: /gpfs/scratch/bsce81/doe-poc1-11samples/esi_src
+  inputs_file: /gpfs/scratch/bsce81/doe-poc1-11samples/generatedDOEtwolines.csv
   source_folder: /gpfs/scratch/bsce81/doe-poc1-11samples/process_manufacturing
   lperm_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical
   inp_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical
-  voids_path: /gpfs/scratch/bsce81/doe-poc1-11samples/mechanical
   template_COUPONtool: /gpfs/scratch/bsce81/doe-poc1-11samples/template/template_inputs_USECASEconvert_poc1.yaml
   RTM_base_name: CAELESTIS
   Curing_base_name: CAELESTIS

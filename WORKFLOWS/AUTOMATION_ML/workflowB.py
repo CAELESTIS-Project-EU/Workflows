@@ -30,15 +30,17 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         #
         # ALYA simulation
         #
-        prepare_out = phase.run(phases.get("Prepare Data"), inputs, outputs, parameters, data_folder, locals(), index=index)#, out=sim_out)
+        prepare_out = phase.run(phases.get("Prepare_Data"), inputs, outputs, parameters, data_folder, locals())
         alya_out = phase.run(phases.get("ALYA_Simulation"), inputs, outputs, parameters, data_folder, locals(), out=prepare_out)
         #
         # Postprocess ALYA simulation
         #
-        new_y = phase.run(phases.get("ALYA_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=alya_out)
-        y.append(new_y)
-    phase.run(phases.get("ALYA_PostProcessMerge"), inputs, outputs, parameters, data_folder, locals())
-    write_file(results_folder, y, "yFile.npy")
+        if "ALYA_PostProcess" in phases:
+            new_y = phase.run(phases.get("ALYA_PostProcess"), inputs, outputs, parameters, data_folder, locals(), out=alya_out)
+            y.append(new_y)
+    if "ALYA_PostProcess" in phases and "ALYA_PostProcessMerge" in phases:
+        phase.run(phases.get("ALYA_PostProcessMerge"), inputs, outputs, parameters, data_folder, locals())
+        write_file(results_folder, y, "yFile.npy")
     return
 
 
