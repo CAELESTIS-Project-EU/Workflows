@@ -7,7 +7,7 @@ phases:
   Prepare_Data:
     - Type: PHASES.BEFORESIMULATION.alya.USECASEconvert_and_surrogate
       parameters:
-        line: "{variables.line_number}"
+        line: "{variables.line_number}" 
         DoE_line: "{variables.DoE_line}"
         input_files_folder: "{variables.results_folder}/{variables.line_number}/Distortion/"
         output_files_folder: "{variables.simulation_wdir}/{variables.line_number}/Mechanical/"
@@ -47,6 +47,6 @@ parameters:
   lperm_path: /gpfs/scratch/bsce81/doe-ogv-400samples/mechanical
   inp_path: /gpfs/scratch/bsce81/doe-ogv-400samples/mechanical
   voids_path: /gpfs/scratch/bsce81/doe-ogv-400samples/mechanical
-  template_COUPONtool: /gpfs/scratch/bsce81/doe-ogv-400samples/template/template_inputs_USECASEconvert_ogv_tange_pos.yaml
+  template_COUPONtool: /gpfs/scratch/bsce81/doe-ogv-400samples/template/template_inputs_USECASEconvert_ogv_axial_pos.yaml
   Mechanical_Base_Name: ogv
-  PAM_NP: 48
+  PAM_NP: 24

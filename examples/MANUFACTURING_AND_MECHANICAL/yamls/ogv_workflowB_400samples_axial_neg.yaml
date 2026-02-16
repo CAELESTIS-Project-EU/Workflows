@@ -47,6 +47,6 @@ parameters:
   lperm_path: /gpfs/scratch/bsce81/doe-ogv-400samples/mechanical
   inp_path: /gpfs/scratch/bsce81/doe-ogv-400samples/mechanical
   voids_path: /gpfs/scratch/bsce81/doe-ogv-400samples/mechanical
-  template_COUPONtool: /gpfs/scratch/bsce81/doe-ogv-400samples/template/template_inputs_USECASEconvert_ogv_tange_pos.yaml
+  template_COUPONtool: /gpfs/scratch/bsce81/doe-ogv-400samples/template/template_inputs_USECASEconvert_ogv_axial_neg.yaml
   Mechanical_Base_Name: ogv
   PAM_NP: 48

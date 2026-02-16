@@ -5,7 +5,8 @@ SMO
 """
 import os
 import shutil
-from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
+###from PHASES.AUTOMATION_ML.utils.bbesi_rtm_api import Visual_API
+from PHASES.ESI.utils.bbesi_rtm_api import Visual_API
 from PHASES.ESI.utils.write_file_ori import write_ori_dist
 from pycompss.api.task import task
 from pycompss.api.parameter import *

@@ -49,4 +49,4 @@ parameters:
   voids_path: /gpfs/scratch/bsce81/doe-ogv-400samples/mechanical
   template_COUPONtool: /gpfs/scratch/bsce81/doe-ogv-400samples/template/template_inputs_USECASEconvert_ogv_tange_pos.yaml
   Mechanical_Base_Name: ogv
-  PAM_NP: 48
+  PAM_NP: 28
