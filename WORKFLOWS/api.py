@@ -11,6 +11,7 @@ def workflow(path, execution_folder, data_folder):
         data = yaml.load(f, Loader=yaml.FullLoader)
         workflow_type=data.get("workflow_type")
         parameters=data.get("parameters")
+        os.environ["PAM_NP"] = str(parameters.get("PAM_NP", "1"))  # Default to 1 if not set
         inputs=data.get("inputs")
         outputs = data.get("outputs")
         phases = data.get("phases")

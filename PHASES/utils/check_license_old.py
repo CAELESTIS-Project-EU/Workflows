@@ -6,7 +6,7 @@ import subprocess
 
 
 def check_license():
-    script = "/gpfs/projects/bsce81/check_license_server.sh"
+    script = "/gpfs/projects/bsce81/check_license_server_new.sh"
 
     try:
         # Execute the shell script

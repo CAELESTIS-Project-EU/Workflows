@@ -10,8 +10,7 @@ from pycompss.api.parameter import *
 from pycompss.api.multinode import multinode
 import shutil
 
-#@constraint(computing_units="PAM_NP")
-@constraint(computing_units=16)
+@constraint(computing_units=48)
 @multinode(computing_nodes=1)
 @task(outputs_files_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, src_macros_folder=DIRECTORY_IN, returns=1)
 def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, machine, DoE_line, np, **kwargs):
@@ -21,7 +20,7 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
     modifies the default value. Then, it launches the simulation
     '''
     print('_____________________________________________________________________________________')
-    print('Starting filling simulation')
+    print('Starting Filling Simulation')
 
     # for item in kwargs:
     #     print(item)
@@ -33,9 +32,9 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
 
     if not os.path.exists(outputs_files_folder):
         os.makedirs(outputs_files_folder)
-        print("Folder '{}' created.".format(outputs_files_folder))
-    else:
-        print("Folder '{}' already exists.".format(outputs_files_folder))
+    #    print("Folder '{}' created.".format(outputs_files_folder))
+    #else:
+    #    print("Folder '{}' already exists.".format(outputs_files_folder))
 
     # paths
     if machine == 'BORLAP020':
@@ -51,8 +50,8 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
     elif machine == 'HPCBSC':
         display = 0
         vsPath = 'gcc'
-        RTMSolverPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/pamrtm/2022.5/Linux_x86_64_2.36/bin/pamcmxdmp.sh'
-        RTMsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
+        RTMSolverPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi_25/pamrtm/2022.5/Linux_x86_64_2.36/bin/pamcmxdmp.sh'
+        RTMsolverVEPath = r'/gpfs/projects/bsce81/MN4/bsce81/esi_25/Visual-Environment/18.0/Linux_x86_64_2.17/VEBatch.sh'
 
     elif machine == 'JVNYDS':
         vsPath = r'C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/Build/vcvarsall.bat'
@@ -81,10 +80,6 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
     MacroRTMList = []
 
     # Copy files to destination folder
-    import shutil
-    print(100 * '-')
-    print('Copying to folder {}'.format(outputs_files_folder))
-    print(100 * '-')
     shutil.copy(SourceVdbRTMFilePath, outputs_files_folder)
     shutil.copy(resin_kinetics_init_path, resin_kinetics_copy_path)
 
@@ -120,8 +115,6 @@ def run(RTM_base_name, outputs_files_folder, source_folder, src_macros_folder, m
             if str(DoE_line['Orientation']) != '-1':
                 MacroRTMList.append(os.path.join(src_macros_folder,'07_RTMApplyOrientation.py'))
                 VariablesDict['Orientation'] = DoE_line['Orientation']
-
-    #RTM_parameters_list = ['Injection_pressure', 'Injection_temperature', 'Injection flow_rate']
 
     MacroRTMList.append(os.path.join(src_macros_folder,'08_RTMWriteSolverInput.py'))
 

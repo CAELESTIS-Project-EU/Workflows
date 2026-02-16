@@ -11,7 +11,7 @@ from pycompss.api.parameter import *
 from pycompss.api.constraint import constraint
 from pycompss.api.multinode import multinode
 
-@constraint(computing_units=16)
+@constraint(computing_units=24)
 @multinode(computing_nodes=1)
 @task(inputs_folder=DIRECTORY_IN, outputs_folder=DIRECTORY_OUT, source_folder=DIRECTORY_IN, returns=1)
 def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, source_folder, **kwargs):
@@ -136,7 +136,7 @@ def run(RTM_base_name, Curing_base_name, inputs_folder, outputs_folder, source_f
     Curingmodel.fp = 1 # Floating point precision (1: SP , 2: DP , note IMPLICIT requires DP)
     Curingmodel.nt = 2 # Number of threads
     Curingmodel.mp = 1 # 1 (default): SMP parallel mode; 2: DMP parallel mode
-    Curingmodel.np = 16 
+    Curingmodel.np = 24 
     #Execute macros
     for elem in MacroCuringList:
         Curingmodel.LaunchMacro(elem)

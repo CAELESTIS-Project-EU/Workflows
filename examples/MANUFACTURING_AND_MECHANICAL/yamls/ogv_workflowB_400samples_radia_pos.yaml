@@ -1,0 +1,52 @@
+workflow_type: WORKFLOWS.AUTOMATION_ML.workflowB.execution
+phases:
+  Sampling:
+    - Type: PHASES.SAMPLERS.CSV.run
+      parameters:
+        inputs_file: "{parameters.inputs_file}"
+  Prepare_Data:
+    - Type: PHASES.BEFORESIMULATION.alya.USECASEconvert_and_surrogate
+      parameters:
+        line: "{variables.line_number}"
+        DoE_line: "{variables.DoE_line}"
+        input_files_folder: "{variables.results_folder}/{variables.line_number}/Distortion/"
+        output_files_folder: "{variables.simulation_wdir}/{variables.line_number}/Mechanical/"
+        row_folder: "{variables.simulation_wdir}/{variables.line_number}/"
+        Mechanical_Base_Name: "{parameters.Mechanical_Base_Name}"
+        template_COUPONtool: "{parameters.template_COUPONtool}"
+        lperm_path: "{parameters.lperm_path}"
+        inp_path: "{parameters.inp_path}"
+        voids_path: "{parameters.voids_path}"
+  ALYA_Simulation:
+    - Type: PHASES.SIMULATIONS.alya.simulation
+      parameters:
+        simulation_wdir: "{variables.simulation_wdir}/{variables.line_number}/Mechanical/{parameters.Mechanical_Base_Name}"
+        name_sim: "{parameters.Mechanical_Base_Name}"
+  ALYA_PostProcess:
+    - Type: PHASES.POSTSIMULATION.alya.collect_results
+      parameters:
+        simulation_wdir: "{variables.simulation_wdir}/{variables.line_number}/Mechanical/{parameters.Mechanical_Base_Name}"
+        name_sim: "{parameters.Mechanical_Base_Name}"
+  ALYA_PostProcessMerge:
+    - Type: PHASES.POSTSIMULATION.alya.write_results
+      parameters:
+        y: "{variables.y}"
+        alya_output: "{outputs.alya_output}"
+        results_folder: "{variables.results_folder}"
+        sample_set: "{variables.sample_set}"
+inputs: {}
+outputs:
+  alya_output:
+    - path: "alya_output.txt"
+    - overwrite: True
+parameters:
+  machine: HPCBSC
+  macros_folder: /gpfs/scratch/bsce81/doe-ogv-400samples/esi_src
+  inputs_file: /gpfs/scratch/bsce81/doe-ogv-400samples/generatedDOE.csv
+  source_folder: /gpfs/scratch/bsce81/doe-ogv-400samples/process_manufacturing
+  lperm_path: /gpfs/scratch/bsce81/doe-ogv-400samples/mechanical
+  inp_path: /gpfs/scratch/bsce81/doe-ogv-400samples/mechanical
+  voids_path: /gpfs/scratch/bsce81/doe-ogv-400samples/mechanical
+  template_COUPONtool: /gpfs/scratch/bsce81/doe-ogv-400samples/template/template_inputs_USECASEconvert_ogv_radia_pos.yaml
+  Mechanical_Base_Name: ogv
+  PAM_NP: 28

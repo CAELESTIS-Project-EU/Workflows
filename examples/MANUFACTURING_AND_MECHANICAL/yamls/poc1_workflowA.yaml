@@ -1,0 +1,66 @@
+workflow_type: WORKFLOWS.AUTOMATION_ML.workflowA.execution
+phases:
+  Sampling:
+    - Type: PHASES.SAMPLERS.CSV.run
+      parameters:
+        inputs_file: "{parameters.inputs_file}"
+  PAM-COMPOSITE_Simulations:
+    - Type: PHASES.SIMULATIONS.PAM_RTMf.run
+      parameters:
+        DoE_line: "{variables.DoE_line}"
+        outputs_files_folder: "{variables.results_folder}/{variables.line_number}/RTM/"
+        src_macros_folder: "{parameters.macros_folder}"
+        machine: "{parameters.machine}"
+        source_folder: "{parameters.source_folder}"
+        RTM_base_name: "{parameters.RTM_base_name}"
+        np: "{parameters.PAM_NP}"
+    - Type: PHASES.SIMULATIONS.PAM_RTMc.run
+      parameters:
+        DoE_line: "{variables.DoE_line}"
+        outputs_files_folder: "{variables.results_folder}/{variables.line_number}/Curing/"
+        input_files_folder: "{variables.results_folder}/{variables.line_number}/RTM/"
+        machine: "{parameters.machine}"
+        source_folder: "{parameters.source_folder}"
+        Curing_base_name: "{parameters.Curing_base_name}"
+        RTM_base_name: "{parameters.RTM_base_name}"
+        np: "{parameters.PAM_NP}"
+        src_macros_folder: "{parameters.macros_folder}"
+    - Type: PHASES.SIMULATIONS.PAM_DISTORTION.run
+      parameters:
+        DoE_line: "{variables.DoE_line}"
+        outputs_files_folder: "{variables.results_folder}/{variables.line_number}/Distortion/"
+        input_files_folder: "{variables.results_folder}/{variables.line_number}/Curing/"
+        machine: "{parameters.machine}"
+        source_folder: "{parameters.source_folder}"
+        Distortion_Base_Name: "{parameters.Distortion_Base_Name}"
+        Curing_base_name: "{parameters.Curing_base_name}"
+        np: "1"
+        src_macros_folder: "{parameters.macros_folder}"
+        tools: "True"
+  PAM-COMPOSITE_PostProcess:
+    - Type: PHASES.POSTSIMULATION.pam_distorsion_postprocess.run
+      parameters:
+        line: "{variables.line_number}"
+        step: "-1"
+        rtm_folder: "{variables.results_folder}/{variables.line_number}/RTM/"
+        curing_folder: "{variables.results_folder}/{variables.line_number}/Curing/"
+        distorsion_folder: "{variables.results_folder}/{variables.line_number}/Distortion/"
+        in_file_rtm: "CAELESTIS_RESULT.erfh5"
+        in_file_dis: "CAELESTISD-STAGE2_RESULT.erfh5"
+        path_out: "{variables.results_folder}/"
+        file_IN1: "CAELESTISD-STAGE1_RESULT.erfh5"
+        file_IN2: "CAELESTISD-STAGE2_RESULT.erfh5"
+        prefix: "Dist"
+        file_OUT1: "Step1.erfh5"
+        file_OUT2: "Step2.erfh5"
+outputs: {}
+inputs: {}
+parameters:
+  machine: HPCBSC
+  macros_folder: /gpfs/scratch/bsce81/doe-poc1-11samples/esi_src
+  inputs_file: /gpfs/scratch/bsce81/doe-poc1-11samples/generatedDOEtwolines.csv
+  source_folder: /gpfs/scratch/bsce81/doe-poc1-11samples/process_manufacturing
+  RTM_base_name: CAELESTIS
+  Curing_base_name: CAELESTIS
+  Distortion_Base_Name: CAELESTISD
+  PAM_NP: 48
