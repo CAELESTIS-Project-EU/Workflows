@@ -98,10 +98,14 @@ def sampling_distribution(problem, **kwargs):
             lower_bounds.append(lower)
             upper_bounds.append(upper)
 
-    lhs_sample = lhs(num_var, n_samples, criterion="maximin")
-    
-    samples_final = np.zeros((n_samples, num_var))
-    
+    # lhs_sample = lhs(num_var, n_samples, criterion="maximin")
+    lhs_sample = lhs(num_var, n_samples)
+    # lhs_sample = lhs(num_var, n_samples).astype("float32", copy=False)
+
+    # samples_final = np.zeros((n_samples, num_var))
+    # samples_final = np.zeros((n_samples, num_var), dtype=np.float32)
+    samples_final = np.empty((n_samples, num_var), dtype=np.float32)
+
     for i in range(num_var):
         if typeDistr[i] == 'norm':
             samples_final[:, i] = norm(loc=means[i], scale=sigmas[i]).ppf(lhs_sample[:, i])

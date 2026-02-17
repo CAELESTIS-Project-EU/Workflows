@@ -15,9 +15,11 @@ def execution(execution_folder, data_folder, phases, inputs, outputs, parameters
         os.makedirs(results_folder)
     write_file(results_folder, sample_set, "xFile.npy")
     y = []
+    isim = 0
     for i in range(sample_set.shape[0]):
         values = sample_set[i, :]
-        name_sim = original_name_sim + "-s" + str(i)
+        isim = isim + 1
+        name_sim = f"{original_name_sim}-s{isim:07d}"
         simulation_wdir = execution_folder + "/SIMULATIONS/" + name_sim + "/"
         prepare_out = phase.run(phases.get("prepare_data"), inputs, outputs, parameters, data_folder, locals())
         sim_out=phase.run(phases.get("sim"), inputs, outputs, parameters, data_folder, locals(), out=prepare_out)
