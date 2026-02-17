@@ -36,7 +36,7 @@ def prepare_data_rve_sld(**kwargs):
 def prepare_data_coupontool(**kwargs):
     prepare_args = kwargs
     variables = vars_func(prepare_args)
-    out1 = prepare_coupontool(prepare_args, variables)
+    out1 = pre_coupontool(prepare_args, variables)
     return out1
 
 
@@ -327,15 +327,14 @@ def prepare_rve_dom(prepare_args, **kwargs):
             f2.close()
     return
 
-
 @constraint(computing_units=gen_cores)
 @task(returns=1, on_failure="CANCEL_SUCCESSORS", time_out=gen_timeout )
-def prepare_coupontool(prepare_args, variables):
-    from coupontool import COUPONtool
+def pre_coupontool(prepare_args, variables):
+    import COUPONtool
     template = get_value(prepare_args, "template_coupontool")
     simulation_wdir = get_value(prepare_args, "simulation_wdir")
     name_sim = get_value(prepare_args, "name_sim")
-    simulation = simulation_wdir + "/" + name_sim + '.py'
+    simulation = simulation_wdir + "/" + name_sim + '.yaml'
     if not os.path.isdir(simulation_wdir):
         os.makedirs(simulation_wdir)
     with open(simulation, 'w') as f2:
@@ -345,10 +344,13 @@ def prepare_coupontool(prepare_args, variables):
                 item = variables[i]
                 for name, bound in item.items():
                     filedata = filedata.replace("%" + name + "%", str(bound))
+            filedata = filedata.replace("%JobName%", str(name_sim))
+            output_path = os.path.split(os.path.normpath(simulation_wdir))[0]
+            filedata = filedata.replace("%output_path%", output_path)
             f2.write(filedata)
             f.close()
         f2.close()
-    COUPONtool.runCOUPONtool(simulation, name_sim, simulation_wdir, 'open-hole', debug=False)
+    COUPONtool.runCOUPONtool(simulation)
     return
 
 @constraint(computing_units=gen_cores)
